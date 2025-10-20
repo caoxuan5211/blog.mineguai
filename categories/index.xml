@@ -6,20 +6,20 @@
     <description>Recent content in Categories on 怪话怪的博客</description>
     <generator>Hugo -- 0.150.0</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 04 Oct 2025 18:52:26 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 05 Oct 2025 00:00:50 +0800</lastBuildDate>
     <atom:link href="https://caoxuan5211.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Blog</title>
+      <link>https://caoxuan5211.github.io/categories/blog/</link>
+      <pubDate>Sun, 05 Oct 2025 00:00:50 +0800</pubDate>
+      <guid>https://caoxuan5211.github.io/categories/blog/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Wrong</title>
       <link>https://caoxuan5211.github.io/categories/wrong/</link>
       <pubDate>Sat, 04 Oct 2025 18:52:26 +0800</pubDate>
       <guid>https://caoxuan5211.github.io/categories/wrong/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Blog</title>
-      <link>https://caoxuan5211.github.io/categories/blog/</link>
-      <pubDate>Tue, 23 Sep 2025 12:57:20 +0800</pubDate>
-      <guid>https://caoxuan5211.github.io/categories/blog/</guid>
       <description></description>
     </item>
   </channel>

@@ -6,8 +6,20 @@
     <description>Recent content on 怪话怪的博客</description>
     <generator>Hugo -- 0.150.0</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 04 Oct 2025 18:52:26 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 05 Oct 2025 00:00:50 +0800</lastBuildDate>
     <atom:link href="https://caoxuan5211.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>洛谷 P1393</title>
+      <link>https://caoxuan5211.github.io/blog/p1393/</link>
+      <pubDate>Sun, 05 Oct 2025 00:00:50 +0800</pubDate>
+      <guid>https://caoxuan5211.github.io/blog/p1393/</guid>
+      <description>&lt;h2 id=&#34;mivik&#34;&gt;&lt;a href=&#34;https://www.luogu.com.cn/problem/P1393&#34;&gt;Mivik&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;不会做&lt;/p&gt;
+&lt;h3 id=&#34;观摩题解后的感触&#34;&gt;观摩题解后的感触&lt;/h3&gt;
+&lt;p&gt;求概率取余时候除以的分母可以用模逆元转换为乘。&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;image-20251020201500960&#34; loading=&#34;lazy&#34; src=&#34;https://caoxuan5211.github.io/images/P1393_1.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;还有就是&lt;em&gt;KMP&lt;/em&gt;中的&lt;em&gt;next&lt;/em&gt;数组可以转换为&lt;em&gt;n&lt;/em&gt;个等差数列（顺序排列，不交叉）。也就是&lt;strong&gt;字符串边界理论（&lt;em&gt;Border Theory&lt;/em&gt;）&lt;/strong&gt;&lt;/p&gt;</description>
+    </item>
     <item>
       <title>hugo的github网页css显示失败问题</title>
       <link>https://caoxuan5211.github.io/blog/wrong/</link>
@@ -111,13 +123,15 @@
 &lt;h3 id=&#34;广播&#34;&gt;广播&lt;/h3&gt;</description>
     </item>
     <item>
-      <title>洛谷 P1393</title>
-      <link>https://caoxuan5211.github.io/blog/p1393/</link>
+      <title>洛谷 P3193</title>
+      <link>https://caoxuan5211.github.io/blog/p3193/</link>
       <pubDate>Tue, 23 Sep 2025 12:57:20 +0800</pubDate>
-      <guid>https://caoxuan5211.github.io/blog/p1393/</guid>
+      <guid>https://caoxuan5211.github.io/blog/p3193/</guid>
       <description>&lt;h2 id=&#34;题目&#34;&gt;&lt;a href=&#34;https://www.luogu.com.cn/problem/P3193&#34;&gt;题目&lt;/a&gt;&lt;/h2&gt;
 &lt;h3 id=&#34;思路&#34;&gt;思路&lt;/h3&gt;
 &lt;p&gt;状态转移矩阵&lt;code&gt;T[i][j]&lt;/code&gt;其实就是添加一个字符之后从状态&lt;em&gt;i&lt;/em&gt;转移到状态&lt;em&gt;j&lt;/em&gt;的方案数量，也就是先用&lt;code&gt;kmp&lt;/code&gt;得到对应的T然后对于长度为N的串只需要让这个转移矩阵&lt;em&gt;N&lt;/em&gt;次方就行了，然后&lt;code&gt;Tn[0][j]&lt;/code&gt;就是子串最大匹配到j位的方案数，所求结果就是&lt;code&gt;Tn[0][0]&lt;/code&gt;一直加到&lt;code&gt;Tn[0][M-1](M是子串的长度)&lt;/code&gt;。&lt;/p&gt;
+&lt;h3 id=&#34;算法&#34;&gt;算法&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;KMP 自动机建模 + 矩阵快速幂&lt;/strong&gt;&lt;/p&gt;
 &lt;h3 id=&#34;主要函数以及主要流程&#34;&gt;主要函数以及主要流程&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;矩阵相乘函数&lt;/li&gt;
@@ -230,7 +244,7 @@
       <link>https://caoxuan5211.github.io/blog/first-blog/copy/</link>
       <pubDate>Tue, 23 Sep 2025 00:00:00 +0800</pubDate>
       <guid>https://caoxuan5211.github.io/blog/first-blog/copy/</guid>
-      <description>&lt;p&gt;（加图改md路径）&lt;/p&gt;</description>
+      <description>&lt;p&gt;（加图改md路径）改了&lt;/p&gt;</description>
     </item>
     <item>
       <title>洛谷 P1328</title>
@@ -240,16 +254,11 @@
       <description>&lt;h2 id=&#34;题目&#34;&gt;&lt;a href=&#34;https://www.luogu.com.cn/problem/P1328&#34;&gt;题目&lt;/a&gt;&lt;/h2&gt;
 &lt;h3 id=&#34;思路&#34;&gt;思路&lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;数字化选择方式&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;纯手抄一个&lt;code&gt;map&amp;lt;pair&amp;lt;int, int&amp;gt;, int&amp;gt; mp&lt;/code&gt;用来记录出拳结果。如&lt;code&gt;mp[{2,0}] = 2&lt;/code&gt;;表示&lt;em&gt;b&lt;/em&gt;赢了&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;直接取余数组处理得到结果&lt;/p&gt;
-&lt;/li&gt;
+&lt;li&gt;数字化选择方式&lt;/li&gt;
+&lt;li&gt;纯手抄一个&lt;code&gt;map&amp;lt;pair&amp;lt;int, int&amp;gt;, int&amp;gt; mp&lt;/code&gt;用来记录出拳结果。如&lt;code&gt;mp[{2,0}] = 2&lt;/code&gt;;表示&lt;em&gt;b&lt;/em&gt;赢了&lt;/li&gt;
+&lt;li&gt;直接取余数组处理得到结果&lt;/li&gt;
 &lt;/ul&gt;
+&lt;h3 id=&#34;题解&#34;&gt;题解&lt;/h3&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;bits/stdc++.h&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;namespace&lt;/span&gt; std;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;()
