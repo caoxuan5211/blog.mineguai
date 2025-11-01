@@ -156,7 +156,8 @@
     </h2>
   </header>
   <div class="entry-content">
-    <p>hugo项目结构 my-blog/ ├── archetypes/ # 内容模板 ├── assets/ # 需要 Hugo Pipes 处理的资源 (SCSS, JS) ├── content/ # Markdown 内容 ├── layouts/ # 模板布局 (覆盖主题) ├── static/ # 静态文件 (图片, 字体) ├── themes/ # 主题目录 └── hugo.yaml # 核心配置文件 </p>
+    <p>hugo项目结构 my-blog/ ├── archetypes/ # 内容模板 ├── assets/ # 需要 Hugo Pipes 处理的资源 (SCSS, JS) ├── content/ # Markdown 内容 ├── layouts/ # 模板布局 (覆盖主题) ├── static/ # 静态文件 (图片, 字体) ├── themes/ # 主题目录 └── hugo.yaml # 核心配置文件 快速生成并推送到github网页 1.Windows系统 编辑一个deploy.ps1文件(.bat 是 cmd 的脚本，而 .ps1 是 PowerShell 的脚本)实现自动化推送比如：
+param ( [string]$msg = $(Read-Host &#34;请输入本次提交信息&#34;) ) # 进入 Hugo 项目根目录 cd F:\myblog # 生成 Hugo 网页（包含草稿） hugo -D # 进入 public/ 目录 cd public # 添加所有修改 git add . # 提交 git commit -m &#34;$msg&#34; # 强制推送到 gh-pages 分支 git push -f origin gh-pages # 返回项目根目录 cd .. # 输出提示信息 Write-Host &#34;&#34; Write-Host &#34;======================================&#34; -ForegroundColor Yellow Write-Host &#34;✅ 网站已成功部署！&#34; -ForegroundColor Green Write-Host &#34;🌐 访问地址: https://caoxuan5211.github.io/&#34; -ForegroundColor Cyan Write-Host &#34;======================================&#34; -ForegroundColor Yellow </p>
   </div>
   <footer class="entry-footer"><span title='2025-10-31 22:44:56 +0800 CST'>October 31, 2025</span></footer>
   <a class="entry-link" aria-label="post link to Hugo博客配置" href="https://caoxuan5211.github.io/blog/hugo%E5%8D%9A%E5%AE%A2%E9%85%8D%E7%BD%AE/"></a>
