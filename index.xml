@@ -6,14 +6,30 @@
     <description>Recent content on 怪话怪的博客</description>
     <generator>Hugo -- 0.150.0</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 31 Oct 2025 22:00:08 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 31 Oct 2025 22:44:56 +0800</lastBuildDate>
     <atom:link href="https://caoxuan5211.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>P3372</title>
+      <title>Hugo博客配置</title>
+      <link>https://caoxuan5211.github.io/blog/hugo%E5%8D%9A%E5%AE%A2%E9%85%8D%E7%BD%AE/</link>
+      <pubDate>Fri, 31 Oct 2025 22:44:56 +0800</pubDate>
+      <guid>https://caoxuan5211.github.io/blog/hugo%E5%8D%9A%E5%AE%A2%E9%85%8D%E7%BD%AE/</guid>
+      <description>&lt;h2 id=&#34;hugo项目结构&#34;&gt;hugo项目结构&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;my-blog/
+├── archetypes/         # 内容模板
+├── assets/             # 需要 Hugo Pipes 处理的资源 (SCSS, JS)
+├── content/            # Markdown 内容
+├── layouts/            # 模板布局 (覆盖主题)
+├── static/             # 静态文件 (图片, 字体)
+├── themes/             # 主题目录
+└── hugo.yaml           # 核心配置文件
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    <item>
+      <title>洛谷 P3372</title>
       <link>https://caoxuan5211.github.io/blog/p3372/</link>
       <pubDate>Fri, 31 Oct 2025 22:00:08 +0800</pubDate>
       <guid>https://caoxuan5211.github.io/blog/p3372/</guid>
-      <description>&lt;h2 id=&#34;线段树1categories--blogtags---luogu&#34;&gt;[线段树1](categories = [&amp;ldquo;blog&amp;rdquo;]tags = [ &amp;ldquo;luogu&amp;rdquo;])&lt;/h2&gt;
+      <description>&lt;h2 id=&#34;线段树1&#34;&gt;&lt;a href=&#34;https://www.luogu.com.cn/problem/P3372&#34;&gt;线段树1&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;用到线段树基础知识&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&amp;lt;bits/stdc++.h&amp;gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;

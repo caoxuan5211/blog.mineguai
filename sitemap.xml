@@ -2,10 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://caoxuan5211.github.io/categories/blog/</loc>
-    <lastmod>2025-10-31T22:00:08+08:00</lastmod>
-  </url><url>
     <loc>https://caoxuan5211.github.io/blog/</loc>
+    <lastmod>2025-10-31T22:44:56+08:00</lastmod>
+  </url><url>
+    <loc>https://caoxuan5211.github.io/blog/hugo%E5%8D%9A%E5%AE%A2%E9%85%8D%E7%BD%AE/</loc>
+    <lastmod>2025-10-31T22:44:56+08:00</lastmod>
+  </url><url>
+    <loc>https://caoxuan5211.github.io/</loc>
+    <lastmod>2025-10-31T22:44:56+08:00</lastmod>
+  </url><url>
+    <loc>https://caoxuan5211.github.io/categories/blog/</loc>
     <lastmod>2025-10-31T22:00:08+08:00</lastmod>
   </url><url>
     <loc>https://caoxuan5211.github.io/categories/</loc>
@@ -14,13 +20,10 @@
     <loc>https://caoxuan5211.github.io/tags/luogu/</loc>
     <lastmod>2025-10-31T22:00:08+08:00</lastmod>
   </url><url>
-    <loc>https://caoxuan5211.github.io/blog/p3372/</loc>
-    <lastmod>2025-10-31T22:00:08+08:00</lastmod>
-  </url><url>
     <loc>https://caoxuan5211.github.io/tags/</loc>
     <lastmod>2025-10-31T22:00:08+08:00</lastmod>
   </url><url>
-    <loc>https://caoxuan5211.github.io/</loc>
+    <loc>https://caoxuan5211.github.io/blog/p3372/</loc>
     <lastmod>2025-10-31T22:00:08+08:00</lastmod>
   </url><url>
     <loc>https://caoxuan5211.github.io/blog/p1590/</loc>

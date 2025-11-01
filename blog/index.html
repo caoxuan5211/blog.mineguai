@@ -121,6 +121,13 @@
                 </button>
             </div>
         </div>
+        <div class="home-info-container">
+            <img src="/images/wanzi1.jpg" alt="Logo" class="home-left-logo" />
+            <div class="home-info-text">
+                <h1>怪话怪的博客</h1>
+                <p></p>
+            </div>
+        </div>
         <ul id="menu">
             <li>
                 <a href="https://caoxuan5211.github.io/search/" title="搜索">
@@ -139,7 +146,7 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">P3372
+    <h2 class="entry-hint-parent">Hugo博客配置
       <span class="entry-hint" title="Draft">
         <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
           <path
@@ -149,12 +156,30 @@
     </h2>
   </header>
   <div class="entry-content">
-    <p>[线段树1](categories = [“blog”]tags = [ “luogu”]) 用到线段树基础知识
+    <p>hugo项目结构 my-blog/ ├── archetypes/ # 内容模板 ├── assets/ # 需要 Hugo Pipes 处理的资源 (SCSS, JS) ├── content/ # Markdown 内容 ├── layouts/ # 模板布局 (覆盖主题) ├── static/ # 静态文件 (图片, 字体) ├── themes/ # 主题目录 └── hugo.yaml # 核心配置文件 </p>
+  </div>
+  <footer class="entry-footer"><span title='2025-10-31 22:44:56 +0800 CST'>October 31, 2025</span></footer>
+  <a class="entry-link" aria-label="post link to Hugo博客配置" href="https://caoxuan5211.github.io/blog/hugo%E5%8D%9A%E5%AE%A2%E9%85%8D%E7%BD%AE/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">洛谷 P3372
+      <span class="entry-hint" title="Draft">
+        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
+          <path
+            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+        </svg>
+      </span>
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>线段树1 用到线段树基础知识
 #include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; // 线段树我默认每个数组下标都是从1开始的 void build(const vector&lt;long long&gt;&amp; nums,vector&lt;long long&gt;&amp; d,int s,int t,int p); long long getSum(vector&lt;long long&gt;&amp; d,vector&lt;long long&gt;&amp; b,int l,int r,int s,int t,int p); void update_plus(vector&lt;long long&gt;&amp; d,vector&lt;long long&gt;&amp; b,int l,int r,int s,int t,int p,long long c); int main() { int n,m,type,l,r; long long k; cin &gt;&gt; n &gt;&gt; m; vector&lt;long long&gt; nums(n&#43;1), d(4*n&#43;1), b(4*n&#43;1, 0); // 修改这里 for(int i=1;i&lt;=n;i&#43;&#43;) cin&gt;&gt;nums[i]; build(nums,d,1,n,1); while(m--) { cin &gt;&gt; type; if(type==2) { cin &gt;&gt; l &gt;&gt; r; cout &lt;&lt; getSum(d,b,l,r,1,n,1) &lt;&lt; &#39;\n&#39;; } else if(type==1) { cin &gt;&gt; l &gt;&gt; r &gt;&gt; k; update_plus(d,b,l,r,1,n,1,k); } } return 0; } void build(const vector&lt;long long&gt;&amp; nums,vector&lt;long long&gt;&amp; d,int s,int t,int p) { if(s==t) { d[p] = nums[s]; return; } int m = s &#43; ((t-s)&gt;&gt;1); build(nums,d,s,m,2*p); build(nums,d,m&#43;1,t,2*p&#43;1); d[p] = d[2*p] &#43; d[2*p&#43;1]; } long long getSum(vector&lt;long long&gt;&amp; d,vector&lt;long long&gt;&amp; b,int l,int r,int s,int t,int p) { if(l&lt;=s &amp;&amp; t&lt;=r) { return d[p]; } int m = s &#43; ((t-s)&gt;&gt;1); long long sum=0; if (b[p] &amp;&amp; s != t) //下传懒标记 { d[p*2] &#43;= b[p]*(m-s&#43;1); d[p*2&#43;1] &#43;= b[p]*(t-m); b[p*2] &#43;= b[p]; b[p*2&#43;1] &#43;= b[p]; b[p] = 0; } if(l&lt;=m) sum &#43;= getSum(d,b,l,r,s,m,2*p); if(r&gt;m) sum &#43;= getSum(d,b,l,r,m&#43;1,t,2*p&#43;1); //等价于r&gt;=m&#43;1 return sum; } void update_plus(vector&lt;long long&gt;&amp; d,vector&lt;long long&gt;&amp; b,int l,int r,int s,int t,int p,long long c) { // 当前区间为修改区间的子集时直接修改当前节点的值,修改后标记 if (l &lt;= s &amp;&amp; t &lt;= r) { d[p] &#43;= (t - s &#43; 1) * c, b[p] &#43;= c; return; } int m = s &#43; ((t - s) &gt;&gt; 1); if (b[p] &amp;&amp; s != t) //下放标记(不会有s==t的情况因为s==t的时候肯定是lr的子区间已经直接return了) { d[p * 2] &#43;= b[p] * (m - s &#43; 1), d[p * 2 &#43; 1] &#43;= b[p] * (t - m); b[p * 2] &#43;= b[p], b[p * 2 &#43; 1] &#43;= b[p]; b[p] = 0; } if (l &lt;= m) update_plus(d, b, l, r, s, m, p * 2, c); if (r &gt; m) update_plus(d, b, l, r, m &#43; 1, t, p * 2 &#43; 1, c); d[p] = d[p * 2] &#43; d[p * 2 &#43; 1]; } 这里用了懒惰区间标记。对有些当次不需要访问但是确实有变化的区间进行了标记，如果下次访问到了标记区间，则执行修改并下放标记。
 ...</p>
   </div>
   <footer class="entry-footer"><span title='2025-10-31 22:00:08 +0800 CST'>October 31, 2025</span></footer>
-  <a class="entry-link" aria-label="post link to P3372" href="https://caoxuan5211.github.io/blog/p3372/"></a>
+  <a class="entry-link" aria-label="post link to 洛谷 P3372" href="https://caoxuan5211.github.io/blog/p3372/"></a>
 </article>
 
 <article class="post-entry"> 
@@ -250,9 +275,6 @@
 </article>
 
 <article class="post-entry"> 
-<figure class="entry-cover">
-        <img loading="lazy" src="https://caoxuan5211.github.io/images/wanzi1.jp" alt="图丢了">
-</figure>
   <header class="entry-header">
     <h2 class="entry-hint-parent">w
     </h2>
