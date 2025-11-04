@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>洛谷 P1382 | 怪话怪的博客</title>
+<meta name="keywords" content="luogu">
+<meta name="description" content="楼房
+思路
+属于扫描线算法思想，通过动态维护当前高度集合，利用最大高度(天际线)来不断动态变化，同时记录轮廓拐点，最后顺序输出。
+题解
+#include &lt;bits/stdc&#43;&#43;.h&gt;
+using namespace std;
+int n,cnt,num   ;
+struct build
+{
+    int h,l,r;
+}a[100010]; //楼房
+struct line
+{
+    int up,x,k; //up代表线高度(楼房左右边线),k代表出入属性,1代表入，2代表出
+}l[200020];
+struct ANS
+{
+    int ax,ay;
+}ans[400040]; //储存答案的交叉点
+int cmp(line a,line b)
+{
+    if(a.x != b.x) return a.x&lt;b.x;
+    if(a.k != b.k) return a.k&lt;b.k;//入度优先
+    // 区分入度出度考虑高度优先级
+    if(a.k == 1) return a.up &gt; b.up; //入度，高的优先
+    if(a.k == 2) return a.up &lt; b.up; //出度，矮的优先
+}
+multiset&lt;int&gt; s;
+int main()
+{
+    cin &gt;&gt; n;
+    for(int i=1;i&lt;=n;i&#43;&#43;)
+    {
+        cin &gt;&gt; a[i].h &gt;&gt; a[i].l &gt;&gt; a[i].r;
+        l[&#43;&#43;cnt] = {a[i].h,a[i].l,1}; //楼左，入度
+        l[&#43;&#43;cnt] = {a[i].h,a[i].r,2}; //楼右，出度
+    }
+    s.insert(0); //初始化最高为0
+    sort(l&#43;1,l&#43;cnt&#43;1,cmp);
+
+    for(int i=1;i&lt;=cnt;i&#43;&#43;)
+    {
+        int m = *s.rbegin(); //存最大高度
+        if(l[i].k==1)
+        {
+            if(l[i].up &lt;= m) s.insert(l[i].up);
+            else
+            {
+                &#43;&#43;num;ans[num].ax=l[i].x;ans[num].ay=m;
+                &#43;&#43;num;ans[num].ax=l[i].x;ans[num].ay=l[i].up;
+                s.insert(l[i].up);
+            }
+        }
+        else if(l[i].k == 2)
+        {
+            if(l[i].up==m &amp;&amp; s.count(m)==1)
+            {
+                s.erase(m); //移除该高度(存交叉点)，继续下
+                &#43;&#43;num;ans[num].ax=l[i].x;ans[num].ay=l[i].up;
+                &#43;&#43;num;ans[num].ax=l[i].x;ans[num].ay=*s.rbegin();
+            }
+            else s.erase(s.find(l[i].up));
+        }
+    }
+    cout &lt;&lt; num &lt;&lt; &#39;\n&#39;;
+    for(int i=1;i&lt;=num;i&#43;&#43;) cout &lt;&lt; ans[i].ax &lt;&lt; &#39; &#39; &lt;&lt; ans[i].ay &lt;&lt; &#39;\n&#39;;
+    return 0;
+}
+
+这里代码借鉴（其实是抄的）了题解中shuri001佬的代码，写得太好了，叹为观止。">
+<meta name="author" content="">
+<link rel="canonical" href="https://caoxuan5211.github.io/blog/p1382/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://caoxuan5211.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://caoxuan5211.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://caoxuan5211.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://caoxuan5211.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://caoxuan5211.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://caoxuan5211.github.io/blog/p1382/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:url" content="https://caoxuan5211.github.io/blog/p1382/">
+  <meta property="og:site_name" content="怪话怪的博客">
+  <meta property="og:title" content="洛谷 P1382">
+  <meta property="og:description" content="楼房 思路 属于扫描线算法思想，通过动态维护当前高度集合，利用最大高度(天际线)来不断动态变化，同时记录轮廓拐点，最后顺序输出。
+题解 #include &lt;bits/stdc&#43;&#43;.h&gt; using namespace std; int n,cnt,num ; struct build { int h,l,r; }a[100010]; //楼房 struct line { int up,x,k; //up代表线高度(楼房左右边线),k代表出入属性,1代表入，2代表出 }l[200020]; struct ANS { int ax,ay; }ans[400040]; //储存答案的交叉点 int cmp(line a,line b) { if(a.x != b.x) return a.x&lt;b.x; if(a.k != b.k) return a.k&lt;b.k;//入度优先 // 区分入度出度考虑高度优先级 if(a.k == 1) return a.up &gt; b.up; //入度，高的优先 if(a.k == 2) return a.up &lt; b.up; //出度，矮的优先 } multiset&lt;int&gt; s; int main() { cin &gt;&gt; n; for(int i=1;i&lt;=n;i&#43;&#43;) { cin &gt;&gt; a[i].h &gt;&gt; a[i].l &gt;&gt; a[i].r; l[&#43;&#43;cnt] = {a[i].h,a[i].l,1}; //楼左，入度 l[&#43;&#43;cnt] = {a[i].h,a[i].r,2}; //楼右，出度 } s.insert(0); //初始化最高为0 sort(l&#43;1,l&#43;cnt&#43;1,cmp); for(int i=1;i&lt;=cnt;i&#43;&#43;) { int m = *s.rbegin(); //存最大高度 if(l[i].k==1) { if(l[i].up &lt;= m) s.insert(l[i].up); else { &#43;&#43;num;ans[num].ax=l[i].x;ans[num].ay=m; &#43;&#43;num;ans[num].ax=l[i].x;ans[num].ay=l[i].up; s.insert(l[i].up); } } else if(l[i].k == 2) { if(l[i].up==m &amp;&amp; s.count(m)==1) { s.erase(m); //移除该高度(存交叉点)，继续下 &#43;&#43;num;ans[num].ax=l[i].x;ans[num].ay=l[i].up; &#43;&#43;num;ans[num].ax=l[i].x;ans[num].ay=*s.rbegin(); } else s.erase(s.find(l[i].up)); } } cout &lt;&lt; num &lt;&lt; &#39;\n&#39;; for(int i=1;i&lt;=num;i&#43;&#43;) cout &lt;&lt; ans[i].ax &lt;&lt; &#39; &#39; &lt;&lt; ans[i].ay &lt;&lt; &#39;\n&#39;; return 0; } 这里代码借鉴（其实是抄的）了题解中shuri001佬的代码，写得太好了，叹为观止。">
+  <meta property="og:locale" content="en-us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2025-11-04T22:36:22+08:00">
+    <meta property="article:modified_time" content="2025-11-04T22:36:22+08:00">
+    <meta property="article:tag" content="Luogu">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="洛谷 P1382">
+<meta name="twitter:description" content="楼房
+思路
+属于扫描线算法思想，通过动态维护当前高度集合，利用最大高度(天际线)来不断动态变化，同时记录轮廓拐点，最后顺序输出。
+题解
+#include &lt;bits/stdc&#43;&#43;.h&gt;
+using namespace std;
+int n,cnt,num   ;
+struct build
+{
+    int h,l,r;
+}a[100010]; //楼房
+struct line
+{
+    int up,x,k; //up代表线高度(楼房左右边线),k代表出入属性,1代表入，2代表出
+}l[200020];
+struct ANS
+{
+    int ax,ay;
+}ans[400040]; //储存答案的交叉点
+int cmp(line a,line b)
+{
+    if(a.x != b.x) return a.x&lt;b.x;
+    if(a.k != b.k) return a.k&lt;b.k;//入度优先
+    // 区分入度出度考虑高度优先级
+    if(a.k == 1) return a.up &gt; b.up; //入度，高的优先
+    if(a.k == 2) return a.up &lt; b.up; //出度，矮的优先
+}
+multiset&lt;int&gt; s;
+int main()
+{
+    cin &gt;&gt; n;
+    for(int i=1;i&lt;=n;i&#43;&#43;)
+    {
+        cin &gt;&gt; a[i].h &gt;&gt; a[i].l &gt;&gt; a[i].r;
+        l[&#43;&#43;cnt] = {a[i].h,a[i].l,1}; //楼左，入度
+        l[&#43;&#43;cnt] = {a[i].h,a[i].r,2}; //楼右，出度
+    }
+    s.insert(0); //初始化最高为0
+    sort(l&#43;1,l&#43;cnt&#43;1,cmp);
+
+    for(int i=1;i&lt;=cnt;i&#43;&#43;)
+    {
+        int m = *s.rbegin(); //存最大高度
+        if(l[i].k==1)
+        {
+            if(l[i].up &lt;= m) s.insert(l[i].up);
+            else
+            {
+                &#43;&#43;num;ans[num].ax=l[i].x;ans[num].ay=m;
+                &#43;&#43;num;ans[num].ax=l[i].x;ans[num].ay=l[i].up;
+                s.insert(l[i].up);
+            }
+        }
+        else if(l[i].k == 2)
+        {
+            if(l[i].up==m &amp;&amp; s.count(m)==1)
+            {
+                s.erase(m); //移除该高度(存交叉点)，继续下
+                &#43;&#43;num;ans[num].ax=l[i].x;ans[num].ay=l[i].up;
+                &#43;&#43;num;ans[num].ax=l[i].x;ans[num].ay=*s.rbegin();
+            }
+            else s.erase(s.find(l[i].up));
+        }
+    }
+    cout &lt;&lt; num &lt;&lt; &#39;\n&#39;;
+    for(int i=1;i&lt;=num;i&#43;&#43;) cout &lt;&lt; ans[i].ax &lt;&lt; &#39; &#39; &lt;&lt; ans[i].ay &lt;&lt; &#39;\n&#39;;
+    return 0;
+}
+
+这里代码借鉴（其实是抄的）了题解中shuri001佬的代码，写得太好了，叹为观止。">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Blogs",
+      "item": "https://caoxuan5211.github.io/blog/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "洛谷 P1382",
+      "item": "https://caoxuan5211.github.io/blog/p1382/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "洛谷 P1382",
+  "name": "洛谷 P1382",
+  "description": "楼房 思路 属于扫描线算法思想，通过动态维护当前高度集合，利用最大高度(天际线)来不断动态变化，同时记录轮廓拐点，最后顺序输出。\n题解 #include \u0026lt;bits/stdc++.h\u0026gt; using namespace std; int n,cnt,num ; struct build { int h,l,r; }a[100010]; //楼房 struct line { int up,x,k; //up代表线高度(楼房左右边线),k代表出入属性,1代表入，2代表出 }l[200020]; struct ANS { int ax,ay; }ans[400040]; //储存答案的交叉点 int cmp(line a,line b) { if(a.x != b.x) return a.x\u0026lt;b.x; if(a.k != b.k) return a.k\u0026lt;b.k;//入度优先 // 区分入度出度考虑高度优先级 if(a.k == 1) return a.up \u0026gt; b.up; //入度，高的优先 if(a.k == 2) return a.up \u0026lt; b.up; //出度，矮的优先 } multiset\u0026lt;int\u0026gt; s; int main() { cin \u0026gt;\u0026gt; n; for(int i=1;i\u0026lt;=n;i++) { cin \u0026gt;\u0026gt; a[i].h \u0026gt;\u0026gt; a[i].l \u0026gt;\u0026gt; a[i].r; l[++cnt] = {a[i].h,a[i].l,1}; //楼左，入度 l[++cnt] = {a[i].h,a[i].r,2}; //楼右，出度 } s.insert(0); //初始化最高为0 sort(l+1,l+cnt+1,cmp); for(int i=1;i\u0026lt;=cnt;i++) { int m = *s.rbegin(); //存最大高度 if(l[i].k==1) { if(l[i].up \u0026lt;= m) s.insert(l[i].up); else { ++num;ans[num].ax=l[i].x;ans[num].ay=m; ++num;ans[num].ax=l[i].x;ans[num].ay=l[i].up; s.insert(l[i].up); } } else if(l[i].k == 2) { if(l[i].up==m \u0026amp;\u0026amp; s.count(m)==1) { s.erase(m); //移除该高度(存交叉点)，继续下 ++num;ans[num].ax=l[i].x;ans[num].ay=l[i].up; ++num;ans[num].ax=l[i].x;ans[num].ay=*s.rbegin(); } else s.erase(s.find(l[i].up)); } } cout \u0026lt;\u0026lt; num \u0026lt;\u0026lt; \u0026#39;\\n\u0026#39;; for(int i=1;i\u0026lt;=num;i++) cout \u0026lt;\u0026lt; ans[i].ax \u0026lt;\u0026lt; \u0026#39; \u0026#39; \u0026lt;\u0026lt; ans[i].ay \u0026lt;\u0026lt; \u0026#39;\\n\u0026#39;; return 0; } 这里代码借鉴（其实是抄的）了题解中shuri001佬的代码，写得太好了，叹为观止。\n",
+  "keywords": [
+    "luogu"
+  ],
+  "articleBody": "楼房 思路 属于扫描线算法思想，通过动态维护当前高度集合，利用最大高度(天际线)来不断动态变化，同时记录轮廓拐点，最后顺序输出。\n题解 #include using namespace std; int n,cnt,num ; struct build { int h,l,r; }a[100010]; //楼房 struct line { int up,x,k; //up代表线高度(楼房左右边线),k代表出入属性,1代表入，2代表出 }l[200020]; struct ANS { int ax,ay; }ans[400040]; //储存答案的交叉点 int cmp(line a,line b) { if(a.x != b.x) return a.x\u003cb.x; if(a.k != b.k) return a.k\u003cb.k;//入度优先 // 区分入度出度考虑高度优先级 if(a.k == 1) return a.up \u003e b.up; //入度，高的优先 if(a.k == 2) return a.up \u003c b.up; //出度，矮的优先 } multiset\u003cint\u003e s; int main() { cin \u003e\u003e n; for(int i=1;i\u003c=n;i++) { cin \u003e\u003e a[i].h \u003e\u003e a[i].l \u003e\u003e a[i].r; l[++cnt] = {a[i].h,a[i].l,1}; //楼左，入度 l[++cnt] = {a[i].h,a[i].r,2}; //楼右，出度 } s.insert(0); //初始化最高为0 sort(l+1,l+cnt+1,cmp); for(int i=1;i\u003c=cnt;i++) { int m = *s.rbegin(); //存最大高度 if(l[i].k==1) { if(l[i].up \u003c= m) s.insert(l[i].up); else { ++num;ans[num].ax=l[i].x;ans[num].ay=m; ++num;ans[num].ax=l[i].x;ans[num].ay=l[i].up; s.insert(l[i].up); } } else if(l[i].k == 2) { if(l[i].up==m \u0026\u0026 s.count(m)==1) { s.erase(m); //移除该高度(存交叉点)，继续下 ++num;ans[num].ax=l[i].x;ans[num].ay=l[i].up; ++num;ans[num].ax=l[i].x;ans[num].ay=*s.rbegin(); } else s.erase(s.find(l[i].up)); } } cout \u003c\u003c num \u003c\u003c '\\n'; for(int i=1;i\u003c=num;i++) cout \u003c\u003c ans[i].ax \u003c\u003c ' ' \u003c\u003c ans[i].ay \u003c\u003c '\\n'; return 0; } 这里代码借鉴（其实是抄的）了题解中shuri001佬的代码，写得太好了，叹为观止。\n附 我看题解中还有一些用的线段树，可以学学，留。\n",
+  "wordCount" : "159",
+  "inLanguage": "en",
+  "datePublished": "2025-11-04T22:36:22+08:00",
+  "dateModified": "2025-11-04T22:36:22+08:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://caoxuan5211.github.io/blog/p1382/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "怪话怪的博客",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://caoxuan5211.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://caoxuan5211.github.io/" accesskey="h" title="怪话怪的博客 (Alt + H)">怪话怪的博客</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="home-info-container">
+            <img src="/images/wanzi1.jpg" alt="Logo" class="home-left-logo" />
+            <div class="home-info-text">
+                <h1>怪话怪的博客</h1>
+                <p></p>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://caoxuan5211.github.io/search/" title="搜索">
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      洛谷 P1382
+    </h1>
+    <div class="post-meta"><span title='2025-11-04 22:36:22 +0800 CST'>November 4, 2025</span>
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e6%a5%bc%e6%88%bf" aria-label="楼房">楼房</a><ul>
+                        
+                <li>
+                    <a href="#%e6%80%9d%e8%b7%af" aria-label="思路">思路</a></li>
+                <li>
+                    <a href="#%e9%a2%98%e8%a7%a3" aria-label="题解">题解</a></li>
+                <li>
+                    <a href="#%e9%99%84" aria-label="附">附</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h2 id="楼房"><a href="https://www.luogu.com.cn/problem/P1382">楼房</a><a hidden class="anchor" aria-hidden="true" href="#楼房">#</a></h2>
+<h3 id="思路">思路<a hidden class="anchor" aria-hidden="true" href="#思路">#</a></h3>
+<p>属于<strong>扫描线</strong>算法思想，通过动态维护当前高度集合，利用最大高度(<strong>天际线</strong>)来不断动态变化，同时记录轮廓拐点，最后顺序输出。</p>
+<h3 id="题解">题解<a hidden class="anchor" aria-hidden="true" href="#题解">#</a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;bits/stdc++.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">n</span><span class="p">,</span><span class="n">cnt</span><span class="p">,</span><span class="n">num</span>   <span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">build</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">h</span><span class="p">,</span><span class="n">l</span><span class="p">,</span><span class="n">r</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span><span class="n">a</span><span class="p">[</span><span class="mi">100010</span><span class="p">];</span> <span class="c1">//楼房
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">line</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">up</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">k</span><span class="p">;</span> <span class="c1">//up代表线高度(楼房左右边线),k代表出入属性,1代表入，2代表出
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span><span class="n">l</span><span class="p">[</span><span class="mi">200020</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">ANS</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">ax</span><span class="p">,</span><span class="n">ay</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span><span class="n">ans</span><span class="p">[</span><span class="mi">400040</span><span class="p">];</span> <span class="c1">//储存答案的交叉点
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">cmp</span><span class="p">(</span><span class="n">line</span> <span class="n">a</span><span class="p">,</span><span class="n">line</span> <span class="n">b</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">x</span> <span class="o">!=</span> <span class="n">b</span><span class="p">.</span><span class="n">x</span><span class="p">)</span> <span class="k">return</span> <span class="n">a</span><span class="p">.</span><span class="n">x</span><span class="o">&lt;</span><span class="n">b</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">k</span> <span class="o">!=</span> <span class="n">b</span><span class="p">.</span><span class="n">k</span><span class="p">)</span> <span class="k">return</span> <span class="n">a</span><span class="p">.</span><span class="n">k</span><span class="o">&lt;</span><span class="n">b</span><span class="p">.</span><span class="n">k</span><span class="p">;</span><span class="c1">//入度优先
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 区分入度出度考虑高度优先级
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">k</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="k">return</span> <span class="n">a</span><span class="p">.</span><span class="n">up</span> <span class="o">&gt;</span> <span class="n">b</span><span class="p">.</span><span class="n">up</span><span class="p">;</span> <span class="c1">//入度，高的优先
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">k</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span> <span class="k">return</span> <span class="n">a</span><span class="p">.</span><span class="n">up</span> <span class="o">&lt;</span> <span class="n">b</span><span class="p">.</span><span class="n">up</span><span class="p">;</span> <span class="c1">//出度，矮的优先
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">multiset</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">s</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">n</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">h</span> <span class="o">&gt;&gt;</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">l</span> <span class="o">&gt;&gt;</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">r</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">l</span><span class="p">[</span><span class="o">++</span><span class="n">cnt</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">h</span><span class="p">,</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">l</span><span class="p">,</span><span class="mi">1</span><span class="p">};</span> <span class="c1">//楼左，入度
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">l</span><span class="p">[</span><span class="o">++</span><span class="n">cnt</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">h</span><span class="p">,</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">r</span><span class="p">,</span><span class="mi">2</span><span class="p">};</span> <span class="c1">//楼右，出度
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">s</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> <span class="c1">//初始化最高为0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">sort</span><span class="p">(</span><span class="n">l</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">l</span><span class="o">+</span><span class="n">cnt</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">cmp</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">cnt</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">m</span> <span class="o">=</span> <span class="o">*</span><span class="n">s</span><span class="p">.</span><span class="n">rbegin</span><span class="p">();</span> <span class="c1">//存最大高度
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">if</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">k</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">up</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="p">)</span> <span class="n">s</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">up</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">else</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="o">++</span><span class="n">num</span><span class="p">;</span><span class="n">ans</span><span class="p">[</span><span class="n">num</span><span class="p">].</span><span class="n">ax</span><span class="o">=</span><span class="n">l</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">x</span><span class="p">;</span><span class="n">ans</span><span class="p">[</span><span class="n">num</span><span class="p">].</span><span class="n">ay</span><span class="o">=</span><span class="n">m</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="o">++</span><span class="n">num</span><span class="p">;</span><span class="n">ans</span><span class="p">[</span><span class="n">num</span><span class="p">].</span><span class="n">ax</span><span class="o">=</span><span class="n">l</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">x</span><span class="p">;</span><span class="n">ans</span><span class="p">[</span><span class="n">num</span><span class="p">].</span><span class="n">ay</span><span class="o">=</span><span class="n">l</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">up</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="n">s</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">up</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">k</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">up</span><span class="o">==</span><span class="n">m</span> <span class="o">&amp;&amp;</span> <span class="n">s</span><span class="p">.</span><span class="n">count</span><span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">s</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">m</span><span class="p">);</span> <span class="c1">//移除该高度(存交叉点)，继续下
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="o">++</span><span class="n">num</span><span class="p">;</span><span class="n">ans</span><span class="p">[</span><span class="n">num</span><span class="p">].</span><span class="n">ax</span><span class="o">=</span><span class="n">l</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">x</span><span class="p">;</span><span class="n">ans</span><span class="p">[</span><span class="n">num</span><span class="p">].</span><span class="n">ay</span><span class="o">=</span><span class="n">l</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">up</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="o">++</span><span class="n">num</span><span class="p">;</span><span class="n">ans</span><span class="p">[</span><span class="n">num</span><span class="p">].</span><span class="n">ax</span><span class="o">=</span><span class="n">l</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">x</span><span class="p">;</span><span class="n">ans</span><span class="p">[</span><span class="n">num</span><span class="p">].</span><span class="n">ay</span><span class="o">=*</span><span class="n">s</span><span class="p">.</span><span class="n">rbegin</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="k">else</span> <span class="n">s</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">up</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">num</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39;\n&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">num</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">ans</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">ax</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39; &#39;</span> <span class="o">&lt;&lt;</span> <span class="n">ans</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">ay</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39;\n&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><blockquote>
+<p>这里代码借鉴（其实是抄的）了<a href="https://www.luogu.com.cn/problem/solution/P1382">题解</a>中<a href="https://www.luogu.com.cn/user/25390">shuri001</a>佬的代码，写得太好了，叹为观止。</p></blockquote>
+<h3 id="附">附<a hidden class="anchor" aria-hidden="true" href="#附">#</a></h3>
+<p>我看题解中还有一些用的线段树，可以学学，留。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://caoxuan5211.github.io/tags/luogu/">Luogu</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2025 <a href="https://caoxuan5211.github.io/">怪话怪的博客</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

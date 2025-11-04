@@ -12,7 +12,108 @@
 观摩题解后的感触
 求概率取余时候除以的分母可以用模逆元转换为乘。
 
-还有就是KMP中的next数组可以转换为n个等差数列（顺序排列，不交叉）。也就是字符串边界理论（Border Theory）">
+还有就是KMP中的next数组可以转换为n个等差数列（顺序排列，不交叉）。也就是字符串边界理论（Border Theory）
+题解里面FjswYuzu写的还可以,有时间学学。
+题解(ctrl&#43;c/v)
+#include&lt;bits/stdc&#43;&#43;.h&gt;
+using namespace std;
+typedef long long LL;
+char buf[1&lt;&lt;18],*p1=buf,*p2=buf;
+#define getchar() (p1==p2 &amp;&amp; (p2=(p1=buf)&#43;fread(buf,1,1&lt;&lt;18,stdin),p1==p2)?EOF:*p1&#43;&#43;)
+int read()
+{
+	int x=0;
+	char c=getchar();
+	while(c&lt;&#39;0&#39; || c&gt;&#39;9&#39;)	c=getchar();
+	while(c&gt;=&#39;0&#39; &amp;&amp; c&lt;=&#39;9&#39;)	x=(x&lt;&lt;1)&#43;(x&lt;&lt;3)&#43;(c^&#39;0&#39;),c=getchar();
+	return x;
+}
+void write(int x)
+{
+	if(x&gt;9)	write(x/10);
+	putchar(x%10&#43;&#39;0&#39;);
+}
+const int MOD=998244353;
+inline int Add(int x,int y){return x&#43;y&gt;=MOD?x&#43;y-MOD:x&#43;y;}
+inline int Sub(int x,int y){return x&lt;y?x-y&#43;MOD:x-y;}
+inline int Mul(int x,int y){return 1ll*x*y%MOD;}
+int QuickPow(int x,int p)
+{
+	int ans=1,base=x;
+	while(p)
+	{
+		if(p&amp;1)	ans=Mul(ans,base);
+		base=Mul(base,base);
+		p&gt;&gt;=1;
+	}
+	return ans;
+}
+int n,m,k;
+int s[100005],nxt[100005];
+struct BorderSeq{
+	int l,r,d;
+	BorderSeq(){}
+	BorderSeq(int L,int R,int D){l=L,r=R,d=D;}
+}brd[200005];
+int cnt,dp[200005],sum[200005];
+int pw[200005],ipw[200005];
+void Kmp()
+{
+	int j=0;
+	for(int i=2;i&lt;=k;&#43;&#43;i)
+	{
+		while(j &amp;&amp; s[j&#43;1]!=s[i])	j=nxt[j];
+		if(s[j&#43;1]==s[i])	&#43;&#43;j;
+		nxt[i]=j;
+	}
+	int now=nxt[k],d=k-nxt[k],fir=nxt[k];
+	while(now)
+	{
+		if(d!=now-nxt[now] || !nxt[now])	brd[&#43;&#43;cnt]=BorderSeq(now,fir,d),fir=nxt[now];
+		if(!nxt[now])	break;
+		d=now-nxt[now],now=nxt[now];
+	}
+}
+vector&lt;int&gt; Sum[20][200005];
+int pos[20][200005];
+int main(){
+	n=read(),m=read(),k=read();
+	for(int i=1;i&lt;=k;&#43;&#43;i)	s[i]=read();
+	Kmp();
+	int invm=QuickPow(m,MOD-2);
+	pw[0]=ipw[0]=1;
+	for(int i=1;i&lt;=n;&#43;&#43;i)	pw[i]=Mul(pw[i-1],m);
+	for(int i=1;i&lt;=n;&#43;&#43;i)	ipw[i]=Mul(ipw[i-1],invm);
+	memset(pos,-1,sizeof pos);
+	for(int i=k;i&lt;=n;&#43;&#43;i)
+	{
+		dp[i]=Sub(pw[i-k],sum[i-k]);
+		for(int j=1;j&lt;=cnt;&#43;&#43;j)
+		{
+			int d=brd[j].d,l=brd[j].l,r=brd[j].r;
+			int idx=(l&#43;i-k)%d;
+			if(!Sum[j][idx].empty())
+			{
+				int L=l&#43;i-k,R=r&#43;i-k;
+				if(~pos[j][R])	dp[i]=Sub(dp[i],Sum[j][idx][pos[j][R]]);
+				if(pos[j][L]&gt;0)	dp[i]=Add(dp[i],Sum[j][idx][pos[j][L]-1]);
+			}
+		}
+		for(int j=1;j&lt;=cnt;&#43;&#43;j)
+		{
+			int d=brd[j].d;
+			int idx=i%d;
+			pos[j][i]=int(Sum[j][idx].size());
+			Sum[j][idx].push_back(Add(Sum[j][idx].empty()?0:Sum[j][idx].back(),dp[i]));
+		}
+		sum[i]=Add(Mul(sum[i-1],m),dp[i]);
+	}
+	int ans=0;
+	for(int i=k;i&lt;=n;&#43;&#43;i)	ans=Add(ans,Mul(dp[i],pw[n-i]));
+	write(Mul(ans,ipw[n]));
+	return 0;
+}
+">
 <meta name="author" content="">
 <link rel="canonical" href="https://caoxuan5211.github.io/blog/p1393/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
@@ -65,7 +166,9 @@
   <meta property="og:title" content="洛谷 P1393">
   <meta property="og:description" content="Mivik 不会做
 观摩题解后的感触 求概率取余时候除以的分母可以用模逆元转换为乘。
-还有就是KMP中的next数组可以转换为n个等差数列（顺序排列，不交叉）。也就是字符串边界理论（Border Theory）">
+还有就是KMP中的next数组可以转换为n个等差数列（顺序排列，不交叉）。也就是字符串边界理论（Border Theory）
+题解里面FjswYuzu写的还可以,有时间学学。
+题解(ctrl&#43;c/v) #include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; typedef long long LL; char buf[1&lt;&lt;18],*p1=buf,*p2=buf; #define getchar() (p1==p2 &amp;&amp; (p2=(p1=buf)&#43;fread(buf,1,1&lt;&lt;18,stdin),p1==p2)?EOF:*p1&#43;&#43;) int read() { int x=0; char c=getchar(); while(c&lt;&#39;0&#39; || c&gt;&#39;9&#39;)	c=getchar(); while(c&gt;=&#39;0&#39; &amp;&amp; c&lt;=&#39;9&#39;)	x=(x&lt;&lt;1)&#43;(x&lt;&lt;3)&#43;(c^&#39;0&#39;),c=getchar(); return x; } void write(int x) { if(x&gt;9)	write(x/10); putchar(x%10&#43;&#39;0&#39;); } const int MOD=998244353; inline int Add(int x,int y){return x&#43;y&gt;=MOD?x&#43;y-MOD:x&#43;y;} inline int Sub(int x,int y){return x&lt;y?x-y&#43;MOD:x-y;} inline int Mul(int x,int y){return 1ll*x*y%MOD;} int QuickPow(int x,int p) { int ans=1,base=x; while(p) { if(p&amp;1)	ans=Mul(ans,base); base=Mul(base,base); p&gt;&gt;=1; } return ans; } int n,m,k; int s[100005],nxt[100005]; struct BorderSeq{ int l,r,d; BorderSeq(){} BorderSeq(int L,int R,int D){l=L,r=R,d=D;} }brd[200005]; int cnt,dp[200005],sum[200005]; int pw[200005],ipw[200005]; void Kmp() { int j=0; for(int i=2;i&lt;=k;&#43;&#43;i) { while(j &amp;&amp; s[j&#43;1]!=s[i])	j=nxt[j]; if(s[j&#43;1]==s[i])	&#43;&#43;j; nxt[i]=j; } int now=nxt[k],d=k-nxt[k],fir=nxt[k]; while(now) { if(d!=now-nxt[now] || !nxt[now])	brd[&#43;&#43;cnt]=BorderSeq(now,fir,d),fir=nxt[now]; if(!nxt[now])	break; d=now-nxt[now],now=nxt[now]; } } vector&lt;int&gt; Sum[20][200005]; int pos[20][200005]; int main(){ n=read(),m=read(),k=read(); for(int i=1;i&lt;=k;&#43;&#43;i)	s[i]=read(); Kmp(); int invm=QuickPow(m,MOD-2); pw[0]=ipw[0]=1; for(int i=1;i&lt;=n;&#43;&#43;i)	pw[i]=Mul(pw[i-1],m); for(int i=1;i&lt;=n;&#43;&#43;i)	ipw[i]=Mul(ipw[i-1],invm); memset(pos,-1,sizeof pos); for(int i=k;i&lt;=n;&#43;&#43;i) { dp[i]=Sub(pw[i-k],sum[i-k]); for(int j=1;j&lt;=cnt;&#43;&#43;j) { int d=brd[j].d,l=brd[j].l,r=brd[j].r; int idx=(l&#43;i-k)%d; if(!Sum[j][idx].empty()) { int L=l&#43;i-k,R=r&#43;i-k; if(~pos[j][R])	dp[i]=Sub(dp[i],Sum[j][idx][pos[j][R]]); if(pos[j][L]&gt;0)	dp[i]=Add(dp[i],Sum[j][idx][pos[j][L]-1]); } } for(int j=1;j&lt;=cnt;&#43;&#43;j) { int d=brd[j].d; int idx=i%d; pos[j][i]=int(Sum[j][idx].size()); Sum[j][idx].push_back(Add(Sum[j][idx].empty()?0:Sum[j][idx].back(),dp[i])); } sum[i]=Add(Mul(sum[i-1],m),dp[i]); } int ans=0; for(int i=k;i&lt;=n;&#43;&#43;i)	ans=Add(ans,Mul(dp[i],pw[n-i])); write(Mul(ans,ipw[n])); return 0; } ">
   <meta property="og:locale" content="en-us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="blog">
@@ -79,7 +182,108 @@
 观摩题解后的感触
 求概率取余时候除以的分母可以用模逆元转换为乘。
 
-还有就是KMP中的next数组可以转换为n个等差数列（顺序排列，不交叉）。也就是字符串边界理论（Border Theory）">
+还有就是KMP中的next数组可以转换为n个等差数列（顺序排列，不交叉）。也就是字符串边界理论（Border Theory）
+题解里面FjswYuzu写的还可以,有时间学学。
+题解(ctrl&#43;c/v)
+#include&lt;bits/stdc&#43;&#43;.h&gt;
+using namespace std;
+typedef long long LL;
+char buf[1&lt;&lt;18],*p1=buf,*p2=buf;
+#define getchar() (p1==p2 &amp;&amp; (p2=(p1=buf)&#43;fread(buf,1,1&lt;&lt;18,stdin),p1==p2)?EOF:*p1&#43;&#43;)
+int read()
+{
+	int x=0;
+	char c=getchar();
+	while(c&lt;&#39;0&#39; || c&gt;&#39;9&#39;)	c=getchar();
+	while(c&gt;=&#39;0&#39; &amp;&amp; c&lt;=&#39;9&#39;)	x=(x&lt;&lt;1)&#43;(x&lt;&lt;3)&#43;(c^&#39;0&#39;),c=getchar();
+	return x;
+}
+void write(int x)
+{
+	if(x&gt;9)	write(x/10);
+	putchar(x%10&#43;&#39;0&#39;);
+}
+const int MOD=998244353;
+inline int Add(int x,int y){return x&#43;y&gt;=MOD?x&#43;y-MOD:x&#43;y;}
+inline int Sub(int x,int y){return x&lt;y?x-y&#43;MOD:x-y;}
+inline int Mul(int x,int y){return 1ll*x*y%MOD;}
+int QuickPow(int x,int p)
+{
+	int ans=1,base=x;
+	while(p)
+	{
+		if(p&amp;1)	ans=Mul(ans,base);
+		base=Mul(base,base);
+		p&gt;&gt;=1;
+	}
+	return ans;
+}
+int n,m,k;
+int s[100005],nxt[100005];
+struct BorderSeq{
+	int l,r,d;
+	BorderSeq(){}
+	BorderSeq(int L,int R,int D){l=L,r=R,d=D;}
+}brd[200005];
+int cnt,dp[200005],sum[200005];
+int pw[200005],ipw[200005];
+void Kmp()
+{
+	int j=0;
+	for(int i=2;i&lt;=k;&#43;&#43;i)
+	{
+		while(j &amp;&amp; s[j&#43;1]!=s[i])	j=nxt[j];
+		if(s[j&#43;1]==s[i])	&#43;&#43;j;
+		nxt[i]=j;
+	}
+	int now=nxt[k],d=k-nxt[k],fir=nxt[k];
+	while(now)
+	{
+		if(d!=now-nxt[now] || !nxt[now])	brd[&#43;&#43;cnt]=BorderSeq(now,fir,d),fir=nxt[now];
+		if(!nxt[now])	break;
+		d=now-nxt[now],now=nxt[now];
+	}
+}
+vector&lt;int&gt; Sum[20][200005];
+int pos[20][200005];
+int main(){
+	n=read(),m=read(),k=read();
+	for(int i=1;i&lt;=k;&#43;&#43;i)	s[i]=read();
+	Kmp();
+	int invm=QuickPow(m,MOD-2);
+	pw[0]=ipw[0]=1;
+	for(int i=1;i&lt;=n;&#43;&#43;i)	pw[i]=Mul(pw[i-1],m);
+	for(int i=1;i&lt;=n;&#43;&#43;i)	ipw[i]=Mul(ipw[i-1],invm);
+	memset(pos,-1,sizeof pos);
+	for(int i=k;i&lt;=n;&#43;&#43;i)
+	{
+		dp[i]=Sub(pw[i-k],sum[i-k]);
+		for(int j=1;j&lt;=cnt;&#43;&#43;j)
+		{
+			int d=brd[j].d,l=brd[j].l,r=brd[j].r;
+			int idx=(l&#43;i-k)%d;
+			if(!Sum[j][idx].empty())
+			{
+				int L=l&#43;i-k,R=r&#43;i-k;
+				if(~pos[j][R])	dp[i]=Sub(dp[i],Sum[j][idx][pos[j][R]]);
+				if(pos[j][L]&gt;0)	dp[i]=Add(dp[i],Sum[j][idx][pos[j][L]-1]);
+			}
+		}
+		for(int j=1;j&lt;=cnt;&#43;&#43;j)
+		{
+			int d=brd[j].d;
+			int idx=i%d;
+			pos[j][i]=int(Sum[j][idx].size());
+			Sum[j][idx].push_back(Add(Sum[j][idx].empty()?0:Sum[j][idx].back(),dp[i]));
+		}
+		sum[i]=Add(Mul(sum[i-1],m),dp[i]);
+	}
+	int ans=0;
+	for(int i=k;i&lt;=n;&#43;&#43;i)	ans=Add(ans,Mul(dp[i],pw[n-i]));
+	write(Mul(ans,ipw[n]));
+	return 0;
+}
+">
 
 
 <script type="application/ld+json">
@@ -108,12 +312,12 @@
   "@type": "BlogPosting",
   "headline": "洛谷 P1393",
   "name": "洛谷 P1393",
-  "description": "Mivik 不会做\n观摩题解后的感触 求概率取余时候除以的分母可以用模逆元转换为乘。\n还有就是KMP中的next数组可以转换为n个等差数列（顺序排列，不交叉）。也就是字符串边界理论（Border Theory）\n",
+  "description": "Mivik 不会做\n观摩题解后的感触 求概率取余时候除以的分母可以用模逆元转换为乘。\n还有就是KMP中的next数组可以转换为n个等差数列（顺序排列，不交叉）。也就是字符串边界理论（Border Theory）\n题解里面FjswYuzu写的还可以,有时间学学。\n题解(ctrl+c/v) #include\u0026lt;bits/stdc++.h\u0026gt; using namespace std; typedef long long LL; char buf[1\u0026lt;\u0026lt;18],*p1=buf,*p2=buf; #define getchar() (p1==p2 \u0026amp;\u0026amp; (p2=(p1=buf)+fread(buf,1,1\u0026lt;\u0026lt;18,stdin),p1==p2)?EOF:*p1++) int read() { int x=0; char c=getchar(); while(c\u0026lt;\u0026#39;0\u0026#39; || c\u0026gt;\u0026#39;9\u0026#39;)\tc=getchar(); while(c\u0026gt;=\u0026#39;0\u0026#39; \u0026amp;\u0026amp; c\u0026lt;=\u0026#39;9\u0026#39;)\tx=(x\u0026lt;\u0026lt;1)+(x\u0026lt;\u0026lt;3)+(c^\u0026#39;0\u0026#39;),c=getchar(); return x; } void write(int x) { if(x\u0026gt;9)\twrite(x/10); putchar(x%10+\u0026#39;0\u0026#39;); } const int MOD=998244353; inline int Add(int x,int y){return x+y\u0026gt;=MOD?x+y-MOD:x+y;} inline int Sub(int x,int y){return x\u0026lt;y?x-y+MOD:x-y;} inline int Mul(int x,int y){return 1ll*x*y%MOD;} int QuickPow(int x,int p) { int ans=1,base=x; while(p) { if(p\u0026amp;1)\tans=Mul(ans,base); base=Mul(base,base); p\u0026gt;\u0026gt;=1; } return ans; } int n,m,k; int s[100005],nxt[100005]; struct BorderSeq{ int l,r,d; BorderSeq(){} BorderSeq(int L,int R,int D){l=L,r=R,d=D;} }brd[200005]; int cnt,dp[200005],sum[200005]; int pw[200005],ipw[200005]; void Kmp() { int j=0; for(int i=2;i\u0026lt;=k;++i) { while(j \u0026amp;\u0026amp; s[j+1]!=s[i])\tj=nxt[j]; if(s[j+1]==s[i])\t++j; nxt[i]=j; } int now=nxt[k],d=k-nxt[k],fir=nxt[k]; while(now) { if(d!=now-nxt[now] || !nxt[now])\tbrd[++cnt]=BorderSeq(now,fir,d),fir=nxt[now]; if(!nxt[now])\tbreak; d=now-nxt[now],now=nxt[now]; } } vector\u0026lt;int\u0026gt; Sum[20][200005]; int pos[20][200005]; int main(){ n=read(),m=read(),k=read(); for(int i=1;i\u0026lt;=k;++i)\ts[i]=read(); Kmp(); int invm=QuickPow(m,MOD-2); pw[0]=ipw[0]=1; for(int i=1;i\u0026lt;=n;++i)\tpw[i]=Mul(pw[i-1],m); for(int i=1;i\u0026lt;=n;++i)\tipw[i]=Mul(ipw[i-1],invm); memset(pos,-1,sizeof pos); for(int i=k;i\u0026lt;=n;++i) { dp[i]=Sub(pw[i-k],sum[i-k]); for(int j=1;j\u0026lt;=cnt;++j) { int d=brd[j].d,l=brd[j].l,r=brd[j].r; int idx=(l+i-k)%d; if(!Sum[j][idx].empty()) { int L=l+i-k,R=r+i-k; if(~pos[j][R])\tdp[i]=Sub(dp[i],Sum[j][idx][pos[j][R]]); if(pos[j][L]\u0026gt;0)\tdp[i]=Add(dp[i],Sum[j][idx][pos[j][L]-1]); } } for(int j=1;j\u0026lt;=cnt;++j) { int d=brd[j].d; int idx=i%d; pos[j][i]=int(Sum[j][idx].size()); Sum[j][idx].push_back(Add(Sum[j][idx].empty()?0:Sum[j][idx].back(),dp[i])); } sum[i]=Add(Mul(sum[i-1],m),dp[i]); } int ans=0; for(int i=k;i\u0026lt;=n;++i)\tans=Add(ans,Mul(dp[i],pw[n-i])); write(Mul(ans,ipw[n])); return 0; } ",
   "keywords": [
     "luogu"
   ],
-  "articleBody": "Mivik 不会做\n观摩题解后的感触 求概率取余时候除以的分母可以用模逆元转换为乘。\n还有就是KMP中的next数组可以转换为n个等差数列（顺序排列，不交叉）。也就是字符串边界理论（Border Theory）\n",
-  "wordCount" : "6",
+  "articleBody": "Mivik 不会做\n观摩题解后的感触 求概率取余时候除以的分母可以用模逆元转换为乘。\n还有就是KMP中的next数组可以转换为n个等差数列（顺序排列，不交叉）。也就是字符串边界理论（Border Theory）\n题解里面FjswYuzu写的还可以,有时间学学。\n题解(ctrl+c/v) #include using namespace std; typedef long long LL; char buf[1\u003c\u003c18],*p1=buf,*p2=buf; #define getchar() (p1==p2 \u0026\u0026 (p2=(p1=buf)+fread(buf,1,1\u003c\u003c18,stdin),p1==p2)?EOF:*p1++) int read() { int x=0; char c=getchar(); while(c\u003c'0' || c\u003e'9')\tc=getchar(); while(c\u003e='0' \u0026\u0026 c\u003c='9')\tx=(x\u003c\u003c1)+(x\u003c\u003c3)+(c^'0'),c=getchar(); return x; } void write(int x) { if(x\u003e9)\twrite(x/10); putchar(x%10+'0'); } const int MOD=998244353; inline int Add(int x,int y){return x+y\u003e=MOD?x+y-MOD:x+y;} inline int Sub(int x,int y){return x\u003cy?x-y+MOD:x-y;} inline int Mul(int x,int y){return 1ll*x*y%MOD;} int QuickPow(int x,int p) { int ans=1,base=x; while(p) { if(p\u00261)\tans=Mul(ans,base); base=Mul(base,base); p\u003e\u003e=1; } return ans; } int n,m,k; int s[100005],nxt[100005]; struct BorderSeq{ int l,r,d; BorderSeq(){} BorderSeq(int L,int R,int D){l=L,r=R,d=D;} }brd[200005]; int cnt,dp[200005],sum[200005]; int pw[200005],ipw[200005]; void Kmp() { int j=0; for(int i=2;i\u003c=k;++i) { while(j \u0026\u0026 s[j+1]!=s[i])\tj=nxt[j]; if(s[j+1]==s[i])\t++j; nxt[i]=j; } int now=nxt[k],d=k-nxt[k],fir=nxt[k]; while(now) { if(d!=now-nxt[now] || !nxt[now])\tbrd[++cnt]=BorderSeq(now,fir,d),fir=nxt[now]; if(!nxt[now])\tbreak; d=now-nxt[now],now=nxt[now]; } } vector\u003cint\u003e Sum[20][200005]; int pos[20][200005]; int main(){ n=read(),m=read(),k=read(); for(int i=1;i\u003c=k;++i)\ts[i]=read(); Kmp(); int invm=QuickPow(m,MOD-2); pw[0]=ipw[0]=1; for(int i=1;i\u003c=n;++i)\tpw[i]=Mul(pw[i-1],m); for(int i=1;i\u003c=n;++i)\tipw[i]=Mul(ipw[i-1],invm); memset(pos,-1,sizeof pos); for(int i=k;i\u003c=n;++i) { dp[i]=Sub(pw[i-k],sum[i-k]); for(int j=1;j\u003c=cnt;++j) { int d=brd[j].d,l=brd[j].l,r=brd[j].r; int idx=(l+i-k)%d; if(!Sum[j][idx].empty()) { int L=l+i-k,R=r+i-k; if(~pos[j][R])\tdp[i]=Sub(dp[i],Sum[j][idx][pos[j][R]]); if(pos[j][L]\u003e0)\tdp[i]=Add(dp[i],Sum[j][idx][pos[j][L]-1]); } } for(int j=1;j\u003c=cnt;++j) { int d=brd[j].d; int idx=i%d; pos[j][i]=int(Sum[j][idx].size()); Sum[j][idx].push_back(Add(Sum[j][idx].empty()?0:Sum[j][idx].back(),dp[i])); } sum[i]=Add(Mul(sum[i-1],m),dp[i]); } int ans=0; for(int i=k;i\u003c=n;++i)\tans=Add(ans,Mul(dp[i],pw[n-i])); write(Mul(ans,ipw[n])); return 0; } ",
+  "wordCount" : "198",
   "inLanguage": "en",
   "datePublished": "2025-10-05T00:00:50+08:00",
   "dateModified": "2025-10-05T00:00:50+08:00",
@@ -195,12 +399,6 @@
     
     <h1 class="post-title entry-hint-parent">
       洛谷 P1393
-      <span class="entry-hint" title="Draft">
-        <svg xmlns="http://www.w3.org/2000/svg" height="35" viewBox="0 -960 960 960" fill="currentColor">
-          <path
-            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
-        </svg>
-      </span>
     </h1>
     <div class="post-meta"><span title='2025-10-05 00:00:50 +0800 CST'>October 5, 2025</span>
 
@@ -212,7 +410,107 @@
 <p>求概率取余时候除以的分母可以用模逆元转换为乘。</p>
 <p><img alt="image-20251020201500960" loading="lazy" src="/images/P1393_1.png"></p>
 <p>还有就是<em>KMP</em>中的<em>next</em>数组可以转换为<em>n</em>个等差数列（顺序排列，不交叉）。也就是<strong>字符串边界理论（<em>Border Theory</em>）</strong></p>
-
+<p><a href="https://www.luogu.com.cn/problem/solution/P1393">题解</a>里面<em>FjswYuzu</em>写的还可以,有时间学学。</p>
+<h3 id="题解ctrlcv">题解(ctrl+c/v)<a hidden class="anchor" aria-hidden="true" href="#题解ctrlcv">#</a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="cp">#include&lt;bits/stdc++.h&gt;
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">typedef</span> <span class="kt">long</span> <span class="kt">long</span> <span class="n">LL</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">char</span> <span class="n">buf</span><span class="p">[</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="mi">18</span><span class="p">],</span><span class="o">*</span><span class="n">p1</span><span class="o">=</span><span class="n">buf</span><span class="p">,</span><span class="o">*</span><span class="n">p2</span><span class="o">=</span><span class="n">buf</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="cp">#define getchar() (p1==p2 &amp;&amp; (p2=(p1=buf)+fread(buf,1,1&lt;&lt;18,stdin),p1==p2)?EOF:*p1++)
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="kt">int</span> <span class="nf">read</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kt">int</span> <span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="kt">char</span> <span class="n">c</span><span class="o">=</span><span class="n">getchar</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">	<span class="k">while</span><span class="p">(</span><span class="n">c</span><span class="o">&lt;</span><span class="sc">&#39;0&#39;</span> <span class="o">||</span> <span class="n">c</span><span class="o">&gt;</span><span class="sc">&#39;9&#39;</span><span class="p">)</span>	<span class="n">c</span><span class="o">=</span><span class="n">getchar</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">	<span class="k">while</span><span class="p">(</span><span class="n">c</span><span class="o">&gt;=</span><span class="sc">&#39;0&#39;</span> <span class="o">&amp;&amp;</span> <span class="n">c</span><span class="o">&lt;=</span><span class="sc">&#39;9&#39;</span><span class="p">)</span>	<span class="n">x</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="p">(</span><span class="n">x</span><span class="o">&lt;&lt;</span><span class="mi">3</span><span class="p">)</span><span class="o">+</span><span class="p">(</span><span class="n">c</span><span class="o">^</span><span class="sc">&#39;0&#39;</span><span class="p">),</span><span class="n">c</span><span class="o">=</span><span class="n">getchar</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">write</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span><span class="p">(</span><span class="n">x</span><span class="o">&gt;</span><span class="mi">9</span><span class="p">)</span>	<span class="n">write</span><span class="p">(</span><span class="n">x</span><span class="o">/</span><span class="mi">10</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">putchar</span><span class="p">(</span><span class="n">x</span><span class="o">%</span><span class="mi">10</span><span class="o">+</span><span class="sc">&#39;0&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">const</span> <span class="kt">int</span> <span class="n">MOD</span><span class="o">=</span><span class="mi">998244353</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">inline</span> <span class="kt">int</span> <span class="nf">Add</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span><span class="kt">int</span> <span class="n">y</span><span class="p">){</span><span class="k">return</span> <span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="o">&gt;=</span><span class="n">MOD</span><span class="o">?</span><span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="o">-</span><span class="nl">MOD</span><span class="p">:</span><span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="p">;}</span>
+</span></span><span class="line"><span class="cl"><span class="kr">inline</span> <span class="kt">int</span> <span class="nf">Sub</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span><span class="kt">int</span> <span class="n">y</span><span class="p">){</span><span class="k">return</span> <span class="n">x</span><span class="o">&lt;</span><span class="n">y</span><span class="o">?</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="o">+</span><span class="nl">MOD</span><span class="p">:</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">;}</span>
+</span></span><span class="line"><span class="cl"><span class="kr">inline</span> <span class="kt">int</span> <span class="nf">Mul</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span><span class="kt">int</span> <span class="n">y</span><span class="p">){</span><span class="k">return</span> <span class="mi">1ll</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="o">%</span><span class="n">MOD</span><span class="p">;}</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">QuickPow</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span><span class="kt">int</span> <span class="n">p</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kt">int</span> <span class="n">ans</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">base</span><span class="o">=</span><span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="k">while</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span><span class="p">(</span><span class="n">p</span><span class="o">&amp;</span><span class="mi">1</span><span class="p">)</span>	<span class="n">ans</span><span class="o">=</span><span class="n">Mul</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span><span class="n">base</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">		<span class="n">base</span><span class="o">=</span><span class="n">Mul</span><span class="p">(</span><span class="n">base</span><span class="p">,</span><span class="n">base</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">		<span class="n">p</span><span class="o">&gt;&gt;=</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="n">ans</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">k</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">s</span><span class="p">[</span><span class="mi">100005</span><span class="p">],</span><span class="n">nxt</span><span class="p">[</span><span class="mi">100005</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">BorderSeq</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kt">int</span> <span class="n">l</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">d</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">BorderSeq</span><span class="p">(){}</span>
+</span></span><span class="line"><span class="cl">	<span class="n">BorderSeq</span><span class="p">(</span><span class="kt">int</span> <span class="n">L</span><span class="p">,</span><span class="kt">int</span> <span class="n">R</span><span class="p">,</span><span class="kt">int</span> <span class="n">D</span><span class="p">){</span><span class="n">l</span><span class="o">=</span><span class="n">L</span><span class="p">,</span><span class="n">r</span><span class="o">=</span><span class="n">R</span><span class="p">,</span><span class="n">d</span><span class="o">=</span><span class="n">D</span><span class="p">;}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span><span class="n">brd</span><span class="p">[</span><span class="mi">200005</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">cnt</span><span class="p">,</span><span class="n">dp</span><span class="p">[</span><span class="mi">200005</span><span class="p">],</span><span class="n">sum</span><span class="p">[</span><span class="mi">200005</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">pw</span><span class="p">[</span><span class="mi">200005</span><span class="p">],</span><span class="n">ipw</span><span class="p">[</span><span class="mi">200005</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">Kmp</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">2</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">k</span><span class="p">;</span><span class="o">++</span><span class="n">i</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">while</span><span class="p">(</span><span class="n">j</span> <span class="o">&amp;&amp;</span> <span class="n">s</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">!=</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>	<span class="n">j</span><span class="o">=</span><span class="n">nxt</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>	<span class="o">++</span><span class="n">j</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="n">nxt</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">j</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="kt">int</span> <span class="n">now</span><span class="o">=</span><span class="n">nxt</span><span class="p">[</span><span class="n">k</span><span class="p">],</span><span class="n">d</span><span class="o">=</span><span class="n">k</span><span class="o">-</span><span class="n">nxt</span><span class="p">[</span><span class="n">k</span><span class="p">],</span><span class="n">fir</span><span class="o">=</span><span class="n">nxt</span><span class="p">[</span><span class="n">k</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">	<span class="k">while</span><span class="p">(</span><span class="n">now</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span><span class="p">(</span><span class="n">d</span><span class="o">!=</span><span class="n">now</span><span class="o">-</span><span class="n">nxt</span><span class="p">[</span><span class="n">now</span><span class="p">]</span> <span class="o">||</span> <span class="o">!</span><span class="n">nxt</span><span class="p">[</span><span class="n">now</span><span class="p">])</span>	<span class="n">brd</span><span class="p">[</span><span class="o">++</span><span class="n">cnt</span><span class="p">]</span><span class="o">=</span><span class="n">BorderSeq</span><span class="p">(</span><span class="n">now</span><span class="p">,</span><span class="n">fir</span><span class="p">,</span><span class="n">d</span><span class="p">),</span><span class="n">fir</span><span class="o">=</span><span class="n">nxt</span><span class="p">[</span><span class="n">now</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">nxt</span><span class="p">[</span><span class="n">now</span><span class="p">])</span>	<span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="n">d</span><span class="o">=</span><span class="n">now</span><span class="o">-</span><span class="n">nxt</span><span class="p">[</span><span class="n">now</span><span class="p">],</span><span class="n">now</span><span class="o">=</span><span class="n">nxt</span><span class="p">[</span><span class="n">now</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">Sum</span><span class="p">[</span><span class="mi">20</span><span class="p">][</span><span class="mi">200005</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">pos</span><span class="p">[</span><span class="mi">20</span><span class="p">][</span><span class="mi">200005</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">	<span class="n">n</span><span class="o">=</span><span class="n">read</span><span class="p">(),</span><span class="n">m</span><span class="o">=</span><span class="n">read</span><span class="p">(),</span><span class="n">k</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">k</span><span class="p">;</span><span class="o">++</span><span class="n">i</span><span class="p">)</span>	<span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">	<span class="n">Kmp</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">	<span class="kt">int</span> <span class="n">invm</span><span class="o">=</span><span class="n">QuickPow</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">MOD</span><span class="o">-</span><span class="mi">2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">pw</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">ipw</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="o">++</span><span class="n">i</span><span class="p">)</span>	<span class="n">pw</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">Mul</span><span class="p">(</span><span class="n">pw</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">m</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="o">++</span><span class="n">i</span><span class="p">)</span>	<span class="n">ipw</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">Mul</span><span class="p">(</span><span class="n">ipw</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">invm</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">memset</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="k">sizeof</span> <span class="n">pos</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">k</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="o">++</span><span class="n">i</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">Sub</span><span class="p">(</span><span class="n">pw</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="n">k</span><span class="p">],</span><span class="n">sum</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="n">k</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">		<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">j</span><span class="o">&lt;=</span><span class="n">cnt</span><span class="p">;</span><span class="o">++</span><span class="n">j</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="kt">int</span> <span class="n">d</span><span class="o">=</span><span class="n">brd</span><span class="p">[</span><span class="n">j</span><span class="p">].</span><span class="n">d</span><span class="p">,</span><span class="n">l</span><span class="o">=</span><span class="n">brd</span><span class="p">[</span><span class="n">j</span><span class="p">].</span><span class="n">l</span><span class="p">,</span><span class="n">r</span><span class="o">=</span><span class="n">brd</span><span class="p">[</span><span class="n">j</span><span class="p">].</span><span class="n">r</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">			<span class="kt">int</span> <span class="n">idx</span><span class="o">=</span><span class="p">(</span><span class="n">l</span><span class="o">+</span><span class="n">i</span><span class="o">-</span><span class="n">k</span><span class="p">)</span><span class="o">%</span><span class="n">d</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">			<span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">Sum</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">idx</span><span class="p">].</span><span class="n">empty</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">			<span class="p">{</span>
+</span></span><span class="line"><span class="cl">				<span class="kt">int</span> <span class="n">L</span><span class="o">=</span><span class="n">l</span><span class="o">+</span><span class="n">i</span><span class="o">-</span><span class="n">k</span><span class="p">,</span><span class="n">R</span><span class="o">=</span><span class="n">r</span><span class="o">+</span><span class="n">i</span><span class="o">-</span><span class="n">k</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">				<span class="k">if</span><span class="p">(</span><span class="o">~</span><span class="n">pos</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">R</span><span class="p">])</span>	<span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">Sub</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">Sum</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">idx</span><span class="p">][</span><span class="n">pos</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">R</span><span class="p">]]);</span>
+</span></span><span class="line"><span class="cl">				<span class="k">if</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">L</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span>	<span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">Add</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">Sum</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">idx</span><span class="p">][</span><span class="n">pos</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">L</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">			<span class="p">}</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">		<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">j</span><span class="o">&lt;=</span><span class="n">cnt</span><span class="p">;</span><span class="o">++</span><span class="n">j</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="kt">int</span> <span class="n">d</span><span class="o">=</span><span class="n">brd</span><span class="p">[</span><span class="n">j</span><span class="p">].</span><span class="n">d</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">			<span class="kt">int</span> <span class="n">idx</span><span class="o">=</span><span class="n">i</span><span class="o">%</span><span class="n">d</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">			<span class="n">pos</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="kt">int</span><span class="p">(</span><span class="n">Sum</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">idx</span><span class="p">].</span><span class="n">size</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">			<span class="n">Sum</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">idx</span><span class="p">].</span><span class="n">push_back</span><span class="p">(</span><span class="n">Add</span><span class="p">(</span><span class="n">Sum</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">idx</span><span class="p">].</span><span class="n">empty</span><span class="p">()</span><span class="o">?</span><span class="mi">0</span><span class="o">:</span><span class="n">Sum</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">idx</span><span class="p">].</span><span class="n">back</span><span class="p">(),</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">]));</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">		<span class="n">sum</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">Add</span><span class="p">(</span><span class="n">Mul</span><span class="p">(</span><span class="n">sum</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">m</span><span class="p">),</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="kt">int</span> <span class="n">ans</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">k</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="o">++</span><span class="n">i</span><span class="p">)</span>	<span class="n">ans</span><span class="o">=</span><span class="n">Add</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span><span class="n">Mul</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">pw</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="n">i</span><span class="p">]));</span>
+</span></span><span class="line"><span class="cl">	<span class="n">write</span><span class="p">(</span><span class="n">Mul</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span><span class="n">ipw</span><span class="p">[</span><span class="n">n</span><span class="p">]));</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div>
 
   </div>
 
