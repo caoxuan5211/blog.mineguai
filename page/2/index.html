@@ -80,6 +80,17 @@
   ]
 }
 </script>
+  <link rel="stylesheet" href="https://caoxuan5211.github.io/css/extended/code-copy.css">
+  <link rel="stylesheet" href="https://caoxuan5211.github.io/css/extended/custom-fonts.css">
+
+
+  <script type="text/javascript" src="https://caoxuan5211.github.io/js/code-copy.js" defer></script>
+
+
+  <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css' integrity='sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=' crossorigin='anonymous'>
+  <script src='https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js'></script>
+
+    <script src="/js/code_copy.js"></script>
 </head>
 
 <body class="list" id="top">
@@ -138,6 +149,38 @@
     </nav>
 </header>
 <main class="main"> 
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">洛谷 P1393
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Mivik 不会做
+观摩题解后的感触 求概率取余时候除以的分母可以用模逆元转换为乘。
+还有就是KMP中的next数组可以转换为n个等差数列（顺序排列，不交叉）。也就是字符串边界理论（Border Theory）
+题解里面FjswYuzu写的还可以,有时间学学。
+题解(ctrl&#43;c/v) #include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; typedef long long LL; char buf[1&lt;&lt;18],*p1=buf,*p2=buf; #define getchar() (p1==p2 &amp;&amp; (p2=(p1=buf)&#43;fread(buf,1,1&lt;&lt;18,stdin),p1==p2)?EOF:*p1&#43;&#43;) int read() { int x=0; char c=getchar(); while(c&lt;&#39;0&#39; || c&gt;&#39;9&#39;)	c=getchar(); while(c&gt;=&#39;0&#39; &amp;&amp; c&lt;=&#39;9&#39;)	x=(x&lt;&lt;1)&#43;(x&lt;&lt;3)&#43;(c^&#39;0&#39;),c=getchar(); return x; } void write(int x) { if(x&gt;9)	write(x/10); putchar(x%10&#43;&#39;0&#39;); } const int MOD=998244353; inline int Add(int x,int y){return x&#43;y&gt;=MOD?x&#43;y-MOD:x&#43;y;} inline int Sub(int x,int y){return x&lt;y?x-y&#43;MOD:x-y;} inline int Mul(int x,int y){return 1ll*x*y%MOD;} int QuickPow(int x,int p) { int ans=1,base=x; while(p) { if(p&amp;1)	ans=Mul(ans,base); base=Mul(base,base); p&gt;&gt;=1; } return ans; } int n,m,k; int s[100005],nxt[100005]; struct BorderSeq{ int l,r,d; BorderSeq(){} BorderSeq(int L,int R,int D){l=L,r=R,d=D;} }brd[200005]; int cnt,dp[200005],sum[200005]; int pw[200005],ipw[200005]; void Kmp() { int j=0; for(int i=2;i&lt;=k;&#43;&#43;i) { while(j &amp;&amp; s[j&#43;1]!=s[i])	j=nxt[j]; if(s[j&#43;1]==s[i])	&#43;&#43;j; nxt[i]=j; } int now=nxt[k],d=k-nxt[k],fir=nxt[k]; while(now) { if(d!=now-nxt[now] || !nxt[now])	brd[&#43;&#43;cnt]=BorderSeq(now,fir,d),fir=nxt[now]; if(!nxt[now])	break; d=now-nxt[now],now=nxt[now]; } } vector&lt;int&gt; Sum[20][200005]; int pos[20][200005]; int main(){ n=read(),m=read(),k=read(); for(int i=1;i&lt;=k;&#43;&#43;i)	s[i]=read(); Kmp(); int invm=QuickPow(m,MOD-2); pw[0]=ipw[0]=1; for(int i=1;i&lt;=n;&#43;&#43;i)	pw[i]=Mul(pw[i-1],m); for(int i=1;i&lt;=n;&#43;&#43;i)	ipw[i]=Mul(ipw[i-1],invm); memset(pos,-1,sizeof pos); for(int i=k;i&lt;=n;&#43;&#43;i) { dp[i]=Sub(pw[i-k],sum[i-k]); for(int j=1;j&lt;=cnt;&#43;&#43;j) { int d=brd[j].d,l=brd[j].l,r=brd[j].r; int idx=(l&#43;i-k)%d; if(!Sum[j][idx].empty()) { int L=l&#43;i-k,R=r&#43;i-k; if(~pos[j][R])	dp[i]=Sub(dp[i],Sum[j][idx][pos[j][R]]); if(pos[j][L]&gt;0)	dp[i]=Add(dp[i],Sum[j][idx][pos[j][L]-1]); } } for(int j=1;j&lt;=cnt;&#43;&#43;j) { int d=brd[j].d; int idx=i%d; pos[j][i]=int(Sum[j][idx].size()); Sum[j][idx].push_back(Add(Sum[j][idx].empty()?0:Sum[j][idx].back(),dp[i])); } sum[i]=Add(Mul(sum[i-1],m),dp[i]); } int ans=0; for(int i=k;i&lt;=n;&#43;&#43;i)	ans=Add(ans,Mul(dp[i],pw[n-i])); write(Mul(ans,ipw[n])); return 0; } </p>
+  </div>
+  <footer class="entry-footer"><span title='2025-10-05 00:00:50 +0800 CST'>October 5, 2025</span></footer>
+  <a class="entry-link" aria-label="post link to 洛谷 P1393" href="https://caoxuan5211.github.io/blog/p1393/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">hugo的github网页css显示失败问题
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>打开网页后出现异常
+当时github_pages生成的网页的css加载异常，F12用浏览器控制台看了之后发现是SRI不匹配问题。
+后来找到了这篇博客:hugo发布css无法加载问题 | Le blog de Lz0o0
+得以解决。
+</p>
+  </div>
+  <footer class="entry-footer"><span title='2025-10-04 18:52:26 +0800 CST'>October 4, 2025</span></footer>
+  <a class="entry-link" aria-label="post link to hugo的github网页css显示失败问题" href="https://caoxuan5211.github.io/blog/wrong/"></a>
+</article>
 
 <article class="post-entry"> 
   <header class="entry-header">

@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>背包问题 | 怪话怪的博客</title>
-<meta name="keywords" content="">
+<meta name="keywords" content="算法">
 <meta name="description" content="01背包
 问题
 有N个物品要装到一个只能承重W的背包里，每个物品重量为w[i]（weight），价值为v[i]（value），问背包能装的最大价值
@@ -122,6 +122,7 @@ int main()
     <meta property="article:section" content="blog">
     <meta property="article:published_time" content="2025-11-05T12:58:42+08:00">
     <meta property="article:modified_time" content="2025-11-05T12:58:42+08:00">
+    <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="背包问题">
 <meta name="twitter:description" content="01背包
@@ -208,7 +209,7 @@ int main()
   "name": "背包问题",
   "description": "01背包 问题 有N个物品要装到一个只能承重W的背包里，每个物品重量为w[i]（weight），价值为v[i]（value），问背包能装的最大价值\n前提 每类物品只能装一个（此谓01）。\n二维解法 /*01背包二维数组解决*/ #include\u0026lt;bits/stdc++.h\u0026gt; using namespace std; int main() { int N,W; //物品种类数,背包总能承受重量 cin \u0026gt;\u0026gt; N \u0026gt;\u0026gt; W; int w[N+1]; //每个物品的重量,从1开始 int v[N+1]; //每个物品的价值,从1开始 int dp[N+1][W+1]; //dp[i][j]表示考虑第i个物品,总重量为j时,能达到的最大价值 for(int i=1;i\u0026lt;=N;i++) cin \u0026gt;\u0026gt; w[i] \u0026gt;\u0026gt; v[i]; //重量 价值 for(int i=0;i\u0026lt;=N;i++) for(int j=0;j\u0026lt;=W;j++) dp[i][j]=0; for(int i=1;i\u0026lt;=N;i++) for(int j=W;j\u0026gt;=w[i];j--) dp[i][j] = max(dp[i-1][j],dp[i-1][j-w[i]]+v[i]); //(不用第i个物品,用第i个物品) cout \u0026lt;\u0026lt; dp[N][W]; return 0; } 一维解法 int main() { int N,W; //物品种类数,背包总能承受重量 cin \u0026gt;\u0026gt; N \u0026gt;\u0026gt; W; int w[N+1]; //每个物品的重量,从1开始 int v[N+1]; //每个物品的价值,从1开始 int dp[W+1]; //dp[i][j]表示考虑第i个物品,总重量为j时,能达到的最大价值 for(int i=1;i\u0026lt;=N;i++) cin \u0026gt;\u0026gt; w[i] \u0026gt;\u0026gt; v[i]; //重量 价值 for(int i=0;i\u0026lt;=W;i++) dp[i]=0; for(int i=1;i\u0026lt;=N;i++) for(int j=W;j\u0026gt;=w[i];j--) dp[j] = max(dp[j],dp[j-w[i]]+v[i]); //(不用第i个物品,用第i个物品) cout \u0026lt;\u0026lt; dp[W]; return 0; } 示例 输入\n10 15 2 3 3 4 4 8 5 8 9 10 3 5 4 6 2 4 6 7 7 9 输出\n26 完全背包 关于我\n关于我\n",
   "keywords": [
-    
+    "算法"
   ],
   "articleBody": "01背包 问题 有N个物品要装到一个只能承重W的背包里，每个物品重量为w[i]（weight），价值为v[i]（value），问背包能装的最大价值\n前提 每类物品只能装一个（此谓01）。\n二维解法 /*01背包二维数组解决*/ #include using namespace std; int main() { int N,W; //物品种类数,背包总能承受重量 cin \u003e\u003e N \u003e\u003e W; int w[N+1]; //每个物品的重量,从1开始 int v[N+1]; //每个物品的价值,从1开始 int dp[N+1][W+1]; //dp[i][j]表示考虑第i个物品,总重量为j时,能达到的最大价值 for(int i=1;i\u003c=N;i++) cin \u003e\u003e w[i] \u003e\u003e v[i]; //重量 价值 for(int i=0;i\u003c=N;i++) for(int j=0;j\u003c=W;j++) dp[i][j]=0; for(int i=1;i\u003c=N;i++) for(int j=W;j\u003e=w[i];j--) dp[i][j] = max(dp[i-1][j],dp[i-1][j-w[i]]+v[i]); //(不用第i个物品,用第i个物品) cout \u003c\u003c dp[N][W]; return 0; } 一维解法 int main() { int N,W; //物品种类数,背包总能承受重量 cin \u003e\u003e N \u003e\u003e W; int w[N+1]; //每个物品的重量,从1开始 int v[N+1]; //每个物品的价值,从1开始 int dp[W+1]; //dp[i][j]表示考虑第i个物品,总重量为j时,能达到的最大价值 for(int i=1;i\u003c=N;i++) cin \u003e\u003e w[i] \u003e\u003e v[i]; //重量 价值 for(int i=0;i\u003c=W;i++) dp[i]=0; for(int i=1;i\u003c=N;i++) for(int j=W;j\u003e=w[i];j--) dp[j] = max(dp[j],dp[j-w[i]]+v[i]); //(不用第i个物品,用第i个物品) cout \u003c\u003c dp[W]; return 0; } 示例 输入\n10 15 2 3 3 4 4 8 5 8 9 10 3 5 4 6 2 4 6 7 7 9 输出\n26 完全背包 关于我\n关于我\n",
   "wordCount" : "135",
@@ -229,6 +230,17 @@ int main()
   }
 }
 </script>
+  <link rel="stylesheet" href="https://caoxuan5211.github.io/css/extended/code-copy.css">
+  <link rel="stylesheet" href="https://caoxuan5211.github.io/css/extended/custom-fonts.css">
+
+
+  <script type="text/javascript" src="https://caoxuan5211.github.io/js/code-copy.js" defer></script>
+
+
+  <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css' integrity='sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=' crossorigin='anonymous'>
+  <script src='https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js'></script>
+
+    <script src="/js/code_copy.js"></script>
 </head>
 
 <body class="" id="top">
@@ -392,6 +404,7 @@ int main()
 
   <footer class="post-footer">
     <ul class="post-tags">
+      <li><a href="https://caoxuan5211.github.io/tags/%E7%AE%97%E6%B3%95/">算法</a></li>
     </ul>
   </footer>
 </article>

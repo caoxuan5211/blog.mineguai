@@ -2,31 +2,31 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>算法 on 怪话怪的博客</title>
-    <link>https://caoxuan5211.github.io/categories/%E7%AE%97%E6%B3%95/</link>
+    <link>http://localhost:1313/categories/%E7%AE%97%E6%B3%95/</link>
     <description>Recent content in 算法 on 怪话怪的博客</description>
     <generator>Hugo -- 0.150.0</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 06 Nov 2025 21:18:19 +0800</lastBuildDate>
-    <atom:link href="https://caoxuan5211.github.io/categories/%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/categories/%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>匈牙利指派算法</title>
-      <link>https://caoxuan5211.github.io/blog/%E5%8C%88%E7%89%99%E5%88%A9%E6%8C%87%E6%B4%BE%E7%AE%97%E6%B3%95/</link>
+      <link>http://localhost:1313/blog/%E5%8C%88%E7%89%99%E5%88%A9%E6%8C%87%E6%B4%BE%E7%AE%97%E6%B3%95/</link>
       <pubDate>Thu, 06 Nov 2025 21:18:19 +0800</pubDate>
-      <guid>https://caoxuan5211.github.io/blog/%E5%8C%88%E7%89%99%E5%88%A9%E6%8C%87%E6%B4%BE%E7%AE%97%E6%B3%95/</guid>
+      <guid>http://localhost:1313/blog/%E5%8C%88%E7%89%99%E5%88%A9%E6%8C%87%E6%B4%BE%E7%AE%97%E6%B3%95/</guid>
       <description></description>
     </item>
     <item>
       <title>KM算法</title>
-      <link>https://caoxuan5211.github.io/blog/km%E7%AE%97%E6%B3%95/</link>
+      <link>http://localhost:1313/blog/km%E7%AE%97%E6%B3%95/</link>
       <pubDate>Thu, 06 Nov 2025 20:44:08 +0800</pubDate>
-      <guid>https://caoxuan5211.github.io/blog/km%E7%AE%97%E6%B3%95/</guid>
+      <guid>http://localhost:1313/blog/km%E7%AE%97%E6%B3%95/</guid>
       <description></description>
     </item>
     <item>
       <title>匈牙利算法</title>
-      <link>https://caoxuan5211.github.io/blog/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/</link>
+      <link>http://localhost:1313/blog/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/</link>
       <pubDate>Thu, 06 Nov 2025 20:40:18 +0800</pubDate>
-      <guid>https://caoxuan5211.github.io/blog/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/</guid>
+      <guid>http://localhost:1313/blog/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/</guid>
       <description>&lt;h3 id=&#34;面向问题&#34;&gt;面向问题&lt;/h3&gt;
 &lt;p&gt;求解一个二分图中的最大匹配问题。&lt;/p&gt;
 &lt;h3 id=&#34;总体思路&#34;&gt;总体思路&lt;/h3&gt;
@@ -105,13 +105,13 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;联系&#34;&gt;联系&lt;/h3&gt;
-&lt;p&gt;再加一点步骤就可以实现&lt;a href=&#34;https://caoxuan5211.github.io/blog/%E5%8C%88%E7%89%99%E5%88%A9%E6%8C%87%E6%B4%BE%E7%AE%97%E6%B3%95/&#34;&gt;匈牙利指派算法&lt;/a&gt;问题。&lt;/p&gt;</description>
+&lt;p&gt;再加一点步骤就可以实现&lt;a href=&#34;http://localhost:1313/blog/%E5%8C%88%E7%89%99%E5%88%A9%E6%8C%87%E6%B4%BE%E7%AE%97%E6%B3%95/&#34;&gt;匈牙利指派算法&lt;/a&gt;问题。&lt;/p&gt;</description>
     </item>
     <item>
       <title>背包问题</title>
-      <link>https://caoxuan5211.github.io/blog/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/</link>
+      <link>http://localhost:1313/blog/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/</link>
       <pubDate>Wed, 05 Nov 2025 12:58:42 +0800</pubDate>
-      <guid>https://caoxuan5211.github.io/blog/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/</guid>
+      <guid>http://localhost:1313/blog/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/</guid>
       <description>&lt;h2 id=&#34;01背包&#34;&gt;01背包&lt;/h2&gt;
 &lt;h3 id=&#34;问题&#34;&gt;问题&lt;/h3&gt;
 &lt;p&gt;有&lt;strong&gt;N&lt;/strong&gt;个物品要装到一个只能承重&lt;strong&gt;W&lt;/strong&gt;的背包里，每个物品重量为&lt;strong&gt;w[i]&lt;/strong&gt;（weight），价值为&lt;strong&gt;v[i]&lt;/strong&gt;（value），问背包能装的最大价值&lt;/p&gt;
@@ -164,14 +164,14 @@
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;输出&lt;/strong&gt;&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;26
 &lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;完全背包&#34;&gt;完全背包&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&#34;https://caoxuan5211.github.io/blog/kmp/&#34; title=&#34;悬停指示（标题）&#34;&gt;关于我&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://caoxuan5211.github.io/blog/kmp/&#34; style=&#34;color:red;&#34; title = &#34;悬停指示（标题）&#34;&gt;关于我&lt;/a&gt;&lt;/p&gt;</description>
+&lt;p&gt;&lt;a href=&#34;http://localhost:1313/blog/kmp/&#34; title=&#34;悬停指示（标题）&#34;&gt;关于我&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;http://localhost:1313/blog/kmp/&#34; style=&#34;color:red;&#34; title = &#34;悬停指示（标题）&#34;&gt;关于我&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     <item>
       <title>KMP</title>
-      <link>https://caoxuan5211.github.io/blog/kmp/</link>
+      <link>http://localhost:1313/blog/kmp/</link>
       <pubDate>Thu, 25 Sep 2025 19:30:11 +0800</pubDate>
-      <guid>https://caoxuan5211.github.io/blog/kmp/</guid>
+      <guid>http://localhost:1313/blog/kmp/</guid>
       <description>&lt;p&gt;感觉&lt;code&gt;KMP&lt;/code&gt;很简单就没练过，用的时候太不熟练，写个博客熟悉熟悉。&lt;/p&gt;
 &lt;p&gt;其实主要就是两部分，一个是确定&lt;code&gt;next&lt;/code&gt;数组，一个是利用&lt;code&gt;next&lt;/code&gt;找子串，这两部分大致思路很简单，有点异曲同工。&lt;/p&gt;
 &lt;p&gt;具体细节代码中注释已经说的很清楚了，不再赘述。&lt;/p&gt;
