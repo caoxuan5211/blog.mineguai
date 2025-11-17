@@ -6,20 +6,27 @@
     <description>Recent content in Tags on 怪话怪的博客</description>
     <generator>Hugo -- 0.150.0</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 17 Nov 2025 20:13:46 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 17 Nov 2025 23:51:05 +0800</lastBuildDate>
     <atom:link href="https://caoxuan5211.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Luogu</title>
-      <link>https://caoxuan5211.github.io/tags/luogu/</link>
-      <pubDate>Mon, 17 Nov 2025 20:13:46 +0800</pubDate>
-      <guid>https://caoxuan5211.github.io/tags/luogu/</guid>
+      <title>图论</title>
+      <link>https://caoxuan5211.github.io/tags/%E5%9B%BE%E8%AE%BA/</link>
+      <pubDate>Mon, 17 Nov 2025 23:51:05 +0800</pubDate>
+      <guid>https://caoxuan5211.github.io/tags/%E5%9B%BE%E8%AE%BA/</guid>
       <description></description>
     </item>
     <item>
       <title>算法</title>
       <link>https://caoxuan5211.github.io/tags/%E7%AE%97%E6%B3%95/</link>
-      <pubDate>Mon, 17 Nov 2025 20:13:46 +0800</pubDate>
+      <pubDate>Mon, 17 Nov 2025 23:51:05 +0800</pubDate>
       <guid>https://caoxuan5211.github.io/tags/%E7%AE%97%E6%B3%95/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Luogu</title>
+      <link>https://caoxuan5211.github.io/tags/luogu/</link>
+      <pubDate>Mon, 17 Nov 2025 20:13:46 +0800</pubDate>
+      <guid>https://caoxuan5211.github.io/tags/luogu/</guid>
       <description></description>
     </item>
     <item>

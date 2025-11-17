@@ -152,6 +152,20 @@
 
 <article class="first-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">图的染色解决
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>染色问题 同染色（连接点染相同颜色） 用法 得到各个连通分量（分组）。
+代码 //卧槽代码没时间写了，和异染色大差不差。 异染色（连接点染不同颜色） 用法 得到二分图。
+代码 #include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; const int MAXN = 100; //假如最大100个结点的图 int graph[MAXN][MAXN]; int color[MAXN]; //用于确定分组,颜色为1和2 int dfs(int index,int n,int c) //仅仅用来染色出发点所在的连通分量 { //直接用对边不同色考虑 color[index]=c; for(int i=0;i&lt;n;i&#43;&#43;) if(graph[index][i] &amp;&amp; (color[i]==c || (color[i]==0 &amp;&amp; !dfs(i,n,3-c))) ) return 0; return 1; } int main() { int n,m; cin &gt;&gt; n &gt;&gt; m; for(int i=0;i&lt;m;i&#43;&#43;) { int s,t; cin &gt;&gt; s &gt;&gt; t; graph[s][t]=1,graph[t][s]=1; } for(int i=0;i&lt;n;i&#43;&#43;) { if(!color[i]) if(!dfs(i,n,1)) { cout &lt;&lt; &#34;错误，不是二分图&#34; &lt;&lt; endl; return 0; } } vector&lt;int&gt; color1,color2; for(int i=0;i&lt;n;i&#43;&#43;) { if(color[i]==1) color1.push_back(i); if(color[i]==2) color2.push_back(i); } cout &lt;&lt; &#34;染色结果:&#34; &lt;&lt; endl; for(int i=0;i&lt;color1.size();i&#43;&#43;) cout &lt;&lt; color1[i] &lt;&lt; &#39; &#39;; cout &lt;&lt; endl; for(int i=0;i&lt;color2.size();i&#43;&#43;) cout &lt;&lt; color2[i] &lt;&lt; &#39; &#39;; return 0; } </p>
+  </div>
+  <footer class="entry-footer"><span title='2025-11-17 23:51:05 +0800 CST'>November 17, 2025</span></footer>
+  <a class="entry-link" aria-label="post link to 图的染色解决" href="https://caoxuan5211.github.io/blog/%E5%9B%BE%E7%9A%84%E6%9F%93%E8%89%B2%E8%A7%A3%E5%86%B3/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">归并排序
     </h2>
   </header>
@@ -236,13 +250,12 @@
     </h2>
   </header>
   <div class="entry-content">
-    <p>前提算法 二分图染色得到L，R数组 染色后，可以用来得到最大匹配，最大匹配又可以用来得到最小点覆盖，最小点覆盖又可以用来实现匈牙利算法，匈牙利算法用可以用来解决指派问题。顺了，都理顺了:)。
+    <p>前提算法 二分图染色得到L，R数组 （以下是利用染色得到二分图的代码）
+#include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; const int MAXN = 100; //假如最大100个结点的图 int graph[MAXN][MAXN]; int color[MAXN]; //用于确定分组,颜色为1和2 int dfs(int index,int n,int c) //仅仅用来染色出发点所在的连通分量 { //直接用对边不同色考虑 color[index]=c; for(int i=0;i&lt;n;i&#43;&#43;) if(graph[index][i] &amp;&amp; (color[i]==c || (color[i]==0 &amp;&amp; !dfs(i,n,3-c))) ) return 0; return 1; } int main() { int n,m; cin &gt;&gt; n &gt;&gt; m; for(int i=0;i&lt;m;i&#43;&#43;) { int s,t; cin &gt;&gt; s &gt;&gt; t; graph[s][t]=1,graph[t][s]=1; } for(int i=0;i&lt;n;i&#43;&#43;) { if(!color[i]) if(!dfs(i,n,1)) { cout &lt;&lt; &#34;错误，不是二分图&#34; &lt;&lt; endl; return 0; } } vector&lt;int&gt; color1,color2; for(int i=0;i&lt;n;i&#43;&#43;) { if(color[i]==1) color1.push_back(i); if(color[i]==2) color2.push_back(i); } cout &lt;&lt; &#34;染色结果:&#34; &lt;&lt; endl; for(int i=0;i&lt;color1.size();i&#43;&#43;) cout &lt;&lt; color1[i] &lt;&lt; &#39; &#39;; cout &lt;&lt; endl; for(int i=0;i&lt;color2.size();i&#43;&#43;) cout &lt;&lt; color2[i] &lt;&lt; &#39; &#39;; return 0; } 染色后，可以用来得到最大匹配，最大匹配又可以用来得到最小点覆盖，最小点覆盖又可以用来实现匈牙利算法，匈牙利算法用可以用来解决指派问题。顺了，都理顺了:)。
 最大匹配 面向问题 求解一个二分图中的最大匹配问题。
 总体思路 从任意一个顶点出发，
 写代码 1. 起步：初始化所用变量与内存。
 const int MAXN : 根据题目调整 int n : 两边的顶点总数 int graph[MAXN][MAXN] : 基于二维数组的邻接矩阵 int match[MAXN] : match[i]表示与i匹配的点(因为最大匹配饱和点中每一个点都只可能与唯一点匹配)，如果为-1表示未匹配 int used[MAXN] : dfs访问标记（这个级别低于匹配标记match） 2. 深入： 了解所用函数。
-hungarian（）：匈牙利算法 dfs（）：寻找增广路径 3. 完整代码:
-#include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; const int MAXN = 20;// 根据题目调整 int n;// 两边的顶点总数 int graph[MAXN][MAXN];// 基于二维数组的邻接矩阵 int match[MAXN];// match[i]表示与i匹配的点(因为最大匹配饱和点中每一个点都只可能与唯一点匹配)，如果为-1表示未匹配 bool used[MAXN];// dfs访问标记（这个级别低于匹配标记match） bool dfs(int x) //从x出发寻找增广路径 { for(int i=0;i&lt;n;i&#43;&#43;) { if(graph[x][i] &amp;&amp; used[i]==false) //这里避免了递归i的对象时再次返回i的情况 { used[i] = true; //打上dfs访问标记,防止循环卡死 if(match[i]==-1 || dfs(match[i])==true) //i点就是未匹配点直接满足x-i加匹配 || i点是匹配过的点,从i点对象开始找到未匹配点 这两种都说明找到了增广路径 { match[i] = x; match[x] = i; return true; } } } return false; //没true即false } //匈牙利算法求最大匹配数 int hungarian() { fill(match,match&#43;n,-1); int res=0; for(int i=0;i&lt;n;i&#43;&#43;) { if(match[i]==-1) { fill(used,used&#43;n,false); //清除dfs标记 if(dfs(i)) res&#43;&#43;; } } return res; } int main() { //举个例子 n = 8; int tmp[8][8] = { {0,0,0,0,1,0,1,0}, {0,0,0,0,1,0,0,0}, {0,0,0,0,1,1,0,0}, {0,0,0,0,0,0,1,1}, {1,1,1,0,0,0,0,0}, {0,0,1,0,0,0,0,0}, {1,0,0,1,0,0,0,0}, {0,0,0,1,0,0,0,0} }; memcpy(graph, tmp, sizeof(tmp)); cout &lt;&lt; &#34;最大匹配边数量:&#34; &lt;&lt; hungarian() &lt;&lt; endl; return 0; } 联系 再加一点步骤就可以实现匈牙利指派算法问题。
 ...</p>
   </div>
   <footer class="entry-footer"><span title='2025-11-06 20:40:18 +0800 CST'>November 6, 2025</span></footer>
@@ -305,26 +318,6 @@ hungarian（）：匈牙利算法 dfs（）：寻找增广路径 3. 完整代码
   </div>
   <footer class="entry-footer"><span title='2025-10-31 22:44:56 +0800 CST'>October 31, 2025</span></footer>
   <a class="entry-link" aria-label="post link to Hugo博客配置&markdown语法" href="https://caoxuan5211.github.io/blog/hugo%E5%8D%9A%E5%AE%A2%E9%85%8D%E7%BD%AEmarkdown%E8%AF%AD%E6%B3%95/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">洛谷 P3372
-      <span class="entry-hint" title="Draft">
-        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
-          <path
-            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
-        </svg>
-      </span>
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>线段树1 用到线段树基础知识
-#include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; // 线段树我默认每个数组下标都是从1开始的 void build(const vector&lt;long long&gt;&amp; nums,vector&lt;long long&gt;&amp; d,int s,int t,int p); long long getSum(vector&lt;long long&gt;&amp; d,vector&lt;long long&gt;&amp; b,int l,int r,int s,int t,int p); void update_plus(vector&lt;long long&gt;&amp; d,vector&lt;long long&gt;&amp; b,int l,int r,int s,int t,int p,long long c); int main() { int n,m,type,l,r; long long k; cin &gt;&gt; n &gt;&gt; m; vector&lt;long long&gt; nums(n&#43;1), d(4*n&#43;1), b(4*n&#43;1, 0); // 修改这里 for(int i=1;i&lt;=n;i&#43;&#43;) cin&gt;&gt;nums[i]; build(nums,d,1,n,1); while(m--) { cin &gt;&gt; type; if(type==2) { cin &gt;&gt; l &gt;&gt; r; cout &lt;&lt; getSum(d,b,l,r,1,n,1) &lt;&lt; &#39;\n&#39;; } else if(type==1) { cin &gt;&gt; l &gt;&gt; r &gt;&gt; k; update_plus(d,b,l,r,1,n,1,k); } } return 0; } void build(const vector&lt;long long&gt;&amp; nums,vector&lt;long long&gt;&amp; d,int s,int t,int p) { if(s==t) { d[p] = nums[s]; return; } int m = s &#43; ((t-s)&gt;&gt;1); build(nums,d,s,m,2*p); build(nums,d,m&#43;1,t,2*p&#43;1); d[p] = d[2*p] &#43; d[2*p&#43;1]; } long long getSum(vector&lt;long long&gt;&amp; d,vector&lt;long long&gt;&amp; b,int l,int r,int s,int t,int p) { if(l&lt;=s &amp;&amp; t&lt;=r) { return d[p]; } int m = s &#43; ((t-s)&gt;&gt;1); long long sum=0; if (b[p] &amp;&amp; s != t) //下传懒标记 { d[p*2] &#43;= b[p]*(m-s&#43;1); d[p*2&#43;1] &#43;= b[p]*(t-m); b[p*2] &#43;= b[p]; b[p*2&#43;1] &#43;= b[p]; b[p] = 0; } if(l&lt;=m) sum &#43;= getSum(d,b,l,r,s,m,2*p); if(r&gt;m) sum &#43;= getSum(d,b,l,r,m&#43;1,t,2*p&#43;1); //等价于r&gt;=m&#43;1 return sum; } void update_plus(vector&lt;long long&gt;&amp; d,vector&lt;long long&gt;&amp; b,int l,int r,int s,int t,int p,long long c) { // 当前区间为修改区间的子集时直接修改当前节点的值,修改后标记 if (l &lt;= s &amp;&amp; t &lt;= r) { d[p] &#43;= (t - s &#43; 1) * c, b[p] &#43;= c; return; } int m = s &#43; ((t - s) &gt;&gt; 1); if (b[p] &amp;&amp; s != t) //下放标记(不会有s==t的情况因为s==t的时候肯定是lr的子区间已经直接return了) { d[p * 2] &#43;= b[p] * (m - s &#43; 1), d[p * 2 &#43; 1] &#43;= b[p] * (t - m); b[p * 2] &#43;= b[p], b[p * 2 &#43; 1] &#43;= b[p]; b[p] = 0; } if (l &lt;= m) update_plus(d, b, l, r, s, m, p * 2, c); if (r &gt; m) update_plus(d, b, l, r, m &#43; 1, t, p * 2 &#43; 1, c); d[p] = d[p * 2] &#43; d[p * 2 &#43; 1]; } 这里用了懒惰区间标记。对有些当次不需要访问但是确实有变化的区间进行了标记，如果下次访问到了标记区间，则执行修改并下放标记。
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2025-10-31 22:00:08 +0800 CST'>October 31, 2025</span></footer>
-  <a class="entry-link" aria-label="post link to 洛谷 P3372" href="https://caoxuan5211.github.io/blog/p3372/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
