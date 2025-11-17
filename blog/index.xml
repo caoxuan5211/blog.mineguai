@@ -14,7 +14,7 @@
       <pubDate>Mon, 17 Nov 2025 20:13:46 +0800</pubDate>
       <guid>https://caoxuan5211.github.io/blog/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/</guid>
       <description>&lt;h3 id=&#34;p1177-模板排序---洛谷&#34;&gt;&lt;a href=&#34;https://www.luogu.com.cn/problem/P1177&#34;&gt;P1177 【模板】排序 - 洛谷&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;我用归并排序写的。&lt;/p&gt;
+&lt;p&gt;我用归并排序写的。(时间复杂度O(nlogn),空间复杂度O(n))。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#include&amp;lt;bits/stdc++.h&amp;gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;using&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;namespace&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;std&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;

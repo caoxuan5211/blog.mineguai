@@ -6,9 +6,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>归并排序 | 怪话怪的博客</title>
-<meta name="keywords" content="算法">
+<meta name="keywords" content="算法, luogu">
 <meta name="description" content="P1177 【模板】排序 - 洛谷
-我用归并排序写的。
+我用归并排序写的。(时间复杂度O(nlogn),空间复杂度O(n))。
 #include&lt;bits/stdc&#43;&#43;.h&gt;
 using namespace std;
 
@@ -121,7 +121,7 @@ C&#43;&#43;标准库sort用的是快速排序">
 </noscript><meta property="og:url" content="https://caoxuan5211.github.io/blog/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/">
   <meta property="og:site_name" content="怪话怪的博客">
   <meta property="og:title" content="归并排序">
-  <meta property="og:description" content="P1177 【模板】排序 - 洛谷 我用归并排序写的。
+  <meta property="og:description" content="P1177 【模板】排序 - 洛谷 我用归并排序写的。(时间复杂度O(nlogn),空间复杂度O(n))。
 #include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; vector&lt;int&gt; A; //归并排序 void gbsort(int l,int r) { vector&lt;int&gt; temp; if(l==r) return; int m=((l&#43;r)&gt;&gt;1); printf(&#34;划分的区间:[%d,%d],[%d,%d]\n&#34;,l,m,m&#43;1,r); gbsort(l,m); gbsort(m&#43;1,r); int curL=l,curR=m&#43;1; //左右分为[l,m] [m&#43;1,r] for(int i=0;i&lt;r-l&#43;1;i&#43;&#43;) { if( curL&gt;m ) { temp.push_back(A[curR]); curR&#43;&#43;; } else if( curR&gt;r ) { temp.push_back(A[curL]); curL&#43;&#43;; } else if(A[curL]&gt;A[curR]) { temp.push_back(A[curR]); curR&#43;&#43;; } else if(A[curL]&lt;=A[curR]) { temp.push_back(A[curL]); curL&#43;&#43;; } } for(int i=l;i&lt;=r;i&#43;&#43;) { A[i]=temp[i-l]; } } int main() { int N; cin &gt;&gt; N; for(int i=0;i&lt;N;i&#43;&#43;) { int x; cin &gt;&gt; x; A.push_back(x); } // sort(A.begin(),A.end()); gbsort(0,N-1); for(int i=0;i&lt;N;i&#43;&#43;) { cout &lt;&lt; A[i] &lt;&lt; &#39; &#39;; } return 0; } C&#43;&#43;标准库sort用的是快速排序">
   <meta property="og:locale" content="en-us">
   <meta property="og:type" content="article">
@@ -129,10 +129,11 @@ C&#43;&#43;标准库sort用的是快速排序">
     <meta property="article:published_time" content="2025-11-17T20:13:46+08:00">
     <meta property="article:modified_time" content="2025-11-17T20:13:46+08:00">
     <meta property="article:tag" content="算法">
+    <meta property="article:tag" content="Luogu">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="归并排序">
 <meta name="twitter:description" content="P1177 【模板】排序 - 洛谷
-我用归并排序写的。
+我用归并排序写的。(时间复杂度O(nlogn),空间复杂度O(n))。
 #include&lt;bits/stdc&#43;&#43;.h&gt;
 using namespace std;
 
@@ -223,11 +224,11 @@ C&#43;&#43;标准库sort用的是快速排序">
   "@type": "BlogPosting",
   "headline": "归并排序",
   "name": "归并排序",
-  "description": "P1177 【模板】排序 - 洛谷 我用归并排序写的。\n#include\u0026lt;bits/stdc++.h\u0026gt; using namespace std; vector\u0026lt;int\u0026gt; A; //归并排序 void gbsort(int l,int r) { vector\u0026lt;int\u0026gt; temp; if(l==r) return; int m=((l+r)\u0026gt;\u0026gt;1); printf(\u0026#34;划分的区间:[%d,%d],[%d,%d]\\n\u0026#34;,l,m,m+1,r); gbsort(l,m); gbsort(m+1,r); int curL=l,curR=m+1; //左右分为[l,m] [m+1,r] for(int i=0;i\u0026lt;r-l+1;i++) { if( curL\u0026gt;m ) { temp.push_back(A[curR]); curR++; } else if( curR\u0026gt;r ) { temp.push_back(A[curL]); curL++; } else if(A[curL]\u0026gt;A[curR]) { temp.push_back(A[curR]); curR++; } else if(A[curL]\u0026lt;=A[curR]) { temp.push_back(A[curL]); curL++; } } for(int i=l;i\u0026lt;=r;i++) { A[i]=temp[i-l]; } } int main() { int N; cin \u0026gt;\u0026gt; N; for(int i=0;i\u0026lt;N;i++) { int x; cin \u0026gt;\u0026gt; x; A.push_back(x); } // sort(A.begin(),A.end()); gbsort(0,N-1); for(int i=0;i\u0026lt;N;i++) { cout \u0026lt;\u0026lt; A[i] \u0026lt;\u0026lt; \u0026#39; \u0026#39;; } return 0; } C++标准库sort用的是快速排序\n",
+  "description": "P1177 【模板】排序 - 洛谷 我用归并排序写的。(时间复杂度O(nlogn),空间复杂度O(n))。\n#include\u0026lt;bits/stdc++.h\u0026gt; using namespace std; vector\u0026lt;int\u0026gt; A; //归并排序 void gbsort(int l,int r) { vector\u0026lt;int\u0026gt; temp; if(l==r) return; int m=((l+r)\u0026gt;\u0026gt;1); printf(\u0026#34;划分的区间:[%d,%d],[%d,%d]\\n\u0026#34;,l,m,m+1,r); gbsort(l,m); gbsort(m+1,r); int curL=l,curR=m+1; //左右分为[l,m] [m+1,r] for(int i=0;i\u0026lt;r-l+1;i++) { if( curL\u0026gt;m ) { temp.push_back(A[curR]); curR++; } else if( curR\u0026gt;r ) { temp.push_back(A[curL]); curL++; } else if(A[curL]\u0026gt;A[curR]) { temp.push_back(A[curR]); curR++; } else if(A[curL]\u0026lt;=A[curR]) { temp.push_back(A[curL]); curL++; } } for(int i=l;i\u0026lt;=r;i++) { A[i]=temp[i-l]; } } int main() { int N; cin \u0026gt;\u0026gt; N; for(int i=0;i\u0026lt;N;i++) { int x; cin \u0026gt;\u0026gt; x; A.push_back(x); } // sort(A.begin(),A.end()); gbsort(0,N-1); for(int i=0;i\u0026lt;N;i++) { cout \u0026lt;\u0026lt; A[i] \u0026lt;\u0026lt; \u0026#39; \u0026#39;; } return 0; } C++标准库sort用的是快速排序\n",
   "keywords": [
-    "算法"
+    "算法", "luogu"
   ],
-  "articleBody": "P1177 【模板】排序 - 洛谷 我用归并排序写的。\n#include using namespace std; vector\u003cint\u003e A; //归并排序 void gbsort(int l,int r) { vector\u003cint\u003e temp; if(l==r) return; int m=((l+r)\u003e\u003e1); printf(\"划分的区间:[%d,%d],[%d,%d]\\n\",l,m,m+1,r); gbsort(l,m); gbsort(m+1,r); int curL=l,curR=m+1; //左右分为[l,m] [m+1,r] for(int i=0;i\u003cr-l+1;i++) { if( curL\u003em ) { temp.push_back(A[curR]); curR++; } else if( curR\u003er ) { temp.push_back(A[curL]); curL++; } else if(A[curL]\u003eA[curR]) { temp.push_back(A[curR]); curR++; } else if(A[curL]\u003c=A[curR]) { temp.push_back(A[curL]); curL++; } } for(int i=l;i\u003c=r;i++) { A[i]=temp[i-l]; } } int main() { int N; cin \u003e\u003e N; for(int i=0;i\u003cN;i++) { int x; cin \u003e\u003e x; A.push_back(x); } // sort(A.begin(),A.end()); gbsort(0,N-1); for(int i=0;i\u003cN;i++) { cout \u003c\u003c A[i] \u003c\u003c ' '; } return 0; } C++标准库sort用的是快速排序\n",
+  "articleBody": "P1177 【模板】排序 - 洛谷 我用归并排序写的。(时间复杂度O(nlogn),空间复杂度O(n))。\n#include using namespace std; vector\u003cint\u003e A; //归并排序 void gbsort(int l,int r) { vector\u003cint\u003e temp; if(l==r) return; int m=((l+r)\u003e\u003e1); printf(\"划分的区间:[%d,%d],[%d,%d]\\n\",l,m,m+1,r); gbsort(l,m); gbsort(m+1,r); int curL=l,curR=m+1; //左右分为[l,m] [m+1,r] for(int i=0;i\u003cr-l+1;i++) { if( curL\u003em ) { temp.push_back(A[curR]); curR++; } else if( curR\u003er ) { temp.push_back(A[curL]); curL++; } else if(A[curL]\u003eA[curR]) { temp.push_back(A[curR]); curR++; } else if(A[curL]\u003c=A[curR]) { temp.push_back(A[curL]); curL++; } } for(int i=l;i\u003c=r;i++) { A[i]=temp[i-l]; } } int main() { int N; cin \u003e\u003e N; for(int i=0;i\u003cN;i++) { int x; cin \u003e\u003e x; A.push_back(x); } // sort(A.begin(),A.end()); gbsort(0,N-1); for(int i=0;i\u003cN;i++) { cout \u003c\u003c A[i] \u003c\u003c ' '; } return 0; } C++标准库sort用的是快速排序\n",
   "wordCount" : "102",
   "inLanguage": "en",
   "datePublished": "2025-11-17T20:13:46+08:00",
@@ -341,7 +342,7 @@ C&#43;&#43;标准库sort用的是快速排序">
 </div>
 
   <div class="post-content"><h3 id="p1177-模板排序---洛谷"><a href="https://www.luogu.com.cn/problem/P1177">P1177 【模板】排序 - 洛谷</a><a hidden class="anchor" aria-hidden="true" href="#p1177-模板排序---洛谷">#</a></h3>
-<p>我用归并排序写的。</p>
+<p>我用归并排序写的。(时间复杂度O(nlogn),空间复杂度O(n))。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="cp">#include&lt;bits/stdc++.h&gt;
 </span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">
@@ -411,6 +412,7 @@ C&#43;&#43;标准库sort用的是快速排序">
   <footer class="post-footer">
     <ul class="post-tags">
       <li><a href="https://caoxuan5211.github.io/tags/%E7%AE%97%E6%B3%95/">算法</a></li>
+      <li><a href="https://caoxuan5211.github.io/tags/luogu/">Luogu</a></li>
     </ul>
   </footer>
 </article>
