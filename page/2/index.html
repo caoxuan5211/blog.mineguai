@@ -152,6 +152,20 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">洛谷 P1590
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>失踪的7 直接找pascal的n以内的最大值
+由于需要删除7（单位大于7就减，小于7直接用）,所以可以把十进制转换为去除7的模拟九进制。
+#include &lt;bits/stdc&#43;&#43;.h&gt; using namespace std; #define ll long long int main() { int t; cin &gt;&gt; t; while(t--) { string s; cin &gt;&gt; s; ll result = 0; for(char c : s) { int dig = c-&#39;0&#39;; if(dig &gt; 7) dig--; result = result*9 &#43; dig; } cout &lt;&lt; result &lt;&lt; &#34;\n&#34;; } return 0; } </p>
+  </div>
+  <footer class="entry-footer"><span title='2025-10-25 13:02:09 +0800 CST'>October 25, 2025</span></footer>
+  <a class="entry-link" aria-label="post link to 洛谷 P1590" href="https://caoxuan5211.github.io/blog/p1590/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">洛谷 P1393
     </h2>
   </header>
