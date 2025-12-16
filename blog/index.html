@@ -201,32 +201,6 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">Hugo博客添加代码框复制功能
-      <span class="entry-hint" title="Draft">
-        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
-          <path
-            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
-        </svg>
-      </span>
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>由于鼠标拖动复制代码有点费力，我打算给每个代码块添加一个复制按钮（学学大佬orz ）。
-经过长时间的搜索学习，我终于加上了（win）。
-话不多说。
-构建 首先，我们要清楚一点，hugo-papermod本身是不包含代码复制按钮功能的。
-所以，我们要自己写，包括写css和js，同时要修改hugo的相关配置。
-步骤 1.写css/js文件 static\css\extended\code-copy.css(注意不要写错地方了，当然放在assests/css里面也未尝不可，但是相应的要修改一些文件，本人懒得搞了=-=)
-.highlight-copy-btn { position: absolute; top: 7px; right: 7px; border: 0; border-radius: 4px; width: 28px; /* 固定按钮大小 */ height: 28px; background-color: #777; color: #fff; display: flex; /* flex 布局 */ align-items: center; /* 垂直居中 */ justify-content: center; /* 水平居中 */ cursor: pointer; padding: 0; /* 去掉多余 padding */ } .highlight-copy-btn:hover { background-color: #666; } /* 控制 svg 图标大小 */ .highlight-copy-btn i svg { width: 16px; height: 16px; display: block; /* 避免 inline 导致偏上 */ } static\js\code-copy.js
-(function() { &#39;use strict&#39;; // 切换图标 function flashCopyMessage(el, iconName) { el.innerHTML = `&lt;i data-feather=&#34;${iconName}&#34;&gt;&lt;/i&gt;`; feather.replace(); // 更新图标 setTimeout(function() { el.innerHTML = &#39;&lt;i data-feather=&#34;copy&#34;&gt;&lt;/i&gt;&#39;; // 恢复复制图标 feather.replace(); }, 1000); } // 复制文本 async function copyText(text, btn) { try { await navigator.clipboard.writeText(text); flashCopyMessage(btn, &#39;check&#39;); // 成功图标 } catch (e) { flashCopyMessage(btn, &#39;x&#39;); // 失败图标 } } // 为每个代码块添加按钮 function addCopyButton(containerEl) { var copyBtn = document.createElement(&#34;button&#34;); copyBtn.className = &#34;highlight-copy-btn&#34;; copyBtn.innerHTML = &#39;&lt;i data-feather=&#34;copy&#34;&gt;&lt;/i&gt;&#39;; var codeEl = containerEl.querySelector(&#34;pre code&#34;); if (!codeEl) return; copyBtn.addEventListener(&#39;click&#39;, function() { copyText(codeEl.innerText, copyBtn); }); containerEl.style.position = &#34;relative&#34;; containerEl.appendChild(copyBtn); feather.replace(); // 初始化图标 } // 初始化所有高亮块 function init() { var highlightBlocks = document.getElementsByClassName(&#39;highlight&#39;); Array.prototype.forEach.call(highlightBlocks, addCopyButton); } document.addEventListener(&#34;DOMContentLoaded&#34;, init); })(); 2.修改配置文件 1. 把themes\PaperMod\layouts\partials\head.html拷贝一份到layouts\partials\head.html然后修改后者（模板覆盖规则）：
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2025-11-07 19:35:23 +0800 CST'>November 7, 2025</span></footer>
-  <a class="entry-link" aria-label="post link to Hugo博客添加代码框复制功能" href="https://caoxuan5211.github.io/blog/hugo%E5%8D%9A%E5%AE%A2%E6%B7%BB%E5%8A%A0%E4%BB%A3%E7%A0%81%E6%A1%86%E5%A4%8D%E5%88%B6%E5%8A%9F%E8%83%BD/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
     <h2 class="entry-hint-parent">匈牙利算法_指派问题
     </h2>
   </header>
@@ -270,30 +244,6 @@ const int MAXN : 根据题目调整 int n : 两边的顶点总数 int graph[MAXN
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">背包问题
-      <span class="entry-hint" title="Draft">
-        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
-          <path
-            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
-        </svg>
-      </span>
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>01背包 问题 有N个物品要装到一个只能承重W的背包里，每个物品重量为w[i]（weight），价值为v[i]（value），问背包能装的最大价值
-前提 每类物品只能装一个（此谓01）。
-二维解法 /*01背包二维数组解决*/ #include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; int main() { int N,W; //物品种类数,背包总能承受重量 cin &gt;&gt; N &gt;&gt; W; int w[N&#43;1]; //每个物品的重量,从1开始 int v[N&#43;1]; //每个物品的价值,从1开始 int dp[N&#43;1][W&#43;1]; //dp[i][j]表示考虑第i个物品,总重量为j时,能达到的最大价值 for(int i=1;i&lt;=N;i&#43;&#43;) cin &gt;&gt; w[i] &gt;&gt; v[i]; //重量 价值 for(int i=0;i&lt;=N;i&#43;&#43;) for(int j=0;j&lt;=W;j&#43;&#43;) dp[i][j]=0; for(int i=1;i&lt;=N;i&#43;&#43;) for(int j=W;j&gt;=w[i];j--) dp[i][j] = max(dp[i-1][j],dp[i-1][j-w[i]]&#43;v[i]); //(不用第i个物品,用第i个物品) cout &lt;&lt; dp[N][W]; return 0; } 一维解法 int main() { int N,W; //物品种类数,背包总能承受重量 cin &gt;&gt; N &gt;&gt; W; int w[N&#43;1]; //每个物品的重量,从1开始 int v[N&#43;1]; //每个物品的价值,从1开始 int dp[W&#43;1]; //dp[i][j]表示考虑第i个物品,总重量为j时,能达到的最大价值 for(int i=1;i&lt;=N;i&#43;&#43;) cin &gt;&gt; w[i] &gt;&gt; v[i]; //重量 价值 for(int i=0;i&lt;=W;i&#43;&#43;) dp[i]=0; for(int i=1;i&lt;=N;i&#43;&#43;) for(int j=W;j&gt;=w[i];j--) dp[j] = max(dp[j],dp[j-w[i]]&#43;v[i]); //(不用第i个物品,用第i个物品) cout &lt;&lt; dp[W]; return 0; } 示例 输入
-10 15 2 3 3 4 4 8 5 8 9 10 3 5 4 6 2 4 6 7 7 9 输出
-26 完全背包 关于我
-关于我
-</p>
-  </div>
-  <footer class="entry-footer"><span title='2025-11-05 12:58:42 +0800 CST'>November 5, 2025</span></footer>
-  <a class="entry-link" aria-label="post link to 背包问题" href="https://caoxuan5211.github.io/blog/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
     <h2 class="entry-hint-parent">洛谷 P1382
     </h2>
   </header>
@@ -308,22 +258,48 @@ const int MAXN : 根据题目调整 int n : 两边的顶点总数 int graph[MAXN
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">Hugo博客配置&amp;markdown语法
-      <span class="entry-hint" title="Draft">
-        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
-          <path
-            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
-        </svg>
-      </span>
+    <h2 class="entry-hint-parent">洛谷 P1590
     </h2>
   </header>
   <div class="entry-content">
-    <p>hugo项目结构 my-blog/ ├── archetypes/ # 内容模板 ├── assets/ # 需要 Hugo Pipes 处理的资源 (SCSS, JS) ├── content/ # Markdown 内容 ├── layouts/ # 模板布局 (覆盖主题) ├── static/ # 静态文件 (图片, 字体) ├── themes/ # 主题目录 └── hugo.yaml # 核心配置文件 快速生成并推送到github网页 1.Windows系统 编辑一个deploy.ps1文件(.bat 是 cmd 的脚本，而 .ps1 是 PowerShell 的脚本)实现自动化推送比如：
-1param ( 2 [string]$msg = $(Read-Host &#34;请输入本次提交信息&#34;) 3) 4 5# 进入 Hugo 项目根目录 6cd F:\myblog 7 8# 生成 Hugo 网页（包含草稿） 9hugo -D 10 11# 进入 public/ 目录 12cd public 13 14# 添加所有修改 15git add . 16 17# 提交 18git commit -m &#34;$msg&#34; 19 20# 强制推送到 gh-pages 分支 21git push -f origin gh-pages 22 23# 返回项目根目录 24cd .. 25 26# 输出提示信息 27Write-Host &#34;&#34; 28Write-Host &#34;======================================&#34; -ForegroundColor Yellow 29Write-Host &#34;✅ 网站已成功部署！&#34; -ForegroundColor Green 30Write-Host &#34;🌐 访问地址: https://caoxuan5211.github.io/&#34; -ForegroundColor Cyan 31Write-Host &#34;======================================&#34; -ForegroundColor Yellow 生成文档间链接 1.普通文档链接 目前只用到了相对路径
-...</p>
+    <p>失踪的7 直接找pascal的n以内的最大值
+由于需要删除7（单位大于7就减，小于7直接用）,所以可以把十进制转换为去除7的模拟九进制。
+#include &lt;bits/stdc&#43;&#43;.h&gt; using namespace std; #define ll long long int main() { int t; cin &gt;&gt; t; while(t--) { string s; cin &gt;&gt; s; ll result = 0; for(char c : s) { int dig = c-&#39;0&#39;; if(dig &gt; 7) dig--; result = result*9 &#43; dig; } cout &lt;&lt; result &lt;&lt; &#34;\n&#34;; } return 0; } </p>
   </div>
-  <footer class="entry-footer"><span title='2025-10-31 22:44:56 +0800 CST'>October 31, 2025</span></footer>
-  <a class="entry-link" aria-label="post link to Hugo博客配置&markdown语法" href="https://caoxuan5211.github.io/blog/hugo%E5%8D%9A%E5%AE%A2%E9%85%8D%E7%BD%AEmarkdown%E8%AF%AD%E6%B3%95/"></a>
+  <footer class="entry-footer"><span title='2025-10-25 13:02:09 +0800 CST'>October 25, 2025</span></footer>
+  <a class="entry-link" aria-label="post link to 洛谷 P1590" href="https://caoxuan5211.github.io/blog/p1590/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">洛谷 P1393
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Mivik 不会做
+观摩题解后的感触 求概率取余时候除以的分母可以用模逆元转换为乘。
+还有就是KMP中的next数组可以转换为n个等差数列（顺序排列，不交叉）。也就是字符串边界理论（Border Theory）
+题解里面FjswYuzu写的还可以,有时间学学。
+题解(ctrl&#43;c/v) #include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; typedef long long LL; char buf[1&lt;&lt;18],*p1=buf,*p2=buf; #define getchar() (p1==p2 &amp;&amp; (p2=(p1=buf)&#43;fread(buf,1,1&lt;&lt;18,stdin),p1==p2)?EOF:*p1&#43;&#43;) int read() { int x=0; char c=getchar(); while(c&lt;&#39;0&#39; || c&gt;&#39;9&#39;)	c=getchar(); while(c&gt;=&#39;0&#39; &amp;&amp; c&lt;=&#39;9&#39;)	x=(x&lt;&lt;1)&#43;(x&lt;&lt;3)&#43;(c^&#39;0&#39;),c=getchar(); return x; } void write(int x) { if(x&gt;9)	write(x/10); putchar(x%10&#43;&#39;0&#39;); } const int MOD=998244353; inline int Add(int x,int y){return x&#43;y&gt;=MOD?x&#43;y-MOD:x&#43;y;} inline int Sub(int x,int y){return x&lt;y?x-y&#43;MOD:x-y;} inline int Mul(int x,int y){return 1ll*x*y%MOD;} int QuickPow(int x,int p) { int ans=1,base=x; while(p) { if(p&amp;1)	ans=Mul(ans,base); base=Mul(base,base); p&gt;&gt;=1; } return ans; } int n,m,k; int s[100005],nxt[100005]; struct BorderSeq{ int l,r,d; BorderSeq(){} BorderSeq(int L,int R,int D){l=L,r=R,d=D;} }brd[200005]; int cnt,dp[200005],sum[200005]; int pw[200005],ipw[200005]; void Kmp() { int j=0; for(int i=2;i&lt;=k;&#43;&#43;i) { while(j &amp;&amp; s[j&#43;1]!=s[i])	j=nxt[j]; if(s[j&#43;1]==s[i])	&#43;&#43;j; nxt[i]=j; } int now=nxt[k],d=k-nxt[k],fir=nxt[k]; while(now) { if(d!=now-nxt[now] || !nxt[now])	brd[&#43;&#43;cnt]=BorderSeq(now,fir,d),fir=nxt[now]; if(!nxt[now])	break; d=now-nxt[now],now=nxt[now]; } } vector&lt;int&gt; Sum[20][200005]; int pos[20][200005]; int main(){ n=read(),m=read(),k=read(); for(int i=1;i&lt;=k;&#43;&#43;i)	s[i]=read(); Kmp(); int invm=QuickPow(m,MOD-2); pw[0]=ipw[0]=1; for(int i=1;i&lt;=n;&#43;&#43;i)	pw[i]=Mul(pw[i-1],m); for(int i=1;i&lt;=n;&#43;&#43;i)	ipw[i]=Mul(ipw[i-1],invm); memset(pos,-1,sizeof pos); for(int i=k;i&lt;=n;&#43;&#43;i) { dp[i]=Sub(pw[i-k],sum[i-k]); for(int j=1;j&lt;=cnt;&#43;&#43;j) { int d=brd[j].d,l=brd[j].l,r=brd[j].r; int idx=(l&#43;i-k)%d; if(!Sum[j][idx].empty()) { int L=l&#43;i-k,R=r&#43;i-k; if(~pos[j][R])	dp[i]=Sub(dp[i],Sum[j][idx][pos[j][R]]); if(pos[j][L]&gt;0)	dp[i]=Add(dp[i],Sum[j][idx][pos[j][L]-1]); } } for(int j=1;j&lt;=cnt;&#43;&#43;j) { int d=brd[j].d; int idx=i%d; pos[j][i]=int(Sum[j][idx].size()); Sum[j][idx].push_back(Add(Sum[j][idx].empty()?0:Sum[j][idx].back(),dp[i])); } sum[i]=Add(Mul(sum[i-1],m),dp[i]); } int ans=0; for(int i=k;i&lt;=n;&#43;&#43;i)	ans=Add(ans,Mul(dp[i],pw[n-i])); write(Mul(ans,ipw[n])); return 0; } </p>
+  </div>
+  <footer class="entry-footer"><span title='2025-10-05 00:00:50 +0800 CST'>October 5, 2025</span></footer>
+  <a class="entry-link" aria-label="post link to 洛谷 P1393" href="https://caoxuan5211.github.io/blog/p1393/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">hugo的github网页css显示失败问题
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>打开网页后出现异常
+当时github_pages生成的网页的css加载异常，F12用浏览器控制台看了之后发现是SRI不匹配问题。
+后来找到了这篇博客:hugo发布css无法加载问题 | Le blog de Lz0o0
+得以解决。
+</p>
+  </div>
+  <footer class="entry-footer"><span title='2025-10-04 18:52:26 +0800 CST'>October 4, 2025</span></footer>
+  <a class="entry-link" aria-label="post link to hugo的github网页css显示失败问题" href="https://caoxuan5211.github.io/blog/wrong/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
