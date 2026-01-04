@@ -6,8 +6,20 @@
     <description>Recent content in Blogs on 怪话怪的博客</description>
     <generator>Hugo -- 0.150.0</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 16 Dec 2025 16:17:18 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 04 Jan 2026 20:52:40 +0800</lastBuildDate>
     <atom:link href="https://caoxuan5211.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Learn Process</title>
+      <link>https://caoxuan5211.github.io/blog/learn-process/</link>
+      <pubDate>Sun, 04 Jan 2026 20:52:40 +0800</pubDate>
+      <guid>https://caoxuan5211.github.io/blog/learn-process/</guid>
+      <description>&lt;h1 id=&#34;图论&#34;&gt;图论&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;最大流&lt;/li&gt;
+&lt;li&gt;最短路径&lt;/li&gt;
+&lt;li&gt;最小生成树&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
     <item>
       <title>Cpp常用结构</title>
       <link>https://caoxuan5211.github.io/blog/cpp%E5%B8%B8%E7%94%A8%E7%BB%93%E6%9E%84/</link>

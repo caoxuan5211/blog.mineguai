@@ -157,6 +157,18 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">Learn Process
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>图论 最大流 最短路径 最小生成树 </p>
+  </div>
+  <footer class="entry-footer"><span title='2026-01-04 20:52:40 +0800 CST'>January 4, 2026</span></footer>
+  <a class="entry-link" aria-label="post link to Learn Process" href="https://caoxuan5211.github.io/blog/learn-process/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">Cpp常用结构
     </h2>
   </header>
@@ -299,30 +311,6 @@ const int MAXN : 根据题目调整 int n : 两边的顶点总数 int graph[MAXN
   </div>
   <footer class="entry-footer"><span title='2025-11-06 20:40:18 +0800 CST'>November 6, 2025</span></footer>
   <a class="entry-link" aria-label="post link to 匈牙利算法" href="https://caoxuan5211.github.io/blog/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">背包问题
-      <span class="entry-hint" title="Draft">
-        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
-          <path
-            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
-        </svg>
-      </span>
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>01背包 问题 有N个物品要装到一个只能承重W的背包里，每个物品重量为w[i]（weight），价值为v[i]（value），问背包能装的最大价值
-前提 每类物品只能装一个（此谓01）。
-二维解法 /*01背包二维数组解决*/ #include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; int main() { int N,W; //物品种类数,背包总能承受重量 cin &gt;&gt; N &gt;&gt; W; int w[N&#43;1]; //每个物品的重量,从1开始 int v[N&#43;1]; //每个物品的价值,从1开始 int dp[N&#43;1][W&#43;1]; //dp[i][j]表示考虑第i个物品,总重量为j时,能达到的最大价值 for(int i=1;i&lt;=N;i&#43;&#43;) cin &gt;&gt; w[i] &gt;&gt; v[i]; //重量 价值 for(int i=0;i&lt;=N;i&#43;&#43;) for(int j=0;j&lt;=W;j&#43;&#43;) dp[i][j]=0; for(int i=1;i&lt;=N;i&#43;&#43;) for(int j=W;j&gt;=w[i];j--) dp[i][j] = max(dp[i-1][j],dp[i-1][j-w[i]]&#43;v[i]); //(不用第i个物品,用第i个物品) cout &lt;&lt; dp[N][W]; return 0; } 一维解法 int main() { int N,W; //物品种类数,背包总能承受重量 cin &gt;&gt; N &gt;&gt; W; int w[N&#43;1]; //每个物品的重量,从1开始 int v[N&#43;1]; //每个物品的价值,从1开始 int dp[W&#43;1]; //dp[i][j]表示考虑第i个物品,总重量为j时,能达到的最大价值 for(int i=1;i&lt;=N;i&#43;&#43;) cin &gt;&gt; w[i] &gt;&gt; v[i]; //重量 价值 for(int i=0;i&lt;=W;i&#43;&#43;) dp[i]=0; for(int i=1;i&lt;=N;i&#43;&#43;) for(int j=W;j&gt;=w[i];j--) dp[j] = max(dp[j],dp[j-w[i]]&#43;v[i]); //(不用第i个物品,用第i个物品) cout &lt;&lt; dp[W]; return 0; } 示例 输入
-10 15 2 3 3 4 4 8 5 8 9 10 3 5 4 6 2 4 6 7 7 9 输出
-26 完全背包 关于我
-关于我
-</p>
-  </div>
-  <footer class="entry-footer"><span title='2025-11-05 12:58:42 +0800 CST'>November 5, 2025</span></footer>
-  <a class="entry-link" aria-label="post link to 背包问题" href="https://caoxuan5211.github.io/blog/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
