@@ -152,6 +152,20 @@
 
 <article class="first-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">最大团
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>简单起见，直接用mask遍历所有情况也就是从0-2n。
+时间复杂度是O(2n·n2)
+#include &lt;bits/stdc&#43;&#43;.h&gt; using namespace std; int main() { ios::sync_with_stdio(false); cin.tie(nullptr); int n, m; cin &gt;&gt; n &gt;&gt; m; vector&lt;unsigned long long&gt; adj(n, 0); vector&lt;vector&lt;long long&gt;&gt; w(n, vector&lt;long long&gt;(n, 0)); for (int i = 0; i &lt; m; i&#43;&#43;) { int u, v; long long ww; cin &gt;&gt; u &gt;&gt; v &gt;&gt; ww; --u; --v; if (u == v) continue; adj[u] |= (1ULL &lt;&lt; v); adj[v] |= (1ULL &lt;&lt; u); w[u][v] = w[v][u] = max(w[u][v], ww); // 重边取最大，想累加就改这里 } long long bestW = LLONG_MIN; unsigned long long bestMask = 0; //最优2进制团 unsigned long long ALL = (n == 64 ? ~0ULL : ((1ULL &lt;&lt; n) - 1)); for (unsigned long long mask = 1; mask &lt;= ALL; mask&#43;&#43;) { bool ok = true; //ok标记当前mask是不是团，如果不是团继续下一个mask(也就是mask&#43;&#43;) for (int i = 0; i &lt; n; i&#43;&#43;) { if (mask &amp; (1ULL &lt;&lt; i)) //i在当前mask里面 { unsigned long long others = mask &amp; ~(1ULL &lt;&lt; i); //others是i之外的mask之内的点 if (others &amp; ~adj[i]) //如果这些i之外的mask之内的点与i之间存在没有边的情况就说明不是团,ok=false { ok = false; break; } } } if (!ok) continue; //如果不能成团直接排除这个mask long long sum = 0; for (int i = 0; i &lt; n; i&#43;&#43;) if (mask &amp; (1ULL &lt;&lt; i)) //i点在mask内 for (int j = i &#43; 1; j &lt; n; j&#43;&#43;) if (mask &amp; (1ULL &lt;&lt; j)) //j点也在musk内 sum &#43;= w[i][j]; //直接加上w[i][j]因为就算没有边权值也是0不影响结果 if (sum &gt; bestW) { bestW = sum; bestMask = mask; } //记录最大团 } cout &lt;&lt; bestW &lt;&lt; &#34;\n&#34;; bool first = true; for (int i = 0; i &lt; n; i&#43;&#43;) if (bestMask &amp; (1ULL &lt;&lt; i)) { if (!first) cout &lt;&lt; &#39; &#39;; first = false; //这两行是输出格式化的，美观 cout &lt;&lt; (i &#43; 1); //下标转换为序号 } cout &lt;&lt; &#34;\n&#34;; return 0; } </p>
+  </div>
+  <footer class="entry-footer"><span title='2026-01-09 15:52:21 +0800 CST'>January 9, 2026</span></footer>
+  <a class="entry-link" aria-label="post link to 最大团" href="https://caoxuan5211.github.io/blog/%E6%9C%80%E5%A4%A7%E5%9B%A2/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">Learn Process
     </h2>
   </header>
@@ -288,24 +302,6 @@ D:\Program Files\JiJiDown
   </div>
   <footer class="entry-footer"><span title='2025-11-06 20:44:08 +0800 CST'>November 6, 2025</span></footer>
   <a class="entry-link" aria-label="post link to KM算法" href="https://caoxuan5211.github.io/blog/km%E7%AE%97%E6%B3%95/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">匈牙利算法
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>前提算法 二分图染色得到L，R数组 （以下是利用染色得到二分图的代码）
-#include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; const int MAXN = 100; //假如最大100个结点的图 int graph[MAXN][MAXN]; int color[MAXN]; //用于确定分组,颜色为1和2 int dfs(int index,int n,int c) //仅仅用来染色出发点所在的连通分量 { //直接用对边不同色考虑 color[index]=c; for(int i=0;i&lt;n;i&#43;&#43;) if(graph[index][i] &amp;&amp; (color[i]==c || (color[i]==0 &amp;&amp; !dfs(i,n,3-c))) ) return 0; return 1; } int main() { int n,m; cin &gt;&gt; n &gt;&gt; m; for(int i=0;i&lt;m;i&#43;&#43;) { int s,t; cin &gt;&gt; s &gt;&gt; t; graph[s][t]=1,graph[t][s]=1; } for(int i=0;i&lt;n;i&#43;&#43;) { if(!color[i]) if(!dfs(i,n,1)) { cout &lt;&lt; &#34;错误，不是二分图&#34; &lt;&lt; endl; return 0; } } vector&lt;int&gt; color1,color2; for(int i=0;i&lt;n;i&#43;&#43;) { if(color[i]==1) color1.push_back(i); if(color[i]==2) color2.push_back(i); } cout &lt;&lt; &#34;染色结果:&#34; &lt;&lt; endl; for(int i=0;i&lt;color1.size();i&#43;&#43;) cout &lt;&lt; color1[i] &lt;&lt; &#39; &#39;; cout &lt;&lt; endl; for(int i=0;i&lt;color2.size();i&#43;&#43;) cout &lt;&lt; color2[i] &lt;&lt; &#39; &#39;; return 0; } 染色后，可以用来得到最大匹配，最大匹配又可以用来得到最小点覆盖，最小点覆盖又可以用来实现匈牙利算法，匈牙利算法用可以用来解决指派问题。顺了，都理顺了:)。
-最大匹配 面向问题 求解一个二分图中的最大匹配问题。
-总体思路 从任意一个顶点出发，
-写代码 1. 起步：初始化所用变量与内存。
-const int MAXN : 根据题目调整 int n : 两边的顶点总数 int graph[MAXN][MAXN] : 基于二维数组的邻接矩阵 int match[MAXN] : match[i]表示与i匹配的点(因为最大匹配饱和点中每一个点都只可能与唯一点匹配)，如果为-1表示未匹配 int used[MAXN] : dfs访问标记（这个级别低于匹配标记match） 2. 深入： 了解所用函数。
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2025-11-06 20:40:18 +0800 CST'>November 6, 2025</span></footer>
-  <a class="entry-link" aria-label="post link to 匈牙利算法" href="https://caoxuan5211.github.io/blog/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

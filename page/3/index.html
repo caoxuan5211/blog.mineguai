@@ -152,6 +152,20 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">洛谷 P3193
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>[HNOI2008] GT考试 思路 状态转移矩阵T[i][j]其实就是添加一个字符之后从状态i转移到状态j的方案数量，也就是先用kmp得到对应的T然后对于长度为N的串只需要让这个转移矩阵N次方就行了，然后Tn[0][j]就是子串最大匹配到j位的方案数，所求结果就是Tn[0][0]一直加到Tn[0][M-1](M是子串的长度)。
+算法 KMP 自动机建模 &#43; 矩阵快速幂
+主要函数以及主要流程 矩阵相乘函数 矩阵快速幂函数(利用到矩阵相乘函数和快速幂算法) kmp算法(过于基础就不介绍了) 利用next函数得到基础转移矩阵T[m][n] 对T运用幂n函数得到Tn Tn按照思路直接操作就行了 题解（借鉴了AI，自己敲的，我太强了） #include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; typedef long long ll; // 得到next函数 vector&lt;int&gt; getNext(string pattern) { int m = pattern.size(); vector&lt;int&gt; next(m,0); for(int i=1,j=0;i&lt;m;i&#43;&#43;) { while(j!=0 &amp;&amp; pattern[i] != pattern[j]) j = next[j-1]; if(pattern[j] == pattern[i]) j&#43;&#43;; next[i] = j; } return next; } // 矩阵相乘函数 vector&lt;vector&lt;int&gt;&gt; matMul(vector&lt;vector&lt;int&gt;&gt; a,vector&lt;vector&lt;int&gt;&gt; b,int K) { int m = a.size(); vector&lt;vector&lt;int&gt;&gt; res(m,vector&lt;int&gt;(m,0)); //结果 for(int i=0;i&lt;m;i&#43;&#43;) // i-k,k-j { for(int k=0;k&lt;m;k&#43;&#43;) { if(a[i][k]!=0) //剪枝减小工作量 { for(int j=0;j&lt;m;j&#43;&#43;) { res[i][j] = (res[i][j] &#43; (ll)a[i][k] * b[k][j]) % K; } } } } return res; } // 矩阵幂函数(利用快速幂算法) vector&lt;vector&lt;int&gt;&gt; matPow(vector&lt;vector&lt;int&gt;&gt; a,int p,int K) { int m = a.size(); vector&lt;vector&lt;int&gt;&gt; res(m,vector&lt;int&gt;(m,0)); //结果 for(int i=0;i&lt;m;i&#43;&#43;) res[i][i] = 1; //单位矩阵用于起步 while(p!=0) { if(p &amp; 1) res = matMul(res,a,K); a = matMul(a,a,K); p &gt;&gt;= 1; // p /= 2 } return res; } int main() { int N,M,K; // M&lt;=20 N&lt;=1e9 K&lt;=10000,所以不能暴力解 cin &gt;&gt; N &gt;&gt; M &gt;&gt; K; string pattern; // 子串（此题中指的是不该出现的子串） cin &gt;&gt; pattern; // 求 pattern 的状态转移方程T[i][j] // 因为要用到pattern的next数组，所以先求next vector&lt;int&gt; next = getNext(pattern); vector&lt;vector&lt;int&gt;&gt; T(M,vector&lt;int&gt;(M,0)); // T[M][M],表示基础转移矩阵 for(int m=0;m&lt;M;m&#43;&#43;) // m为当前匹配数量,由于不准出现匹配到完整M的，所以最大长度为M-1 { for(int digit=0;digit&lt;=9;digit&#43;&#43;) // 尝试每一个数字,从而进行状态转移 { int cur = m; // 从当前位置开始回退 while(cur!=0 &amp;&amp; (pattern[cur]-&#39;0&#39;) != digit) cur = next[cur-1]; if((pattern[cur]-&#39;0&#39;) == digit) cur&#43;&#43;; if(cur &lt; M) T[m][cur] = (T[m][cur] &#43; 1) % K; } } // 得到完整的状态转移矩阵 vector&lt;vector&lt;int&gt;&gt; Tn = matPow(T,N,K); ll result = 0; for(int i=0;i&lt;M;i&#43;&#43;) { result = (result &#43; Tn[0][i]) % K; } cout &lt;&lt; result &lt;&lt; endl; return 0; } 遇到问题 p&gt;&gt;1不会改变p的值应该是p&gt;&gt;=1 int类型乘法要注意防止溢出，一般用ll </p>
+  </div>
+  <footer class="entry-footer"><span title='2025-09-23 12:57:20 +0800 CST'>September 23, 2025</span></footer>
+  <a class="entry-link" aria-label="post link to 洛谷 P3193" href="https://caoxuan5211.github.io/blog/p3193/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">w
     </h2>
   </header>
