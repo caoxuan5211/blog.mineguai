@@ -6,8 +6,16 @@
     <description>Recent content on 怪话怪的博客</description>
     <generator>Hugo -- 0.150.0</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 09 Jan 2026 15:52:21 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 15 Feb 2026 16:01:55 +0800</lastBuildDate>
     <atom:link href="https://caoxuan5211.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Git_learn</title>
+      <link>https://caoxuan5211.github.io/blog/git_learn/</link>
+      <pubDate>Sun, 15 Feb 2026 16:01:55 +0800</pubDate>
+      <guid>https://caoxuan5211.github.io/blog/git_learn/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;查看当前仓库状态&lt;/strong&gt;：&lt;code&gt;git status&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;查看已暂存内容&lt;/strong&gt;: &lt;code&gt;git diff --cached&lt;/code&gt;&lt;/p&gt;</description>
+    </item>
     <item>
       <title>最大团</title>
       <link>https://caoxuan5211.github.io/blog/%E6%9C%80%E5%A4%A7%E5%9B%A2/</link>
