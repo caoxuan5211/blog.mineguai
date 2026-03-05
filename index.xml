@@ -6,15 +6,130 @@
     <description>Recent content on 怪话怪的博客</description>
     <generator>Hugo -- 0.150.0</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 15 Feb 2026 16:01:55 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 05 Mar 2026 23:38:17 +0800</lastBuildDate>
     <atom:link href="https://caoxuan5211.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>刷题</title>
+      <link>https://caoxuan5211.github.io/blog/%E5%88%B7%E9%A2%98/</link>
+      <pubDate>Thu, 05 Mar 2026 23:38:17 +0800</pubDate>
+      <guid>https://caoxuan5211.github.io/blog/%E5%88%B7%E9%A2%98/</guid>
+      <description>&lt;h1 id=&#34;常见类型-inf-设定竞赛常用&#34;&gt;常见类型 INF 设定（竞赛常用）&lt;/h1&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;类型&lt;/th&gt;
+          &lt;th&gt;位数&lt;/th&gt;
+          &lt;th&gt;理论最大值&lt;/th&gt;
+          &lt;th&gt;常用 INF 写法&lt;/th&gt;
+          &lt;th&gt;说明&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;int&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;32bit&lt;/td&gt;
+          &lt;td&gt;2,147,483,647&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;0x3f3f3f3f&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;最常见写法，可 &lt;code&gt;memset&lt;/code&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;int&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;32bit&lt;/td&gt;
+          &lt;td&gt;2,147,483,647&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;1e9&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;简单直观&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;long long&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;64bit&lt;/td&gt;
+          &lt;td&gt;9.22e18&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;1LL&amp;lt;&amp;lt;60&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;最常用&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;long long&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;64bit&lt;/td&gt;
+          &lt;td&gt;9.22e18&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;4e18&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;也常见&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;float&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;32bit&lt;/td&gt;
+          &lt;td&gt;~3.4e38&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;1e30f&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;防止精度问题&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;double&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;64bit&lt;/td&gt;
+          &lt;td&gt;~1.7e308&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;1e100&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;Floyd/概率DP常用&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;double&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;64bit&lt;/td&gt;
+          &lt;td&gt;~1.7e308&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;1e18&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;若数据规模较小&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h1 id=&#34;为什么-0x3f3f3f3f-特别流行&#34;&gt;为什么 &lt;code&gt;0x3f3f3f3f&lt;/code&gt; 特别流行&lt;/h1&gt;
+&lt;p&gt;原因是可以这样初始化：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;memset(dist, 0x3f, sizeof(dist));
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;结果每个字节：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;00111111
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;拼成：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;0x3f3f3f3f = 1061109567
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;足够大且安全。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>General</title>
+      <link>https://caoxuan5211.github.io/blog/general/</link>
+      <pubDate>Sun, 15 Feb 2026 17:37:45 +0800</pubDate>
+      <guid>https://caoxuan5211.github.io/blog/general/</guid>
+      <description>&lt;h2 id=&#34;什么是url&#34;&gt;什么是URL&lt;/h2&gt;
+&lt;h3 id=&#34;1-url-的全称是什么&#34;&gt;1. URL 的全称是什么？&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;全称&lt;/strong&gt;：&lt;strong&gt;U&lt;/strong&gt;niform &lt;strong&gt;R&lt;/strong&gt;esource &lt;strong&gt;L&lt;/strong&gt;ocator&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;中文翻译&lt;/strong&gt;：&lt;strong&gt;统一资源定位符&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;2-url-是什么意思&#34;&gt;2. URL 是什么意思？&lt;/h3&gt;
+&lt;p&gt;通俗地说，URL 就是互联网上的 &lt;strong&gt;“万能地址”&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;它的核心作用就是&lt;strong&gt;告诉计算机三件事&lt;/strong&gt;：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;怎么去？ (协议 Protocol)&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;http://&lt;/code&gt;：用标准的网页送货车去。&lt;/li&gt;
+&lt;li&gt;(其他的还有 &lt;code&gt;https://&lt;/code&gt; 加密车, &lt;code&gt;ftp://&lt;/code&gt; 文件传输车, 本地文件车)。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;去哪里？ (主机 Host + 端口 Port)&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;localhost&lt;/code&gt;：去本机（如果是百度就是 &lt;code&gt;www.baidu.com&lt;/code&gt;）。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;:12345&lt;/code&gt;：去这台机器的 12345 号“窗口”（不同的程序占用不同的端口，比如网页通常是 80，你的程序选了 12345）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;找什么？ (路径 Path)&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;/sse&lt;/code&gt;：找一个叫 &amp;ldquo;sse&amp;rdquo; 的资源或接口。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;</description>
+    </item>
     <item>
       <title>Git_learn</title>
       <link>https://caoxuan5211.github.io/blog/git_learn/</link>
       <pubDate>Sun, 15 Feb 2026 16:01:55 +0800</pubDate>
       <guid>https://caoxuan5211.github.io/blog/git_learn/</guid>
       <description>&lt;p&gt;&lt;strong&gt;查看当前仓库状态&lt;/strong&gt;：&lt;code&gt;git status&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;查看已暂存内容&lt;/strong&gt;: &lt;code&gt;git diff --cached&lt;/code&gt;&lt;/p&gt;</description>
+&lt;p&gt;&lt;strong&gt;查看已暂存内容&lt;/strong&gt;: &lt;code&gt;git diff --cached&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;查看分支状态&lt;/strong&gt;：&lt;code&gt;git br&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;****：``&lt;/p&gt;
+&lt;p&gt;****：``&lt;/p&gt;
+&lt;p&gt;****：``&lt;/p&gt;</description>
     </item>
     <item>
       <title>最大团</title>
