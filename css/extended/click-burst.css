@@ -22,7 +22,7 @@
 .click-burst-ring {
     width: 18px;
     height: 18px;
-    border: 2px solid rgba(255, 170, 120, 0.45);
+    border: 2px solid rgba(255, 105, 180, 0.55);
     border-radius: 999px;
     opacity: 0;
     transform: translate(-50%, -50%) scale(0.2);
