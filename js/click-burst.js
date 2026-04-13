@@ -1,10 +1,7 @@
 (function() {
   'use strict';
 
-  var FALLBACK_ICONS = ['/1.png'];
-  var SUPPORTED_ICONS = (window.mineguaiClickBurstIcons || []).length
-    ? window.mineguaiClickBurstIcons
-    : FALLBACK_ICONS;
+  var SUPPORTED_ICONS = window.mineguaiClickBurstIcons || [];
 
   function randomBetween(min, max) {
     return Math.random() * (max - min) + min;
@@ -76,6 +73,10 @@
   }
 
   function initClickBurst() {
+    if (!SUPPORTED_ICONS.length) {
+      return;
+    }
+
     document.addEventListener('pointerdown', function(event) {
       if (shouldIgnoreEvent(event)) {
         return;
