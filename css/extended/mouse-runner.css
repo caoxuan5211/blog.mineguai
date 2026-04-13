@@ -1,0 +1,44 @@
+.mouse-runner {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 56px;
+    height: 56px;
+    pointer-events: none;
+    z-index: 9998;
+    opacity: 0;
+    transform: translate(-50%, -50%);
+    transition: opacity 180ms ease;
+    will-change: transform;
+}
+
+.mouse-runner.is-ready {
+    opacity: 1;
+}
+
+.mouse-runner-frame {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+    image-rendering: pixelated;
+    transform-origin: center;
+    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.22));
+}
+
+.mouse-runner.is-facing-left .mouse-runner-frame {
+    transform: scaleX(-1);
+}
+
+@media screen and (max-width: 768px) {
+    .mouse-runner {
+        width: 46px;
+        height: 46px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mouse-runner {
+        display: none;
+    }
+}
