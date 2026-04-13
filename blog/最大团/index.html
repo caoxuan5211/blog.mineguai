@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>最大团 | 怪话怪的博客</title>
+<meta name="keywords" content="最大团">
+<meta name="description" content="简单起见，直接用mask遍历所有情况也就是从0-2n。
+时间复杂度是O(2n·n2)
+#include &lt;bits/stdc&#43;&#43;.h&gt;
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m;
+    cin &gt;&gt; n &gt;&gt; m;
+
+    vector&lt;unsigned long long&gt; adj(n, 0);
+    vector&lt;vector&lt;long long&gt;&gt; w(n, vector&lt;long long&gt;(n, 0));
+
+    for (int i = 0; i &lt; m; i&#43;&#43;) {
+        int u, v;
+        long long ww;
+        cin &gt;&gt; u &gt;&gt; v &gt;&gt; ww;
+        --u; --v;
+        if (u == v) continue;
+        adj[u] |= (1ULL &lt;&lt; v);
+        adj[v] |= (1ULL &lt;&lt; u);
+        w[u][v] = w[v][u] = max(w[u][v], ww); // 重边取最大，想累加就改这里
+    }
+
+    long long bestW = LLONG_MIN;
+    unsigned long long bestMask = 0; //最优2进制团
+
+    unsigned long long ALL = (n == 64 ? ~0ULL : ((1ULL &lt;&lt; n) - 1));
+    for (unsigned long long mask = 1; mask &lt;= ALL; mask&#43;&#43;) {
+        bool ok = true; //ok标记当前mask是不是团，如果不是团继续下一个mask(也就是mask&#43;&#43;)
+        for (int i = 0; i &lt; n; i&#43;&#43;) 
+        {
+            if (mask &amp; (1ULL &lt;&lt; i)) //i在当前mask里面
+            {
+                unsigned long long others = mask &amp; ~(1ULL &lt;&lt; i); //others是i之外的mask之内的点
+                if (others &amp; ~adj[i]) //如果这些i之外的mask之内的点与i之间存在没有边的情况就说明不是团,ok=false
+                { 
+                    ok = false;
+                    break; 
+                }
+            }
+        }
+
+        if (!ok) continue; //如果不能成团直接排除这个mask
+
+        long long sum = 0;
+        for (int i = 0; i &lt; n; i&#43;&#43;) if (mask &amp; (1ULL &lt;&lt; i)) //i点在mask内
+            for (int j = i &#43; 1; j &lt; n; j&#43;&#43;) if (mask &amp; (1ULL &lt;&lt; j)) //j点也在musk内
+                sum &#43;= w[i][j]; //直接加上w[i][j]因为就算没有边权值也是0不影响结果
+
+        if (sum &gt; bestW) {
+            bestW = sum;
+            bestMask = mask;
+        } //记录最大团
+    }
+
+    cout &lt;&lt; bestW &lt;&lt; &#34;\n&#34;;
+    bool first = true;
+    for (int i = 0; i &lt; n; i&#43;&#43;) if (bestMask &amp; (1ULL &lt;&lt; i)) {
+        if (!first) cout &lt;&lt; &#39; &#39;;
+        first = false; //这两行是输出格式化的，美观
+        cout &lt;&lt; (i &#43; 1); //下标转换为序号
+    }
+    cout &lt;&lt; &#34;\n&#34;;
+    return 0;
+}
+">
+<meta name="author" content="">
+<link rel="canonical" href="https://blog.mineguai.com/blog/%E6%9C%80%E5%A4%A7%E5%9B%A2/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://blog.mineguai.com/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://blog.mineguai.com/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://blog.mineguai.com/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://blog.mineguai.com/apple-touch-icon.png">
+<link rel="mask-icon" href="https://blog.mineguai.com/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://blog.mineguai.com/blog/%E6%9C%80%E5%A4%A7%E5%9B%A2/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:url" content="https://blog.mineguai.com/blog/%E6%9C%80%E5%A4%A7%E5%9B%A2/">
+  <meta property="og:site_name" content="怪话怪的博客">
+  <meta property="og:title" content="最大团">
+  <meta property="og:description" content="简单起见，直接用mask遍历所有情况也就是从0-2n。
+时间复杂度是O(2n·n2)
+#include &lt;bits/stdc&#43;&#43;.h&gt; using namespace std; int main() { ios::sync_with_stdio(false); cin.tie(nullptr); int n, m; cin &gt;&gt; n &gt;&gt; m; vector&lt;unsigned long long&gt; adj(n, 0); vector&lt;vector&lt;long long&gt;&gt; w(n, vector&lt;long long&gt;(n, 0)); for (int i = 0; i &lt; m; i&#43;&#43;) { int u, v; long long ww; cin &gt;&gt; u &gt;&gt; v &gt;&gt; ww; --u; --v; if (u == v) continue; adj[u] |= (1ULL &lt;&lt; v); adj[v] |= (1ULL &lt;&lt; u); w[u][v] = w[v][u] = max(w[u][v], ww); // 重边取最大，想累加就改这里 } long long bestW = LLONG_MIN; unsigned long long bestMask = 0; //最优2进制团 unsigned long long ALL = (n == 64 ? ~0ULL : ((1ULL &lt;&lt; n) - 1)); for (unsigned long long mask = 1; mask &lt;= ALL; mask&#43;&#43;) { bool ok = true; //ok标记当前mask是不是团，如果不是团继续下一个mask(也就是mask&#43;&#43;) for (int i = 0; i &lt; n; i&#43;&#43;) { if (mask &amp; (1ULL &lt;&lt; i)) //i在当前mask里面 { unsigned long long others = mask &amp; ~(1ULL &lt;&lt; i); //others是i之外的mask之内的点 if (others &amp; ~adj[i]) //如果这些i之外的mask之内的点与i之间存在没有边的情况就说明不是团,ok=false { ok = false; break; } } } if (!ok) continue; //如果不能成团直接排除这个mask long long sum = 0; for (int i = 0; i &lt; n; i&#43;&#43;) if (mask &amp; (1ULL &lt;&lt; i)) //i点在mask内 for (int j = i &#43; 1; j &lt; n; j&#43;&#43;) if (mask &amp; (1ULL &lt;&lt; j)) //j点也在musk内 sum &#43;= w[i][j]; //直接加上w[i][j]因为就算没有边权值也是0不影响结果 if (sum &gt; bestW) { bestW = sum; bestMask = mask; } //记录最大团 } cout &lt;&lt; bestW &lt;&lt; &#34;\n&#34;; bool first = true; for (int i = 0; i &lt; n; i&#43;&#43;) if (bestMask &amp; (1ULL &lt;&lt; i)) { if (!first) cout &lt;&lt; &#39; &#39;; first = false; //这两行是输出格式化的，美观 cout &lt;&lt; (i &#43; 1); //下标转换为序号 } cout &lt;&lt; &#34;\n&#34;; return 0; } ">
+  <meta property="og:locale" content="en-us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2026-01-09T15:52:21+08:00">
+    <meta property="article:modified_time" content="2026-01-09T15:52:21+08:00">
+    <meta property="article:tag" content="最大团">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="最大团">
+<meta name="twitter:description" content="简单起见，直接用mask遍历所有情况也就是从0-2n。
+时间复杂度是O(2n·n2)
+#include &lt;bits/stdc&#43;&#43;.h&gt;
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m;
+    cin &gt;&gt; n &gt;&gt; m;
+
+    vector&lt;unsigned long long&gt; adj(n, 0);
+    vector&lt;vector&lt;long long&gt;&gt; w(n, vector&lt;long long&gt;(n, 0));
+
+    for (int i = 0; i &lt; m; i&#43;&#43;) {
+        int u, v;
+        long long ww;
+        cin &gt;&gt; u &gt;&gt; v &gt;&gt; ww;
+        --u; --v;
+        if (u == v) continue;
+        adj[u] |= (1ULL &lt;&lt; v);
+        adj[v] |= (1ULL &lt;&lt; u);
+        w[u][v] = w[v][u] = max(w[u][v], ww); // 重边取最大，想累加就改这里
+    }
+
+    long long bestW = LLONG_MIN;
+    unsigned long long bestMask = 0; //最优2进制团
+
+    unsigned long long ALL = (n == 64 ? ~0ULL : ((1ULL &lt;&lt; n) - 1));
+    for (unsigned long long mask = 1; mask &lt;= ALL; mask&#43;&#43;) {
+        bool ok = true; //ok标记当前mask是不是团，如果不是团继续下一个mask(也就是mask&#43;&#43;)
+        for (int i = 0; i &lt; n; i&#43;&#43;) 
+        {
+            if (mask &amp; (1ULL &lt;&lt; i)) //i在当前mask里面
+            {
+                unsigned long long others = mask &amp; ~(1ULL &lt;&lt; i); //others是i之外的mask之内的点
+                if (others &amp; ~adj[i]) //如果这些i之外的mask之内的点与i之间存在没有边的情况就说明不是团,ok=false
+                { 
+                    ok = false;
+                    break; 
+                }
+            }
+        }
+
+        if (!ok) continue; //如果不能成团直接排除这个mask
+
+        long long sum = 0;
+        for (int i = 0; i &lt; n; i&#43;&#43;) if (mask &amp; (1ULL &lt;&lt; i)) //i点在mask内
+            for (int j = i &#43; 1; j &lt; n; j&#43;&#43;) if (mask &amp; (1ULL &lt;&lt; j)) //j点也在musk内
+                sum &#43;= w[i][j]; //直接加上w[i][j]因为就算没有边权值也是0不影响结果
+
+        if (sum &gt; bestW) {
+            bestW = sum;
+            bestMask = mask;
+        } //记录最大团
+    }
+
+    cout &lt;&lt; bestW &lt;&lt; &#34;\n&#34;;
+    bool first = true;
+    for (int i = 0; i &lt; n; i&#43;&#43;) if (bestMask &amp; (1ULL &lt;&lt; i)) {
+        if (!first) cout &lt;&lt; &#39; &#39;;
+        first = false; //这两行是输出格式化的，美观
+        cout &lt;&lt; (i &#43; 1); //下标转换为序号
+    }
+    cout &lt;&lt; &#34;\n&#34;;
+    return 0;
+}
+">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Blogs",
+      "item": "https://blog.mineguai.com/blog/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "最大团",
+      "item": "https://blog.mineguai.com/blog/%E6%9C%80%E5%A4%A7%E5%9B%A2/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "最大团",
+  "name": "最大团",
+  "description": "简单起见，直接用mask遍历所有情况也就是从0-2n。\n时间复杂度是O(2n·n2)\n#include \u0026lt;bits/stdc++.h\u0026gt; using namespace std; int main() { ios::sync_with_stdio(false); cin.tie(nullptr); int n, m; cin \u0026gt;\u0026gt; n \u0026gt;\u0026gt; m; vector\u0026lt;unsigned long long\u0026gt; adj(n, 0); vector\u0026lt;vector\u0026lt;long long\u0026gt;\u0026gt; w(n, vector\u0026lt;long long\u0026gt;(n, 0)); for (int i = 0; i \u0026lt; m; i++) { int u, v; long long ww; cin \u0026gt;\u0026gt; u \u0026gt;\u0026gt; v \u0026gt;\u0026gt; ww; --u; --v; if (u == v) continue; adj[u] |= (1ULL \u0026lt;\u0026lt; v); adj[v] |= (1ULL \u0026lt;\u0026lt; u); w[u][v] = w[v][u] = max(w[u][v], ww); // 重边取最大，想累加就改这里 } long long bestW = LLONG_MIN; unsigned long long bestMask = 0; //最优2进制团 unsigned long long ALL = (n == 64 ? ~0ULL : ((1ULL \u0026lt;\u0026lt; n) - 1)); for (unsigned long long mask = 1; mask \u0026lt;= ALL; mask++) { bool ok = true; //ok标记当前mask是不是团，如果不是团继续下一个mask(也就是mask++) for (int i = 0; i \u0026lt; n; i++) { if (mask \u0026amp; (1ULL \u0026lt;\u0026lt; i)) //i在当前mask里面 { unsigned long long others = mask \u0026amp; ~(1ULL \u0026lt;\u0026lt; i); //others是i之外的mask之内的点 if (others \u0026amp; ~adj[i]) //如果这些i之外的mask之内的点与i之间存在没有边的情况就说明不是团,ok=false { ok = false; break; } } } if (!ok) continue; //如果不能成团直接排除这个mask long long sum = 0; for (int i = 0; i \u0026lt; n; i++) if (mask \u0026amp; (1ULL \u0026lt;\u0026lt; i)) //i点在mask内 for (int j = i + 1; j \u0026lt; n; j++) if (mask \u0026amp; (1ULL \u0026lt;\u0026lt; j)) //j点也在musk内 sum += w[i][j]; //直接加上w[i][j]因为就算没有边权值也是0不影响结果 if (sum \u0026gt; bestW) { bestW = sum; bestMask = mask; } //记录最大团 } cout \u0026lt;\u0026lt; bestW \u0026lt;\u0026lt; \u0026#34;\\n\u0026#34;; bool first = true; for (int i = 0; i \u0026lt; n; i++) if (bestMask \u0026amp; (1ULL \u0026lt;\u0026lt; i)) { if (!first) cout \u0026lt;\u0026lt; \u0026#39; \u0026#39;; first = false; //这两行是输出格式化的，美观 cout \u0026lt;\u0026lt; (i + 1); //下标转换为序号 } cout \u0026lt;\u0026lt; \u0026#34;\\n\u0026#34;; return 0; } ",
+  "keywords": [
+    "最大团"
+  ],
+  "articleBody": "简单起见，直接用mask遍历所有情况也就是从0-2n。\n时间复杂度是O(2n·n2)\n#include using namespace std; int main() { ios::sync_with_stdio(false); cin.tie(nullptr); int n, m; cin \u003e\u003e n \u003e\u003e m; vector\u003cunsigned long long\u003e adj(n, 0); vector\u003cvector\u003clong long\u003e\u003e w(n, vector\u003clong long\u003e(n, 0)); for (int i = 0; i \u003c m; i++) { int u, v; long long ww; cin \u003e\u003e u \u003e\u003e v \u003e\u003e ww; --u; --v; if (u == v) continue; adj[u] |= (1ULL \u003c\u003c v); adj[v] |= (1ULL \u003c\u003c u); w[u][v] = w[v][u] = max(w[u][v], ww); // 重边取最大，想累加就改这里 } long long bestW = LLONG_MIN; unsigned long long bestMask = 0; //最优2进制团 unsigned long long ALL = (n == 64 ? ~0ULL : ((1ULL \u003c\u003c n) - 1)); for (unsigned long long mask = 1; mask \u003c= ALL; mask++) { bool ok = true; //ok标记当前mask是不是团，如果不是团继续下一个mask(也就是mask++) for (int i = 0; i \u003c n; i++) { if (mask \u0026 (1ULL \u003c\u003c i)) //i在当前mask里面 { unsigned long long others = mask \u0026 ~(1ULL \u003c\u003c i); //others是i之外的mask之内的点 if (others \u0026 ~adj[i]) //如果这些i之外的mask之内的点与i之间存在没有边的情况就说明不是团,ok=false { ok = false; break; } } } if (!ok) continue; //如果不能成团直接排除这个mask long long sum = 0; for (int i = 0; i \u003c n; i++) if (mask \u0026 (1ULL \u003c\u003c i)) //i点在mask内 for (int j = i + 1; j \u003c n; j++) if (mask \u0026 (1ULL \u003c\u003c j)) //j点也在musk内 sum += w[i][j]; //直接加上w[i][j]因为就算没有边权值也是0不影响结果 if (sum \u003e bestW) { bestW = sum; bestMask = mask; } //记录最大团 } cout \u003c\u003c bestW \u003c\u003c \"\\n\"; bool first = true; for (int i = 0; i \u003c n; i++) if (bestMask \u0026 (1ULL \u003c\u003c i)) { if (!first) cout \u003c\u003c ' '; first = false; //这两行是输出格式化的，美观 cout \u003c\u003c (i + 1); //下标转换为序号 } cout \u003c\u003c \"\\n\"; return 0; } ",
+  "wordCount" : "276",
+  "inLanguage": "en",
+  "datePublished": "2026-01-09T15:52:21+08:00",
+  "dateModified": "2026-01-09T15:52:21+08:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://blog.mineguai.com/blog/%E6%9C%80%E5%A4%A7%E5%9B%A2/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "怪话怪的博客",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://blog.mineguai.com/favicon.ico"
+    }
+  }
+}
+</script>
+  <link rel="stylesheet" href="https://blog.mineguai.com/css/extended/code-copy.css">
+  <link rel="stylesheet" href="https://blog.mineguai.com/css/extended/custom-fonts.css">
+
+
+  <script type="text/javascript" src="https://blog.mineguai.com/js/code-copy.js" defer></script>
+
+
+  <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css' integrity='sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=' crossorigin='anonymous'>
+  <script src='https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js'></script>
+
+    <script src="/js/code_copy.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://blog.mineguai.com/" accesskey="h" title="怪话怪的博客 (Alt + H)">怪话怪的博客</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="home-info-container">
+            <img src="/images/wanzi1.jpg" alt="Logo" class="home-left-logo" />
+            <div class="home-info-text">
+                <h1>怪话怪的博客</h1>
+                <p></p>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://blog.mineguai.com/search/" title="搜索">
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      最大团
+    </h1>
+    <div class="post-meta"><span title='2026-01-09 15:52:21 +0800 CST'>January 9, 2026</span>
+
+</div>
+  </header> 
+
+  <div class="post-content"><p>简单起见，直接用mask遍历所有情况也就是从0-2<sup>n</sup>。</p>
+<p>时间复杂度是O(2<sup>n</sup>·n<sup>2</sup>)</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cPP" data-lang="cPP"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;bits/stdc++.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ios</span><span class="o">::</span><span class="n">sync_with_stdio</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cin</span><span class="p">.</span><span class="n">tie</span><span class="p">(</span><span class="k">nullptr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">n</span> <span class="o">&gt;&gt;</span> <span class="n">m</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">long</span><span class="o">&gt;</span> <span class="n">adj</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">long</span> <span class="kt">long</span><span class="o">&gt;&gt;</span> <span class="n">w</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">long</span> <span class="kt">long</span><span class="o">&gt;</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">m</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">long</span> <span class="kt">long</span> <span class="n">ww</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">u</span> <span class="o">&gt;&gt;</span> <span class="n">v</span> <span class="o">&gt;&gt;</span> <span class="n">ww</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">--</span><span class="n">u</span><span class="p">;</span> <span class="o">--</span><span class="n">v</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">u</span> <span class="o">==</span> <span class="n">v</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">adj</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">|=</span> <span class="p">(</span><span class="mi">1ULL</span> <span class="o">&lt;&lt;</span> <span class="n">v</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">adj</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">|=</span> <span class="p">(</span><span class="mi">1ULL</span> <span class="o">&lt;&lt;</span> <span class="n">u</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">w</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">w</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">v</span><span class="p">],</span> <span class="n">ww</span><span class="p">);</span> <span class="c1">// 重边取最大，想累加就改这里
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kt">long</span> <span class="kt">long</span> <span class="n">bestW</span> <span class="o">=</span> <span class="n">LLONG_MIN</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">long</span> <span class="n">bestMask</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">//最优2进制团
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">long</span> <span class="n">ALL</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">64</span> <span class="o">?</span> <span class="o">~</span><span class="mi">0ULL</span> <span class="o">:</span> <span class="p">((</span><span class="mi">1ULL</span> <span class="o">&lt;&lt;</span> <span class="n">n</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">long</span> <span class="n">mask</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">mask</span> <span class="o">&lt;=</span> <span class="n">ALL</span><span class="p">;</span> <span class="n">mask</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">bool</span> <span class="n">ok</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span> <span class="c1">//ok标记当前mask是不是团，如果不是团继续下一个mask(也就是mask++)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> 
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">mask</span> <span class="o">&amp;</span> <span class="p">(</span><span class="mi">1ULL</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="p">))</span> <span class="c1">//i在当前mask里面
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">long</span> <span class="n">others</span> <span class="o">=</span> <span class="n">mask</span> <span class="o">&amp;</span> <span class="o">~</span><span class="p">(</span><span class="mi">1ULL</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="p">);</span> <span class="c1">//others是i之外的mask之内的点
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="k">if</span> <span class="p">(</span><span class="n">others</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">adj</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="c1">//如果这些i之外的mask之内的点与i之间存在没有边的情况就说明不是团,ok=false
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="p">{</span> 
+</span></span><span class="line"><span class="cl">                    <span class="n">ok</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">break</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">ok</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span> <span class="c1">//如果不能成团直接排除这个mask
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">        <span class="kt">long</span> <span class="kt">long</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="n">mask</span> <span class="o">&amp;</span> <span class="p">(</span><span class="mi">1ULL</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="p">))</span> <span class="c1">//i点在mask内
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="n">mask</span> <span class="o">&amp;</span> <span class="p">(</span><span class="mi">1ULL</span> <span class="o">&lt;&lt;</span> <span class="n">j</span><span class="p">))</span> <span class="c1">//j点也在musk内
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="n">sum</span> <span class="o">+=</span> <span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">];</span> <span class="c1">//直接加上w[i][j]因为就算没有边权值也是0不影响结果
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">sum</span> <span class="o">&gt;</span> <span class="n">bestW</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">bestW</span> <span class="o">=</span> <span class="n">sum</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">bestMask</span> <span class="o">=</span> <span class="n">mask</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span> <span class="c1">//记录最大团
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">bestW</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">bool</span> <span class="n">first</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="n">bestMask</span> <span class="o">&amp;</span> <span class="p">(</span><span class="mi">1ULL</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">first</span><span class="p">)</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39; &#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">first</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="c1">//这两行是输出格式化的，美观
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span> <span class="c1">//下标转换为序号
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://blog.mineguai.com/tags/%E6%9C%80%E5%A4%A7%E5%9B%A2/">最大团</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://blog.mineguai.com/">怪话怪的博客</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>图的染色解决 | 怪话怪的博客</title>
+<meta name="keywords" content="算法, 图论">
+<meta name="description" content="染色问题
+同染色（连接点染相同颜色）
+用法
+得到各个连通分量（分组）。
+代码
+#include&lt;bits/stdc&#43;&#43;.h&gt;
+using namespace std;
+const int MAXN = 100;
+int graph[MAXN][MAXN];
+int color[MAXN];
+int cnt; //连通分量数量
+void dfs(int index,int n,int c)
+{
+    color[index]=c;
+    for(int i=0;i&lt;n;i&#43;&#43;) if(graph[index][i]&amp;&amp;!color[i]) dfs(i,n,c);
+}
+int main()
+{
+    int n,m;
+    cin &gt;&gt; n &gt;&gt; m;
+    for(int i=0;i&lt;m;i&#43;&#43;)
+    {
+        int s,t;
+        cin &gt;&gt; s &gt;&gt; t;
+        graph[s][t]=1,graph[t][s]=1;
+    }
+    for(int i=0;i&lt;n;i&#43;&#43;)
+    {
+        if(!color[i])
+        {
+            cnt&#43;&#43;;
+            dfs(i,n,cnt);
+        }
+    }
+    vector&lt;vector&lt;int&gt;&gt; group(cnt&#43;1,vector&lt;int&gt;());
+    for(int i=0;i&lt;n;i&#43;&#43;) group[color[i]].push_back(i);
+    for(int i=1;i&lt;=cnt;i&#43;&#43;)
+    {
+        cout &lt;&lt; &#34;颜色&#34; &lt;&lt; i &lt;&lt; &#34;:&#34;;
+        for(int j=0;j&lt;group[i].size();j&#43;&#43;) cout &lt;&lt; group[i][j] &lt;&lt; &#39; &#39;;
+        cout &lt;&lt; endl;
+    }
+}
+异染色（连接点染不同颜色）
+用法
+得到二分图。
+代码
+#include&lt;bits/stdc&#43;&#43;.h&gt;
+using namespace std;
+
+const int MAXN = 100; //假如最大100个结点的图
+int graph[MAXN][MAXN];
+int color[MAXN]; //用于确定分组,颜色为1和2
+
+int dfs(int index,int n,int c) //仅仅用来染色出发点所在的连通分量
+{
+    //直接用对边不同色考虑
+    color[index]=c;
+    for(int i=0;i&lt;n;i&#43;&#43;) if(graph[index][i] &amp;&amp; (color[i]==c || (color[i]==0 &amp;&amp; !dfs(i,n,3-c))) ) return 0;
+    return 1;
+}
+
+int main()
+{
+    int n,m;
+    cin &gt;&gt; n &gt;&gt; m;
+    for(int i=0;i&lt;m;i&#43;&#43;)
+    {
+        int s,t;
+        cin &gt;&gt; s &gt;&gt; t;
+        graph[s][t]=1,graph[t][s]=1;
+    }
+    for(int i=0;i&lt;n;i&#43;&#43;)
+    {
+        if(!color[i])
+            if(!dfs(i,n,1)) 
+            {
+                cout &lt;&lt; &#34;错误，不是二分图&#34; &lt;&lt; endl;
+                return 0;
+            }
+    }
+    vector&lt;int&gt; color1,color2;
+    for(int i=0;i&lt;n;i&#43;&#43;)
+    {
+        if(color[i]==1) color1.push_back(i);
+        if(color[i]==2) color2.push_back(i);
+    }
+    cout &lt;&lt; &#34;染色结果:&#34; &lt;&lt; endl;
+    for(int i=0;i&lt;color1.size();i&#43;&#43;) cout &lt;&lt; color1[i] &lt;&lt; &#39; &#39;;
+    cout &lt;&lt; endl;
+    for(int i=0;i&lt;color2.size();i&#43;&#43;) cout &lt;&lt; color2[i] &lt;&lt; &#39; &#39;;
+
+    return 0;
+}
+注
+这两个染色问题都可以用邻接矩阵做。我用int-MAXN是因为简单:)。">
+<meta name="author" content="">
+<link rel="canonical" href="https://blog.mineguai.com/blog/%E5%9B%BE%E7%9A%84%E6%9F%93%E8%89%B2%E8%A7%A3%E5%86%B3/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://blog.mineguai.com/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://blog.mineguai.com/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://blog.mineguai.com/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://blog.mineguai.com/apple-touch-icon.png">
+<link rel="mask-icon" href="https://blog.mineguai.com/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://blog.mineguai.com/blog/%E5%9B%BE%E7%9A%84%E6%9F%93%E8%89%B2%E8%A7%A3%E5%86%B3/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:url" content="https://blog.mineguai.com/blog/%E5%9B%BE%E7%9A%84%E6%9F%93%E8%89%B2%E8%A7%A3%E5%86%B3/">
+  <meta property="og:site_name" content="怪话怪的博客">
+  <meta property="og:title" content="图的染色解决">
+  <meta property="og:description" content="染色问题 同染色（连接点染相同颜色） 用法 得到各个连通分量（分组）。
+代码 #include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; const int MAXN = 100; int graph[MAXN][MAXN]; int color[MAXN]; int cnt; //连通分量数量 void dfs(int index,int n,int c) { color[index]=c; for(int i=0;i&lt;n;i&#43;&#43;) if(graph[index][i]&amp;&amp;!color[i]) dfs(i,n,c); } int main() { int n,m; cin &gt;&gt; n &gt;&gt; m; for(int i=0;i&lt;m;i&#43;&#43;) { int s,t; cin &gt;&gt; s &gt;&gt; t; graph[s][t]=1,graph[t][s]=1; } for(int i=0;i&lt;n;i&#43;&#43;) { if(!color[i]) { cnt&#43;&#43;; dfs(i,n,cnt); } } vector&lt;vector&lt;int&gt;&gt; group(cnt&#43;1,vector&lt;int&gt;()); for(int i=0;i&lt;n;i&#43;&#43;) group[color[i]].push_back(i); for(int i=1;i&lt;=cnt;i&#43;&#43;) { cout &lt;&lt; &#34;颜色&#34; &lt;&lt; i &lt;&lt; &#34;:&#34;; for(int j=0;j&lt;group[i].size();j&#43;&#43;) cout &lt;&lt; group[i][j] &lt;&lt; &#39; &#39;; cout &lt;&lt; endl; } } 异染色（连接点染不同颜色） 用法 得到二分图。
+代码 #include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; const int MAXN = 100; //假如最大100个结点的图 int graph[MAXN][MAXN]; int color[MAXN]; //用于确定分组,颜色为1和2 int dfs(int index,int n,int c) //仅仅用来染色出发点所在的连通分量 { //直接用对边不同色考虑 color[index]=c; for(int i=0;i&lt;n;i&#43;&#43;) if(graph[index][i] &amp;&amp; (color[i]==c || (color[i]==0 &amp;&amp; !dfs(i,n,3-c))) ) return 0; return 1; } int main() { int n,m; cin &gt;&gt; n &gt;&gt; m; for(int i=0;i&lt;m;i&#43;&#43;) { int s,t; cin &gt;&gt; s &gt;&gt; t; graph[s][t]=1,graph[t][s]=1; } for(int i=0;i&lt;n;i&#43;&#43;) { if(!color[i]) if(!dfs(i,n,1)) { cout &lt;&lt; &#34;错误，不是二分图&#34; &lt;&lt; endl; return 0; } } vector&lt;int&gt; color1,color2; for(int i=0;i&lt;n;i&#43;&#43;) { if(color[i]==1) color1.push_back(i); if(color[i]==2) color2.push_back(i); } cout &lt;&lt; &#34;染色结果:&#34; &lt;&lt; endl; for(int i=0;i&lt;color1.size();i&#43;&#43;) cout &lt;&lt; color1[i] &lt;&lt; &#39; &#39;; cout &lt;&lt; endl; for(int i=0;i&lt;color2.size();i&#43;&#43;) cout &lt;&lt; color2[i] &lt;&lt; &#39; &#39;; return 0; } 注 这两个染色问题都可以用邻接矩阵做。我用int-MAXN是因为简单:)。">
+  <meta property="og:locale" content="en-us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2025-11-17T23:51:05+08:00">
+    <meta property="article:modified_time" content="2025-11-17T23:51:05+08:00">
+    <meta property="article:tag" content="算法">
+    <meta property="article:tag" content="图论">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="图的染色解决">
+<meta name="twitter:description" content="染色问题
+同染色（连接点染相同颜色）
+用法
+得到各个连通分量（分组）。
+代码
+#include&lt;bits/stdc&#43;&#43;.h&gt;
+using namespace std;
+const int MAXN = 100;
+int graph[MAXN][MAXN];
+int color[MAXN];
+int cnt; //连通分量数量
+void dfs(int index,int n,int c)
+{
+    color[index]=c;
+    for(int i=0;i&lt;n;i&#43;&#43;) if(graph[index][i]&amp;&amp;!color[i]) dfs(i,n,c);
+}
+int main()
+{
+    int n,m;
+    cin &gt;&gt; n &gt;&gt; m;
+    for(int i=0;i&lt;m;i&#43;&#43;)
+    {
+        int s,t;
+        cin &gt;&gt; s &gt;&gt; t;
+        graph[s][t]=1,graph[t][s]=1;
+    }
+    for(int i=0;i&lt;n;i&#43;&#43;)
+    {
+        if(!color[i])
+        {
+            cnt&#43;&#43;;
+            dfs(i,n,cnt);
+        }
+    }
+    vector&lt;vector&lt;int&gt;&gt; group(cnt&#43;1,vector&lt;int&gt;());
+    for(int i=0;i&lt;n;i&#43;&#43;) group[color[i]].push_back(i);
+    for(int i=1;i&lt;=cnt;i&#43;&#43;)
+    {
+        cout &lt;&lt; &#34;颜色&#34; &lt;&lt; i &lt;&lt; &#34;:&#34;;
+        for(int j=0;j&lt;group[i].size();j&#43;&#43;) cout &lt;&lt; group[i][j] &lt;&lt; &#39; &#39;;
+        cout &lt;&lt; endl;
+    }
+}
+异染色（连接点染不同颜色）
+用法
+得到二分图。
+代码
+#include&lt;bits/stdc&#43;&#43;.h&gt;
+using namespace std;
+
+const int MAXN = 100; //假如最大100个结点的图
+int graph[MAXN][MAXN];
+int color[MAXN]; //用于确定分组,颜色为1和2
+
+int dfs(int index,int n,int c) //仅仅用来染色出发点所在的连通分量
+{
+    //直接用对边不同色考虑
+    color[index]=c;
+    for(int i=0;i&lt;n;i&#43;&#43;) if(graph[index][i] &amp;&amp; (color[i]==c || (color[i]==0 &amp;&amp; !dfs(i,n,3-c))) ) return 0;
+    return 1;
+}
+
+int main()
+{
+    int n,m;
+    cin &gt;&gt; n &gt;&gt; m;
+    for(int i=0;i&lt;m;i&#43;&#43;)
+    {
+        int s,t;
+        cin &gt;&gt; s &gt;&gt; t;
+        graph[s][t]=1,graph[t][s]=1;
+    }
+    for(int i=0;i&lt;n;i&#43;&#43;)
+    {
+        if(!color[i])
+            if(!dfs(i,n,1)) 
+            {
+                cout &lt;&lt; &#34;错误，不是二分图&#34; &lt;&lt; endl;
+                return 0;
+            }
+    }
+    vector&lt;int&gt; color1,color2;
+    for(int i=0;i&lt;n;i&#43;&#43;)
+    {
+        if(color[i]==1) color1.push_back(i);
+        if(color[i]==2) color2.push_back(i);
+    }
+    cout &lt;&lt; &#34;染色结果:&#34; &lt;&lt; endl;
+    for(int i=0;i&lt;color1.size();i&#43;&#43;) cout &lt;&lt; color1[i] &lt;&lt; &#39; &#39;;
+    cout &lt;&lt; endl;
+    for(int i=0;i&lt;color2.size();i&#43;&#43;) cout &lt;&lt; color2[i] &lt;&lt; &#39; &#39;;
+
+    return 0;
+}
+注
+这两个染色问题都可以用邻接矩阵做。我用int-MAXN是因为简单:)。">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Blogs",
+      "item": "https://blog.mineguai.com/blog/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "图的染色解决",
+      "item": "https://blog.mineguai.com/blog/%E5%9B%BE%E7%9A%84%E6%9F%93%E8%89%B2%E8%A7%A3%E5%86%B3/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "图的染色解决",
+  "name": "图的染色解决",
+  "description": "染色问题 同染色（连接点染相同颜色） 用法 得到各个连通分量（分组）。\n代码 #include\u0026lt;bits/stdc++.h\u0026gt; using namespace std; const int MAXN = 100; int graph[MAXN][MAXN]; int color[MAXN]; int cnt; //连通分量数量 void dfs(int index,int n,int c) { color[index]=c; for(int i=0;i\u0026lt;n;i++) if(graph[index][i]\u0026amp;\u0026amp;!color[i]) dfs(i,n,c); } int main() { int n,m; cin \u0026gt;\u0026gt; n \u0026gt;\u0026gt; m; for(int i=0;i\u0026lt;m;i++) { int s,t; cin \u0026gt;\u0026gt; s \u0026gt;\u0026gt; t; graph[s][t]=1,graph[t][s]=1; } for(int i=0;i\u0026lt;n;i++) { if(!color[i]) { cnt++; dfs(i,n,cnt); } } vector\u0026lt;vector\u0026lt;int\u0026gt;\u0026gt; group(cnt+1,vector\u0026lt;int\u0026gt;()); for(int i=0;i\u0026lt;n;i++) group[color[i]].push_back(i); for(int i=1;i\u0026lt;=cnt;i++) { cout \u0026lt;\u0026lt; \u0026#34;颜色\u0026#34; \u0026lt;\u0026lt; i \u0026lt;\u0026lt; \u0026#34;:\u0026#34;; for(int j=0;j\u0026lt;group[i].size();j++) cout \u0026lt;\u0026lt; group[i][j] \u0026lt;\u0026lt; \u0026#39; \u0026#39;; cout \u0026lt;\u0026lt; endl; } } 异染色（连接点染不同颜色） 用法 得到二分图。\n代码 #include\u0026lt;bits/stdc++.h\u0026gt; using namespace std; const int MAXN = 100; //假如最大100个结点的图 int graph[MAXN][MAXN]; int color[MAXN]; //用于确定分组,颜色为1和2 int dfs(int index,int n,int c) //仅仅用来染色出发点所在的连通分量 { //直接用对边不同色考虑 color[index]=c; for(int i=0;i\u0026lt;n;i++) if(graph[index][i] \u0026amp;\u0026amp; (color[i]==c || (color[i]==0 \u0026amp;\u0026amp; !dfs(i,n,3-c))) ) return 0; return 1; } int main() { int n,m; cin \u0026gt;\u0026gt; n \u0026gt;\u0026gt; m; for(int i=0;i\u0026lt;m;i++) { int s,t; cin \u0026gt;\u0026gt; s \u0026gt;\u0026gt; t; graph[s][t]=1,graph[t][s]=1; } for(int i=0;i\u0026lt;n;i++) { if(!color[i]) if(!dfs(i,n,1)) { cout \u0026lt;\u0026lt; \u0026#34;错误，不是二分图\u0026#34; \u0026lt;\u0026lt; endl; return 0; } } vector\u0026lt;int\u0026gt; color1,color2; for(int i=0;i\u0026lt;n;i++) { if(color[i]==1) color1.push_back(i); if(color[i]==2) color2.push_back(i); } cout \u0026lt;\u0026lt; \u0026#34;染色结果:\u0026#34; \u0026lt;\u0026lt; endl; for(int i=0;i\u0026lt;color1.size();i++) cout \u0026lt;\u0026lt; color1[i] \u0026lt;\u0026lt; \u0026#39; \u0026#39;; cout \u0026lt;\u0026lt; endl; for(int i=0;i\u0026lt;color2.size();i++) cout \u0026lt;\u0026lt; color2[i] \u0026lt;\u0026lt; \u0026#39; \u0026#39;; return 0; } 注 这两个染色问题都可以用邻接矩阵做。我用int-MAXN是因为简单:)。\n",
+  "keywords": [
+    "算法", "图论"
+  ],
+  "articleBody": "染色问题 同染色（连接点染相同颜色） 用法 得到各个连通分量（分组）。\n代码 #include using namespace std; const int MAXN = 100; int graph[MAXN][MAXN]; int color[MAXN]; int cnt; //连通分量数量 void dfs(int index,int n,int c) { color[index]=c; for(int i=0;i\u003cn;i++) if(graph[index][i]\u0026\u0026!color[i]) dfs(i,n,c); } int main() { int n,m; cin \u003e\u003e n \u003e\u003e m; for(int i=0;i\u003cm;i++) { int s,t; cin \u003e\u003e s \u003e\u003e t; graph[s][t]=1,graph[t][s]=1; } for(int i=0;i\u003cn;i++) { if(!color[i]) { cnt++; dfs(i,n,cnt); } } vector\u003cvector\u003cint\u003e\u003e group(cnt+1,vector\u003cint\u003e()); for(int i=0;i\u003cn;i++) group[color[i]].push_back(i); for(int i=1;i\u003c=cnt;i++) { cout \u003c\u003c \"颜色\" \u003c\u003c i \u003c\u003c \":\"; for(int j=0;j\u003cgroup[i].size();j++) cout \u003c\u003c group[i][j] \u003c\u003c ' '; cout \u003c\u003c endl; } } 异染色（连接点染不同颜色） 用法 得到二分图。\n代码 #include using namespace std; const int MAXN = 100; //假如最大100个结点的图 int graph[MAXN][MAXN]; int color[MAXN]; //用于确定分组,颜色为1和2 int dfs(int index,int n,int c) //仅仅用来染色出发点所在的连通分量 { //直接用对边不同色考虑 color[index]=c; for(int i=0;i\u003cn;i++) if(graph[index][i] \u0026\u0026 (color[i]==c || (color[i]==0 \u0026\u0026 !dfs(i,n,3-c))) ) return 0; return 1; } int main() { int n,m; cin \u003e\u003e n \u003e\u003e m; for(int i=0;i\u003cm;i++) { int s,t; cin \u003e\u003e s \u003e\u003e t; graph[s][t]=1,graph[t][s]=1; } for(int i=0;i\u003cn;i++) { if(!color[i]) if(!dfs(i,n,1)) { cout \u003c\u003c \"错误，不是二分图\" \u003c\u003c endl; return 0; } } vector\u003cint\u003e color1,color2; for(int i=0;i\u003cn;i++) { if(color[i]==1) color1.push_back(i); if(color[i]==2) color2.push_back(i); } cout \u003c\u003c \"染色结果:\" \u003c\u003c endl; for(int i=0;i\u003ccolor1.size();i++) cout \u003c\u003c color1[i] \u003c\u003c ' '; cout \u003c\u003c endl; for(int i=0;i\u003ccolor2.size();i++) cout \u003c\u003c color2[i] \u003c\u003c ' '; return 0; } 注 这两个染色问题都可以用邻接矩阵做。我用int-MAXN是因为简单:)。\n",
+  "wordCount" : "211",
+  "inLanguage": "en",
+  "datePublished": "2025-11-17T23:51:05+08:00",
+  "dateModified": "2025-11-17T23:51:05+08:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://blog.mineguai.com/blog/%E5%9B%BE%E7%9A%84%E6%9F%93%E8%89%B2%E8%A7%A3%E5%86%B3/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "怪话怪的博客",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://blog.mineguai.com/favicon.ico"
+    }
+  }
+}
+</script>
+  <link rel="stylesheet" href="https://blog.mineguai.com/css/extended/code-copy.css">
+  <link rel="stylesheet" href="https://blog.mineguai.com/css/extended/custom-fonts.css">
+
+
+  <script type="text/javascript" src="https://blog.mineguai.com/js/code-copy.js" defer></script>
+
+
+  <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css' integrity='sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=' crossorigin='anonymous'>
+  <script src='https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js'></script>
+
+    <script src="/js/code_copy.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://blog.mineguai.com/" accesskey="h" title="怪话怪的博客 (Alt + H)">怪话怪的博客</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="home-info-container">
+            <img src="/images/wanzi1.jpg" alt="Logo" class="home-left-logo" />
+            <div class="home-info-text">
+                <h1>怪话怪的博客</h1>
+                <p></p>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://blog.mineguai.com/search/" title="搜索">
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      图的染色解决
+    </h1>
+    <div class="post-meta"><span title='2025-11-17 23:51:05 +0800 CST'>November 17, 2025</span>
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e6%9f%93%e8%89%b2%e9%97%ae%e9%a2%98" aria-label="染色问题">染色问题</a><ul>
+                        
+                <li>
+                    <a href="#%e5%90%8c%e6%9f%93%e8%89%b2%e8%bf%9e%e6%8e%a5%e7%82%b9%e6%9f%93%e7%9b%b8%e5%90%8c%e9%a2%9c%e8%89%b2" aria-label="同染色（连接点染相同颜色）">同染色（连接点染相同颜色）</a><ul>
+                        
+                <li>
+                    <a href="#%e7%94%a8%e6%b3%95" aria-label="用法">用法</a></li>
+                <li>
+                    <a href="#%e4%bb%a3%e7%a0%81" aria-label="代码">代码</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e5%bc%82%e6%9f%93%e8%89%b2%e8%bf%9e%e6%8e%a5%e7%82%b9%e6%9f%93%e4%b8%8d%e5%90%8c%e9%a2%9c%e8%89%b2" aria-label="异染色（连接点染不同颜色）">异染色（连接点染不同颜色）</a><ul>
+                        
+                <li>
+                    <a href="#%e7%94%a8%e6%b3%95-1" aria-label="用法">用法</a></li>
+                <li>
+                    <a href="#%e4%bb%a3%e7%a0%81-1" aria-label="代码">代码</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e6%b3%a8" aria-label="注">注</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h1 id="染色问题">染色问题<a hidden class="anchor" aria-hidden="true" href="#染色问题">#</a></h1>
+<h2 id="同染色连接点染相同颜色">同染色（连接点染相同颜色）<a hidden class="anchor" aria-hidden="true" href="#同染色连接点染相同颜色">#</a></h2>
+<h3 id="用法">用法<a hidden class="anchor" aria-hidden="true" href="#用法">#</a></h3>
+<p>得到各个连通分量（分组）。</p>
+<h3 id="代码">代码<a hidden class="anchor" aria-hidden="true" href="#代码">#</a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="cp">#include&lt;bits/stdc++.h&gt;
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">const</span> <span class="kt">int</span> <span class="n">MAXN</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">graph</span><span class="p">[</span><span class="n">MAXN</span><span class="p">][</span><span class="n">MAXN</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">color</span><span class="p">[</span><span class="n">MAXN</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">cnt</span><span class="p">;</span> <span class="c1">//连通分量数量
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">void</span> <span class="nf">dfs</span><span class="p">(</span><span class="kt">int</span> <span class="n">index</span><span class="p">,</span><span class="kt">int</span> <span class="n">n</span><span class="p">,</span><span class="kt">int</span> <span class="n">c</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">color</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">=</span><span class="n">c</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="k">if</span><span class="p">(</span><span class="n">graph</span><span class="p">[</span><span class="n">index</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">&amp;&amp;!</span><span class="n">color</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="n">dfs</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">c</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">n</span> <span class="o">&gt;&gt;</span> <span class="n">m</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">m</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">s</span><span class="p">,</span><span class="n">t</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">s</span> <span class="o">&gt;&gt;</span> <span class="n">t</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">graph</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="n">t</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">graph</span><span class="p">[</span><span class="n">t</span><span class="p">][</span><span class="n">s</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">color</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">cnt</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">dfs</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">cnt</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">group</span><span class="p">(</span><span class="n">cnt</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="n">group</span><span class="p">[</span><span class="n">color</span><span class="p">[</span><span class="n">i</span><span class="p">]].</span><span class="n">push_back</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">cnt</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;颜色&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;:&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">j</span><span class="o">&lt;</span><span class="n">group</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">size</span><span class="p">();</span><span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">group</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39; &#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="异染色连接点染不同颜色">异染色（连接点染不同颜色）<a hidden class="anchor" aria-hidden="true" href="#异染色连接点染不同颜色">#</a></h2>
+<h3 id="用法-1">用法<a hidden class="anchor" aria-hidden="true" href="#用法-1">#</a></h3>
+<p>得到二分图。</p>
+<h3 id="代码-1">代码<a hidden class="anchor" aria-hidden="true" href="#代码-1">#</a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="cp">#include&lt;bits/stdc++.h&gt;
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">const</span> <span class="kt">int</span> <span class="n">MAXN</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span> <span class="c1">//假如最大100个结点的图
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="n">graph</span><span class="p">[</span><span class="n">MAXN</span><span class="p">][</span><span class="n">MAXN</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">color</span><span class="p">[</span><span class="n">MAXN</span><span class="p">];</span> <span class="c1">//用于确定分组,颜色为1和2
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">dfs</span><span class="p">(</span><span class="kt">int</span> <span class="n">index</span><span class="p">,</span><span class="kt">int</span> <span class="n">n</span><span class="p">,</span><span class="kt">int</span> <span class="n">c</span><span class="p">)</span> <span class="c1">//仅仅用来染色出发点所在的连通分量
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//直接用对边不同色考虑
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">color</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">=</span><span class="n">c</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="k">if</span><span class="p">(</span><span class="n">graph</span><span class="p">[</span><span class="n">index</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">color</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="n">c</span> <span class="o">||</span> <span class="p">(</span><span class="n">color</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">dfs</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="mi">3</span><span class="o">-</span><span class="n">c</span><span class="p">)))</span> <span class="p">)</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">n</span> <span class="o">&gt;&gt;</span> <span class="n">m</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">m</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">s</span><span class="p">,</span><span class="n">t</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">s</span> <span class="o">&gt;&gt;</span> <span class="n">t</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">graph</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="n">t</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">graph</span><span class="p">[</span><span class="n">t</span><span class="p">][</span><span class="n">s</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">color</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">dfs</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span> 
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;错误，不是二分图&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">color1</span><span class="p">,</span><span class="n">color2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="n">color</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span> <span class="n">color1</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="n">color</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="mi">2</span><span class="p">)</span> <span class="n">color2</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;染色结果:&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">color1</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">color1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39; &#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">color2</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">color2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39; &#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="注">注<a hidden class="anchor" aria-hidden="true" href="#注">#</a></h2>
+<p>这两个染色问题都可以用邻接矩阵做。我用int-MAXN是因为简单:)。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://blog.mineguai.com/tags/%E7%AE%97%E6%B3%95/">算法</a></li>
+      <li><a href="https://blog.mineguai.com/tags/%E5%9B%BE%E8%AE%BA/">图论</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://blog.mineguai.com/">怪话怪的博客</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

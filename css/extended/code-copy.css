@@ -1,0 +1,27 @@
+.highlight-copy-btn {
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    border: 0;
+    border-radius: 4px;
+    width: 28px;           /* 固定按钮大小 */
+    height: 28px;
+    background-color: #777;
+    color: #fff;
+    display: flex;         /* flex 布局 */
+    align-items: center;   /* 垂直居中 */
+    justify-content: center; /* 水平居中 */
+    cursor: pointer;
+    padding: 0;            /* 去掉多余 padding */
+}
+
+.highlight-copy-btn:hover {
+    background-color: #666;
+}
+
+/* 控制 svg 图标大小 */
+.highlight-copy-btn i svg {
+    width: 16px;
+    height: 16px;
+    display: block;        /* 避免 inline 导致偏上 */
+}
