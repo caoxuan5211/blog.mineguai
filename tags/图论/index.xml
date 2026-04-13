@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>图论 on 怪话怪的博客</title>
-    <link>https://caoxuan5211.github.io/tags/%E5%9B%BE%E8%AE%BA/</link>
+    <link>https://blog.mineguai.com/tags/%E5%9B%BE%E8%AE%BA/</link>
     <description>Recent content in 图论 on 怪话怪的博客</description>
     <generator>Hugo -- 0.150.0</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 17 Nov 2025 23:51:05 +0800</lastBuildDate>
-    <atom:link href="https://caoxuan5211.github.io/tags/%E5%9B%BE%E8%AE%BA/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://blog.mineguai.com/tags/%E5%9B%BE%E8%AE%BA/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>图的染色解决</title>
-      <link>https://caoxuan5211.github.io/blog/%E5%9B%BE%E7%9A%84%E6%9F%93%E8%89%B2%E8%A7%A3%E5%86%B3/</link>
+      <link>https://blog.mineguai.com/blog/%E5%9B%BE%E7%9A%84%E6%9F%93%E8%89%B2%E8%A7%A3%E5%86%B3/</link>
       <pubDate>Mon, 17 Nov 2025 23:51:05 +0800</pubDate>
-      <guid>https://caoxuan5211.github.io/blog/%E5%9B%BE%E7%9A%84%E6%9F%93%E8%89%B2%E8%A7%A3%E5%86%B3/</guid>
+      <guid>https://blog.mineguai.com/blog/%E5%9B%BE%E7%9A%84%E6%9F%93%E8%89%B2%E8%A7%A3%E5%86%B3/</guid>
       <description>&lt;h1 id=&#34;染色问题&#34;&gt;染色问题&lt;/h1&gt;
 &lt;h2 id=&#34;同染色连接点染相同颜色&#34;&gt;同染色（连接点染相同颜色）&lt;/h2&gt;
 &lt;h3 id=&#34;用法&#34;&gt;用法&lt;/h3&gt;

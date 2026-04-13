@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>图论 on 怪话怪的博客</title>
-    <link>https://caoxuan5211.github.io/categories/%E5%9B%BE%E8%AE%BA/</link>
+    <link>https://blog.mineguai.com/categories/%E5%9B%BE%E8%AE%BA/</link>
     <description>Recent content in 图论 on 怪话怪的博客</description>
     <generator>Hugo -- 0.150.0</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 09 Jan 2026 15:52:21 +0800</lastBuildDate>
-    <atom:link href="https://caoxuan5211.github.io/categories/%E5%9B%BE%E8%AE%BA/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://blog.mineguai.com/categories/%E5%9B%BE%E8%AE%BA/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>最大团</title>
-      <link>https://caoxuan5211.github.io/blog/%E6%9C%80%E5%A4%A7%E5%9B%A2/</link>
+      <link>https://blog.mineguai.com/blog/%E6%9C%80%E5%A4%A7%E5%9B%A2/</link>
       <pubDate>Fri, 09 Jan 2026 15:52:21 +0800</pubDate>
-      <guid>https://caoxuan5211.github.io/blog/%E6%9C%80%E5%A4%A7%E5%9B%A2/</guid>
+      <guid>https://blog.mineguai.com/blog/%E6%9C%80%E5%A4%A7%E5%9B%A2/</guid>
       <description>&lt;p&gt;简单起见，直接用mask遍历所有情况也就是从0-2&lt;sup&gt;n&lt;/sup&gt;。&lt;/p&gt;
 &lt;p&gt;时间复杂度是O(2&lt;sup&gt;n&lt;/sup&gt;·n&lt;sup&gt;2&lt;/sup&gt;)&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-cPP&#34; data-lang=&#34;cPP&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#include&lt;/span&gt; &lt;span class=&#34;cpf&#34;&gt;&amp;lt;bits/stdc++.h&amp;gt;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;

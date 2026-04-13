@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Blogs on 怪话怪的博客</title>
-    <link>https://caoxuan5211.github.io/blog/</link>
+    <link>https://blog.mineguai.com/blog/</link>
     <description>Recent content in Blogs on 怪话怪的博客</description>
     <generator>Hugo -- 0.150.0</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 05 Mar 2026 23:38:17 +0800</lastBuildDate>
-    <atom:link href="https://caoxuan5211.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://blog.mineguai.com/blog/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>刷题</title>
-      <link>https://caoxuan5211.github.io/blog/%E5%88%B7%E9%A2%98/</link>
+      <link>https://blog.mineguai.com/blog/%E5%88%B7%E9%A2%98/</link>
       <pubDate>Thu, 05 Mar 2026 23:38:17 +0800</pubDate>
-      <guid>https://caoxuan5211.github.io/blog/%E5%88%B7%E9%A2%98/</guid>
+      <guid>https://blog.mineguai.com/blog/%E5%88%B7%E9%A2%98/</guid>
       <description>&lt;h1 id=&#34;常见类型-inf-设定竞赛常用&#34;&gt;常见类型 INF 设定（竞赛常用）&lt;/h1&gt;
 &lt;table&gt;
   &lt;thead&gt;
@@ -87,9 +87,9 @@
     </item>
     <item>
       <title>General</title>
-      <link>https://caoxuan5211.github.io/blog/general/</link>
+      <link>https://blog.mineguai.com/blog/general/</link>
       <pubDate>Sun, 15 Feb 2026 17:37:45 +0800</pubDate>
-      <guid>https://caoxuan5211.github.io/blog/general/</guid>
+      <guid>https://blog.mineguai.com/blog/general/</guid>
       <description>&lt;h2 id=&#34;什么是url&#34;&gt;什么是URL&lt;/h2&gt;
 &lt;h3 id=&#34;1-url-的全称是什么&#34;&gt;1. URL 的全称是什么？&lt;/h3&gt;
 &lt;ul&gt;
@@ -121,9 +121,9 @@
     </item>
     <item>
       <title>Git_learn</title>
-      <link>https://caoxuan5211.github.io/blog/git_learn/</link>
+      <link>https://blog.mineguai.com/blog/git_learn/</link>
       <pubDate>Sun, 15 Feb 2026 16:01:55 +0800</pubDate>
-      <guid>https://caoxuan5211.github.io/blog/git_learn/</guid>
+      <guid>https://blog.mineguai.com/blog/git_learn/</guid>
       <description>&lt;p&gt;&lt;strong&gt;查看当前仓库状态&lt;/strong&gt;：&lt;code&gt;git status&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;查看已暂存内容&lt;/strong&gt;: &lt;code&gt;git diff --cached&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;查看分支状态&lt;/strong&gt;：&lt;code&gt;git br&lt;/code&gt;&lt;/p&gt;
@@ -133,9 +133,9 @@
     </item>
     <item>
       <title>最大团</title>
-      <link>https://caoxuan5211.github.io/blog/%E6%9C%80%E5%A4%A7%E5%9B%A2/</link>
+      <link>https://blog.mineguai.com/blog/%E6%9C%80%E5%A4%A7%E5%9B%A2/</link>
       <pubDate>Fri, 09 Jan 2026 15:52:21 +0800</pubDate>
-      <guid>https://caoxuan5211.github.io/blog/%E6%9C%80%E5%A4%A7%E5%9B%A2/</guid>
+      <guid>https://blog.mineguai.com/blog/%E6%9C%80%E5%A4%A7%E5%9B%A2/</guid>
       <description>&lt;p&gt;简单起见，直接用mask遍历所有情况也就是从0-2&lt;sup&gt;n&lt;/sup&gt;。&lt;/p&gt;
 &lt;p&gt;时间复杂度是O(2&lt;sup&gt;n&lt;/sup&gt;·n&lt;sup&gt;2&lt;/sup&gt;)&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-cPP&#34; data-lang=&#34;cPP&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#include&lt;/span&gt; &lt;span class=&#34;cpf&#34;&gt;&amp;lt;bits/stdc++.h&amp;gt;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;
@@ -208,9 +208,9 @@
     </item>
     <item>
       <title>Learn Process</title>
-      <link>https://caoxuan5211.github.io/blog/learn-process/</link>
+      <link>https://blog.mineguai.com/blog/learn-process/</link>
       <pubDate>Sun, 04 Jan 2026 20:52:40 +0800</pubDate>
-      <guid>https://caoxuan5211.github.io/blog/learn-process/</guid>
+      <guid>https://blog.mineguai.com/blog/learn-process/</guid>
       <description>&lt;h1 id=&#34;图论&#34;&gt;图论&lt;/h1&gt;
 &lt;ul&gt;
 &lt;li&gt;最大流&lt;/li&gt;
@@ -220,9 +220,9 @@
     </item>
     <item>
       <title>Cpp常用结构</title>
-      <link>https://caoxuan5211.github.io/blog/cpp%E5%B8%B8%E7%94%A8%E7%BB%93%E6%9E%84/</link>
+      <link>https://blog.mineguai.com/blog/cpp%E5%B8%B8%E7%94%A8%E7%BB%93%E6%9E%84/</link>
       <pubDate>Tue, 16 Dec 2025 16:17:18 +0800</pubDate>
-      <guid>https://caoxuan5211.github.io/blog/cpp%E5%B8%B8%E7%94%A8%E7%BB%93%E6%9E%84/</guid>
+      <guid>https://blog.mineguai.com/blog/cpp%E5%B8%B8%E7%94%A8%E7%BB%93%E6%9E%84/</guid>
       <description>&lt;h2 id=&#34;1unordered_set&#34;&gt;1.unordered_set&lt;/h2&gt;
 &lt;h3 id=&#34;用处&#34;&gt;用处&lt;/h3&gt;
 &lt;p&gt;图结构常删除点边的时候可以用避免重复查找。&lt;/p&gt;
@@ -244,18 +244,18 @@
     </item>
     <item>
       <title>对电脑操作记录</title>
-      <link>https://caoxuan5211.github.io/blog/%E5%AF%B9%E7%94%B5%E8%84%91%E6%93%8D%E4%BD%9C%E8%AE%B0%E5%BD%95/</link>
+      <link>https://blog.mineguai.com/blog/%E5%AF%B9%E7%94%B5%E8%84%91%E6%93%8D%E4%BD%9C%E8%AE%B0%E5%BD%95/</link>
       <pubDate>Tue, 18 Nov 2025 15:21:20 +0800</pubDate>
-      <guid>https://caoxuan5211.github.io/blog/%E5%AF%B9%E7%94%B5%E8%84%91%E6%93%8D%E4%BD%9C%E8%AE%B0%E5%BD%95/</guid>
+      <guid>https://blog.mineguai.com/blog/%E5%AF%B9%E7%94%B5%E8%84%91%E6%93%8D%E4%BD%9C%E8%AE%B0%E5%BD%95/</guid>
       <description>&lt;p&gt;管理员身份运行cmd输入了&lt;code&gt;powercfg -h off&lt;/code&gt;(&lt;a href=&#34;https://www.bilibili.com/video/BV1Wt4y177Vu/?spm_id_from=333.337.search-card.all.click&amp;amp;vd_source=53aeb6c72e6f7efb612d0aa41f884a80&#34;&gt;【建议收藏】全网最详细C 盘清理指南！！！绝对值得收藏！！！_哔哩哔哩_bilibili&lt;/a&gt;)&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;image-20251230234934922&#34; loading=&#34;lazy&#34; src=&#34;c:\\Users\\35678\\AppData\\Roaming\\Typora\\typora-user-images\\image-20251230234934922.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;D:\Program Files\JiJiDown&lt;/p&gt;</description>
     </item>
     <item>
       <title>图的染色解决</title>
-      <link>https://caoxuan5211.github.io/blog/%E5%9B%BE%E7%9A%84%E6%9F%93%E8%89%B2%E8%A7%A3%E5%86%B3/</link>
+      <link>https://blog.mineguai.com/blog/%E5%9B%BE%E7%9A%84%E6%9F%93%E8%89%B2%E8%A7%A3%E5%86%B3/</link>
       <pubDate>Mon, 17 Nov 2025 23:51:05 +0800</pubDate>
-      <guid>https://caoxuan5211.github.io/blog/%E5%9B%BE%E7%9A%84%E6%9F%93%E8%89%B2%E8%A7%A3%E5%86%B3/</guid>
+      <guid>https://blog.mineguai.com/blog/%E5%9B%BE%E7%9A%84%E6%9F%93%E8%89%B2%E8%A7%A3%E5%86%B3/</guid>
       <description>&lt;h1 id=&#34;染色问题&#34;&gt;染色问题&lt;/h1&gt;
 &lt;h2 id=&#34;同染色连接点染相同颜色&#34;&gt;同染色（连接点染相同颜色）&lt;/h2&gt;
 &lt;h3 id=&#34;用法&#34;&gt;用法&lt;/h3&gt;
@@ -355,9 +355,9 @@
     </item>
     <item>
       <title>归并排序</title>
-      <link>https://caoxuan5211.github.io/blog/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/</link>
+      <link>https://blog.mineguai.com/blog/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/</link>
       <pubDate>Mon, 17 Nov 2025 20:13:46 +0800</pubDate>
-      <guid>https://caoxuan5211.github.io/blog/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/</guid>
+      <guid>https://blog.mineguai.com/blog/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/</guid>
       <description>&lt;h3 id=&#34;p1177-模板排序---洛谷&#34;&gt;&lt;a href=&#34;https://www.luogu.com.cn/problem/P1177&#34;&gt;P1177 【模板】排序 - 洛谷&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;我用归并排序写的。(时间复杂度O(nlogn),空间复杂度O(n))。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#include&amp;lt;bits/stdc++.h&amp;gt;
@@ -425,9 +425,9 @@
     </item>
     <item>
       <title>洛谷 P1559</title>
-      <link>https://caoxuan5211.github.io/blog/%E6%B4%9B%E8%B0%B7-p1559/</link>
+      <link>https://blog.mineguai.com/blog/%E6%B4%9B%E8%B0%B7-p1559/</link>
       <pubDate>Fri, 07 Nov 2025 21:14:44 +0800</pubDate>
-      <guid>https://caoxuan5211.github.io/blog/%E6%B4%9B%E8%B0%B7-p1559/</guid>
+      <guid>https://blog.mineguai.com/blog/%E6%B4%9B%E8%B0%B7-p1559/</guid>
       <description>&lt;h2 id=&#34;运动员最佳匹配问题&#34;&gt;&lt;a href=&#34;https://www.luogu.com.cn/problem/P1559&#34;&gt; 运动员最佳匹配问题&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;问题前面就不多说，简单模拟得到矩阵。&lt;/p&gt;
 &lt;p&gt;然后对矩阵用匈牙利得到最小匹配。&lt;/p&gt;
@@ -504,9 +504,9 @@
     </item>
     <item>
       <title>Hugo博客添加代码框复制功能</title>
-      <link>https://caoxuan5211.github.io/blog/hugo%E5%8D%9A%E5%AE%A2%E6%B7%BB%E5%8A%A0%E4%BB%A3%E7%A0%81%E6%A1%86%E5%A4%8D%E5%88%B6%E5%8A%9F%E8%83%BD/</link>
+      <link>https://blog.mineguai.com/blog/hugo%E5%8D%9A%E5%AE%A2%E6%B7%BB%E5%8A%A0%E4%BB%A3%E7%A0%81%E6%A1%86%E5%A4%8D%E5%88%B6%E5%8A%9F%E8%83%BD/</link>
       <pubDate>Fri, 07 Nov 2025 19:35:23 +0800</pubDate>
-      <guid>https://caoxuan5211.github.io/blog/hugo%E5%8D%9A%E5%AE%A2%E6%B7%BB%E5%8A%A0%E4%BB%A3%E7%A0%81%E6%A1%86%E5%A4%8D%E5%88%B6%E5%8A%9F%E8%83%BD/</guid>
+      <guid>https://blog.mineguai.com/blog/hugo%E5%8D%9A%E5%AE%A2%E6%B7%BB%E5%8A%A0%E4%BB%A3%E7%A0%81%E6%A1%86%E5%A4%8D%E5%88%B6%E5%8A%9F%E8%83%BD/</guid>
       <description>&lt;p&gt;由于鼠标拖动复制代码有点费力，我打算给每个代码块添加一个复制按钮（学学大佬orz ）。&lt;/p&gt;
 &lt;p&gt;经过长时间的搜索学习，我终于加上了（win）。&lt;/p&gt;
 &lt;p&gt;话不多说。&lt;/p&gt;
@@ -600,27 +600,27 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&#34;2修改配置文件&#34;&gt;2.修改配置文件&lt;/h3&gt;
-&lt;p&gt;&lt;strong&gt;1.&lt;/strong&gt; 把&lt;code&gt;themes\PaperMod\layouts\partials\head.html&lt;/code&gt;拷贝一份到&lt;code&gt;layouts\partials\head.html&lt;/code&gt;然后修改后者（&lt;a href=&#34;https://caoxuan5211.github.io/blog/hugo%E5%8D%9A%E5%AE%A2%E9%85%8D%E7%BD%AEmarkdown%E8%AF%AD%E6%B3%95/&#34; title=&#34;悬停指示（标题）&#34;&gt;模板覆盖规则&lt;/a&gt;）：&lt;/p&gt;</description>
+&lt;p&gt;&lt;strong&gt;1.&lt;/strong&gt; 把&lt;code&gt;themes\PaperMod\layouts\partials\head.html&lt;/code&gt;拷贝一份到&lt;code&gt;layouts\partials\head.html&lt;/code&gt;然后修改后者（&lt;a href=&#34;https://blog.mineguai.com/blog/hugo%E5%8D%9A%E5%AE%A2%E9%85%8D%E7%BD%AEmarkdown%E8%AF%AD%E6%B3%95/&#34; title=&#34;悬停指示（标题）&#34;&gt;模板覆盖规则&lt;/a&gt;）：&lt;/p&gt;</description>
     </item>
     <item>
       <title>匈牙利算法_指派问题</title>
-      <link>https://caoxuan5211.github.io/blog/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95_%E6%8C%87%E6%B4%BE%E9%97%AE%E9%A2%98/</link>
+      <link>https://blog.mineguai.com/blog/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95_%E6%8C%87%E6%B4%BE%E9%97%AE%E9%A2%98/</link>
       <pubDate>Thu, 06 Nov 2025 21:18:19 +0800</pubDate>
-      <guid>https://caoxuan5211.github.io/blog/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95_%E6%8C%87%E6%B4%BE%E9%97%AE%E9%A2%98/</guid>
-      <description>&lt;p&gt;不详解，看&lt;a href=&#34;https://caoxuan5211.github.io/blog/%E6%B4%9B%E8%B0%B7-p1559/&#34; title=&#34;悬停指示（标题）&#34;&gt;例题&lt;/a&gt;就完了。&lt;/p&gt;</description>
+      <guid>https://blog.mineguai.com/blog/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95_%E6%8C%87%E6%B4%BE%E9%97%AE%E9%A2%98/</guid>
+      <description>&lt;p&gt;不详解，看&lt;a href=&#34;https://blog.mineguai.com/blog/%E6%B4%9B%E8%B0%B7-p1559/&#34; title=&#34;悬停指示（标题）&#34;&gt;例题&lt;/a&gt;就完了。&lt;/p&gt;</description>
     </item>
     <item>
       <title>KM算法</title>
-      <link>https://caoxuan5211.github.io/blog/km%E7%AE%97%E6%B3%95/</link>
+      <link>https://blog.mineguai.com/blog/km%E7%AE%97%E6%B3%95/</link>
       <pubDate>Thu, 06 Nov 2025 20:44:08 +0800</pubDate>
-      <guid>https://caoxuan5211.github.io/blog/km%E7%AE%97%E6%B3%95/</guid>
+      <guid>https://blog.mineguai.com/blog/km%E7%AE%97%E6%B3%95/</guid>
       <description></description>
     </item>
     <item>
       <title>匈牙利算法</title>
-      <link>https://caoxuan5211.github.io/blog/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/</link>
+      <link>https://blog.mineguai.com/blog/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/</link>
       <pubDate>Thu, 06 Nov 2025 20:40:18 +0800</pubDate>
-      <guid>https://caoxuan5211.github.io/blog/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/</guid>
+      <guid>https://blog.mineguai.com/blog/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/</guid>
       <description>&lt;h1 id=&#34;前提算法&#34;&gt;前提算法&lt;/h1&gt;
 &lt;h2 id=&#34;二分图染色得到lr数组&#34;&gt;二分图染色得到L，R数组&lt;/h2&gt;
 &lt;p&gt;（以下是利用染色得到二分图的代码）&lt;/p&gt;
@@ -688,9 +688,9 @@
     </item>
     <item>
       <title>背包问题</title>
-      <link>https://caoxuan5211.github.io/blog/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/</link>
+      <link>https://blog.mineguai.com/blog/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/</link>
       <pubDate>Wed, 05 Nov 2025 12:58:42 +0800</pubDate>
-      <guid>https://caoxuan5211.github.io/blog/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/</guid>
+      <guid>https://blog.mineguai.com/blog/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/</guid>
       <description>&lt;h2 id=&#34;01背包&#34;&gt;01背包&lt;/h2&gt;
 &lt;h3 id=&#34;问题&#34;&gt;问题&lt;/h3&gt;
 &lt;p&gt;有&lt;strong&gt;N&lt;/strong&gt;个物品要装到一个只能承重&lt;strong&gt;W&lt;/strong&gt;的背包里，每个物品重量为&lt;strong&gt;w[i]&lt;/strong&gt;（weight），价值为&lt;strong&gt;v[i]&lt;/strong&gt;（value），问背包能装的最大价值&lt;/p&gt;
@@ -743,14 +743,14 @@
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;输出&lt;/strong&gt;&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;26
 &lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;完全背包&#34;&gt;完全背包&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&#34;https://caoxuan5211.github.io/blog/kmp/&#34; title=&#34;悬停指示（标题）&#34;&gt;关于我&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://caoxuan5211.github.io/blog/kmp/&#34; style=&#34;color:red;&#34; title = &#34;悬停指示（标题）&#34;&gt;关于我&lt;/a&gt;&lt;/p&gt;</description>
+&lt;p&gt;&lt;a href=&#34;https://blog.mineguai.com/blog/kmp/&#34; title=&#34;悬停指示（标题）&#34;&gt;关于我&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://blog.mineguai.com/blog/kmp/&#34; style=&#34;color:red;&#34; title = &#34;悬停指示（标题）&#34;&gt;关于我&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     <item>
       <title>洛谷 P1382</title>
-      <link>https://caoxuan5211.github.io/blog/p1382/</link>
+      <link>https://blog.mineguai.com/blog/p1382/</link>
       <pubDate>Tue, 04 Nov 2025 22:36:22 +0800</pubDate>
-      <guid>https://caoxuan5211.github.io/blog/p1382/</guid>
+      <guid>https://blog.mineguai.com/blog/p1382/</guid>
       <description>&lt;h2 id=&#34;楼房&#34;&gt;&lt;a href=&#34;https://www.luogu.com.cn/problem/P1382&#34;&gt;楼房&lt;/a&gt;&lt;/h2&gt;
 &lt;h3 id=&#34;思路&#34;&gt;思路&lt;/h3&gt;
 &lt;p&gt;属于&lt;strong&gt;扫描线&lt;/strong&gt;算法思想，通过动态维护当前高度集合，利用最大高度(&lt;strong&gt;天际线&lt;/strong&gt;)来不断动态变化，同时记录轮廓拐点，最后顺序输出。&lt;/p&gt;
@@ -824,9 +824,9 @@
     </item>
     <item>
       <title>Hugo博客配置&amp;markdown语法</title>
-      <link>https://caoxuan5211.github.io/blog/hugo%E5%8D%9A%E5%AE%A2%E9%85%8D%E7%BD%AEmarkdown%E8%AF%AD%E6%B3%95/</link>
+      <link>https://blog.mineguai.com/blog/hugo%E5%8D%9A%E5%AE%A2%E9%85%8D%E7%BD%AEmarkdown%E8%AF%AD%E6%B3%95/</link>
       <pubDate>Fri, 31 Oct 2025 22:44:56 +0800</pubDate>
-      <guid>https://caoxuan5211.github.io/blog/hugo%E5%8D%9A%E5%AE%A2%E9%85%8D%E7%BD%AEmarkdown%E8%AF%AD%E6%B3%95/</guid>
+      <guid>https://blog.mineguai.com/blog/hugo%E5%8D%9A%E5%AE%A2%E9%85%8D%E7%BD%AEmarkdown%E8%AF%AD%E6%B3%95/</guid>
       <description>&lt;h2 id=&#34;hugo项目结构&#34;&gt;hugo项目结构&lt;/h2&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;my-blog/
 ├── archetypes/         # 内容模板
@@ -876,9 +876,9 @@
     </item>
     <item>
       <title>洛谷 P3372</title>
-      <link>https://caoxuan5211.github.io/blog/p3372/</link>
+      <link>https://blog.mineguai.com/blog/p3372/</link>
       <pubDate>Fri, 31 Oct 2025 22:00:08 +0800</pubDate>
-      <guid>https://caoxuan5211.github.io/blog/p3372/</guid>
+      <guid>https://blog.mineguai.com/blog/p3372/</guid>
       <description>&lt;h2 id=&#34;线段树1&#34;&gt;&lt;a href=&#34;https://www.luogu.com.cn/problem/P3372&#34;&gt;线段树1&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;用到线段树基础知识&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#include&amp;lt;bits/stdc++.h&amp;gt;
@@ -973,9 +973,9 @@
     </item>
     <item>
       <title>洛谷 P1590</title>
-      <link>https://caoxuan5211.github.io/blog/p1590/</link>
+      <link>https://blog.mineguai.com/blog/p1590/</link>
       <pubDate>Sat, 25 Oct 2025 13:02:09 +0800</pubDate>
-      <guid>https://caoxuan5211.github.io/blog/p1590/</guid>
+      <guid>https://blog.mineguai.com/blog/p1590/</guid>
       <description>&lt;h2 id=&#34;失踪的7&#34;&gt;&lt;a href=&#34;https://www.luogu.com.cn/problem/P1590&#34;&gt;失踪的7&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;直接找pascal的n以内的最大值&lt;/p&gt;
 &lt;p&gt;由于需要删除7（单位大于7就减，小于7直接用）,所以可以把十进制转换为去除7的模拟九进制。&lt;/p&gt;
@@ -1007,14 +1007,14 @@
     </item>
     <item>
       <title>洛谷 P1393</title>
-      <link>https://caoxuan5211.github.io/blog/p1393/</link>
+      <link>https://blog.mineguai.com/blog/p1393/</link>
       <pubDate>Sun, 05 Oct 2025 00:00:50 +0800</pubDate>
-      <guid>https://caoxuan5211.github.io/blog/p1393/</guid>
+      <guid>https://blog.mineguai.com/blog/p1393/</guid>
       <description>&lt;h2 id=&#34;mivik&#34;&gt;&lt;a href=&#34;https://www.luogu.com.cn/problem/P1393&#34;&gt;Mivik&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;不会做&lt;/p&gt;
 &lt;h3 id=&#34;观摩题解后的感触&#34;&gt;观摩题解后的感触&lt;/h3&gt;
 &lt;p&gt;求概率取余时候除以的分母可以用模逆元转换为乘。&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;image-20251020201500960&#34; loading=&#34;lazy&#34; src=&#34;https://caoxuan5211.github.io/images/P1393_1.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;image-20251020201500960&#34; loading=&#34;lazy&#34; src=&#34;https://blog.mineguai.com/images/P1393_1.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;还有就是&lt;em&gt;KMP&lt;/em&gt;中的&lt;em&gt;next&lt;/em&gt;数组可以转换为&lt;em&gt;n&lt;/em&gt;个等差数列（顺序排列，不交叉）。也就是&lt;strong&gt;字符串边界理论（&lt;em&gt;Border Theory&lt;/em&gt;）&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://www.luogu.com.cn/problem/solution/P1393&#34;&gt;题解&lt;/a&gt;里面&lt;em&gt;FjswYuzu&lt;/em&gt;写的还可以,有时间学学。&lt;/p&gt;
 &lt;h3 id=&#34;题解ctrlcv&#34;&gt;题解(ctrl+c/v)&lt;/h3&gt;
@@ -1120,9 +1120,9 @@
     </item>
     <item>
       <title>hugo的github网页css显示失败问题</title>
-      <link>https://caoxuan5211.github.io/blog/wrong/</link>
+      <link>https://blog.mineguai.com/blog/wrong/</link>
       <pubDate>Sat, 04 Oct 2025 18:52:26 +0800</pubDate>
-      <guid>https://caoxuan5211.github.io/blog/wrong/</guid>
+      <guid>https://blog.mineguai.com/blog/wrong/</guid>
       <description>&lt;p&gt;打开网页后出现异常&lt;/p&gt;
 &lt;p&gt;当时github_pages生成的网页的css加载异常，&lt;code&gt;F12&lt;/code&gt;用浏览器控制台看了之后发现是SRI不匹配问题。&lt;/p&gt;
 &lt;p&gt;后来找到了这篇博客:&lt;a href=&#34;https://lizhuo.space/zh/posts/error-logs/hugo%E5%8F%91%E5%B8%83%E5%90%8E%E4%BB%85%E6%96%87%E6%9C%AC%E6%98%BE%E7%A4%BAcss%E6%97%A0%E6%B3%95%E5%8A%A0%E8%BD%BD/&#34;&gt;hugo发布css无法加载问题 | Le blog de Lz0o0&lt;/a&gt;&lt;/p&gt;
@@ -1130,9 +1130,9 @@
     </item>
     <item>
       <title>KMP</title>
-      <link>https://caoxuan5211.github.io/blog/kmp/</link>
+      <link>https://blog.mineguai.com/blog/kmp/</link>
       <pubDate>Thu, 25 Sep 2025 19:30:11 +0800</pubDate>
-      <guid>https://caoxuan5211.github.io/blog/kmp/</guid>
+      <guid>https://blog.mineguai.com/blog/kmp/</guid>
       <description>&lt;p&gt;感觉&lt;code&gt;KMP&lt;/code&gt;很简单就没练过，用的时候太不熟练，写个博客熟悉熟悉。&lt;/p&gt;
 &lt;p&gt;其实主要就是两部分，一个是确定&lt;code&gt;next&lt;/code&gt;数组，一个是利用&lt;code&gt;next&lt;/code&gt;找子串，这两部分大致思路很简单，有点异曲同工。&lt;/p&gt;
 &lt;p&gt;具体细节代码中注释已经说的很清楚了，不再赘述。&lt;/p&gt;
@@ -1214,17 +1214,17 @@
     </item>
     <item>
       <title>深度学习</title>
-      <link>https://caoxuan5211.github.io/blog/deep_learning/</link>
+      <link>https://blog.mineguai.com/blog/deep_learning/</link>
       <pubDate>Tue, 23 Sep 2025 20:14:23 +0800</pubDate>
-      <guid>https://caoxuan5211.github.io/blog/deep_learning/</guid>
+      <guid>https://blog.mineguai.com/blog/deep_learning/</guid>
       <description>&lt;h2 id=&#34;笔记&#34;&gt;笔记&lt;/h2&gt;
 &lt;h3 id=&#34;广播&#34;&gt;广播&lt;/h3&gt;</description>
     </item>
     <item>
       <title>洛谷 P3193</title>
-      <link>https://caoxuan5211.github.io/blog/p3193/</link>
+      <link>https://blog.mineguai.com/blog/p3193/</link>
       <pubDate>Tue, 23 Sep 2025 12:57:20 +0800</pubDate>
-      <guid>https://caoxuan5211.github.io/blog/p3193/</guid>
+      <guid>https://blog.mineguai.com/blog/p3193/</guid>
       <description>&lt;h2 id=&#34;heading&#34;&gt;&lt;a href=&#34;https://www.luogu.com.cn/problem/P3193&#34;&gt;[HNOI2008] GT考试&lt;/a&gt;&lt;/h2&gt;
 &lt;h3 id=&#34;思路&#34;&gt;思路&lt;/h3&gt;
 &lt;p&gt;状态转移矩阵&lt;code&gt;T[i][j]&lt;/code&gt;其实就是添加一个字符之后从状态&lt;em&gt;i&lt;/em&gt;转移到状态&lt;em&gt;j&lt;/em&gt;的方案数量，也就是先用&lt;code&gt;kmp&lt;/code&gt;得到对应的T然后对于长度为N的串只需要让这个转移矩阵&lt;em&gt;N&lt;/em&gt;次方就行了，然后&lt;code&gt;Tn[0][j]&lt;/code&gt;就是子串最大匹配到j位的方案数，所求结果就是&lt;code&gt;Tn[0][0]&lt;/code&gt;一直加到&lt;code&gt;Tn[0][M-1](M是子串的长度)&lt;/code&gt;。&lt;/p&gt;
@@ -1339,16 +1339,16 @@
     </item>
     <item>
       <title>w</title>
-      <link>https://caoxuan5211.github.io/blog/first-blog/copy/</link>
+      <link>https://blog.mineguai.com/blog/first-blog/copy/</link>
       <pubDate>Tue, 23 Sep 2025 00:00:00 +0800</pubDate>
-      <guid>https://caoxuan5211.github.io/blog/first-blog/copy/</guid>
+      <guid>https://blog.mineguai.com/blog/first-blog/copy/</guid>
       <description>&lt;p&gt;（加图改md路径）改了&lt;/p&gt;</description>
     </item>
     <item>
       <title>洛谷 P1328</title>
-      <link>https://caoxuan5211.github.io/blog/p1328/</link>
+      <link>https://blog.mineguai.com/blog/p1328/</link>
       <pubDate>Tue, 23 Sep 2025 00:00:00 +0800</pubDate>
-      <guid>https://caoxuan5211.github.io/blog/p1328/</guid>
+      <guid>https://blog.mineguai.com/blog/p1328/</guid>
       <description>&lt;h2 id=&#34;生活大爆炸版石头剪刀布&#34;&gt;&lt;a href=&#34;https://www.luogu.com.cn/problem/P1328&#34;&gt;生活大爆炸版石头剪刀布&lt;/a&gt;&lt;/h2&gt;
 &lt;h3 id=&#34;思路&#34;&gt;思路&lt;/h3&gt;
 &lt;ul&gt;

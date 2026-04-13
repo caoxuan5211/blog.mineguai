@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Blog on 怪话怪的博客</title>
-    <link>https://caoxuan5211.github.io/categories/blog/</link>
+    <link>https://blog.mineguai.com/categories/blog/</link>
     <description>Recent content in Blog on 怪话怪的博客</description>
     <generator>Hugo -- 0.150.0</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 04 Nov 2025 22:36:22 +0800</lastBuildDate>
-    <atom:link href="https://caoxuan5211.github.io/categories/blog/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://blog.mineguai.com/categories/blog/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>洛谷 P1382</title>
-      <link>https://caoxuan5211.github.io/blog/p1382/</link>
+      <link>https://blog.mineguai.com/blog/p1382/</link>
       <pubDate>Tue, 04 Nov 2025 22:36:22 +0800</pubDate>
-      <guid>https://caoxuan5211.github.io/blog/p1382/</guid>
+      <guid>https://blog.mineguai.com/blog/p1382/</guid>
       <description>&lt;h2 id=&#34;楼房&#34;&gt;&lt;a href=&#34;https://www.luogu.com.cn/problem/P1382&#34;&gt;楼房&lt;/a&gt;&lt;/h2&gt;
 &lt;h3 id=&#34;思路&#34;&gt;思路&lt;/h3&gt;
 &lt;p&gt;属于&lt;strong&gt;扫描线&lt;/strong&gt;算法思想，通过动态维护当前高度集合，利用最大高度(&lt;strong&gt;天际线&lt;/strong&gt;)来不断动态变化，同时记录轮廓拐点，最后顺序输出。&lt;/p&gt;
