@@ -62,7 +62,7 @@
         return;
       }
 
-      if (now - lastFrameTime < 90) {
+      if (now - lastFrameTime < 140) {
         return;
       }
 
@@ -89,8 +89,8 @@
       state.moving = distance > 4;
 
       if (state.moving) {
-        state.x += dx * 0.11 * delta;
-        state.y += dy * 0.11 * delta;
+        state.x += dx * 0.06 * delta;
+        state.y += dy * 0.06 * delta;
       } else {
         state.x = state.targetX;
         state.y = state.targetY;
