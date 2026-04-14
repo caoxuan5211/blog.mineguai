@@ -28,6 +28,14 @@
     };
   }
 
+  function canFollowPointer() {
+    if (!window.matchMedia) {
+      return true;
+    }
+
+    return window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  }
+
   function initMouseRunner() {
     if (!FRAMES.length) {
       return;
@@ -42,6 +50,7 @@
     var lastFrameTime = 0;
     var lastTime = 0;
     var padding = 28;
+    var followPointer = canFollowPointer();
     var state = {
       x: window.innerWidth / 2,
       y: window.innerHeight / 2,
@@ -105,12 +114,36 @@
     }
 
     document.addEventListener('pointermove', function(event) {
+      if (!followPointer) {
+        return;
+      }
+
       if (event.pointerType && event.pointerType !== 'mouse') {
         return;
       }
 
       updateBoundsTarget(event.clientX, event.clientY);
     }, { passive: true });
+
+    document.addEventListener('pointerup', function(event) {
+      if (event.pointerType === 'mouse') {
+        return;
+      }
+
+      updateBoundsTarget(event.clientX, event.clientY);
+    }, { passive: true });
+
+    if (!window.PointerEvent) {
+      document.addEventListener('touchend', function(event) {
+        var touch = event.changedTouches && event.changedTouches[0];
+
+        if (!touch) {
+          return;
+        }
+
+        updateBoundsTarget(touch.clientX, touch.clientY);
+      }, { passive: true });
+    }
 
     window.addEventListener('resize', function() {
       updateBoundsTarget(state.targetX, state.targetY);
