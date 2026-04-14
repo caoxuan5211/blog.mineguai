@@ -6,8 +6,130 @@
     <description>Recent content on 怪话怪的博客</description>
     <generator>Hugo -- 0.150.0</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 13 Apr 2026 22:02:20 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 14 Apr 2026 23:09:55 +0800</lastBuildDate>
     <atom:link href="https://blog.mineguai.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>大创</title>
+      <link>https://blog.mineguai.com/blog/%E5%A4%A7%E5%88%9B/</link>
+      <pubDate>Tue, 14 Apr 2026 23:09:55 +0800</pubDate>
+      <guid>https://blog.mineguai.com/blog/%E5%A4%A7%E5%88%9B/</guid>
+      <description>&lt;h1 id=&#34;archrag-项目理解入门&#34;&gt;ArchRAG 项目理解入门&lt;/h1&gt;
+&lt;h2 id=&#34;1-项目一句话说明&#34;&gt;1. 项目一句话说明&lt;/h2&gt;
+&lt;p&gt;ArchRAG 是一个基于知识图谱的 Graph-based RAG 系统。它的核心目标不是只做“向量检索 + 生成”，而是把语料先构造成图，再把图中的&lt;strong&gt;实体&lt;/strong&gt;与**社区（community）**组织成多层级结构，最后在查询时按层级检索并做答案生成。&lt;/p&gt;
+&lt;p&gt;这套仓库同时包含两部分：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;论文方法本体的实现层&lt;/strong&gt;：根目录 &lt;code&gt;src/*.py&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;GraphRAG / Faiss 的基础设施层&lt;/strong&gt;：
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;src/graphrag/&lt;/code&gt;：Microsoft GraphRAG 的基线与图构建代码&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;HCHNSW/faiss/&lt;/code&gt;：基于 Faiss 1.8.0 改造的自定义 ANN 索引实现&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;可以把它理解成：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;GraphRAG 负责把文本变成 KG&lt;/code&gt;&lt;br&gt;
+&lt;code&gt;ArchRAG 负责把 KG 进一步变成“层次社区索引”&lt;/code&gt;&lt;br&gt;
+&lt;code&gt;HCHNSW 负责让多层检索真正跑得快&lt;/code&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;2-仓库结构总览&#34;&gt;2. 仓库结构总览&lt;/h2&gt;
+&lt;h3 id=&#34;21-需要优先读懂的目录&#34;&gt;2.1 需要优先读懂的目录&lt;/h3&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;目录/文件&lt;/th&gt;
+          &lt;th&gt;作用&lt;/th&gt;
+          &lt;th&gt;是否核心&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;README.md&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;项目总体说明、论文链接、基本运行方式&lt;/td&gt;
+          &lt;td&gt;是&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;dataset/index.sh&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;离线建索引脚本样例&lt;/td&gt;
+          &lt;td&gt;是&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;dataset/query.sh&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;在线问答评测脚本样例&lt;/td&gt;
+          &lt;td&gt;是&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;dataset/settings.yaml&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;GraphRAG 图构建配置样例&lt;/td&gt;
+          &lt;td&gt;是&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;src/index.py&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;ArchRAG 离线索引主入口&lt;/td&gt;
+          &lt;td&gt;是&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;src/inference.py&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;ArchRAG 在线检索与生成主入口&lt;/td&gt;
+          &lt;td&gt;是&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;src/attr_cluster.py&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;属性增强层次聚类核心逻辑&lt;/td&gt;
+          &lt;td&gt;是&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;src/community_report.py&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;社区摘要/报告生成&lt;/td&gt;
+          &lt;td&gt;是&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;src/client_reasoning.py&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;层级选择、map-reduce 生成、提示词组装&lt;/td&gt;
+          &lt;td&gt;是&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;src/hchnsw_index.py&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;HCHNSW 索引构建与落盘&lt;/td&gt;
+          &lt;td&gt;是&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;src/utils.py&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;参数解析、图读取、embedding、图增强工具&lt;/td&gt;
+          &lt;td&gt;是&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;src/evaluate/&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;QA 评测、摘要评测、索引/聚类实验&lt;/td&gt;
+          &lt;td&gt;重要&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;metric/&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;聚类质量指标与基线聚类实现&lt;/td&gt;
+          &lt;td&gt;重要&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;src/graphrag/&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;GraphRAG 基线与 KG 构建&lt;/td&gt;
+          &lt;td&gt;基础设施&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;HCHNSW/&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;改造版 Faiss，提供 &lt;code&gt;IndexHCHNSW*&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;基础设施&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;22-不要一开始陷进去的目录&#34;&gt;2.2 不要一开始陷进去的目录&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;HCHNSW/faiss/&lt;/code&gt; 代码量极大，大部分是上游 Faiss；只需要关注 &lt;code&gt;IndexHCHNSW.*&lt;/code&gt; 与 &lt;code&gt;impl/HCHNSW.*&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;src/graphrag/&lt;/code&gt; 是 GraphRAG 基线和配套模块，不是 ArchRAG 创新点本身&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;3-论文在讲什么&#34;&gt;3. 论文在讲什么&lt;/h2&gt;
+&lt;p&gt;论文题目：&lt;strong&gt;ArchRAG: Attributed Community-based Hierarchical Retrieval-Augmented Generation&lt;/strong&gt;&lt;br&gt;
+论文链接：&lt;a href=&#34;https://arxiv.org/abs/2502.09891&#34;&gt;https://arxiv.org/abs/2502.09891&lt;/a&gt;&lt;br&gt;
+我核对到的 arXiv 页面显示最新版本为 &lt;strong&gt;v3，2025-08-08&lt;/strong&gt;。&lt;/p&gt;</description>
+    </item>
     <item>
       <title>测试main</title>
       <link>https://blog.mineguai.com/blog/%E6%B5%8B%E8%AF%95main/</link>
@@ -1430,128 +1552,6 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2&gt;&lt;/h2&gt;
 &lt;h3 id=&#34;优化&#34;&gt;优化&lt;/h3&gt;
 &lt;p&gt;看了别人的题解，大多是用一个二维&lt;code&gt;[5][5]&lt;/code&gt;的数组存储对局输赢，后面处理简单一些。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title></title>
-      <link>https://blog.mineguai.com/blog/%E9%A1%B9%E7%9B%AE%E7%90%86%E8%A7%A3%E5%85%A5%E9%97%A8/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://blog.mineguai.com/blog/%E9%A1%B9%E7%9B%AE%E7%90%86%E8%A7%A3%E5%85%A5%E9%97%A8/</guid>
-      <description>&lt;h1 id=&#34;archrag-项目理解入门&#34;&gt;ArchRAG 项目理解入门&lt;/h1&gt;
-&lt;h2 id=&#34;1-项目一句话说明&#34;&gt;1. 项目一句话说明&lt;/h2&gt;
-&lt;p&gt;ArchRAG 是一个基于知识图谱的 Graph-based RAG 系统。它的核心目标不是只做“向量检索 + 生成”，而是把语料先构造成图，再把图中的&lt;strong&gt;实体&lt;/strong&gt;与**社区（community）**组织成多层级结构，最后在查询时按层级检索并做答案生成。&lt;/p&gt;
-&lt;p&gt;这套仓库同时包含两部分：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;论文方法本体的实现层&lt;/strong&gt;：根目录 &lt;code&gt;src/*.py&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;GraphRAG / Faiss 的基础设施层&lt;/strong&gt;：
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;src/graphrag/&lt;/code&gt;：Microsoft GraphRAG 的基线与图构建代码&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;HCHNSW/faiss/&lt;/code&gt;：基于 Faiss 1.8.0 改造的自定义 ANN 索引实现&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;可以把它理解成：&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;GraphRAG 负责把文本变成 KG&lt;/code&gt;&lt;br&gt;
-&lt;code&gt;ArchRAG 负责把 KG 进一步变成“层次社区索引”&lt;/code&gt;&lt;br&gt;
-&lt;code&gt;HCHNSW 负责让多层检索真正跑得快&lt;/code&gt;&lt;/p&gt;
-&lt;hr&gt;
-&lt;h2 id=&#34;2-仓库结构总览&#34;&gt;2. 仓库结构总览&lt;/h2&gt;
-&lt;h3 id=&#34;21-需要优先读懂的目录&#34;&gt;2.1 需要优先读懂的目录&lt;/h3&gt;
-&lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th&gt;目录/文件&lt;/th&gt;
-          &lt;th&gt;作用&lt;/th&gt;
-          &lt;th&gt;是否核心&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td&gt;&lt;code&gt;README.md&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;项目总体说明、论文链接、基本运行方式&lt;/td&gt;
-          &lt;td&gt;是&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;&lt;code&gt;dataset/index.sh&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;离线建索引脚本样例&lt;/td&gt;
-          &lt;td&gt;是&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;&lt;code&gt;dataset/query.sh&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;在线问答评测脚本样例&lt;/td&gt;
-          &lt;td&gt;是&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;&lt;code&gt;dataset/settings.yaml&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;GraphRAG 图构建配置样例&lt;/td&gt;
-          &lt;td&gt;是&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;&lt;code&gt;src/index.py&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;ArchRAG 离线索引主入口&lt;/td&gt;
-          &lt;td&gt;是&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;&lt;code&gt;src/inference.py&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;ArchRAG 在线检索与生成主入口&lt;/td&gt;
-          &lt;td&gt;是&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;&lt;code&gt;src/attr_cluster.py&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;属性增强层次聚类核心逻辑&lt;/td&gt;
-          &lt;td&gt;是&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;&lt;code&gt;src/community_report.py&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;社区摘要/报告生成&lt;/td&gt;
-          &lt;td&gt;是&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;&lt;code&gt;src/client_reasoning.py&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;层级选择、map-reduce 生成、提示词组装&lt;/td&gt;
-          &lt;td&gt;是&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;&lt;code&gt;src/hchnsw_index.py&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;HCHNSW 索引构建与落盘&lt;/td&gt;
-          &lt;td&gt;是&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;&lt;code&gt;src/utils.py&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;参数解析、图读取、embedding、图增强工具&lt;/td&gt;
-          &lt;td&gt;是&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;&lt;code&gt;src/evaluate/&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;QA 评测、摘要评测、索引/聚类实验&lt;/td&gt;
-          &lt;td&gt;重要&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;&lt;code&gt;metric/&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;聚类质量指标与基线聚类实现&lt;/td&gt;
-          &lt;td&gt;重要&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;&lt;code&gt;src/graphrag/&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;GraphRAG 基线与 KG 构建&lt;/td&gt;
-          &lt;td&gt;基础设施&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;&lt;code&gt;HCHNSW/&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;改造版 Faiss，提供 &lt;code&gt;IndexHCHNSW*&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;基础设施&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h3 id=&#34;22-不要一开始陷进去的目录&#34;&gt;2.2 不要一开始陷进去的目录&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;HCHNSW/faiss/&lt;/code&gt; 代码量极大，大部分是上游 Faiss；只需要关注 &lt;code&gt;IndexHCHNSW.*&lt;/code&gt; 与 &lt;code&gt;impl/HCHNSW.*&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;src/graphrag/&lt;/code&gt; 是 GraphRAG 基线和配套模块，不是 ArchRAG 创新点本身&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr&gt;
-&lt;h2 id=&#34;3-论文在讲什么&#34;&gt;3. 论文在讲什么&lt;/h2&gt;
-&lt;p&gt;论文题目：&lt;strong&gt;ArchRAG: Attributed Community-based Hierarchical Retrieval-Augmented Generation&lt;/strong&gt;&lt;br&gt;
-论文链接：&lt;a href=&#34;https://arxiv.org/abs/2502.09891&#34;&gt;https://arxiv.org/abs/2502.09891&lt;/a&gt;&lt;br&gt;
-我核对到的 arXiv 页面显示最新版本为 &lt;strong&gt;v3，2025-08-08&lt;/strong&gt;。&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

@@ -82,12 +82,10 @@
 </script>
   <link rel="stylesheet" href="https://blog.mineguai.com/css/extended/code-copy.css">
   <link rel="stylesheet" href="https://blog.mineguai.com/css/extended/custom-fonts.css">
-  <link rel="stylesheet" href="https://blog.mineguai.com/css/extended/click-burst.css">
   <link rel="stylesheet" href="https://blog.mineguai.com/css/extended/mouse-runner.css">
 
 
   <script type="text/javascript" src="https://blog.mineguai.com/js/code-copy.js" defer></script>
-  <script type="text/javascript" src="https://blog.mineguai.com/js/click-burst.js" defer></script>
   <script type="text/javascript" src="https://blog.mineguai.com/js/mouse-runner.js" defer></script>
 
 
@@ -158,6 +156,27 @@
     Blogs
   </h1>
 </header>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">大创
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>ArchRAG 项目理解入门 1. 项目一句话说明 ArchRAG 是一个基于知识图谱的 Graph-based RAG 系统。它的核心目标不是只做“向量检索 &#43; 生成”，而是把语料先构造成图，再把图中的实体与**社区（community）**组织成多层级结构，最后在查询时按层级检索并做答案生成。
+这套仓库同时包含两部分：
+论文方法本体的实现层：根目录 src/*.py GraphRAG / Faiss 的基础设施层： src/graphrag/：Microsoft GraphRAG 的基线与图构建代码 HCHNSW/faiss/：基于 Faiss 1.8.0 改造的自定义 ANN 索引实现 可以把它理解成：
+GraphRAG 负责把文本变成 KG
+ArchRAG 负责把 KG 进一步变成“层次社区索引”
+HCHNSW 负责让多层检索真正跑得快
+2. 仓库结构总览 2.1 需要优先读懂的目录 目录/文件 作用 是否核心 README.md 项目总体说明、论文链接、基本运行方式 是 dataset/index.sh 离线建索引脚本样例 是 dataset/query.sh 在线问答评测脚本样例 是 dataset/settings.yaml GraphRAG 图构建配置样例 是 src/index.py ArchRAG 离线索引主入口 是 src/inference.py ArchRAG 在线检索与生成主入口 是 src/attr_cluster.py 属性增强层次聚类核心逻辑 是 src/community_report.py 社区摘要/报告生成 是 src/client_reasoning.py 层级选择、map-reduce 生成、提示词组装 是 src/hchnsw_index.py HCHNSW 索引构建与落盘 是 src/utils.py 参数解析、图读取、embedding、图增强工具 是 src/evaluate/ QA 评测、摘要评测、索引/聚类实验 重要 metric/ 聚类质量指标与基线聚类实现 重要 src/graphrag/ GraphRAG 基线与 KG 构建 基础设施 HCHNSW/ 改造版 Faiss，提供 IndexHCHNSW* 基础设施 2.2 不要一开始陷进去的目录 HCHNSW/faiss/ 代码量极大，大部分是上游 Faiss；只需要关注 IndexHCHNSW.* 与 impl/HCHNSW.* src/graphrag/ 是 GraphRAG 基线和配套模块，不是 ArchRAG 创新点本身 3. 论文在讲什么 论文题目：ArchRAG: Attributed Community-based Hierarchical Retrieval-Augmented Generation
+论文链接：https://arxiv.org/abs/2502.09891
+我核对到的 arXiv 页面显示最新版本为 v3，2025-08-08。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-04-14 23:09:55 +0800 CST'>April 14, 2026</span></footer>
+  <a class="entry-link" aria-label="post link to 大创" href="https://blog.mineguai.com/blog/%E5%A4%A7%E5%88%9B/"></a>
+</article>
 
 <article class="post-entry"> 
   <header class="entry-header">
@@ -310,20 +329,6 @@ D:\Program Files\JiJiDown
   <footer class="entry-footer"><span title='2025-11-17 23:51:05 +0800 CST'>November 17, 2025</span></footer>
   <a class="entry-link" aria-label="post link to 图的染色解决" href="https://blog.mineguai.com/blog/%E5%9B%BE%E7%9A%84%E6%9F%93%E8%89%B2%E8%A7%A3%E5%86%B3/"></a>
 </article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">归并排序
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>P1177 【模板】排序 - 洛谷 我用归并排序写的。(时间复杂度O(nlogn),空间复杂度O(n))。
-#include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; vector&lt;int&gt; A; //归并排序 void gbsort(int l,int r) { vector&lt;int&gt; temp; if(l==r) return; int m=((l&#43;r)&gt;&gt;1); printf(&#34;划分的区间:[%d,%d],[%d,%d]\n&#34;,l,m,m&#43;1,r); gbsort(l,m); gbsort(m&#43;1,r); int curL=l,curR=m&#43;1; //左右分为[l,m] [m&#43;1,r] for(int i=0;i&lt;r-l&#43;1;i&#43;&#43;) { if( curL&gt;m ) { temp.push_back(A[curR]); curR&#43;&#43;; } else if( curR&gt;r ) { temp.push_back(A[curL]); curL&#43;&#43;; } else if(A[curL]&gt;A[curR]) { temp.push_back(A[curR]); curR&#43;&#43;; } else if(A[curL]&lt;=A[curR]) { temp.push_back(A[curL]); curL&#43;&#43;; } } for(int i=l;i&lt;=r;i&#43;&#43;) { A[i]=temp[i-l]; } } int main() { int N; cin &gt;&gt; N; for(int i=0;i&lt;N;i&#43;&#43;) { int x; cin &gt;&gt; x; A.push_back(x); } // sort(A.begin(),A.end()); gbsort(0,N-1); for(int i=0;i&lt;N;i&#43;&#43;) { cout &lt;&lt; A[i] &lt;&lt; &#39; &#39;; } return 0; } C&#43;&#43;标准库sort用的是快速排序
-</p>
-  </div>
-  <footer class="entry-footer"><span title='2025-11-17 20:13:46 +0800 CST'>November 17, 2025</span></footer>
-  <a class="entry-link" aria-label="post link to 归并排序" href="https://blog.mineguai.com/blog/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/"></a>
-</article>
 <footer class="page-footer">
   <nav class="pagination">
     <a class="next" href="https://blog.mineguai.com/blog/page/2/">Next&nbsp;&nbsp;»
@@ -346,7 +351,6 @@ D:\Program Files\JiJiDown
         <path d="M12 6H0l6-6z" />
     </svg>
 </a><script>
-  window.mineguaiClickBurstIcons = ["/images/click-burst/transparent.png"];
   window.mineguaiMouseRunnerFrames = ["/images/mouse-runner/1.png","/images/mouse-runner/2.png","/images/mouse-runner/3.png","/images/mouse-runner/4.png"];
 </script>
 

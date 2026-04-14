@@ -82,12 +82,10 @@
 </script>
   <link rel="stylesheet" href="https://blog.mineguai.com/css/extended/code-copy.css">
   <link rel="stylesheet" href="https://blog.mineguai.com/css/extended/custom-fonts.css">
-  <link rel="stylesheet" href="https://blog.mineguai.com/css/extended/click-burst.css">
   <link rel="stylesheet" href="https://blog.mineguai.com/css/extended/mouse-runner.css">
 
 
   <script type="text/javascript" src="https://blog.mineguai.com/js/code-copy.js" defer></script>
-  <script type="text/javascript" src="https://blog.mineguai.com/js/click-burst.js" defer></script>
   <script type="text/javascript" src="https://blog.mineguai.com/js/mouse-runner.js" defer></script>
 
 
@@ -153,6 +151,20 @@
     </nav>
 </header>
 <main class="main"> 
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">归并排序
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>P1177 【模板】排序 - 洛谷 我用归并排序写的。(时间复杂度O(nlogn),空间复杂度O(n))。
+#include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; vector&lt;int&gt; A; //归并排序 void gbsort(int l,int r) { vector&lt;int&gt; temp; if(l==r) return; int m=((l&#43;r)&gt;&gt;1); printf(&#34;划分的区间:[%d,%d],[%d,%d]\n&#34;,l,m,m&#43;1,r); gbsort(l,m); gbsort(m&#43;1,r); int curL=l,curR=m&#43;1; //左右分为[l,m] [m&#43;1,r] for(int i=0;i&lt;r-l&#43;1;i&#43;&#43;) { if( curL&gt;m ) { temp.push_back(A[curR]); curR&#43;&#43;; } else if( curR&gt;r ) { temp.push_back(A[curL]); curL&#43;&#43;; } else if(A[curL]&gt;A[curR]) { temp.push_back(A[curR]); curR&#43;&#43;; } else if(A[curL]&lt;=A[curR]) { temp.push_back(A[curL]); curL&#43;&#43;; } } for(int i=l;i&lt;=r;i&#43;&#43;) { A[i]=temp[i-l]; } } int main() { int N; cin &gt;&gt; N; for(int i=0;i&lt;N;i&#43;&#43;) { int x; cin &gt;&gt; x; A.push_back(x); } // sort(A.begin(),A.end()); gbsort(0,N-1); for(int i=0;i&lt;N;i&#43;&#43;) { cout &lt;&lt; A[i] &lt;&lt; &#39; &#39;; } return 0; } C&#43;&#43;标准库sort用的是快速排序
+</p>
+  </div>
+  <footer class="entry-footer"><span title='2025-11-17 20:13:46 +0800 CST'>November 17, 2025</span></footer>
+  <a class="entry-link" aria-label="post link to 归并排序" href="https://blog.mineguai.com/blog/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/"></a>
+</article>
 
 <article class="post-entry"> 
   <header class="entry-header">
@@ -315,20 +327,6 @@ const int MAXN : 根据题目调整 int n : 两边的顶点总数 int graph[MAXN
   <footer class="entry-footer"><span title='2025-10-31 22:00:08 +0800 CST'>October 31, 2025</span></footer>
   <a class="entry-link" aria-label="post link to 洛谷 P3372" href="https://blog.mineguai.com/blog/p3372/"></a>
 </article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">洛谷 P1590
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>失踪的7 直接找pascal的n以内的最大值
-由于需要删除7（单位大于7就减，小于7直接用）,所以可以把十进制转换为去除7的模拟九进制。
-#include &lt;bits/stdc&#43;&#43;.h&gt; using namespace std; #define ll long long int main() { int t; cin &gt;&gt; t; while(t--) { string s; cin &gt;&gt; s; ll result = 0; for(char c : s) { int dig = c-&#39;0&#39;; if(dig &gt; 7) dig--; result = result*9 &#43; dig; } cout &lt;&lt; result &lt;&lt; &#34;\n&#34;; } return 0; } </p>
-  </div>
-  <footer class="entry-footer"><span title='2025-10-25 13:02:09 +0800 CST'>October 25, 2025</span></footer>
-  <a class="entry-link" aria-label="post link to 洛谷 P1590" href="https://blog.mineguai.com/blog/p1590/"></a>
-</article>
 <footer class="page-footer">
   <nav class="pagination">
     <a class="prev" href="https://blog.mineguai.com/">
@@ -354,7 +352,6 @@ const int MAXN : 根据题目调整 int n : 两边的顶点总数 int graph[MAXN
         <path d="M12 6H0l6-6z" />
     </svg>
 </a><script>
-  window.mineguaiClickBurstIcons = ["/images/click-burst/transparent.png"];
   window.mineguaiMouseRunnerFrames = ["/images/mouse-runner/1.png","/images/mouse-runner/2.png","/images/mouse-runner/3.png","/images/mouse-runner/4.png"];
 </script>
 
