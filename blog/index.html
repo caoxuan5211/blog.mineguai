@@ -159,6 +159,24 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">钥匙问题
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>P4890 解题代码详解（链式DP &#43; 建模全过程） P4890 Never·island - 洛谷
+一、整体思路（先建立全局认知） 本题流程分三步：
+离散化 &#43; 扫描线建模 把区间拆成若干小段 转换成「点权 &#43; 边权 &#43; 固定贡献」 构建链式图 每个考察队是一个点 区间贡献变成： 点权（选一个点获得） 边权（两个点都选才获得） 链上DP &#43; 背包合并 每条链独立DP 最后用背包合并选 k 个点 二、变量说明（代码核心变量） int n, k; n：区间数量 k：最多选的考察队数量 vector&lt;int&gt; xs; 存所有端点（用于离散化） struct Seg { int l, r, id_l, id_r; }; l, r：原始端点 id_l, id_r：离散化后的下标 long long node_w[MAXN]; 👉 点权数组
+node_w[i] 表示：选择第 i 个考察队获得的贡献 vector&lt;pair&lt;int,int&gt;&gt; adj[MAXN]; 👉 邻接表（存边）
+adj[u] = {v, weight} long long base_ans; 👉 必然贡献（情况4）
+三、建模部分（最关键） 1️⃣ 离散化 sort(xs.begin(), xs.end()); xs.erase(unique(xs.begin(), xs.end()), xs.end()); 👉 把所有端点压缩到连续整数
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-04-14 23:22:12 +0800 CST'>April 14, 2026</span></footer>
+  <a class="entry-link" aria-label="post link to 钥匙问题" href="https://blog.mineguai.com/blog/%E9%92%A5%E5%8C%99%E9%97%AE%E9%A2%98/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">大创
     </h2>
   </header>
@@ -313,21 +331,6 @@ D:\Program Files\JiJiDown
   </div>
   <footer class="entry-footer"><span title='2025-11-18 15:21:20 +0800 CST'>November 18, 2025</span></footer>
   <a class="entry-link" aria-label="post link to 对电脑操作记录" href="https://blog.mineguai.com/blog/%E5%AF%B9%E7%94%B5%E8%84%91%E6%93%8D%E4%BD%9C%E8%AE%B0%E5%BD%95/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">图的染色解决
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>染色问题 同染色（连接点染相同颜色） 用法 得到各个连通分量（分组）。
-代码 #include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; const int MAXN = 100; int graph[MAXN][MAXN]; int color[MAXN]; int cnt; //连通分量数量 void dfs(int index,int n,int c) { color[index]=c; for(int i=0;i&lt;n;i&#43;&#43;) if(graph[index][i]&amp;&amp;!color[i]) dfs(i,n,c); } int main() { int n,m; cin &gt;&gt; n &gt;&gt; m; for(int i=0;i&lt;m;i&#43;&#43;) { int s,t; cin &gt;&gt; s &gt;&gt; t; graph[s][t]=1,graph[t][s]=1; } for(int i=0;i&lt;n;i&#43;&#43;) { if(!color[i]) { cnt&#43;&#43;; dfs(i,n,cnt); } } vector&lt;vector&lt;int&gt;&gt; group(cnt&#43;1,vector&lt;int&gt;()); for(int i=0;i&lt;n;i&#43;&#43;) group[color[i]].push_back(i); for(int i=1;i&lt;=cnt;i&#43;&#43;) { cout &lt;&lt; &#34;颜色&#34; &lt;&lt; i &lt;&lt; &#34;:&#34;; for(int j=0;j&lt;group[i].size();j&#43;&#43;) cout &lt;&lt; group[i][j] &lt;&lt; &#39; &#39;; cout &lt;&lt; endl; } } 异染色（连接点染不同颜色） 用法 得到二分图。
-代码 #include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; const int MAXN = 100; //假如最大100个结点的图 int graph[MAXN][MAXN]; int color[MAXN]; //用于确定分组,颜色为1和2 int dfs(int index,int n,int c) //仅仅用来染色出发点所在的连通分量 { //直接用对边不同色考虑 color[index]=c; for(int i=0;i&lt;n;i&#43;&#43;) if(graph[index][i] &amp;&amp; (color[i]==c || (color[i]==0 &amp;&amp; !dfs(i,n,3-c))) ) return 0; return 1; } int main() { int n,m; cin &gt;&gt; n &gt;&gt; m; for(int i=0;i&lt;m;i&#43;&#43;) { int s,t; cin &gt;&gt; s &gt;&gt; t; graph[s][t]=1,graph[t][s]=1; } for(int i=0;i&lt;n;i&#43;&#43;) { if(!color[i]) if(!dfs(i,n,1)) { cout &lt;&lt; &#34;错误，不是二分图&#34; &lt;&lt; endl; return 0; } } vector&lt;int&gt; color1,color2; for(int i=0;i&lt;n;i&#43;&#43;) { if(color[i]==1) color1.push_back(i); if(color[i]==2) color2.push_back(i); } cout &lt;&lt; &#34;染色结果:&#34; &lt;&lt; endl; for(int i=0;i&lt;color1.size();i&#43;&#43;) cout &lt;&lt; color1[i] &lt;&lt; &#39; &#39;; cout &lt;&lt; endl; for(int i=0;i&lt;color2.size();i&#43;&#43;) cout &lt;&lt; color2[i] &lt;&lt; &#39; &#39;; return 0; } 注 这两个染色问题都可以用邻接矩阵做。我用int-MAXN是因为简单:)。
-</p>
-  </div>
-  <footer class="entry-footer"><span title='2025-11-17 23:51:05 +0800 CST'>November 17, 2025</span></footer>
-  <a class="entry-link" aria-label="post link to 图的染色解决" href="https://blog.mineguai.com/blog/%E5%9B%BE%E7%9A%84%E6%9F%93%E8%89%B2%E8%A7%A3%E5%86%B3/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
