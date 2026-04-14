@@ -1,0 +1,1479 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>怪话怪的博客</title>
+<meta name="keywords" content="">
+<meta name="description" content="ArchRAG 项目理解入门
+1. 项目一句话说明
+ArchRAG 是一个基于知识图谱的 Graph-based RAG 系统。它的核心目标不是只做“向量检索 &#43; 生成”，而是把语料先构造成图，再把图中的实体与**社区（community）**组织成多层级结构，最后在查询时按层级检索并做答案生成。
+这套仓库同时包含两部分：
+
+论文方法本体的实现层：根目录 src/*.py
+GraphRAG / Faiss 的基础设施层：
+
+src/graphrag/：Microsoft GraphRAG 的基线与图构建代码
+HCHNSW/faiss/：基于 Faiss 1.8.0 改造的自定义 ANN 索引实现
+
+
+
+可以把它理解成：
+GraphRAG 负责把文本变成 KG
+ArchRAG 负责把 KG 进一步变成“层次社区索引”
+HCHNSW 负责让多层检索真正跑得快
+
+2. 仓库结构总览
+2.1 需要优先读懂的目录
+
+  
+      
+          目录/文件
+          作用
+          是否核心
+      
+  
+  
+      
+          README.md
+          项目总体说明、论文链接、基本运行方式
+          是
+      
+      
+          dataset/index.sh
+          离线建索引脚本样例
+          是
+      
+      
+          dataset/query.sh
+          在线问答评测脚本样例
+          是
+      
+      
+          dataset/settings.yaml
+          GraphRAG 图构建配置样例
+          是
+      
+      
+          src/index.py
+          ArchRAG 离线索引主入口
+          是
+      
+      
+          src/inference.py
+          ArchRAG 在线检索与生成主入口
+          是
+      
+      
+          src/attr_cluster.py
+          属性增强层次聚类核心逻辑
+          是
+      
+      
+          src/community_report.py
+          社区摘要/报告生成
+          是
+      
+      
+          src/client_reasoning.py
+          层级选择、map-reduce 生成、提示词组装
+          是
+      
+      
+          src/hchnsw_index.py
+          HCHNSW 索引构建与落盘
+          是
+      
+      
+          src/utils.py
+          参数解析、图读取、embedding、图增强工具
+          是
+      
+      
+          src/evaluate/
+          QA 评测、摘要评测、索引/聚类实验
+          重要
+      
+      
+          metric/
+          聚类质量指标与基线聚类实现
+          重要
+      
+      
+          src/graphrag/
+          GraphRAG 基线与 KG 构建
+          基础设施
+      
+      
+          HCHNSW/
+          改造版 Faiss，提供 IndexHCHNSW*
+          基础设施
+      
+  
+
+2.2 不要一开始陷进去的目录
+
+HCHNSW/faiss/ 代码量极大，大部分是上游 Faiss；只需要关注 IndexHCHNSW.* 与 impl/HCHNSW.*
+src/graphrag/ 是 GraphRAG 基线和配套模块，不是 ArchRAG 创新点本身
+
+
+3. 论文在讲什么
+论文题目：ArchRAG: Attributed Community-based Hierarchical Retrieval-Augmented Generation
+论文链接：https://arxiv.org/abs/2502.09891
+我核对到的 arXiv 页面显示最新版本为 v3，2025-08-08。">
+<meta name="author" content="">
+<link rel="canonical" href="https://blog.mineguai.com/blog/%E9%A1%B9%E7%9B%AE%E7%90%86%E8%A7%A3%E5%85%A5%E9%97%A8/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://blog.mineguai.com/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://blog.mineguai.com/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://blog.mineguai.com/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://blog.mineguai.com/apple-touch-icon.png">
+<link rel="mask-icon" href="https://blog.mineguai.com/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://blog.mineguai.com/blog/%E9%A1%B9%E7%9B%AE%E7%90%86%E8%A7%A3%E5%85%A5%E9%97%A8/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:url" content="https://blog.mineguai.com/blog/%E9%A1%B9%E7%9B%AE%E7%90%86%E8%A7%A3%E5%85%A5%E9%97%A8/">
+  <meta property="og:site_name" content="怪话怪的博客">
+  <meta property="og:title" content="怪话怪的博客">
+  <meta property="og:description" content="ArchRAG 项目理解入门 1. 项目一句话说明 ArchRAG 是一个基于知识图谱的 Graph-based RAG 系统。它的核心目标不是只做“向量检索 &#43; 生成”，而是把语料先构造成图，再把图中的实体与**社区（community）**组织成多层级结构，最后在查询时按层级检索并做答案生成。
+这套仓库同时包含两部分：
+论文方法本体的实现层：根目录 src/*.py GraphRAG / Faiss 的基础设施层： src/graphrag/：Microsoft GraphRAG 的基线与图构建代码 HCHNSW/faiss/：基于 Faiss 1.8.0 改造的自定义 ANN 索引实现 可以把它理解成：
+GraphRAG 负责把文本变成 KG
+ArchRAG 负责把 KG 进一步变成“层次社区索引”
+HCHNSW 负责让多层检索真正跑得快
+2. 仓库结构总览 2.1 需要优先读懂的目录 目录/文件 作用 是否核心 README.md 项目总体说明、论文链接、基本运行方式 是 dataset/index.sh 离线建索引脚本样例 是 dataset/query.sh 在线问答评测脚本样例 是 dataset/settings.yaml GraphRAG 图构建配置样例 是 src/index.py ArchRAG 离线索引主入口 是 src/inference.py ArchRAG 在线检索与生成主入口 是 src/attr_cluster.py 属性增强层次聚类核心逻辑 是 src/community_report.py 社区摘要/报告生成 是 src/client_reasoning.py 层级选择、map-reduce 生成、提示词组装 是 src/hchnsw_index.py HCHNSW 索引构建与落盘 是 src/utils.py 参数解析、图读取、embedding、图增强工具 是 src/evaluate/ QA 评测、摘要评测、索引/聚类实验 重要 metric/ 聚类质量指标与基线聚类实现 重要 src/graphrag/ GraphRAG 基线与 KG 构建 基础设施 HCHNSW/ 改造版 Faiss，提供 IndexHCHNSW* 基础设施 2.2 不要一开始陷进去的目录 HCHNSW/faiss/ 代码量极大，大部分是上游 Faiss；只需要关注 IndexHCHNSW.* 与 impl/HCHNSW.* src/graphrag/ 是 GraphRAG 基线和配套模块，不是 ArchRAG 创新点本身 3. 论文在讲什么 论文题目：ArchRAG: Attributed Community-based Hierarchical Retrieval-Augmented Generation
+论文链接：https://arxiv.org/abs/2502.09891
+我核对到的 arXiv 页面显示最新版本为 v3，2025-08-08。">
+  <meta property="og:locale" content="en-us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="">
+<meta name="twitter:description" content="ArchRAG 项目理解入门
+1. 项目一句话说明
+ArchRAG 是一个基于知识图谱的 Graph-based RAG 系统。它的核心目标不是只做“向量检索 &#43; 生成”，而是把语料先构造成图，再把图中的实体与**社区（community）**组织成多层级结构，最后在查询时按层级检索并做答案生成。
+这套仓库同时包含两部分：
+
+论文方法本体的实现层：根目录 src/*.py
+GraphRAG / Faiss 的基础设施层：
+
+src/graphrag/：Microsoft GraphRAG 的基线与图构建代码
+HCHNSW/faiss/：基于 Faiss 1.8.0 改造的自定义 ANN 索引实现
+
+
+
+可以把它理解成：
+GraphRAG 负责把文本变成 KG
+ArchRAG 负责把 KG 进一步变成“层次社区索引”
+HCHNSW 负责让多层检索真正跑得快
+
+2. 仓库结构总览
+2.1 需要优先读懂的目录
+
+  
+      
+          目录/文件
+          作用
+          是否核心
+      
+  
+  
+      
+          README.md
+          项目总体说明、论文链接、基本运行方式
+          是
+      
+      
+          dataset/index.sh
+          离线建索引脚本样例
+          是
+      
+      
+          dataset/query.sh
+          在线问答评测脚本样例
+          是
+      
+      
+          dataset/settings.yaml
+          GraphRAG 图构建配置样例
+          是
+      
+      
+          src/index.py
+          ArchRAG 离线索引主入口
+          是
+      
+      
+          src/inference.py
+          ArchRAG 在线检索与生成主入口
+          是
+      
+      
+          src/attr_cluster.py
+          属性增强层次聚类核心逻辑
+          是
+      
+      
+          src/community_report.py
+          社区摘要/报告生成
+          是
+      
+      
+          src/client_reasoning.py
+          层级选择、map-reduce 生成、提示词组装
+          是
+      
+      
+          src/hchnsw_index.py
+          HCHNSW 索引构建与落盘
+          是
+      
+      
+          src/utils.py
+          参数解析、图读取、embedding、图增强工具
+          是
+      
+      
+          src/evaluate/
+          QA 评测、摘要评测、索引/聚类实验
+          重要
+      
+      
+          metric/
+          聚类质量指标与基线聚类实现
+          重要
+      
+      
+          src/graphrag/
+          GraphRAG 基线与 KG 构建
+          基础设施
+      
+      
+          HCHNSW/
+          改造版 Faiss，提供 IndexHCHNSW*
+          基础设施
+      
+  
+
+2.2 不要一开始陷进去的目录
+
+HCHNSW/faiss/ 代码量极大，大部分是上游 Faiss；只需要关注 IndexHCHNSW.* 与 impl/HCHNSW.*
+src/graphrag/ 是 GraphRAG 基线和配套模块，不是 ArchRAG 创新点本身
+
+
+3. 论文在讲什么
+论文题目：ArchRAG: Attributed Community-based Hierarchical Retrieval-Augmented Generation
+论文链接：https://arxiv.org/abs/2502.09891
+我核对到的 arXiv 页面显示最新版本为 v3，2025-08-08。">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Blogs",
+      "item": "https://blog.mineguai.com/blog/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "",
+      "item": "https://blog.mineguai.com/blog/%E9%A1%B9%E7%9B%AE%E7%90%86%E8%A7%A3%E5%85%A5%E9%97%A8/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "",
+  "name": "",
+  "description": "ArchRAG 项目理解入门 1. 项目一句话说明 ArchRAG 是一个基于知识图谱的 Graph-based RAG 系统。它的核心目标不是只做“向量检索 + 生成”，而是把语料先构造成图，再把图中的实体与**社区（community）**组织成多层级结构，最后在查询时按层级检索并做答案生成。\n这套仓库同时包含两部分：\n论文方法本体的实现层：根目录 src/*.py GraphRAG / Faiss 的基础设施层： src/graphrag/：Microsoft GraphRAG 的基线与图构建代码 HCHNSW/faiss/：基于 Faiss 1.8.0 改造的自定义 ANN 索引实现 可以把它理解成：\nGraphRAG 负责把文本变成 KG\nArchRAG 负责把 KG 进一步变成“层次社区索引”\nHCHNSW 负责让多层检索真正跑得快\n2. 仓库结构总览 2.1 需要优先读懂的目录 目录/文件 作用 是否核心 README.md 项目总体说明、论文链接、基本运行方式 是 dataset/index.sh 离线建索引脚本样例 是 dataset/query.sh 在线问答评测脚本样例 是 dataset/settings.yaml GraphRAG 图构建配置样例 是 src/index.py ArchRAG 离线索引主入口 是 src/inference.py ArchRAG 在线检索与生成主入口 是 src/attr_cluster.py 属性增强层次聚类核心逻辑 是 src/community_report.py 社区摘要/报告生成 是 src/client_reasoning.py 层级选择、map-reduce 生成、提示词组装 是 src/hchnsw_index.py HCHNSW 索引构建与落盘 是 src/utils.py 参数解析、图读取、embedding、图增强工具 是 src/evaluate/ QA 评测、摘要评测、索引/聚类实验 重要 metric/ 聚类质量指标与基线聚类实现 重要 src/graphrag/ GraphRAG 基线与 KG 构建 基础设施 HCHNSW/ 改造版 Faiss，提供 IndexHCHNSW* 基础设施 2.2 不要一开始陷进去的目录 HCHNSW/faiss/ 代码量极大，大部分是上游 Faiss；只需要关注 IndexHCHNSW.* 与 impl/HCHNSW.* src/graphrag/ 是 GraphRAG 基线和配套模块，不是 ArchRAG 创新点本身 3. 论文在讲什么 论文题目：ArchRAG: Attributed Community-based Hierarchical Retrieval-Augmented Generation\n论文链接：https://arxiv.org/abs/2502.09891\n我核对到的 arXiv 页面显示最新版本为 v3，2025-08-08。\n",
+  "keywords": [
+    
+  ],
+  "articleBody": "ArchRAG 项目理解入门 1. 项目一句话说明 ArchRAG 是一个基于知识图谱的 Graph-based RAG 系统。它的核心目标不是只做“向量检索 + 生成”，而是把语料先构造成图，再把图中的实体与**社区（community）**组织成多层级结构，最后在查询时按层级检索并做答案生成。\n这套仓库同时包含两部分：\n论文方法本体的实现层：根目录 src/*.py GraphRAG / Faiss 的基础设施层： src/graphrag/：Microsoft GraphRAG 的基线与图构建代码 HCHNSW/faiss/：基于 Faiss 1.8.0 改造的自定义 ANN 索引实现 可以把它理解成：\nGraphRAG 负责把文本变成 KG\nArchRAG 负责把 KG 进一步变成“层次社区索引”\nHCHNSW 负责让多层检索真正跑得快\n2. 仓库结构总览 2.1 需要优先读懂的目录 目录/文件 作用 是否核心 README.md 项目总体说明、论文链接、基本运行方式 是 dataset/index.sh 离线建索引脚本样例 是 dataset/query.sh 在线问答评测脚本样例 是 dataset/settings.yaml GraphRAG 图构建配置样例 是 src/index.py ArchRAG 离线索引主入口 是 src/inference.py ArchRAG 在线检索与生成主入口 是 src/attr_cluster.py 属性增强层次聚类核心逻辑 是 src/community_report.py 社区摘要/报告生成 是 src/client_reasoning.py 层级选择、map-reduce 生成、提示词组装 是 src/hchnsw_index.py HCHNSW 索引构建与落盘 是 src/utils.py 参数解析、图读取、embedding、图增强工具 是 src/evaluate/ QA 评测、摘要评测、索引/聚类实验 重要 metric/ 聚类质量指标与基线聚类实现 重要 src/graphrag/ GraphRAG 基线与 KG 构建 基础设施 HCHNSW/ 改造版 Faiss，提供 IndexHCHNSW* 基础设施 2.2 不要一开始陷进去的目录 HCHNSW/faiss/ 代码量极大，大部分是上游 Faiss；只需要关注 IndexHCHNSW.* 与 impl/HCHNSW.* src/graphrag/ 是 GraphRAG 基线和配套模块，不是 ArchRAG 创新点本身 3. 论文在讲什么 论文题目：ArchRAG: Attributed Community-based Hierarchical Retrieval-Augmented Generation\n论文链接：https://arxiv.org/abs/2502.09891\n我核对到的 arXiv 页面显示最新版本为 v3，2025-08-08。\n3.1 论文要解决的三个问题 论文对 GraphRAG 的批评可以概括成三点：\n社区质量低\nGraphRAG 主要依赖图结构做社区划分 忽略了实体/关系文本属性 导致同一社区里语义可能很杂，社区摘要质量也会受影响 粒度不灵活\n现有方法通常只在某一个粒度上检索 抽象问题和细粒度事实问题很难同时兼顾 在线 token 成本高\n特别是 GraphRAG 的 global search，需要遍历大量社区摘要 在真实问答中成本会非常高 3.2 论文的核心主张 ArchRAG 的回答是：\n用属性增强社区替代纯结构社区 用层次化社区结构同时覆盖抽象与具体问题 用C-HNSW / HCHNSW 这样的层次索引降低多层检索成本 用adaptive filtering + map/reduce减少长上下文直接塞给 LLM 的问题 3.3 论文方法的两阶段 阶段 A：离线索引 从语料构建 KG 对 KG 做属性增强与层次聚类 为每个社区生成 LLM 摘要 为每一层生成 level summary 把“社区 + 实体”一起写入 HCHNSW 索引 阶段 B：在线检索与生成 把问题编码成 query embedding 在 HCHNSW 上做多层搜索 同时取出实体、社区、关系、可选 chunk 先 map，再 reduce，得到最终答案 4. 论文概念如何映射到代码 这一节最重要。建议把“论文术语”和“代码文件”对应记住。\n论文概念 仓库实现 KG construction src/graphrag/ + dataset/settings.yaml attributed community / AC src/attr_cluster.py graph augmentation by attribute similarity src/utils.py -\u003e compute_distance() community report generation src/community_report.py level summary src/client_reasoning.py -\u003e level_summary() C-HNSW / HCHNSW index src/hchnsw_index.py + HCHNSW/faiss/ hierarchical retrieval src/inference.py -\u003e hcarag_retrieval() adaptive filtering-based generation src/client_reasoning.py -\u003e map_inference()/reduce_inference() 5. 端到端执行流程 5.1 图构建阶段：先跑 GraphRAG 对应资料：\nREADME.md src/graphrag/README.md dataset/settings.yaml 流程大致是：\n把原始语料放进 corpus/input 用 GraphRAG 从文本 chunk 中抽实体和关系 生成 create_final_entities.parquet 与 create_final_relationships.parquet 把它们作为 ArchRAG 的输入图 注意：\ndataset/settings.yaml 里显式跳过了一些 GraphRAG 工作流，例如 create_final_community_reports 说明这个项目只把 GraphRAG 当成 KG 构建器，而不是直接使用它自带的社区摘要/检索流程 5.2 ArchRAG 离线建索引 主入口：src/index.py\n代码级步骤 read_graph_nx()\n从 entity / relationship 文件读取图 位置：src/utils.py process_entity_embedding()\n给实体算 embedding，并挂到 networkx 图节点上 attr_cluster()\n位置：src/attr_cluster.py 做多层聚类 create_hchnsw_index()\n位置：src/hchnsw_index.py 把多层社区和实体一起写入 HCHNSW make_level_summary()\n位置：src/index.py 实际调用 src/client_reasoning.py -\u003e level_summary() 保存多个中间/最终文件\ncommunity_df_intermediate.csv community_df_index.csv entity_df_index.csv relationship_df_index.csv relationship_embedding.csv level_summary.csv hchnsw.index 核心理解 ArchRAG 的索引对象不是单一向量库，而是三层东西一起组成的：\n实体 社区 层摘要 在线问答时真正起作用的是它们的组合，而不是某一个单独对象。\n5.3 在线问答 主入口：src/inference.py\n整体函数链：\nload_index()\n-\u003e hcarag()\n-\u003e hcarag_retrieval()\n-\u003e hcarag_inference()\n-\u003e hcarag_inference_direct() 或 hcarag_inference_mr()\n检索阶段做了什么 对 query 做 embedding 根据策略决定每层取多少个结果 global all inference 按层调用 HCHNSW 搜索 合并得到候选实体/社区 从候选实体关联出的关系中，再按 embedding 相似度取 top-k 关系 可选： 取 vanilla chunk 检索结果 做 PPR refine 生成阶段做了什么 有两条路线：\ndirect\n直接把实体/关系/社区拼 prompt，让 LLM 出答案 mr\n先让 LLM 对问题做一步自由推理 再把检索结果拆成多个 chunk 做 map 每个 chunk 返回 points 最后 reduce 汇总成答案 论文里说的 adaptive filtering，在代码里主要体现在这条 mr 路径上。\n6. 核心模块逐个解读 6.1 src/utils.py：底座工具文件 这个文件很重要，承担了四类职责：\n参数解析\ncreate_arg_parser() create_inference_arg_parser() 图读取\nread_graph_nx() 将实体和关系文件转成 NetworkX 图 embedding\nentity_embedding() relation_embedding() 通过 OpenAI-compatible API 或本地模型算向量 图增强\ncompute_distance() 先把原图边赋权为余弦相似度 再用 HNSW 找相似节点补边 这里体现的论文思想 论文里“属性增强”的本质，在这份代码里首先体现为：\n把实体文本变成 embedding 再用 embedding 相似度补图边与赋边权 也就是说，这个仓库目前对“attribute”最直接的实现就是文本 embedding 驱动的图增强。\n6.2 src/attr_cluster.py：层次聚类主逻辑 这是 ArchRAG 的算法核心。\n主函数：attr_cluster()\n每一层循环都做：\n若 augment_graph=True，先 compute_distance() 得到增强图 用聚类算法得到社区 默认 weighted_leiden 也支持 spectral clustering 若不是第一层，把低层社区重新编号并映射到上层 为社区生成 LLM 报告 根据新社区重建图 进入下一层 关键设计 这个实现不是“先一次性做完层次聚类，再统一摘要”，而是：\n一层聚类 -\u003e 一层摘要 -\u003e 用摘要/社区结果重构上层图 -\u003e 再聚类\n这正对应论文里“LLM-based iterative hierarchical clustering framework”的叙事。\n终止条件 达到 max_level 或者当前层聚类数低于 min_clusters 6.3 src/community_report.py：社区报告生成 职责：\n根据社区里的实体、关系、下级社区拼装文本 调 LLM 生成结构化 JSON 报告 解析出： title summary findings rating rating_explanation 再给报告文本算 embedding 为什么重要 社区不只是一个 cluster id。\n在 ArchRAG 里，社区被提升成了可检索的语义对象。\n这意味着社区有两种表示：\n图结构表示 文本摘要表示 后续检索时真正喂给 LLM 的，主要是第二种。\n6.4 src/client_reasoning.py：查询理解与生成编排 这份文件承担两类很重要的逻辑：\nA. 查询如何决定搜哪一层 problem_reasoning()\n它会让 LLM 读取：\n每层的 level summary 每层社区数量 每层随机社区例子 然后输出每层的重要性分数，再转换成 k_per_level。\n也就是说，论文中的“支持抽象问题与具体问题的分层检索”在代码里不是硬编码规则，而是LLM 决策的层级预算分配。\nB. 检索后怎么生成答案 这里实现了：\nprep_e_r_content() prep_community_content() map_inference() reduce_inference() 它本质上是一个面向 token 限额的证据整理器。\n6.5 src/hchnsw_index.py：层次索引写入 职责很清晰：\n读取社区向量和实体向量 把社区 level 与实体 level 合成 combined_levels 社区是 1..L 实体是 0 调 faiss.IndexHCHNSWFlat 调 set_vector_level(levels) add() 所有向量 这里可以把它理解成：\n把“多层社区 + 底层实体”压到一个支持层级搜索的 ANN 索引里。\n6.6 src/inference.py：在线检索主链 几个必须记住的函数：\nhcarag() hcarag_retrieval() load_strategy() hcarag_inference_mr() load_strategy() 的三种检索策略 global\n每层取固定 k_each_level all\n更接近 GraphRAG 风格，扩大低层取样范围 inference\n先让 LLM 判断层级重要性 再按比例分配检索预算 这说明论文里的“adaptive hierarchical retrieval”在仓库中至少有一个明显落地点：strategy=inference。\n7. HCHNSW 到底是什么 对应目录：HCHNSW/faiss/\n7.1 它不是普通 HNSW Faiss 原生提供的是 IndexHNSW*。\n这个项目新增的是 IndexHCHNSW*，核心特征有两个：\n每个向量都有 level 搜索时可以指定 search_level 相关文件：\nHCHNSW/faiss/faiss/IndexHCHNSW.h HCHNSW/faiss/faiss/IndexHCHNSW.cpp HCHNSW/faiss/faiss/impl/HCHNSW.h HCHNSW/faiss/faiss/impl/HCHNSW.cpp 7.2 从头文件看它提供了什么 SearchParametersHCHNSW 里新增了：\nsearch_level entry_point efSearch HCHNSW 结构里新增了：\nlevels cross_neighbors first_entry_points_in_level 这说明它不是单纯把所有向量混在一个图里搜索，而是明确维护了层级信息和跨层入口。\n7.3 搜索过程怎么理解 从 impl/HCHNSW.cpp 的 HCHNSW::search() 看，大致逻辑是：\n从最高层入口点出发 对高于目标层的各层做 greedy search 沿 cross_neighbors 逐层下降 到达目标层后再做该层近邻搜索 这和论文叙述的“分层查找 + 逐层下钻”是一致的。\n7.4 这个模块在项目里的意义 如果没有 HCHNSW，ArchRAG 只能：\n每层单独建一个 ANN 索引 或者完全不用 ANN，直接暴力遍历 那样：\n工程实现更碎 多层检索切换更慢 不能自然支持跨层 entry point 传递 所以 HCHNSW 是论文“效率提升”主张的关键支撑。\n8. 评测与实验代码怎么读 8.1 主评测入口 src/evaluate/test_qa.py\n主要流程：\nload_index() 读取问题集 多进程跑 hcarag() 保存预测结果 再调用 src/evaluate/evaluate.py 算指标 8.2 指标文件 src/evaluate/evaluate.py\n支持：\nKGQA 风格：Hit / F1 / Precision / Recall DocQA 风格：Hit / EM / F1 NarrativeQA 风格：BLEU / METEOR / ROUGE-L 8.3 聚类与索引实验 src/evaluate/community_evaluate.py 对比不同聚类方法：\nLeiden SCAN Spectral clustering metric/metric.py 聚类质量指标包括：\nSilhouette Calinski-Harabasz Davies-Bouldin 自定义 similarity clustering entropy src/evaluate/hchnsw_evaluate.py 专门评估 HCHNSW 与“每层一个 HNSW baseline”之间的速度和 recall。\n这说明项目不只是做 QA 指标，还试图对“索引结构本身”单独做实验。\n9. 论文结论与仓库落地的对应关系 基于论文与代码，我建议这样理解“论文贡献是否真的落地”：\n9.1 已明显落地的部分 属性增强聚类\n代码里通过 embedding 图增强 + weighted clustering 实现 层次社区摘要\n社区报告与 level summary 都有实现 多层索引\nIndexHCHNSWFlat 已落地 多层检索\n支持 per-level search 和层级预算 adaptive filtering 风格生成\nmap + reduce 已有代码 9.2 更像“论文思路”，但工程上还比较粗糙的部分 查询理解依赖 LLM 打分，稳定性仍受提示词影响 很多路径使用固定阈值和启发式参数 数据路径、API 路径、实验路径大量写死 离线/在线流程耦合较重，复现实验门槛不低 10. 这个仓库和原版 GraphRAG 的关系 可以这样记：\nGraphRAG 提供了什么 文本切 chunk 从文本抽实体和关系 基础图工作流 ArchRAG 在什么地方超出了 GraphRAG 不满足于纯结构社区 引入了多层社区迭代构建 引入了专门的层次 ANN 索引 不只做 global/local 二分，而是多层联合检索 生成阶段强调 adaptive filtering，而不是简单把所有检索结果拼接 11. 当前代码的工程现状与问题 这是做项目接手时必须知道的现实情况。\n11.1 可移植性一般 很多脚本和评测代码里存在硬编码路径，例如：\n/mnt/data/wangshu/... 固定数据集目录 固定 index 文件位置 这意味着：\n仓库不是开箱即用 复现依赖原作者的目录组织方式 11.2 配置分散 配置来源同时分布在：\ndataset/*.sh dataset/settings.yaml src/utils.py 的 argparse 默认值 这会导致参数真实生效位置不够直观。\n11.3 密钥与实验参数管理不规范 样例脚本中出现了硬编码 API 配置位，说明项目还停留在实验脚本风格，而不是正式产品风格。\n11.4 测试不足 虽然有 src/evaluate/，但更偏实验评测，不是单元测试/集成测试体系。\n11.5 模块边界还可以更清晰 例如：\nutils.py 过于臃肿 prompt、推理、数据处理有明显交叉 线上推理和实验脚本耦合较深 12. 读代码建议顺序 如果你要尽快上手，推荐顺序如下：\nREADME.md dataset/index.sh dataset/query.sh src/index.py src/inference.py src/attr_cluster.py src/community_report.py src/client_reasoning.py src/hchnsw_index.py src/utils.py src/evaluate/test_qa.py HCHNSW/faiss/faiss/IndexHCHNSW.h HCHNSW/faiss/faiss/impl/HCHNSW.h 这个顺序的理由是：\n先看主流程 再看算法模块 最后再看底层索引 13. 最值得做笔记的数据文件 后续如果真的跑通一次，最值得保存和理解的中间产物是：\ncreate_final_entities.parquet create_final_relationships.parquet community_df_intermediate.csv community_df_index.csv level_summary.csv entity_df_index.csv relationship_df_index.csv hchnsw.index 建议你把这几份文件之间的字段关系单独再画一张图。\n14. 论文实验结论可怎么理解 结合论文摘要、方法段落与结果页，可以提炼出三点：\n准确性更好\n论文声称在 specific QA 上优于已有 graph-based RAG token 成本更低\n关键原因是不用像 GraphRAG global search 那样遍历全部社区 社区质量更高\n论文给出了 attributed clustering 相比 Leiden 的社区质量提升 对照仓库实现，这些结论分别对应：\nsrc/evaluate/test_qa.py 多层检索 + map/reduce 过滤 metric/ 与 community_evaluate.py 15. 对项目的总体判断 如果从“科研原型”角度看，这个项目的亮点很明确：\n用社区层次替代单层图检索 用属性增强改善社区质量 用 HCHNSW 把层次检索结构化落地 如果从“工程产品”角度看，它还有明显短板：\n配置与路径硬编码较多 依赖外部环境较重 评测多、测试少 模块抽象仍偏实验脚本 所以最准确的定位是：\n这是一个研究导向、方法亮点强、工程化程度中等的 GraphRAG 改造项目。\n16. 一页总结 如果只记住最核心的内容，请记这四句：\nArchRAG 的本质，是把 KG 上的“实体 + 社区”做成层次可检索结构。 离线阶段的关键是：图增强、层次聚类、社区摘要、HCHNSW 建索引。 在线阶段的关键是：多层检索、关系补充、adaptive filtering 生成。 这个仓库最有研究价值的部分不在 src/graphrag/，而在根级 src/*.py 和 HCHNSW。 ",
+  "wordCount" : "927",
+  "inLanguage": "en",
+  "datePublished": "0001-01-01T00:00:00Z",
+  "dateModified": "0001-01-01T00:00:00Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://blog.mineguai.com/blog/%E9%A1%B9%E7%9B%AE%E7%90%86%E8%A7%A3%E5%85%A5%E9%97%A8/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "怪话怪的博客",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://blog.mineguai.com/favicon.ico"
+    }
+  }
+}
+</script>
+  <link rel="stylesheet" href="https://blog.mineguai.com/css/extended/code-copy.css">
+  <link rel="stylesheet" href="https://blog.mineguai.com/css/extended/custom-fonts.css">
+  <link rel="stylesheet" href="https://blog.mineguai.com/css/extended/click-burst.css">
+  <link rel="stylesheet" href="https://blog.mineguai.com/css/extended/mouse-runner.css">
+
+
+  <script type="text/javascript" src="https://blog.mineguai.com/js/code-copy.js" defer></script>
+  <script type="text/javascript" src="https://blog.mineguai.com/js/click-burst.js" defer></script>
+  <script type="text/javascript" src="https://blog.mineguai.com/js/mouse-runner.js" defer></script>
+
+
+  <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css' integrity='sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=' crossorigin='anonymous'>
+  <script src='https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js'></script>
+
+    <script src="/js/code_copy.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://blog.mineguai.com/" accesskey="h" title="怪话怪的博客 (Alt + H)">怪话怪的博客</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="home-info-container">
+            <img src="/images/wanzi1.jpg" alt="Logo" class="home-left-logo" />
+            <div class="home-info-text">
+                <h1>怪话怪的博客</h1>
+                <p></p>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://blog.mineguai.com/search/" title="搜索">
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      
+    </h1>
+    <div class="post-meta">
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#archrag-%e9%a1%b9%e7%9b%ae%e7%90%86%e8%a7%a3%e5%85%a5%e9%97%a8" aria-label="ArchRAG 项目理解入门">ArchRAG 项目理解入门</a><ul>
+                        
+                <li>
+                    <a href="#1-%e9%a1%b9%e7%9b%ae%e4%b8%80%e5%8f%a5%e8%af%9d%e8%af%b4%e6%98%8e" aria-label="1. 项目一句话说明">1. 项目一句话说明</a></li>
+                <li>
+                    <a href="#2-%e4%bb%93%e5%ba%93%e7%bb%93%e6%9e%84%e6%80%bb%e8%a7%88" aria-label="2. 仓库结构总览">2. 仓库结构总览</a><ul>
+                        
+                <li>
+                    <a href="#21-%e9%9c%80%e8%a6%81%e4%bc%98%e5%85%88%e8%af%bb%e6%87%82%e7%9a%84%e7%9b%ae%e5%bd%95" aria-label="2.1 需要优先读懂的目录">2.1 需要优先读懂的目录</a></li>
+                <li>
+                    <a href="#22-%e4%b8%8d%e8%a6%81%e4%b8%80%e5%bc%80%e5%a7%8b%e9%99%b7%e8%bf%9b%e5%8e%bb%e7%9a%84%e7%9b%ae%e5%bd%95" aria-label="2.2 不要一开始陷进去的目录">2.2 不要一开始陷进去的目录</a></li></ul>
+                </li>
+                <li>
+                    <a href="#3-%e8%ae%ba%e6%96%87%e5%9c%a8%e8%ae%b2%e4%bb%80%e4%b9%88" aria-label="3. 论文在讲什么">3. 论文在讲什么</a><ul>
+                        
+                <li>
+                    <a href="#31-%e8%ae%ba%e6%96%87%e8%a6%81%e8%a7%a3%e5%86%b3%e7%9a%84%e4%b8%89%e4%b8%aa%e9%97%ae%e9%a2%98" aria-label="3.1 论文要解决的三个问题">3.1 论文要解决的三个问题</a></li>
+                <li>
+                    <a href="#32-%e8%ae%ba%e6%96%87%e7%9a%84%e6%a0%b8%e5%bf%83%e4%b8%bb%e5%bc%a0" aria-label="3.2 论文的核心主张">3.2 论文的核心主张</a></li>
+                <li>
+                    <a href="#33-%e8%ae%ba%e6%96%87%e6%96%b9%e6%b3%95%e7%9a%84%e4%b8%a4%e9%98%b6%e6%ae%b5" aria-label="3.3 论文方法的两阶段">3.3 论文方法的两阶段</a><ul>
+                        
+                <li>
+                    <a href="#%e9%98%b6%e6%ae%b5-a%e7%a6%bb%e7%ba%bf%e7%b4%a2%e5%bc%95" aria-label="阶段 A：离线索引">阶段 A：离线索引</a></li>
+                <li>
+                    <a href="#%e9%98%b6%e6%ae%b5-b%e5%9c%a8%e7%ba%bf%e6%a3%80%e7%b4%a2%e4%b8%8e%e7%94%9f%e6%88%90" aria-label="阶段 B：在线检索与生成">阶段 B：在线检索与生成</a></li></ul>
+                </li></ul>
+                </li>
+                <li>
+                    <a href="#4-%e8%ae%ba%e6%96%87%e6%a6%82%e5%bf%b5%e5%a6%82%e4%bd%95%e6%98%a0%e5%b0%84%e5%88%b0%e4%bb%a3%e7%a0%81" aria-label="4. 论文概念如何映射到代码">4. 论文概念如何映射到代码</a></li>
+                <li>
+                    <a href="#5-%e7%ab%af%e5%88%b0%e7%ab%af%e6%89%a7%e8%a1%8c%e6%b5%81%e7%a8%8b" aria-label="5. 端到端执行流程">5. 端到端执行流程</a></li>
+                <li>
+                    <a href="#51-%e5%9b%be%e6%9e%84%e5%bb%ba%e9%98%b6%e6%ae%b5%e5%85%88%e8%b7%91-graphrag" aria-label="5.1 图构建阶段：先跑 GraphRAG">5.1 图构建阶段：先跑 GraphRAG</a></li>
+                <li>
+                    <a href="#52-archrag-%e7%a6%bb%e7%ba%bf%e5%bb%ba%e7%b4%a2%e5%bc%95" aria-label="5.2 ArchRAG 离线建索引">5.2 ArchRAG 离线建索引</a><ul>
+                        
+                <li>
+                    <a href="#%e4%bb%a3%e7%a0%81%e7%ba%a7%e6%ad%a5%e9%aa%a4" aria-label="代码级步骤">代码级步骤</a></li>
+                <li>
+                    <a href="#%e6%a0%b8%e5%bf%83%e7%90%86%e8%a7%a3" aria-label="核心理解">核心理解</a></li></ul>
+                </li>
+                <li>
+                    <a href="#53-%e5%9c%a8%e7%ba%bf%e9%97%ae%e7%ad%94" aria-label="5.3 在线问答">5.3 在线问答</a><ul>
+                        
+                <li>
+                    <a href="#%e6%a3%80%e7%b4%a2%e9%98%b6%e6%ae%b5%e5%81%9a%e4%ba%86%e4%bb%80%e4%b9%88" aria-label="检索阶段做了什么">检索阶段做了什么</a></li>
+                <li>
+                    <a href="#%e7%94%9f%e6%88%90%e9%98%b6%e6%ae%b5%e5%81%9a%e4%ba%86%e4%bb%80%e4%b9%88" aria-label="生成阶段做了什么">生成阶段做了什么</a></li></ul>
+                </li>
+                <li>
+                    <a href="#6-%e6%a0%b8%e5%bf%83%e6%a8%a1%e5%9d%97%e9%80%90%e4%b8%aa%e8%a7%a3%e8%af%bb" aria-label="6. 核心模块逐个解读">6. 核心模块逐个解读</a></li>
+                <li>
+                    <a href="#61-srcutilspy%e5%ba%95%e5%ba%a7%e5%b7%a5%e5%85%b7%e6%96%87%e4%bb%b6" aria-label="6.1 src/utils.py：底座工具文件">6.1 src/utils.py：底座工具文件</a><ul>
+                        
+                <li>
+                    <a href="#%e8%bf%99%e9%87%8c%e4%bd%93%e7%8e%b0%e7%9a%84%e8%ae%ba%e6%96%87%e6%80%9d%e6%83%b3" aria-label="这里体现的论文思想">这里体现的论文思想</a></li></ul>
+                </li>
+                <li>
+                    <a href="#62-srcattr_clusterpy%e5%b1%82%e6%ac%a1%e8%81%9a%e7%b1%bb%e4%b8%bb%e9%80%bb%e8%be%91" aria-label="6.2 src/attr_cluster.py：层次聚类主逻辑">6.2 src/attr_cluster.py：层次聚类主逻辑</a><ul>
+                        
+                <li>
+                    <a href="#%e5%85%b3%e9%94%ae%e8%ae%be%e8%ae%a1" aria-label="关键设计">关键设计</a></li>
+                <li>
+                    <a href="#%e7%bb%88%e6%ad%a2%e6%9d%a1%e4%bb%b6" aria-label="终止条件">终止条件</a></li></ul>
+                </li>
+                <li>
+                    <a href="#63-srccommunity_reportpy%e7%a4%be%e5%8c%ba%e6%8a%a5%e5%91%8a%e7%94%9f%e6%88%90" aria-label="6.3 src/community_report.py：社区报告生成">6.3 src/community_report.py：社区报告生成</a><ul>
+                        
+                <li>
+                    <a href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e9%87%8d%e8%a6%81" aria-label="为什么重要">为什么重要</a></li></ul>
+                </li>
+                <li>
+                    <a href="#64-srcclient_reasoningpy%e6%9f%a5%e8%af%a2%e7%90%86%e8%a7%a3%e4%b8%8e%e7%94%9f%e6%88%90%e7%bc%96%e6%8e%92" aria-label="6.4 src/client_reasoning.py：查询理解与生成编排">6.4 src/client_reasoning.py：查询理解与生成编排</a><ul>
+                        
+                <li>
+                    <a href="#a-%e6%9f%a5%e8%af%a2%e5%a6%82%e4%bd%95%e5%86%b3%e5%ae%9a%e6%90%9c%e5%93%aa%e4%b8%80%e5%b1%82" aria-label="A. 查询如何决定搜哪一层">A. 查询如何决定搜哪一层</a></li>
+                <li>
+                    <a href="#b-%e6%a3%80%e7%b4%a2%e5%90%8e%e6%80%8e%e4%b9%88%e7%94%9f%e6%88%90%e7%ad%94%e6%a1%88" aria-label="B. 检索后怎么生成答案">B. 检索后怎么生成答案</a></li></ul>
+                </li>
+                <li>
+                    <a href="#65-srchchnsw_indexpy%e5%b1%82%e6%ac%a1%e7%b4%a2%e5%bc%95%e5%86%99%e5%85%a5" aria-label="6.5 src/hchnsw_index.py：层次索引写入">6.5 src/hchnsw_index.py：层次索引写入</a></li>
+                <li>
+                    <a href="#66-srcinferencepy%e5%9c%a8%e7%ba%bf%e6%a3%80%e7%b4%a2%e4%b8%bb%e9%93%be" aria-label="6.6 src/inference.py：在线检索主链">6.6 src/inference.py：在线检索主链</a><ul>
+                        
+                <li>
+                    <a href="#load_strategy-%e7%9a%84%e4%b8%89%e7%a7%8d%e6%a3%80%e7%b4%a2%e7%ad%96%e7%95%a5" aria-label="load_strategy() 的三种检索策略">load_strategy() 的三种检索策略</a></li></ul>
+                </li>
+                <li>
+                    <a href="#7-hchnsw-%e5%88%b0%e5%ba%95%e6%98%af%e4%bb%80%e4%b9%88" aria-label="7. HCHNSW 到底是什么">7. HCHNSW 到底是什么</a><ul>
+                        
+                <li>
+                    <a href="#71-%e5%ae%83%e4%b8%8d%e6%98%af%e6%99%ae%e9%80%9a-hnsw" aria-label="7.1 它不是普通 HNSW">7.1 它不是普通 HNSW</a></li>
+                <li>
+                    <a href="#72-%e4%bb%8e%e5%a4%b4%e6%96%87%e4%bb%b6%e7%9c%8b%e5%ae%83%e6%8f%90%e4%be%9b%e4%ba%86%e4%bb%80%e4%b9%88" aria-label="7.2 从头文件看它提供了什么">7.2 从头文件看它提供了什么</a></li>
+                <li>
+                    <a href="#73-%e6%90%9c%e7%b4%a2%e8%bf%87%e7%a8%8b%e6%80%8e%e4%b9%88%e7%90%86%e8%a7%a3" aria-label="7.3 搜索过程怎么理解">7.3 搜索过程怎么理解</a></li>
+                <li>
+                    <a href="#74-%e8%bf%99%e4%b8%aa%e6%a8%a1%e5%9d%97%e5%9c%a8%e9%a1%b9%e7%9b%ae%e9%87%8c%e7%9a%84%e6%84%8f%e4%b9%89" aria-label="7.4 这个模块在项目里的意义">7.4 这个模块在项目里的意义</a></li></ul>
+                </li>
+                <li>
+                    <a href="#8-%e8%af%84%e6%b5%8b%e4%b8%8e%e5%ae%9e%e9%aa%8c%e4%bb%a3%e7%a0%81%e6%80%8e%e4%b9%88%e8%af%bb" aria-label="8. 评测与实验代码怎么读">8. 评测与实验代码怎么读</a></li>
+                <li>
+                    <a href="#81-%e4%b8%bb%e8%af%84%e6%b5%8b%e5%85%a5%e5%8f%a3" aria-label="8.1 主评测入口">8.1 主评测入口</a></li>
+                <li>
+                    <a href="#82-%e6%8c%87%e6%a0%87%e6%96%87%e4%bb%b6" aria-label="8.2 指标文件">8.2 指标文件</a></li>
+                <li>
+                    <a href="#83-%e8%81%9a%e7%b1%bb%e4%b8%8e%e7%b4%a2%e5%bc%95%e5%ae%9e%e9%aa%8c" aria-label="8.3 聚类与索引实验">8.3 聚类与索引实验</a><ul>
+                        
+                <li>
+                    <a href="#srcevaluatecommunity_evaluatepy" aria-label="src/evaluate/community_evaluate.py">src/evaluate/community_evaluate.py</a></li>
+                <li>
+                    <a href="#metricmetricpy" aria-label="metric/metric.py">metric/metric.py</a></li>
+                <li>
+                    <a href="#srcevaluatehchnsw_evaluatepy" aria-label="src/evaluate/hchnsw_evaluate.py">src/evaluate/hchnsw_evaluate.py</a></li></ul>
+                </li>
+                <li>
+                    <a href="#9-%e8%ae%ba%e6%96%87%e7%bb%93%e8%ae%ba%e4%b8%8e%e4%bb%93%e5%ba%93%e8%90%bd%e5%9c%b0%e7%9a%84%e5%af%b9%e5%ba%94%e5%85%b3%e7%b3%bb" aria-label="9. 论文结论与仓库落地的对应关系">9. 论文结论与仓库落地的对应关系</a><ul>
+                        
+                <li>
+                    <a href="#91-%e5%b7%b2%e6%98%8e%e6%98%be%e8%90%bd%e5%9c%b0%e7%9a%84%e9%83%a8%e5%88%86" aria-label="9.1 已明显落地的部分">9.1 已明显落地的部分</a></li>
+                <li>
+                    <a href="#92-%e6%9b%b4%e5%83%8f%e8%ae%ba%e6%96%87%e6%80%9d%e8%b7%af%e4%bd%86%e5%b7%a5%e7%a8%8b%e4%b8%8a%e8%bf%98%e6%af%94%e8%be%83%e7%b2%97%e7%b3%99%e7%9a%84%e9%83%a8%e5%88%86" aria-label="9.2 更像“论文思路”，但工程上还比较粗糙的部分">9.2 更像“论文思路”，但工程上还比较粗糙的部分</a></li></ul>
+                </li>
+                <li>
+                    <a href="#10-%e8%bf%99%e4%b8%aa%e4%bb%93%e5%ba%93%e5%92%8c%e5%8e%9f%e7%89%88-graphrag-%e7%9a%84%e5%85%b3%e7%b3%bb" aria-label="10. 这个仓库和原版 GraphRAG 的关系">10. 这个仓库和原版 GraphRAG 的关系</a><ul>
+                        
+                <li>
+                    <a href="#graphrag-%e6%8f%90%e4%be%9b%e4%ba%86%e4%bb%80%e4%b9%88" aria-label="GraphRAG 提供了什么">GraphRAG 提供了什么</a></li>
+                <li>
+                    <a href="#archrag-%e5%9c%a8%e4%bb%80%e4%b9%88%e5%9c%b0%e6%96%b9%e8%b6%85%e5%87%ba%e4%ba%86-graphrag" aria-label="ArchRAG 在什么地方超出了 GraphRAG">ArchRAG 在什么地方超出了 GraphRAG</a></li></ul>
+                </li>
+                <li>
+                    <a href="#11-%e5%bd%93%e5%89%8d%e4%bb%a3%e7%a0%81%e7%9a%84%e5%b7%a5%e7%a8%8b%e7%8e%b0%e7%8a%b6%e4%b8%8e%e9%97%ae%e9%a2%98" aria-label="11. 当前代码的工程现状与问题">11. 当前代码的工程现状与问题</a><ul>
+                        
+                <li>
+                    <a href="#111-%e5%8f%af%e7%a7%bb%e6%a4%8d%e6%80%a7%e4%b8%80%e8%88%ac" aria-label="11.1 可移植性一般">11.1 可移植性一般</a></li>
+                <li>
+                    <a href="#112-%e9%85%8d%e7%bd%ae%e5%88%86%e6%95%a3" aria-label="11.2 配置分散">11.2 配置分散</a></li>
+                <li>
+                    <a href="#113-%e5%af%86%e9%92%a5%e4%b8%8e%e5%ae%9e%e9%aa%8c%e5%8f%82%e6%95%b0%e7%ae%a1%e7%90%86%e4%b8%8d%e8%a7%84%e8%8c%83" aria-label="11.3 密钥与实验参数管理不规范">11.3 密钥与实验参数管理不规范</a></li>
+                <li>
+                    <a href="#114-%e6%b5%8b%e8%af%95%e4%b8%8d%e8%b6%b3" aria-label="11.4 测试不足">11.4 测试不足</a></li>
+                <li>
+                    <a href="#115-%e6%a8%a1%e5%9d%97%e8%be%b9%e7%95%8c%e8%bf%98%e5%8f%af%e4%bb%a5%e6%9b%b4%e6%b8%85%e6%99%b0" aria-label="11.5 模块边界还可以更清晰">11.5 模块边界还可以更清晰</a></li></ul>
+                </li>
+                <li>
+                    <a href="#12-%e8%af%bb%e4%bb%a3%e7%a0%81%e5%bb%ba%e8%ae%ae%e9%a1%ba%e5%ba%8f" aria-label="12. 读代码建议顺序">12. 读代码建议顺序</a></li>
+                <li>
+                    <a href="#13-%e6%9c%80%e5%80%bc%e5%be%97%e5%81%9a%e7%ac%94%e8%ae%b0%e7%9a%84%e6%95%b0%e6%8d%ae%e6%96%87%e4%bb%b6" aria-label="13. 最值得做笔记的数据文件">13. 最值得做笔记的数据文件</a></li>
+                <li>
+                    <a href="#14-%e8%ae%ba%e6%96%87%e5%ae%9e%e9%aa%8c%e7%bb%93%e8%ae%ba%e5%8f%af%e6%80%8e%e4%b9%88%e7%90%86%e8%a7%a3" aria-label="14. 论文实验结论可怎么理解">14. 论文实验结论可怎么理解</a></li>
+                <li>
+                    <a href="#15-%e5%af%b9%e9%a1%b9%e7%9b%ae%e7%9a%84%e6%80%bb%e4%bd%93%e5%88%a4%e6%96%ad" aria-label="15. 对项目的总体判断">15. 对项目的总体判断</a></li>
+                <li>
+                    <a href="#16-%e4%b8%80%e9%a1%b5%e6%80%bb%e7%bb%93" aria-label="16. 一页总结">16. 一页总结</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h1 id="archrag-项目理解入门">ArchRAG 项目理解入门<a hidden class="anchor" aria-hidden="true" href="#archrag-项目理解入门">#</a></h1>
+<h2 id="1-项目一句话说明">1. 项目一句话说明<a hidden class="anchor" aria-hidden="true" href="#1-项目一句话说明">#</a></h2>
+<p>ArchRAG 是一个基于知识图谱的 Graph-based RAG 系统。它的核心目标不是只做“向量检索 + 生成”，而是把语料先构造成图，再把图中的<strong>实体</strong>与**社区（community）**组织成多层级结构，最后在查询时按层级检索并做答案生成。</p>
+<p>这套仓库同时包含两部分：</p>
+<ol>
+<li><strong>论文方法本体的实现层</strong>：根目录 <code>src/*.py</code></li>
+<li><strong>GraphRAG / Faiss 的基础设施层</strong>：
+<ul>
+<li><code>src/graphrag/</code>：Microsoft GraphRAG 的基线与图构建代码</li>
+<li><code>HCHNSW/faiss/</code>：基于 Faiss 1.8.0 改造的自定义 ANN 索引实现</li>
+</ul>
+</li>
+</ol>
+<p>可以把它理解成：</p>
+<p><code>GraphRAG 负责把文本变成 KG</code><br>
+<code>ArchRAG 负责把 KG 进一步变成“层次社区索引”</code><br>
+<code>HCHNSW 负责让多层检索真正跑得快</code></p>
+<hr>
+<h2 id="2-仓库结构总览">2. 仓库结构总览<a hidden class="anchor" aria-hidden="true" href="#2-仓库结构总览">#</a></h2>
+<h3 id="21-需要优先读懂的目录">2.1 需要优先读懂的目录<a hidden class="anchor" aria-hidden="true" href="#21-需要优先读懂的目录">#</a></h3>
+<table>
+  <thead>
+      <tr>
+          <th>目录/文件</th>
+          <th>作用</th>
+          <th>是否核心</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>README.md</code></td>
+          <td>项目总体说明、论文链接、基本运行方式</td>
+          <td>是</td>
+      </tr>
+      <tr>
+          <td><code>dataset/index.sh</code></td>
+          <td>离线建索引脚本样例</td>
+          <td>是</td>
+      </tr>
+      <tr>
+          <td><code>dataset/query.sh</code></td>
+          <td>在线问答评测脚本样例</td>
+          <td>是</td>
+      </tr>
+      <tr>
+          <td><code>dataset/settings.yaml</code></td>
+          <td>GraphRAG 图构建配置样例</td>
+          <td>是</td>
+      </tr>
+      <tr>
+          <td><code>src/index.py</code></td>
+          <td>ArchRAG 离线索引主入口</td>
+          <td>是</td>
+      </tr>
+      <tr>
+          <td><code>src/inference.py</code></td>
+          <td>ArchRAG 在线检索与生成主入口</td>
+          <td>是</td>
+      </tr>
+      <tr>
+          <td><code>src/attr_cluster.py</code></td>
+          <td>属性增强层次聚类核心逻辑</td>
+          <td>是</td>
+      </tr>
+      <tr>
+          <td><code>src/community_report.py</code></td>
+          <td>社区摘要/报告生成</td>
+          <td>是</td>
+      </tr>
+      <tr>
+          <td><code>src/client_reasoning.py</code></td>
+          <td>层级选择、map-reduce 生成、提示词组装</td>
+          <td>是</td>
+      </tr>
+      <tr>
+          <td><code>src/hchnsw_index.py</code></td>
+          <td>HCHNSW 索引构建与落盘</td>
+          <td>是</td>
+      </tr>
+      <tr>
+          <td><code>src/utils.py</code></td>
+          <td>参数解析、图读取、embedding、图增强工具</td>
+          <td>是</td>
+      </tr>
+      <tr>
+          <td><code>src/evaluate/</code></td>
+          <td>QA 评测、摘要评测、索引/聚类实验</td>
+          <td>重要</td>
+      </tr>
+      <tr>
+          <td><code>metric/</code></td>
+          <td>聚类质量指标与基线聚类实现</td>
+          <td>重要</td>
+      </tr>
+      <tr>
+          <td><code>src/graphrag/</code></td>
+          <td>GraphRAG 基线与 KG 构建</td>
+          <td>基础设施</td>
+      </tr>
+      <tr>
+          <td><code>HCHNSW/</code></td>
+          <td>改造版 Faiss，提供 <code>IndexHCHNSW*</code></td>
+          <td>基础设施</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="22-不要一开始陷进去的目录">2.2 不要一开始陷进去的目录<a hidden class="anchor" aria-hidden="true" href="#22-不要一开始陷进去的目录">#</a></h3>
+<ul>
+<li><code>HCHNSW/faiss/</code> 代码量极大，大部分是上游 Faiss；只需要关注 <code>IndexHCHNSW.*</code> 与 <code>impl/HCHNSW.*</code></li>
+<li><code>src/graphrag/</code> 是 GraphRAG 基线和配套模块，不是 ArchRAG 创新点本身</li>
+</ul>
+<hr>
+<h2 id="3-论文在讲什么">3. 论文在讲什么<a hidden class="anchor" aria-hidden="true" href="#3-论文在讲什么">#</a></h2>
+<p>论文题目：<strong>ArchRAG: Attributed Community-based Hierarchical Retrieval-Augmented Generation</strong><br>
+论文链接：<a href="https://arxiv.org/abs/2502.09891">https://arxiv.org/abs/2502.09891</a><br>
+我核对到的 arXiv 页面显示最新版本为 <strong>v3，2025-08-08</strong>。</p>
+<h3 id="31-论文要解决的三个问题">3.1 论文要解决的三个问题<a hidden class="anchor" aria-hidden="true" href="#31-论文要解决的三个问题">#</a></h3>
+<p>论文对 GraphRAG 的批评可以概括成三点：</p>
+<ol>
+<li>
+<p><strong>社区质量低</strong></p>
+<ul>
+<li>GraphRAG 主要依赖图结构做社区划分</li>
+<li>忽略了实体/关系文本属性</li>
+<li>导致同一社区里语义可能很杂，社区摘要质量也会受影响</li>
+</ul>
+</li>
+<li>
+<p><strong>粒度不灵活</strong></p>
+<ul>
+<li>现有方法通常只在某一个粒度上检索</li>
+<li>抽象问题和细粒度事实问题很难同时兼顾</li>
+</ul>
+</li>
+<li>
+<p><strong>在线 token 成本高</strong></p>
+<ul>
+<li>特别是 GraphRAG 的 global search，需要遍历大量社区摘要</li>
+<li>在真实问答中成本会非常高</li>
+</ul>
+</li>
+</ol>
+<h3 id="32-论文的核心主张">3.2 论文的核心主张<a hidden class="anchor" aria-hidden="true" href="#32-论文的核心主张">#</a></h3>
+<p>ArchRAG 的回答是：</p>
+<ol>
+<li>用<strong>属性增强社区</strong>替代纯结构社区</li>
+<li>用<strong>层次化社区结构</strong>同时覆盖抽象与具体问题</li>
+<li>用<strong>C-HNSW / HCHNSW 这样的层次索引</strong>降低多层检索成本</li>
+<li>用<strong>adaptive filtering + map/reduce</strong>减少长上下文直接塞给 LLM 的问题</li>
+</ol>
+<h3 id="33-论文方法的两阶段">3.3 论文方法的两阶段<a hidden class="anchor" aria-hidden="true" href="#33-论文方法的两阶段">#</a></h3>
+<h4 id="阶段-a离线索引">阶段 A：离线索引<a hidden class="anchor" aria-hidden="true" href="#阶段-a离线索引">#</a></h4>
+<ol>
+<li>从语料构建 KG</li>
+<li>对 KG 做属性增强与层次聚类</li>
+<li>为每个社区生成 LLM 摘要</li>
+<li>为每一层生成 level summary</li>
+<li>把“社区 + 实体”一起写入 HCHNSW 索引</li>
+</ol>
+<h4 id="阶段-b在线检索与生成">阶段 B：在线检索与生成<a hidden class="anchor" aria-hidden="true" href="#阶段-b在线检索与生成">#</a></h4>
+<ol>
+<li>把问题编码成 query embedding</li>
+<li>在 HCHNSW 上做多层搜索</li>
+<li>同时取出实体、社区、关系、可选 chunk</li>
+<li>先 map，再 reduce，得到最终答案</li>
+</ol>
+<hr>
+<h2 id="4-论文概念如何映射到代码">4. 论文概念如何映射到代码<a hidden class="anchor" aria-hidden="true" href="#4-论文概念如何映射到代码">#</a></h2>
+<p>这一节最重要。建议把“论文术语”和“代码文件”对应记住。</p>
+<table>
+  <thead>
+      <tr>
+          <th>论文概念</th>
+          <th>仓库实现</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>KG construction</td>
+          <td><code>src/graphrag/</code> + <code>dataset/settings.yaml</code></td>
+      </tr>
+      <tr>
+          <td>attributed community / AC</td>
+          <td><code>src/attr_cluster.py</code></td>
+      </tr>
+      <tr>
+          <td>graph augmentation by attribute similarity</td>
+          <td><code>src/utils.py -&gt; compute_distance()</code></td>
+      </tr>
+      <tr>
+          <td>community report generation</td>
+          <td><code>src/community_report.py</code></td>
+      </tr>
+      <tr>
+          <td>level summary</td>
+          <td><code>src/client_reasoning.py -&gt; level_summary()</code></td>
+      </tr>
+      <tr>
+          <td>C-HNSW / HCHNSW index</td>
+          <td><code>src/hchnsw_index.py</code> + <code>HCHNSW/faiss/</code></td>
+      </tr>
+      <tr>
+          <td>hierarchical retrieval</td>
+          <td><code>src/inference.py -&gt; hcarag_retrieval()</code></td>
+      </tr>
+      <tr>
+          <td>adaptive filtering-based generation</td>
+          <td><code>src/client_reasoning.py -&gt; map_inference()/reduce_inference()</code></td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="5-端到端执行流程">5. 端到端执行流程<a hidden class="anchor" aria-hidden="true" href="#5-端到端执行流程">#</a></h2>
+<h2 id="51-图构建阶段先跑-graphrag">5.1 图构建阶段：先跑 GraphRAG<a hidden class="anchor" aria-hidden="true" href="#51-图构建阶段先跑-graphrag">#</a></h2>
+<p>对应资料：</p>
+<ul>
+<li><code>README.md</code></li>
+<li><code>src/graphrag/README.md</code></li>
+<li><code>dataset/settings.yaml</code></li>
+</ul>
+<p>流程大致是：</p>
+<ol>
+<li>把原始语料放进 <code>corpus/input</code></li>
+<li>用 GraphRAG 从文本 chunk 中抽实体和关系</li>
+<li>生成 <code>create_final_entities.parquet</code> 与 <code>create_final_relationships.parquet</code></li>
+<li>把它们作为 ArchRAG 的输入图</li>
+</ol>
+<p>注意：</p>
+<ul>
+<li><code>dataset/settings.yaml</code> 里显式跳过了一些 GraphRAG 工作流，例如 <code>create_final_community_reports</code></li>
+<li>说明这个项目只把 GraphRAG 当成 <strong>KG 构建器</strong>，而不是直接使用它自带的社区摘要/检索流程</li>
+</ul>
+<h2 id="52-archrag-离线建索引">5.2 ArchRAG 离线建索引<a hidden class="anchor" aria-hidden="true" href="#52-archrag-离线建索引">#</a></h2>
+<p>主入口：<code>src/index.py</code></p>
+<h3 id="代码级步骤">代码级步骤<a hidden class="anchor" aria-hidden="true" href="#代码级步骤">#</a></h3>
+<ol>
+<li>
+<p><code>read_graph_nx()</code></p>
+<ul>
+<li>从 entity / relationship 文件读取图</li>
+<li>位置：<code>src/utils.py</code></li>
+</ul>
+</li>
+<li>
+<p><code>process_entity_embedding()</code></p>
+<ul>
+<li>给实体算 embedding，并挂到 networkx 图节点上</li>
+</ul>
+</li>
+<li>
+<p><code>attr_cluster()</code></p>
+<ul>
+<li>位置：<code>src/attr_cluster.py</code></li>
+<li>做多层聚类</li>
+</ul>
+</li>
+<li>
+<p><code>create_hchnsw_index()</code></p>
+<ul>
+<li>位置：<code>src/hchnsw_index.py</code></li>
+<li>把多层社区和实体一起写入 HCHNSW</li>
+</ul>
+</li>
+<li>
+<p><code>make_level_summary()</code></p>
+<ul>
+<li>位置：<code>src/index.py</code></li>
+<li>实际调用 <code>src/client_reasoning.py -&gt; level_summary()</code></li>
+</ul>
+</li>
+<li>
+<p>保存多个中间/最终文件</p>
+<ul>
+<li><code>community_df_intermediate.csv</code></li>
+<li><code>community_df_index.csv</code></li>
+<li><code>entity_df_index.csv</code></li>
+<li><code>relationship_df_index.csv</code></li>
+<li><code>relationship_embedding.csv</code></li>
+<li><code>level_summary.csv</code></li>
+<li><code>hchnsw.index</code></li>
+</ul>
+</li>
+</ol>
+<h3 id="核心理解">核心理解<a hidden class="anchor" aria-hidden="true" href="#核心理解">#</a></h3>
+<p>ArchRAG 的索引对象不是单一向量库，而是三层东西一起组成的：</p>
+<ol>
+<li><strong>实体</strong></li>
+<li><strong>社区</strong></li>
+<li><strong>层摘要</strong></li>
+</ol>
+<p>在线问答时真正起作用的是它们的组合，而不是某一个单独对象。</p>
+<h2 id="53-在线问答">5.3 在线问答<a hidden class="anchor" aria-hidden="true" href="#53-在线问答">#</a></h2>
+<p>主入口：<code>src/inference.py</code></p>
+<p>整体函数链：</p>
+<p><code>load_index()</code><br>
+<code>-&gt; hcarag()</code><br>
+<code>-&gt; hcarag_retrieval()</code><br>
+<code>-&gt; hcarag_inference()</code><br>
+<code>-&gt; hcarag_inference_direct()</code> 或 <code>hcarag_inference_mr()</code></p>
+<h3 id="检索阶段做了什么">检索阶段做了什么<a hidden class="anchor" aria-hidden="true" href="#检索阶段做了什么">#</a></h3>
+<ol>
+<li>对 query 做 embedding</li>
+<li>根据策略决定每层取多少个结果
+<ul>
+<li><code>global</code></li>
+<li><code>all</code></li>
+<li><code>inference</code></li>
+</ul>
+</li>
+<li>按层调用 HCHNSW 搜索</li>
+<li>合并得到候选实体/社区</li>
+<li>从候选实体关联出的关系中，再按 embedding 相似度取 top-k 关系</li>
+<li>可选：
+<ul>
+<li>取 vanilla chunk 检索结果</li>
+<li>做 PPR refine</li>
+</ul>
+</li>
+</ol>
+<h3 id="生成阶段做了什么">生成阶段做了什么<a hidden class="anchor" aria-hidden="true" href="#生成阶段做了什么">#</a></h3>
+<p>有两条路线：</p>
+<ol>
+<li>
+<p><code>direct</code></p>
+<ul>
+<li>直接把实体/关系/社区拼 prompt，让 LLM 出答案</li>
+</ul>
+</li>
+<li>
+<p><code>mr</code></p>
+<ul>
+<li>先让 LLM 对问题做一步自由推理</li>
+<li>再把检索结果拆成多个 chunk 做 map</li>
+<li>每个 chunk 返回 <code>points</code></li>
+<li>最后 reduce 汇总成答案</li>
+</ul>
+</li>
+</ol>
+<p>论文里说的 adaptive filtering，在代码里主要体现在这条 <code>mr</code> 路径上。</p>
+<hr>
+<h2 id="6-核心模块逐个解读">6. 核心模块逐个解读<a hidden class="anchor" aria-hidden="true" href="#6-核心模块逐个解读">#</a></h2>
+<h2 id="61-srcutilspy底座工具文件">6.1 <code>src/utils.py</code>：底座工具文件<a hidden class="anchor" aria-hidden="true" href="#61-srcutilspy底座工具文件">#</a></h2>
+<p>这个文件很重要，承担了四类职责：</p>
+<ol>
+<li>
+<p><strong>参数解析</strong></p>
+<ul>
+<li><code>create_arg_parser()</code></li>
+<li><code>create_inference_arg_parser()</code></li>
+</ul>
+</li>
+<li>
+<p><strong>图读取</strong></p>
+<ul>
+<li><code>read_graph_nx()</code></li>
+<li>将实体和关系文件转成 NetworkX 图</li>
+</ul>
+</li>
+<li>
+<p><strong>embedding</strong></p>
+<ul>
+<li><code>entity_embedding()</code></li>
+<li><code>relation_embedding()</code></li>
+<li>通过 OpenAI-compatible API 或本地模型算向量</li>
+</ul>
+</li>
+<li>
+<p><strong>图增强</strong></p>
+<ul>
+<li><code>compute_distance()</code></li>
+<li>先把原图边赋权为余弦相似度</li>
+<li>再用 HNSW 找相似节点补边</li>
+</ul>
+</li>
+</ol>
+<h3 id="这里体现的论文思想">这里体现的论文思想<a hidden class="anchor" aria-hidden="true" href="#这里体现的论文思想">#</a></h3>
+<p>论文里“属性增强”的本质，在这份代码里首先体现为：</p>
+<ul>
+<li>把实体文本变成 embedding</li>
+<li>再用 embedding 相似度补图边与赋边权</li>
+</ul>
+<p>也就是说，这个仓库目前对“attribute”最直接的实现就是<strong>文本 embedding 驱动的图增强</strong>。</p>
+<h2 id="62-srcattr_clusterpy层次聚类主逻辑">6.2 <code>src/attr_cluster.py</code>：层次聚类主逻辑<a hidden class="anchor" aria-hidden="true" href="#62-srcattr_clusterpy层次聚类主逻辑">#</a></h2>
+<p>这是 ArchRAG 的算法核心。</p>
+<p>主函数：<code>attr_cluster()</code></p>
+<p>每一层循环都做：</p>
+<ol>
+<li>若 <code>augment_graph=True</code>，先 <code>compute_distance()</code> 得到增强图</li>
+<li>用聚类算法得到社区
+<ul>
+<li>默认 <code>weighted_leiden</code></li>
+<li>也支持 spectral clustering</li>
+</ul>
+</li>
+<li>若不是第一层，把低层社区重新编号并映射到上层</li>
+<li>为社区生成 LLM 报告</li>
+<li>根据新社区重建图</li>
+<li>进入下一层</li>
+</ol>
+<h3 id="关键设计">关键设计<a hidden class="anchor" aria-hidden="true" href="#关键设计">#</a></h3>
+<p>这个实现不是“先一次性做完层次聚类，再统一摘要”，而是：</p>
+<p><strong>一层聚类 -&gt; 一层摘要 -&gt; 用摘要/社区结果重构上层图 -&gt; 再聚类</strong></p>
+<p>这正对应论文里“LLM-based iterative hierarchical clustering framework”的叙事。</p>
+<h3 id="终止条件">终止条件<a hidden class="anchor" aria-hidden="true" href="#终止条件">#</a></h3>
+<ul>
+<li>达到 <code>max_level</code></li>
+<li>或者当前层聚类数低于 <code>min_clusters</code></li>
+</ul>
+<h2 id="63-srccommunity_reportpy社区报告生成">6.3 <code>src/community_report.py</code>：社区报告生成<a hidden class="anchor" aria-hidden="true" href="#63-srccommunity_reportpy社区报告生成">#</a></h2>
+<p>职责：</p>
+<ol>
+<li>根据社区里的实体、关系、下级社区拼装文本</li>
+<li>调 LLM 生成结构化 JSON 报告</li>
+<li>解析出：
+<ul>
+<li><code>title</code></li>
+<li><code>summary</code></li>
+<li><code>findings</code></li>
+<li><code>rating</code></li>
+<li><code>rating_explanation</code></li>
+</ul>
+</li>
+<li>再给报告文本算 embedding</li>
+</ol>
+<h3 id="为什么重要">为什么重要<a hidden class="anchor" aria-hidden="true" href="#为什么重要">#</a></h3>
+<p>社区不只是一个 cluster id。<br>
+在 ArchRAG 里，社区被提升成了<strong>可检索的语义对象</strong>。</p>
+<p>这意味着社区有两种表示：</p>
+<ol>
+<li>图结构表示</li>
+<li>文本摘要表示</li>
+</ol>
+<p>后续检索时真正喂给 LLM 的，主要是第二种。</p>
+<h2 id="64-srcclient_reasoningpy查询理解与生成编排">6.4 <code>src/client_reasoning.py</code>：查询理解与生成编排<a hidden class="anchor" aria-hidden="true" href="#64-srcclient_reasoningpy查询理解与生成编排">#</a></h2>
+<p>这份文件承担两类很重要的逻辑：</p>
+<h3 id="a-查询如何决定搜哪一层">A. 查询如何决定搜哪一层<a hidden class="anchor" aria-hidden="true" href="#a-查询如何决定搜哪一层">#</a></h3>
+<p><code>problem_reasoning()</code></p>
+<p>它会让 LLM 读取：</p>
+<ul>
+<li>每层的 level summary</li>
+<li>每层社区数量</li>
+<li>每层随机社区例子</li>
+</ul>
+<p>然后输出每层的重要性分数，再转换成 <code>k_per_level</code>。</p>
+<p>也就是说，论文中的“支持抽象问题与具体问题的分层检索”在代码里不是硬编码规则，而是<strong>LLM 决策的层级预算分配</strong>。</p>
+<h3 id="b-检索后怎么生成答案">B. 检索后怎么生成答案<a hidden class="anchor" aria-hidden="true" href="#b-检索后怎么生成答案">#</a></h3>
+<p>这里实现了：</p>
+<ul>
+<li><code>prep_e_r_content()</code></li>
+<li><code>prep_community_content()</code></li>
+<li><code>map_inference()</code></li>
+<li><code>reduce_inference()</code></li>
+</ul>
+<p>它本质上是一个面向 token 限额的证据整理器。</p>
+<h2 id="65-srchchnsw_indexpy层次索引写入">6.5 <code>src/hchnsw_index.py</code>：层次索引写入<a hidden class="anchor" aria-hidden="true" href="#65-srchchnsw_indexpy层次索引写入">#</a></h2>
+<p>职责很清晰：</p>
+<ol>
+<li>读取社区向量和实体向量</li>
+<li>把社区 level 与实体 level 合成 <code>combined_levels</code>
+<ul>
+<li>社区是 1..L</li>
+<li>实体是 0</li>
+</ul>
+</li>
+<li>调 <code>faiss.IndexHCHNSWFlat</code></li>
+<li>调 <code>set_vector_level(levels)</code></li>
+<li><code>add()</code> 所有向量</li>
+</ol>
+<p>这里可以把它理解成：</p>
+<p><strong>把“多层社区 + 底层实体”压到一个支持层级搜索的 ANN 索引里。</strong></p>
+<h2 id="66-srcinferencepy在线检索主链">6.6 <code>src/inference.py</code>：在线检索主链<a hidden class="anchor" aria-hidden="true" href="#66-srcinferencepy在线检索主链">#</a></h2>
+<p>几个必须记住的函数：</p>
+<ul>
+<li><code>hcarag()</code></li>
+<li><code>hcarag_retrieval()</code></li>
+<li><code>load_strategy()</code></li>
+<li><code>hcarag_inference_mr()</code></li>
+</ul>
+<h3 id="load_strategy-的三种检索策略"><code>load_strategy()</code> 的三种检索策略<a hidden class="anchor" aria-hidden="true" href="#load_strategy-的三种检索策略">#</a></h3>
+<ol>
+<li>
+<p><code>global</code></p>
+<ul>
+<li>每层取固定 <code>k_each_level</code></li>
+</ul>
+</li>
+<li>
+<p><code>all</code></p>
+<ul>
+<li>更接近 GraphRAG 风格，扩大低层取样范围</li>
+</ul>
+</li>
+<li>
+<p><code>inference</code></p>
+<ul>
+<li>先让 LLM 判断层级重要性</li>
+<li>再按比例分配检索预算</li>
+</ul>
+</li>
+</ol>
+<p>这说明论文里的“adaptive hierarchical retrieval”在仓库中至少有一个明显落地点：<code>strategy=inference</code>。</p>
+<hr>
+<h2 id="7-hchnsw-到底是什么">7. HCHNSW 到底是什么<a hidden class="anchor" aria-hidden="true" href="#7-hchnsw-到底是什么">#</a></h2>
+<p>对应目录：<code>HCHNSW/faiss/</code></p>
+<h3 id="71-它不是普通-hnsw">7.1 它不是普通 HNSW<a hidden class="anchor" aria-hidden="true" href="#71-它不是普通-hnsw">#</a></h3>
+<p>Faiss 原生提供的是 <code>IndexHNSW*</code>。<br>
+这个项目新增的是 <code>IndexHCHNSW*</code>，核心特征有两个：</p>
+<ol>
+<li><strong>每个向量都有 level</strong></li>
+<li><strong>搜索时可以指定 search_level</strong></li>
+</ol>
+<p>相关文件：</p>
+<ul>
+<li><code>HCHNSW/faiss/faiss/IndexHCHNSW.h</code></li>
+<li><code>HCHNSW/faiss/faiss/IndexHCHNSW.cpp</code></li>
+<li><code>HCHNSW/faiss/faiss/impl/HCHNSW.h</code></li>
+<li><code>HCHNSW/faiss/faiss/impl/HCHNSW.cpp</code></li>
+</ul>
+<h3 id="72-从头文件看它提供了什么">7.2 从头文件看它提供了什么<a hidden class="anchor" aria-hidden="true" href="#72-从头文件看它提供了什么">#</a></h3>
+<p><code>SearchParametersHCHNSW</code> 里新增了：</p>
+<ul>
+<li><code>search_level</code></li>
+<li><code>entry_point</code></li>
+<li><code>efSearch</code></li>
+</ul>
+<p><code>HCHNSW</code> 结构里新增了：</p>
+<ul>
+<li><code>levels</code></li>
+<li><code>cross_neighbors</code></li>
+<li><code>first_entry_points_in_level</code></li>
+</ul>
+<p>这说明它不是单纯把所有向量混在一个图里搜索，而是明确维护了<strong>层级信息</strong>和<strong>跨层入口</strong>。</p>
+<h3 id="73-搜索过程怎么理解">7.3 搜索过程怎么理解<a hidden class="anchor" aria-hidden="true" href="#73-搜索过程怎么理解">#</a></h3>
+<p>从 <code>impl/HCHNSW.cpp</code> 的 <code>HCHNSW::search()</code> 看，大致逻辑是：</p>
+<ol>
+<li>从最高层入口点出发</li>
+<li>对高于目标层的各层做 greedy search</li>
+<li>沿 <code>cross_neighbors</code> 逐层下降</li>
+<li>到达目标层后再做该层近邻搜索</li>
+</ol>
+<p>这和论文叙述的“分层查找 + 逐层下钻”是一致的。</p>
+<h3 id="74-这个模块在项目里的意义">7.4 这个模块在项目里的意义<a hidden class="anchor" aria-hidden="true" href="#74-这个模块在项目里的意义">#</a></h3>
+<p>如果没有 HCHNSW，ArchRAG 只能：</p>
+<ol>
+<li>每层单独建一个 ANN 索引</li>
+<li>或者完全不用 ANN，直接暴力遍历</li>
+</ol>
+<p>那样：</p>
+<ul>
+<li>工程实现更碎</li>
+<li>多层检索切换更慢</li>
+<li>不能自然支持跨层 entry point 传递</li>
+</ul>
+<p>所以 HCHNSW 是论文“效率提升”主张的关键支撑。</p>
+<hr>
+<h2 id="8-评测与实验代码怎么读">8. 评测与实验代码怎么读<a hidden class="anchor" aria-hidden="true" href="#8-评测与实验代码怎么读">#</a></h2>
+<h2 id="81-主评测入口">8.1 主评测入口<a hidden class="anchor" aria-hidden="true" href="#81-主评测入口">#</a></h2>
+<p><code>src/evaluate/test_qa.py</code></p>
+<p>主要流程：</p>
+<ol>
+<li><code>load_index()</code></li>
+<li>读取问题集</li>
+<li>多进程跑 <code>hcarag()</code></li>
+<li>保存预测结果</li>
+<li>再调用 <code>src/evaluate/evaluate.py</code> 算指标</li>
+</ol>
+<h2 id="82-指标文件">8.2 指标文件<a hidden class="anchor" aria-hidden="true" href="#82-指标文件">#</a></h2>
+<p><code>src/evaluate/evaluate.py</code></p>
+<p>支持：</p>
+<ul>
+<li>KGQA 风格：Hit / F1 / Precision / Recall</li>
+<li>DocQA 风格：Hit / EM / F1</li>
+<li>NarrativeQA 风格：BLEU / METEOR / ROUGE-L</li>
+</ul>
+<h2 id="83-聚类与索引实验">8.3 聚类与索引实验<a hidden class="anchor" aria-hidden="true" href="#83-聚类与索引实验">#</a></h2>
+<h3 id="srcevaluatecommunity_evaluatepy"><code>src/evaluate/community_evaluate.py</code><a hidden class="anchor" aria-hidden="true" href="#srcevaluatecommunity_evaluatepy">#</a></h3>
+<p>对比不同聚类方法：</p>
+<ul>
+<li>Leiden</li>
+<li>SCAN</li>
+<li>Spectral clustering</li>
+</ul>
+<h3 id="metricmetricpy"><code>metric/metric.py</code><a hidden class="anchor" aria-hidden="true" href="#metricmetricpy">#</a></h3>
+<p>聚类质量指标包括：</p>
+<ul>
+<li>Silhouette</li>
+<li>Calinski-Harabasz</li>
+<li>Davies-Bouldin</li>
+<li>自定义 similarity</li>
+<li>clustering entropy</li>
+</ul>
+<h3 id="srcevaluatehchnsw_evaluatepy"><code>src/evaluate/hchnsw_evaluate.py</code><a hidden class="anchor" aria-hidden="true" href="#srcevaluatehchnsw_evaluatepy">#</a></h3>
+<p>专门评估 HCHNSW 与“每层一个 HNSW baseline”之间的速度和 recall。</p>
+<p>这说明项目不只是做 QA 指标，还试图对“索引结构本身”单独做实验。</p>
+<hr>
+<h2 id="9-论文结论与仓库落地的对应关系">9. 论文结论与仓库落地的对应关系<a hidden class="anchor" aria-hidden="true" href="#9-论文结论与仓库落地的对应关系">#</a></h2>
+<p>基于论文与代码，我建议这样理解“论文贡献是否真的落地”：</p>
+<h3 id="91-已明显落地的部分">9.1 已明显落地的部分<a hidden class="anchor" aria-hidden="true" href="#91-已明显落地的部分">#</a></h3>
+<ol>
+<li>
+<p><strong>属性增强聚类</strong></p>
+<ul>
+<li>代码里通过 embedding 图增强 + weighted clustering 实现</li>
+</ul>
+</li>
+<li>
+<p><strong>层次社区摘要</strong></p>
+<ul>
+<li>社区报告与 level summary 都有实现</li>
+</ul>
+</li>
+<li>
+<p><strong>多层索引</strong></p>
+<ul>
+<li><code>IndexHCHNSWFlat</code> 已落地</li>
+</ul>
+</li>
+<li>
+<p><strong>多层检索</strong></p>
+<ul>
+<li>支持 per-level search 和层级预算</li>
+</ul>
+</li>
+<li>
+<p><strong>adaptive filtering 风格生成</strong></p>
+<ul>
+<li><code>map + reduce</code> 已有代码</li>
+</ul>
+</li>
+</ol>
+<h3 id="92-更像论文思路但工程上还比较粗糙的部分">9.2 更像“论文思路”，但工程上还比较粗糙的部分<a hidden class="anchor" aria-hidden="true" href="#92-更像论文思路但工程上还比较粗糙的部分">#</a></h3>
+<ol>
+<li>查询理解依赖 LLM 打分，稳定性仍受提示词影响</li>
+<li>很多路径使用固定阈值和启发式参数</li>
+<li>数据路径、API 路径、实验路径大量写死</li>
+<li>离线/在线流程耦合较重，复现实验门槛不低</li>
+</ol>
+<hr>
+<h2 id="10-这个仓库和原版-graphrag-的关系">10. 这个仓库和原版 GraphRAG 的关系<a hidden class="anchor" aria-hidden="true" href="#10-这个仓库和原版-graphrag-的关系">#</a></h2>
+<p>可以这样记：</p>
+<h3 id="graphrag-提供了什么">GraphRAG 提供了什么<a hidden class="anchor" aria-hidden="true" href="#graphrag-提供了什么">#</a></h3>
+<ol>
+<li>文本切 chunk</li>
+<li>从文本抽实体和关系</li>
+<li>基础图工作流</li>
+</ol>
+<h3 id="archrag-在什么地方超出了-graphrag">ArchRAG 在什么地方超出了 GraphRAG<a hidden class="anchor" aria-hidden="true" href="#archrag-在什么地方超出了-graphrag">#</a></h3>
+<ol>
+<li>不满足于纯结构社区</li>
+<li>引入了多层社区迭代构建</li>
+<li>引入了专门的层次 ANN 索引</li>
+<li>不只做 global/local 二分，而是多层联合检索</li>
+<li>生成阶段强调 adaptive filtering，而不是简单把所有检索结果拼接</li>
+</ol>
+<hr>
+<h2 id="11-当前代码的工程现状与问题">11. 当前代码的工程现状与问题<a hidden class="anchor" aria-hidden="true" href="#11-当前代码的工程现状与问题">#</a></h2>
+<p>这是做项目接手时必须知道的现实情况。</p>
+<h3 id="111-可移植性一般">11.1 可移植性一般<a hidden class="anchor" aria-hidden="true" href="#111-可移植性一般">#</a></h3>
+<p>很多脚本和评测代码里存在硬编码路径，例如：</p>
+<ul>
+<li><code>/mnt/data/wangshu/...</code></li>
+<li>固定数据集目录</li>
+<li>固定 index 文件位置</li>
+</ul>
+<p>这意味着：</p>
+<ul>
+<li>仓库<strong>不是开箱即用</strong></li>
+<li>复现依赖原作者的目录组织方式</li>
+</ul>
+<h3 id="112-配置分散">11.2 配置分散<a hidden class="anchor" aria-hidden="true" href="#112-配置分散">#</a></h3>
+<p>配置来源同时分布在：</p>
+<ul>
+<li><code>dataset/*.sh</code></li>
+<li><code>dataset/settings.yaml</code></li>
+<li><code>src/utils.py</code> 的 argparse 默认值</li>
+</ul>
+<p>这会导致参数真实生效位置不够直观。</p>
+<h3 id="113-密钥与实验参数管理不规范">11.3 密钥与实验参数管理不规范<a hidden class="anchor" aria-hidden="true" href="#113-密钥与实验参数管理不规范">#</a></h3>
+<p>样例脚本中出现了硬编码 API 配置位，说明项目还停留在实验脚本风格，而不是正式产品风格。</p>
+<h3 id="114-测试不足">11.4 测试不足<a hidden class="anchor" aria-hidden="true" href="#114-测试不足">#</a></h3>
+<p>虽然有 <code>src/evaluate/</code>，但更偏实验评测，不是单元测试/集成测试体系。</p>
+<h3 id="115-模块边界还可以更清晰">11.5 模块边界还可以更清晰<a hidden class="anchor" aria-hidden="true" href="#115-模块边界还可以更清晰">#</a></h3>
+<p>例如：</p>
+<ul>
+<li><code>utils.py</code> 过于臃肿</li>
+<li>prompt、推理、数据处理有明显交叉</li>
+<li>线上推理和实验脚本耦合较深</li>
+</ul>
+<hr>
+<h2 id="12-读代码建议顺序">12. 读代码建议顺序<a hidden class="anchor" aria-hidden="true" href="#12-读代码建议顺序">#</a></h2>
+<p>如果你要尽快上手，推荐顺序如下：</p>
+<ol>
+<li><code>README.md</code></li>
+<li><code>dataset/index.sh</code></li>
+<li><code>dataset/query.sh</code></li>
+<li><code>src/index.py</code></li>
+<li><code>src/inference.py</code></li>
+<li><code>src/attr_cluster.py</code></li>
+<li><code>src/community_report.py</code></li>
+<li><code>src/client_reasoning.py</code></li>
+<li><code>src/hchnsw_index.py</code></li>
+<li><code>src/utils.py</code></li>
+<li><code>src/evaluate/test_qa.py</code></li>
+<li><code>HCHNSW/faiss/faiss/IndexHCHNSW.h</code></li>
+<li><code>HCHNSW/faiss/faiss/impl/HCHNSW.h</code></li>
+</ol>
+<p>这个顺序的理由是：</p>
+<ul>
+<li>先看主流程</li>
+<li>再看算法模块</li>
+<li>最后再看底层索引</li>
+</ul>
+<hr>
+<h2 id="13-最值得做笔记的数据文件">13. 最值得做笔记的数据文件<a hidden class="anchor" aria-hidden="true" href="#13-最值得做笔记的数据文件">#</a></h2>
+<p>后续如果真的跑通一次，最值得保存和理解的中间产物是：</p>
+<ol>
+<li><code>create_final_entities.parquet</code></li>
+<li><code>create_final_relationships.parquet</code></li>
+<li><code>community_df_intermediate.csv</code></li>
+<li><code>community_df_index.csv</code></li>
+<li><code>level_summary.csv</code></li>
+<li><code>entity_df_index.csv</code></li>
+<li><code>relationship_df_index.csv</code></li>
+<li><code>hchnsw.index</code></li>
+</ol>
+<p>建议你把这几份文件之间的字段关系单独再画一张图。</p>
+<hr>
+<h2 id="14-论文实验结论可怎么理解">14. 论文实验结论可怎么理解<a hidden class="anchor" aria-hidden="true" href="#14-论文实验结论可怎么理解">#</a></h2>
+<p>结合论文摘要、方法段落与结果页，可以提炼出三点：</p>
+<ol>
+<li>
+<p><strong>准确性更好</strong></p>
+<ul>
+<li>论文声称在 specific QA 上优于已有 graph-based RAG</li>
+</ul>
+</li>
+<li>
+<p><strong>token 成本更低</strong></p>
+<ul>
+<li>关键原因是不用像 GraphRAG global search 那样遍历全部社区</li>
+</ul>
+</li>
+<li>
+<p><strong>社区质量更高</strong></p>
+<ul>
+<li>论文给出了 attributed clustering 相比 Leiden 的社区质量提升</li>
+</ul>
+</li>
+</ol>
+<p>对照仓库实现，这些结论分别对应：</p>
+<ol>
+<li><code>src/evaluate/test_qa.py</code></li>
+<li>多层检索 + map/reduce 过滤</li>
+<li><code>metric/</code> 与 <code>community_evaluate.py</code></li>
+</ol>
+<hr>
+<h2 id="15-对项目的总体判断">15. 对项目的总体判断<a hidden class="anchor" aria-hidden="true" href="#15-对项目的总体判断">#</a></h2>
+<p>如果从“科研原型”角度看，这个项目的亮点很明确：</p>
+<ol>
+<li>用社区层次替代单层图检索</li>
+<li>用属性增强改善社区质量</li>
+<li>用 HCHNSW 把层次检索结构化落地</li>
+</ol>
+<p>如果从“工程产品”角度看，它还有明显短板：</p>
+<ol>
+<li>配置与路径硬编码较多</li>
+<li>依赖外部环境较重</li>
+<li>评测多、测试少</li>
+<li>模块抽象仍偏实验脚本</li>
+</ol>
+<p>所以最准确的定位是：</p>
+<p><strong>这是一个研究导向、方法亮点强、工程化程度中等的 GraphRAG 改造项目。</strong></p>
+<hr>
+<h2 id="16-一页总结">16. 一页总结<a hidden class="anchor" aria-hidden="true" href="#16-一页总结">#</a></h2>
+<p>如果只记住最核心的内容，请记这四句：</p>
+<ol>
+<li>ArchRAG 的本质，是把 KG 上的“实体 + 社区”做成层次可检索结构。</li>
+<li>离线阶段的关键是：图增强、层次聚类、社区摘要、HCHNSW 建索引。</li>
+<li>在线阶段的关键是：多层检索、关系补充、adaptive filtering 生成。</li>
+<li>这个仓库最有研究价值的部分不在 <code>src/graphrag/</code>，而在根级 <code>src/*.py</code> 和 <code>HCHNSW</code>。</li>
+</ol>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://blog.mineguai.com/">怪话怪的博客</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a><script>
+  window.mineguaiClickBurstIcons = ["/images/click-burst/transparent.png"];
+  window.mineguaiMouseRunnerFrames = ["/images/mouse-runner/1.png","/images/mouse-runner/2.png","/images/mouse-runner/3.png","/images/mouse-runner/4.png"];
+</script>
+
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
