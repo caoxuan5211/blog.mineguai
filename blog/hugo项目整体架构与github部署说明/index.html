@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Hugo项目整体架构与GitHub部署说明 | 怪话怪的博客</title>
+<meta name="keywords" content="">
+<meta name="description" content="先说结论
+这个博客能部署到 GitHub，不只是因为“用了 Hugo”，更关键是项目架构从一开始就把“源码”和“构建产物”拆开了：
+
+F:\myblog 是 Hugo 源码仓库，负责写文章、配主题、改模板。
+F:\myblog\public 是 Hugo 生成后的静态站点目录，同时它又是一个独立 Git 仓库。
+public 的远程仓库指向 https://github.com/caoxuan5211/caoxuan5211.github.io.git。
+执行 deploy.ps1 时，Hugo 先把页面生成到 public/，再把 public/ 里的静态文件推到 GitHub Pages 仓库。
+
+所以，确实可以说：是架构决定了部署方式。
+Hugo 只负责“生成静态文件”，而“怎么上传到 GitHub”是当前这个仓库结构和脚本流程决定的。
+当前项目的整体结构
+结合这个仓库，核心目录可以这样理解：
+F:\myblog
+├── content/           # Markdown 文章内容
+├── layouts/           # 对主题模板的覆盖
+├── static/            # 原样复制到网站根目录的静态资源
+├── assets/            # 需要 Hugo 处理的资源
+├── themes/PaperMod/   # 主题（当前是 Git submodule）
+├── hugo.toml          # Hugo 主配置
+├── deploy.ps1         # 本地一键部署脚本
+└── public/            # Hugo 构建输出目录，同时是独立 Git 仓库
+这里最关键的是最后一行：">
+<meta name="author" content="">
+<link rel="canonical" href="https://blog.mineguai.com/blog/hugo%E9%A1%B9%E7%9B%AE%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84%E4%B8%8Egithub%E9%83%A8%E7%BD%B2%E8%AF%B4%E6%98%8E/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://blog.mineguai.com/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://blog.mineguai.com/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://blog.mineguai.com/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://blog.mineguai.com/apple-touch-icon.png">
+<link rel="mask-icon" href="https://blog.mineguai.com/safari-pinned-tab.svg">
+<meta name="theme-color" content="#f4eed4">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://blog.mineguai.com/blog/hugo%E9%A1%B9%E7%9B%AE%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84%E4%B8%8Egithub%E9%83%A8%E7%BD%B2%E8%AF%B4%E6%98%8E/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+</noscript><meta property="og:url" content="https://blog.mineguai.com/blog/hugo%E9%A1%B9%E7%9B%AE%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84%E4%B8%8Egithub%E9%83%A8%E7%BD%B2%E8%AF%B4%E6%98%8E/">
+  <meta property="og:site_name" content="怪话怪的博客">
+  <meta property="og:title" content="Hugo项目整体架构与GitHub部署说明">
+  <meta property="og:description" content="先说结论 这个博客能部署到 GitHub，不只是因为“用了 Hugo”，更关键是项目架构从一开始就把“源码”和“构建产物”拆开了：
+F:\myblog 是 Hugo 源码仓库，负责写文章、配主题、改模板。 F:\myblog\public 是 Hugo 生成后的静态站点目录，同时它又是一个独立 Git 仓库。 public 的远程仓库指向 https://github.com/caoxuan5211/caoxuan5211.github.io.git。 执行 deploy.ps1 时，Hugo 先把页面生成到 public/，再把 public/ 里的静态文件推到 GitHub Pages 仓库。 所以，确实可以说：是架构决定了部署方式。
+Hugo 只负责“生成静态文件”，而“怎么上传到 GitHub”是当前这个仓库结构和脚本流程决定的。
+当前项目的整体结构 结合这个仓库，核心目录可以这样理解：
+F:\myblog ├── content/ # Markdown 文章内容 ├── layouts/ # 对主题模板的覆盖 ├── static/ # 原样复制到网站根目录的静态资源 ├── assets/ # 需要 Hugo 处理的资源 ├── themes/PaperMod/ # 主题（当前是 Git submodule） ├── hugo.toml # Hugo 主配置 ├── deploy.ps1 # 本地一键部署脚本 └── public/ # Hugo 构建输出目录，同时是独立 Git 仓库 这里最关键的是最后一行：">
+  <meta property="og:locale" content="en-us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2026-04-25T00:00:00+08:00">
+    <meta property="article:modified_time" content="2026-04-25T00:00:00+08:00">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hugo项目整体架构与GitHub部署说明">
+<meta name="twitter:description" content="先说结论
+这个博客能部署到 GitHub，不只是因为“用了 Hugo”，更关键是项目架构从一开始就把“源码”和“构建产物”拆开了：
+
+F:\myblog 是 Hugo 源码仓库，负责写文章、配主题、改模板。
+F:\myblog\public 是 Hugo 生成后的静态站点目录，同时它又是一个独立 Git 仓库。
+public 的远程仓库指向 https://github.com/caoxuan5211/caoxuan5211.github.io.git。
+执行 deploy.ps1 时，Hugo 先把页面生成到 public/，再把 public/ 里的静态文件推到 GitHub Pages 仓库。
+
+所以，确实可以说：是架构决定了部署方式。
+Hugo 只负责“生成静态文件”，而“怎么上传到 GitHub”是当前这个仓库结构和脚本流程决定的。
+当前项目的整体结构
+结合这个仓库，核心目录可以这样理解：
+F:\myblog
+├── content/           # Markdown 文章内容
+├── layouts/           # 对主题模板的覆盖
+├── static/            # 原样复制到网站根目录的静态资源
+├── assets/            # 需要 Hugo 处理的资源
+├── themes/PaperMod/   # 主题（当前是 Git submodule）
+├── hugo.toml          # Hugo 主配置
+├── deploy.ps1         # 本地一键部署脚本
+└── public/            # Hugo 构建输出目录，同时是独立 Git 仓库
+这里最关键的是最后一行：">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Blogs",
+      "item": "https://blog.mineguai.com/blog/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Hugo项目整体架构与GitHub部署说明",
+      "item": "https://blog.mineguai.com/blog/hugo%E9%A1%B9%E7%9B%AE%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84%E4%B8%8Egithub%E9%83%A8%E7%BD%B2%E8%AF%B4%E6%98%8E/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Hugo项目整体架构与GitHub部署说明",
+  "name": "Hugo项目整体架构与GitHub部署说明",
+  "description": "先说结论 这个博客能部署到 GitHub，不只是因为“用了 Hugo”，更关键是项目架构从一开始就把“源码”和“构建产物”拆开了：\nF:\\myblog 是 Hugo 源码仓库，负责写文章、配主题、改模板。 F:\\myblog\\public 是 Hugo 生成后的静态站点目录，同时它又是一个独立 Git 仓库。 public 的远程仓库指向 https://github.com/caoxuan5211/caoxuan5211.github.io.git。 执行 deploy.ps1 时，Hugo 先把页面生成到 public/，再把 public/ 里的静态文件推到 GitHub Pages 仓库。 所以，确实可以说：是架构决定了部署方式。\nHugo 只负责“生成静态文件”，而“怎么上传到 GitHub”是当前这个仓库结构和脚本流程决定的。\n当前项目的整体结构 结合这个仓库，核心目录可以这样理解：\nF:\\myblog ├── content/ # Markdown 文章内容 ├── layouts/ # 对主题模板的覆盖 ├── static/ # 原样复制到网站根目录的静态资源 ├── assets/ # 需要 Hugo 处理的资源 ├── themes/PaperMod/ # 主题（当前是 Git submodule） ├── hugo.toml # Hugo 主配置 ├── deploy.ps1 # 本地一键部署脚本 └── public/ # Hugo 构建输出目录，同时是独立 Git 仓库 这里最关键的是最后一行：\n",
+  "keywords": [
+    
+  ],
+  "articleBody": "先说结论 这个博客能部署到 GitHub，不只是因为“用了 Hugo”，更关键是项目架构从一开始就把“源码”和“构建产物”拆开了：\nF:\\myblog 是 Hugo 源码仓库，负责写文章、配主题、改模板。 F:\\myblog\\public 是 Hugo 生成后的静态站点目录，同时它又是一个独立 Git 仓库。 public 的远程仓库指向 https://github.com/caoxuan5211/caoxuan5211.github.io.git。 执行 deploy.ps1 时，Hugo 先把页面生成到 public/，再把 public/ 里的静态文件推到 GitHub Pages 仓库。 所以，确实可以说：是架构决定了部署方式。\nHugo 只负责“生成静态文件”，而“怎么上传到 GitHub”是当前这个仓库结构和脚本流程决定的。\n当前项目的整体结构 结合这个仓库，核心目录可以这样理解：\nF:\\myblog ├── content/ # Markdown 文章内容 ├── layouts/ # 对主题模板的覆盖 ├── static/ # 原样复制到网站根目录的静态资源 ├── assets/ # 需要 Hugo 处理的资源 ├── themes/PaperMod/ # 主题（当前是 Git submodule） ├── hugo.toml # Hugo 主配置 ├── deploy.ps1 # 本地一键部署脚本 └── public/ # Hugo 构建输出目录，同时是独立 Git 仓库 这里最关键的是最后一行：\npublic = 构建产物目录 + GitHub Pages 发布仓库 这就是整个发布链路的核心设计。\n这一套架构是怎么工作的 1. 内容层：content/ 你平时写的文章都在 content/ 下面，比如：\ncontent/blog/ content/posts/ 这些文件本质上只是 Markdown + Front Matter。\nHugo 不会把它们原样发到 GitHub，而是会把它们解析后生成 HTML。\n2. 表现层：主题 + 模板覆盖 当前配置里：\ntheme = 'PaperMod' 主题在 themes/PaperMod/，而且从 .gitmodules 可以看出它是一个 Git submodule。\n这表示：\n主题本身独立维护 你的博客仓库只引用它 如果你要自定义主题，不一定直接改主题源码，也可以用 layouts/ 覆盖主题模板 也就是说，这个站点的页面结构不是写死在文章里的，而是：\nMarkdown 内容 + Hugo 渲染规则 + PaperMod 主题模板 + 你的自定义 layouts/static/assets = 最终静态页面 3. 配置层：hugo.toml hugo.toml 决定了站点的全局行为。当前仓库里比较关键的配置有：\nbaseURL = 'https://blog.mineguai.com/' theme = 'PaperMod' home = [\"HTML\", \"RSS\", \"JSON\"] 自定义 CSS / JS 通过 [params.assets] 注入 搜索页依赖 JSON 输出和 fuseOpts 这里可以看出一件事：\nHugo 配置决定“生成什么样的站点”，但不决定“怎么发布到 GitHub”。\n4. 构建层：hugo 部署脚本里这一句最关键：\nhugo -D --cleanDestinationDir 它做了两件事：\n把整个站点重新构建到 public/ 清理旧的构建产物，避免残留文件 生成后，public/ 里面就不再是 Markdown，而是：\nindex.html 404.html index.xml index.json 各文章目录下的 index.html CSS / JS / 图片等静态资源 所以从 GitHub Pages 的视角看，它根本不关心 Hugo。\nGitHub Pages 看到的只是一个普通静态网站目录。\n为什么说“是架构决定部署方式” 因为 GitHub Pages 只认两种东西：\n一个仓库里的静态文件 一个可发布的分支/目录 而你当前项目采用的是这类架构：\n源码仓库（myblog） ↓ 运行 hugo 生成静态文件（public） ↓ git push GitHub Pages 仓库（caoxuan5211.github.io） ↓ blog.mineguai.com 这里真正决定部署方式的，不是 Markdown，也不是主题，而是下面这几个架构选择：\n架构选择 1：源码与产物分离 F:\\myblog 保存源代码，F:\\myblog\\public 保存构建结果。\n这样做的好处是：\n源仓库更干净，不把大量生成文件混在源码里 发布逻辑清晰，public/ 就是“待上线结果” 出问题时容易判断：是“渲染问题”还是“发布问题” 架构选择 2：public/ 自己就是 Git 仓库 这一步特别关键。\n如果 public/ 只是普通文件夹，那它只能当本地输出目录；\n但当它本身也是一个独立仓库时，它就可以直接承担“发布仓库”的角色。\n这就是为什么 deploy.ps1 会先：\nSet-Location F:\\myblog\\public git switch main 然后再：\ngit add . git commit -m \"$msg\" git push -f origin main 这已经不是 Hugo 的行为了，而是标准 Git 发布流程。\n架构选择 3：GitHub Pages 仓库单独承载静态站点 public/.git/config 里可以看到远程仓库：\nhttps://github.com/caoxuan5211/caoxuan5211.github.io.git 这意味着部署目标不是当前源码仓库，而是专门用于 Pages 的仓库。\n这样做的好处：\n页面仓库保持纯静态文件，最适合 GitHub Pages Hugo 源码仓库和线上站点解耦 可以随时换发布方式，而不必改内容组织方式 架构选择 4：自定义域名通过 CNAME 绑定 public/CNAME 里是：\nblog.mineguai.com 这说明 GitHub Pages 部署完成后，最终是通过自定义域名访问。\n所以完整链路其实是：\nHugo 源文件 → 生成 public 静态站点 → push 到 GitHub Pages 仓库 → GitHub Pages 提供静态托管 → CNAME 绑定到 blog.mineguai.com deploy.ps1 在这套架构中的角色 deploy.ps1 本质上是“把架构串起来”的自动化脚本。它不是简单执行一个命令，而是在串联四个阶段：\n阶段 1：进入发布仓库 Set-Location F:\\myblog\\public git switch $deployBranch 目的：确保 public/ 当前位于要发布的分支。\n阶段 2：从 Hugo 源码重新生成站点 Set-Location F:\\myblog hugo -D --cleanDestinationDir 目的：从 content/ + theme + layouts + static + assets + hugo.toml 重新生成完整静态站点。\n阶段 3：提交构建结果 Set-Location F:\\myblog\\public git add . git commit -m \"$msg\" 目的：把这次构建结果作为一次独立发布记录保存下来。\n阶段 4：推送到 GitHub git push -f origin $deployBranch 目的：把最新静态站点强制推送到 GitHub Pages 仓库。\n注意这里用了 -f，说明当前发布策略更偏向“以本地最新构建结果覆盖线上内容”。\n这也是架构选择的一部分：线上仓库不是协作开发仓库，而是发布产物仓库。\n这套方式和 GitHub Actions 自动部署有什么区别 你现在这套不是“GitHub 自动构建”，而是“本地构建 + 推送产物”。\n区别可以概括为：\n当前方式：本地构建后推送 public/ 优点：\n本地结果可控，看到什么就发布什么 Hugo 版本、主题效果、构建参数都由本机控制 逻辑直观，出错位置容易定位 缺点：\n必须在本地执行部署 换机器部署时要重配环境 public/ 仓库和源仓库要一起维护 另一种方式：源码 push 后由 GitHub Actions 构建 优点：\n不依赖本地环境 提交源码后可自动发布 不需要把 public/ 当独立仓库维护 缺点：\n要额外维护 CI 配置 构建失败时排查链路更长 主题、子模块、Hugo 版本都要在 CI 里明确配置 所以不是说哪种更“正确”，而是不同架构会导向不同部署方式。\n你现在这套架构，天然更适合本地构建、独立产物仓库、手动脚本发布。\n用一句话理解这套项目 这个 Hugo 博客项目，本质上分成两层：\n上层：写内容、配主题、改模板（源码层） 下层：生成 HTML/CSS/JS 并发布到 GitHub Pages（产物层） 而 public/ 这个独立 Git 仓库，就是连接这两层的桥。\n适合你当前项目的理解方式 如果以后你再看这个仓库，最实用的理解不是“这是一个 Hugo 项目”，而是：\n这是一个： 用 Hugo 生成静态页面、 用 PaperMod 负责展示、 用 content 管内容、 用 layouts/static/assets 做定制、 用 public 作为发布产物仓库、 再通过 deploy.ps1 推送到 GitHub Pages 的博客系统。 这样你以后想改部署方式、换主题、拆仓库、迁移到 Actions，思路都会更清楚。\n",
+  "wordCount" : "465",
+  "inLanguage": "en",
+  "datePublished": "2026-04-25T00:00:00+08:00",
+  "dateModified": "2026-04-25T00:00:00+08:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://blog.mineguai.com/blog/hugo%E9%A1%B9%E7%9B%AE%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84%E4%B8%8Egithub%E9%83%A8%E7%BD%B2%E8%AF%B4%E6%98%8E/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "怪话怪的博客",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://blog.mineguai.com/favicon.ico"
+    }
+  }
+}
+</script>
+  <link rel="stylesheet" href="/css/extended/code-copy.css">
+  <link rel="stylesheet" href="/css/extended/custom-fonts.css">
+  <link rel="stylesheet" href="/css/extended/mouse-runner.css">
+  <link rel="stylesheet" href="/css/extended/click-burst.css">
+  <link rel="stylesheet" href="/css/extended/blog-ui.css">
+
+
+  <script type="text/javascript" src="/js/code-copy.js" defer></script>
+  <script type="text/javascript" src="/js/mouse-runner.js" defer></script>
+  <script type="text/javascript" src="/js/click-burst.js" defer></script>
+  <script type="text/javascript" src="/js/blog-toys.js" defer></script>
+
+
+  <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css' integrity='sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=' crossorigin='anonymous'>
+  <script src='https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js'></script>
+
+    <script src="/js/code_copy.js"></script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://blog.mineguai.com/" accesskey="h" title="怪话怪的博客 (Alt + H)">怪话怪的博客</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="home-info-container">
+            <img src="/images/wanzi1.jpg" alt="Logo" class="home-left-logo" />
+            <div class="home-info-text">
+                <h1>怪话怪的博客</h1>
+                <p>算法、工程记录和一点怪话。</p>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://blog.mineguai.com/search/" title="搜索">
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://blog.mineguai.com/">Home</a>&nbsp;»&nbsp;<a href="https://blog.mineguai.com/blog/">Blogs</a></div>
+    <h1 class="post-title entry-hint-parent">
+      Hugo项目整体架构与GitHub部署说明
+      <span class="entry-hint" title="Draft">
+        <svg xmlns="http://www.w3.org/2000/svg" height="35" viewBox="0 -960 960 960" fill="currentColor">
+          <path
+            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+        </svg>
+      </span>
+    </h1>
+    <div class="post-meta"><span title='2026-04-25 00:00:00 +0800 CST'>April 25, 2026</span>&nbsp;·&nbsp;3 min
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e5%85%88%e8%af%b4%e7%bb%93%e8%ae%ba" aria-label="先说结论">先说结论</a></li>
+                <li>
+                    <a href="#%e5%bd%93%e5%89%8d%e9%a1%b9%e7%9b%ae%e7%9a%84%e6%95%b4%e4%bd%93%e7%bb%93%e6%9e%84" aria-label="当前项目的整体结构">当前项目的整体结构</a></li>
+                <li>
+                    <a href="#%e8%bf%99%e4%b8%80%e5%a5%97%e6%9e%b6%e6%9e%84%e6%98%af%e6%80%8e%e4%b9%88%e5%b7%a5%e4%bd%9c%e7%9a%84" aria-label="这一套架构是怎么工作的">这一套架构是怎么工作的</a><ul>
+                        
+                <li>
+                    <a href="#1-%e5%86%85%e5%ae%b9%e5%b1%82content" aria-label="1. 内容层：content/">1. 内容层：content/</a></li>
+                <li>
+                    <a href="#2-%e8%a1%a8%e7%8e%b0%e5%b1%82%e4%b8%bb%e9%a2%98--%e6%a8%a1%e6%9d%bf%e8%a6%86%e7%9b%96" aria-label="2. 表现层：主题 &#43; 模板覆盖">2. 表现层：主题 + 模板覆盖</a></li>
+                <li>
+                    <a href="#3-%e9%85%8d%e7%bd%ae%e5%b1%82hugotoml" aria-label="3. 配置层：hugo.toml">3. 配置层：hugo.toml</a></li>
+                <li>
+                    <a href="#4-%e6%9e%84%e5%bb%ba%e5%b1%82hugo" aria-label="4. 构建层：hugo">4. 构建层：hugo</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e8%af%b4%e6%98%af%e6%9e%b6%e6%9e%84%e5%86%b3%e5%ae%9a%e9%83%a8%e7%bd%b2%e6%96%b9%e5%bc%8f" aria-label="为什么说“是架构决定部署方式”">为什么说“是架构决定部署方式”</a><ul>
+                        
+                <li>
+                    <a href="#%e6%9e%b6%e6%9e%84%e9%80%89%e6%8b%a9-1%e6%ba%90%e7%a0%81%e4%b8%8e%e4%ba%a7%e7%89%a9%e5%88%86%e7%a6%bb" aria-label="架构选择 1：源码与产物分离">架构选择 1：源码与产物分离</a></li>
+                <li>
+                    <a href="#%e6%9e%b6%e6%9e%84%e9%80%89%e6%8b%a9-2public-%e8%87%aa%e5%b7%b1%e5%b0%b1%e6%98%af-git-%e4%bb%93%e5%ba%93" aria-label="架构选择 2：public/ 自己就是 Git 仓库">架构选择 2：public/ 自己就是 Git 仓库</a></li>
+                <li>
+                    <a href="#%e6%9e%b6%e6%9e%84%e9%80%89%e6%8b%a9-3github-pages-%e4%bb%93%e5%ba%93%e5%8d%95%e7%8b%ac%e6%89%bf%e8%bd%bd%e9%9d%99%e6%80%81%e7%ab%99%e7%82%b9" aria-label="架构选择 3：GitHub Pages 仓库单独承载静态站点">架构选择 3：GitHub Pages 仓库单独承载静态站点</a></li>
+                <li>
+                    <a href="#%e6%9e%b6%e6%9e%84%e9%80%89%e6%8b%a9-4%e8%87%aa%e5%ae%9a%e4%b9%89%e5%9f%9f%e5%90%8d%e9%80%9a%e8%bf%87-cname-%e7%bb%91%e5%ae%9a" aria-label="架构选择 4：自定义域名通过 CNAME 绑定">架构选择 4：自定义域名通过 CNAME 绑定</a></li></ul>
+                </li>
+                <li>
+                    <a href="#deployps1-%e5%9c%a8%e8%bf%99%e5%a5%97%e6%9e%b6%e6%9e%84%e4%b8%ad%e7%9a%84%e8%a7%92%e8%89%b2" aria-label="deploy.ps1 在这套架构中的角色">deploy.ps1 在这套架构中的角色</a><ul>
+                        
+                <li>
+                    <a href="#%e9%98%b6%e6%ae%b5-1%e8%bf%9b%e5%85%a5%e5%8f%91%e5%b8%83%e4%bb%93%e5%ba%93" aria-label="阶段 1：进入发布仓库">阶段 1：进入发布仓库</a></li>
+                <li>
+                    <a href="#%e9%98%b6%e6%ae%b5-2%e4%bb%8e-hugo-%e6%ba%90%e7%a0%81%e9%87%8d%e6%96%b0%e7%94%9f%e6%88%90%e7%ab%99%e7%82%b9" aria-label="阶段 2：从 Hugo 源码重新生成站点">阶段 2：从 Hugo 源码重新生成站点</a></li>
+                <li>
+                    <a href="#%e9%98%b6%e6%ae%b5-3%e6%8f%90%e4%ba%a4%e6%9e%84%e5%bb%ba%e7%bb%93%e6%9e%9c" aria-label="阶段 3：提交构建结果">阶段 3：提交构建结果</a></li>
+                <li>
+                    <a href="#%e9%98%b6%e6%ae%b5-4%e6%8e%a8%e9%80%81%e5%88%b0-github" aria-label="阶段 4：推送到 GitHub">阶段 4：推送到 GitHub</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e8%bf%99%e5%a5%97%e6%96%b9%e5%bc%8f%e5%92%8c-github-actions-%e8%87%aa%e5%8a%a8%e9%83%a8%e7%bd%b2%e6%9c%89%e4%bb%80%e4%b9%88%e5%8c%ba%e5%88%ab" aria-label="这套方式和 GitHub Actions 自动部署有什么区别">这套方式和 GitHub Actions 自动部署有什么区别</a><ul>
+                        
+                <li>
+                    <a href="#%e5%bd%93%e5%89%8d%e6%96%b9%e5%bc%8f%e6%9c%ac%e5%9c%b0%e6%9e%84%e5%bb%ba%e5%90%8e%e6%8e%a8%e9%80%81-public" aria-label="当前方式：本地构建后推送 public/">当前方式：本地构建后推送 public/</a></li>
+                <li>
+                    <a href="#%e5%8f%a6%e4%b8%80%e7%a7%8d%e6%96%b9%e5%bc%8f%e6%ba%90%e7%a0%81-push-%e5%90%8e%e7%94%b1-github-actions-%e6%9e%84%e5%bb%ba" aria-label="另一种方式：源码 push 后由 GitHub Actions 构建">另一种方式：源码 push 后由 GitHub Actions 构建</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e7%94%a8%e4%b8%80%e5%8f%a5%e8%af%9d%e7%90%86%e8%a7%a3%e8%bf%99%e5%a5%97%e9%a1%b9%e7%9b%ae" aria-label="用一句话理解这套项目">用一句话理解这套项目</a></li>
+                <li>
+                    <a href="#%e9%80%82%e5%90%88%e4%bd%a0%e5%bd%93%e5%89%8d%e9%a1%b9%e7%9b%ae%e7%9a%84%e7%90%86%e8%a7%a3%e6%96%b9%e5%bc%8f" aria-label="适合你当前项目的理解方式">适合你当前项目的理解方式</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h2 id="先说结论">先说结论<a hidden class="anchor" aria-hidden="true" href="#先说结论">#</a></h2>
+<p>这个博客能部署到 GitHub，不只是因为“用了 Hugo”，更关键是<strong>项目架构从一开始就把“源码”和“构建产物”拆开了</strong>：</p>
+<ol>
+<li><code>F:\myblog</code> 是 Hugo 源码仓库，负责写文章、配主题、改模板。</li>
+<li><code>F:\myblog\public</code> 是 Hugo 生成后的静态站点目录，同时它又是一个<strong>独立 Git 仓库</strong>。</li>
+<li><code>public</code> 的远程仓库指向 <code>https://github.com/caoxuan5211/caoxuan5211.github.io.git</code>。</li>
+<li>执行 <code>deploy.ps1</code> 时，Hugo 先把页面生成到 <code>public/</code>，再把 <code>public/</code> 里的静态文件推到 GitHub Pages 仓库。</li>
+</ol>
+<p>所以，确实可以说：<strong>是架构决定了部署方式</strong>。<br>
+Hugo 只负责“生成静态文件”，而“怎么上传到 GitHub”是当前这个仓库结构和脚本流程决定的。</p>
+<h2 id="当前项目的整体结构">当前项目的整体结构<a hidden class="anchor" aria-hidden="true" href="#当前项目的整体结构">#</a></h2>
+<p>结合这个仓库，核心目录可以这样理解：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">F:\myblog
+</span></span><span class="line"><span class="cl">├── content/           # Markdown 文章内容
+</span></span><span class="line"><span class="cl">├── layouts/           # 对主题模板的覆盖
+</span></span><span class="line"><span class="cl">├── static/            # 原样复制到网站根目录的静态资源
+</span></span><span class="line"><span class="cl">├── assets/            # 需要 Hugo 处理的资源
+</span></span><span class="line"><span class="cl">├── themes/PaperMod/   # 主题（当前是 Git submodule）
+</span></span><span class="line"><span class="cl">├── hugo.toml          # Hugo 主配置
+</span></span><span class="line"><span class="cl">├── deploy.ps1         # 本地一键部署脚本
+</span></span><span class="line"><span class="cl">└── public/            # Hugo 构建输出目录，同时是独立 Git 仓库
+</span></span></code></pre></div><p>这里最关键的是最后一行：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">public = 构建产物目录 + GitHub Pages 发布仓库
+</span></span></code></pre></div><p>这就是整个发布链路的核心设计。</p>
+<h2 id="这一套架构是怎么工作的">这一套架构是怎么工作的<a hidden class="anchor" aria-hidden="true" href="#这一套架构是怎么工作的">#</a></h2>
+<h3 id="1-内容层content">1. 内容层：<code>content/</code><a hidden class="anchor" aria-hidden="true" href="#1-内容层content">#</a></h3>
+<p>你平时写的文章都在 <code>content/</code> 下面，比如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">content/blog/
+</span></span><span class="line"><span class="cl">content/posts/
+</span></span></code></pre></div><p>这些文件本质上只是 Markdown + Front Matter。<br>
+Hugo 不会把它们原样发到 GitHub，而是会把它们解析后生成 HTML。</p>
+<h3 id="2-表现层主题--模板覆盖">2. 表现层：主题 + 模板覆盖<a hidden class="anchor" aria-hidden="true" href="#2-表现层主题--模板覆盖">#</a></h3>
+<p>当前配置里：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">theme</span> <span class="p">=</span> <span class="s1">&#39;PaperMod&#39;</span>
+</span></span></code></pre></div><p>主题在 <code>themes/PaperMod/</code>，而且从 <code>.gitmodules</code> 可以看出它是一个 Git submodule。<br>
+这表示：</p>
+<ul>
+<li>主题本身独立维护</li>
+<li>你的博客仓库只引用它</li>
+<li>如果你要自定义主题，不一定直接改主题源码，也可以用 <code>layouts/</code> 覆盖主题模板</li>
+</ul>
+<p>也就是说，这个站点的页面结构不是写死在文章里的，而是：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Markdown 内容
+</span></span><span class="line"><span class="cl">    + Hugo 渲染规则
+</span></span><span class="line"><span class="cl">    + PaperMod 主题模板
+</span></span><span class="line"><span class="cl">    + 你的自定义 layouts/static/assets
+</span></span><span class="line"><span class="cl">    = 最终静态页面
+</span></span></code></pre></div><h3 id="3-配置层hugotoml">3. 配置层：<code>hugo.toml</code><a hidden class="anchor" aria-hidden="true" href="#3-配置层hugotoml">#</a></h3>
+<p><code>hugo.toml</code> 决定了站点的全局行为。当前仓库里比较关键的配置有：</p>
+<ul>
+<li><code>baseURL = 'https://blog.mineguai.com/'</code></li>
+<li><code>theme = 'PaperMod'</code></li>
+<li><code>home = [&quot;HTML&quot;, &quot;RSS&quot;, &quot;JSON&quot;]</code></li>
+<li>自定义 CSS / JS 通过 <code>[params.assets]</code> 注入</li>
+<li>搜索页依赖 <code>JSON</code> 输出和 <code>fuseOpts</code></li>
+</ul>
+<p>这里可以看出一件事：<br>
+<strong>Hugo 配置决定“生成什么样的站点”，但不决定“怎么发布到 GitHub”。</strong></p>
+<h3 id="4-构建层hugo">4. 构建层：<code>hugo</code><a hidden class="anchor" aria-hidden="true" href="#4-构建层hugo">#</a></h3>
+<p>部署脚本里这一句最关键：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">hugo</span> <span class="n">-D</span> <span class="p">-</span><span class="n">-cleanDestinationDir</span>
+</span></span></code></pre></div><p>它做了两件事：</p>
+<ol>
+<li>把整个站点重新构建到 <code>public/</code></li>
+<li>清理旧的构建产物，避免残留文件</li>
+</ol>
+<p>生成后，<code>public/</code> 里面就不再是 Markdown，而是：</p>
+<ul>
+<li><code>index.html</code></li>
+<li><code>404.html</code></li>
+<li><code>index.xml</code></li>
+<li><code>index.json</code></li>
+<li>各文章目录下的 <code>index.html</code></li>
+<li>CSS / JS / 图片等静态资源</li>
+</ul>
+<p>所以从 GitHub Pages 的视角看，它根本不关心 Hugo。<br>
+GitHub Pages 看到的只是一个普通静态网站目录。</p>
+<h2 id="为什么说是架构决定部署方式">为什么说“是架构决定部署方式”<a hidden class="anchor" aria-hidden="true" href="#为什么说是架构决定部署方式">#</a></h2>
+<p>因为 GitHub Pages 只认两种东西：</p>
+<ol>
+<li>一个仓库里的静态文件</li>
+<li>一个可发布的分支/目录</li>
+</ol>
+<p>而你当前项目采用的是这类架构：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">源码仓库（myblog）
+</span></span><span class="line"><span class="cl">    ↓ 运行 hugo
+</span></span><span class="line"><span class="cl">生成静态文件（public）
+</span></span><span class="line"><span class="cl">    ↓ git push
+</span></span><span class="line"><span class="cl">GitHub Pages 仓库（caoxuan5211.github.io）
+</span></span><span class="line"><span class="cl">    ↓
+</span></span><span class="line"><span class="cl">blog.mineguai.com
+</span></span></code></pre></div><p>这里真正决定部署方式的，不是 Markdown，也不是主题，而是下面这几个架构选择：</p>
+<h3 id="架构选择-1源码与产物分离">架构选择 1：源码与产物分离<a hidden class="anchor" aria-hidden="true" href="#架构选择-1源码与产物分离">#</a></h3>
+<p><code>F:\myblog</code> 保存源代码，<code>F:\myblog\public</code> 保存构建结果。<br>
+这样做的好处是：</p>
+<ul>
+<li>源仓库更干净，不把大量生成文件混在源码里</li>
+<li>发布逻辑清晰，<code>public/</code> 就是“待上线结果”</li>
+<li>出问题时容易判断：是“渲染问题”还是“发布问题”</li>
+</ul>
+<h3 id="架构选择-2public-自己就是-git-仓库">架构选择 2：<code>public/</code> 自己就是 Git 仓库<a hidden class="anchor" aria-hidden="true" href="#架构选择-2public-自己就是-git-仓库">#</a></h3>
+<p>这一步特别关键。<br>
+如果 <code>public/</code> 只是普通文件夹，那它只能当本地输出目录；<br>
+但当它本身也是一个独立仓库时，它就可以直接承担“发布仓库”的角色。</p>
+<p>这就是为什么 <code>deploy.ps1</code> 会先：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Set-Location</span> <span class="n">F:</span><span class="p">\</span><span class="n">myblog</span><span class="p">\</span><span class="n">public</span>
+</span></span><span class="line"><span class="cl"><span class="n">git</span> <span class="k">switch</span> <span class="n">main</span>
+</span></span></code></pre></div><p>然后再：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">git</span> <span class="n">add</span> <span class="p">.</span>
+</span></span><span class="line"><span class="cl"><span class="n">git</span> <span class="n">commit</span> <span class="n">-m</span> <span class="s2">&#34;</span><span class="nv">$msg</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">git</span> <span class="n">push</span> <span class="o">-f</span> <span class="n">origin</span> <span class="n">main</span>
+</span></span></code></pre></div><p>这已经不是 Hugo 的行为了，而是标准 Git 发布流程。</p>
+<h3 id="架构选择-3github-pages-仓库单独承载静态站点">架构选择 3：GitHub Pages 仓库单独承载静态站点<a hidden class="anchor" aria-hidden="true" href="#架构选择-3github-pages-仓库单独承载静态站点">#</a></h3>
+<p><code>public/.git/config</code> 里可以看到远程仓库：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">https://github.com/caoxuan5211/caoxuan5211.github.io.git
+</span></span></code></pre></div><p>这意味着部署目标不是当前源码仓库，而是专门用于 Pages 的仓库。<br>
+这样做的好处：</p>
+<ul>
+<li>页面仓库保持纯静态文件，最适合 GitHub Pages</li>
+<li>Hugo 源码仓库和线上站点解耦</li>
+<li>可以随时换发布方式，而不必改内容组织方式</li>
+</ul>
+<h3 id="架构选择-4自定义域名通过-cname-绑定">架构选择 4：自定义域名通过 <code>CNAME</code> 绑定<a hidden class="anchor" aria-hidden="true" href="#架构选择-4自定义域名通过-cname-绑定">#</a></h3>
+<p><code>public/CNAME</code> 里是：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">blog.mineguai.com
+</span></span></code></pre></div><p>这说明 GitHub Pages 部署完成后，最终是通过自定义域名访问。<br>
+所以完整链路其实是：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Hugo 源文件
+</span></span><span class="line"><span class="cl">→ 生成 public 静态站点
+</span></span><span class="line"><span class="cl">→ push 到 GitHub Pages 仓库
+</span></span><span class="line"><span class="cl">→ GitHub Pages 提供静态托管
+</span></span><span class="line"><span class="cl">→ CNAME 绑定到 blog.mineguai.com
+</span></span></code></pre></div><h2 id="deployps1-在这套架构中的角色"><code>deploy.ps1</code> 在这套架构中的角色<a hidden class="anchor" aria-hidden="true" href="#deployps1-在这套架构中的角色">#</a></h2>
+<p><code>deploy.ps1</code> 本质上是“把架构串起来”的自动化脚本。它不是简单执行一个命令，而是在串联四个阶段：</p>
+<h3 id="阶段-1进入发布仓库">阶段 1：进入发布仓库<a hidden class="anchor" aria-hidden="true" href="#阶段-1进入发布仓库">#</a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Set-Location</span> <span class="n">F:</span><span class="p">\</span><span class="n">myblog</span><span class="p">\</span><span class="n">public</span>
+</span></span><span class="line"><span class="cl"><span class="n">git</span> <span class="k">switch</span> <span class="nv">$deployBranch</span>
+</span></span></code></pre></div><p>目的：确保 <code>public/</code> 当前位于要发布的分支。</p>
+<h3 id="阶段-2从-hugo-源码重新生成站点">阶段 2：从 Hugo 源码重新生成站点<a hidden class="anchor" aria-hidden="true" href="#阶段-2从-hugo-源码重新生成站点">#</a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Set-Location</span> <span class="n">F:</span><span class="p">\</span><span class="n">myblog</span>
+</span></span><span class="line"><span class="cl"><span class="n">hugo</span> <span class="n">-D</span> <span class="p">-</span><span class="n">-cleanDestinationDir</span>
+</span></span></code></pre></div><p>目的：从 <code>content/ + theme + layouts + static + assets + hugo.toml</code> 重新生成完整静态站点。</p>
+<h3 id="阶段-3提交构建结果">阶段 3：提交构建结果<a hidden class="anchor" aria-hidden="true" href="#阶段-3提交构建结果">#</a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Set-Location</span> <span class="n">F:</span><span class="p">\</span><span class="n">myblog</span><span class="p">\</span><span class="n">public</span>
+</span></span><span class="line"><span class="cl"><span class="n">git</span> <span class="n">add</span> <span class="p">.</span>
+</span></span><span class="line"><span class="cl"><span class="n">git</span> <span class="n">commit</span> <span class="n">-m</span> <span class="s2">&#34;</span><span class="nv">$msg</span><span class="s2">&#34;</span>
+</span></span></code></pre></div><p>目的：把这次构建结果作为一次独立发布记录保存下来。</p>
+<h3 id="阶段-4推送到-github">阶段 4：推送到 GitHub<a hidden class="anchor" aria-hidden="true" href="#阶段-4推送到-github">#</a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">git</span> <span class="n">push</span> <span class="o">-f</span> <span class="n">origin</span> <span class="nv">$deployBranch</span>
+</span></span></code></pre></div><p>目的：把最新静态站点强制推送到 GitHub Pages 仓库。</p>
+<p>注意这里用了 <code>-f</code>，说明当前发布策略更偏向“<strong>以本地最新构建结果覆盖线上内容</strong>”。<br>
+这也是架构选择的一部分：线上仓库不是协作开发仓库，而是发布产物仓库。</p>
+<h2 id="这套方式和-github-actions-自动部署有什么区别">这套方式和 GitHub Actions 自动部署有什么区别<a hidden class="anchor" aria-hidden="true" href="#这套方式和-github-actions-自动部署有什么区别">#</a></h2>
+<p>你现在这套不是“GitHub 自动构建”，而是“本地构建 + 推送产物”。</p>
+<p>区别可以概括为：</p>
+<h3 id="当前方式本地构建后推送-public">当前方式：本地构建后推送 <code>public/</code><a hidden class="anchor" aria-hidden="true" href="#当前方式本地构建后推送-public">#</a></h3>
+<p>优点：</p>
+<ul>
+<li>本地结果可控，看到什么就发布什么</li>
+<li>Hugo 版本、主题效果、构建参数都由本机控制</li>
+<li>逻辑直观，出错位置容易定位</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>必须在本地执行部署</li>
+<li>换机器部署时要重配环境</li>
+<li><code>public/</code> 仓库和源仓库要一起维护</li>
+</ul>
+<h3 id="另一种方式源码-push-后由-github-actions-构建">另一种方式：源码 push 后由 GitHub Actions 构建<a hidden class="anchor" aria-hidden="true" href="#另一种方式源码-push-后由-github-actions-构建">#</a></h3>
+<p>优点：</p>
+<ul>
+<li>不依赖本地环境</li>
+<li>提交源码后可自动发布</li>
+<li>不需要把 <code>public/</code> 当独立仓库维护</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>要额外维护 CI 配置</li>
+<li>构建失败时排查链路更长</li>
+<li>主题、子模块、Hugo 版本都要在 CI 里明确配置</li>
+</ul>
+<p>所以不是说哪种更“正确”，而是不同架构会导向不同部署方式。<br>
+你现在这套架构，天然更适合<strong>本地构建、独立产物仓库、手动脚本发布</strong>。</p>
+<h2 id="用一句话理解这套项目">用一句话理解这套项目<a hidden class="anchor" aria-hidden="true" href="#用一句话理解这套项目">#</a></h2>
+<p>这个 Hugo 博客项目，本质上分成两层：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">上层：写内容、配主题、改模板（源码层）
+</span></span><span class="line"><span class="cl">下层：生成 HTML/CSS/JS 并发布到 GitHub Pages（产物层）
+</span></span></code></pre></div><p>而 <code>public/</code> 这个独立 Git 仓库，就是连接这两层的桥。</p>
+<h2 id="适合你当前项目的理解方式">适合你当前项目的理解方式<a hidden class="anchor" aria-hidden="true" href="#适合你当前项目的理解方式">#</a></h2>
+<p>如果以后你再看这个仓库，最实用的理解不是“这是一个 Hugo 项目”，而是：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">这是一个：
+</span></span><span class="line"><span class="cl">用 Hugo 生成静态页面、
+</span></span><span class="line"><span class="cl">用 PaperMod 负责展示、
+</span></span><span class="line"><span class="cl">用 content 管内容、
+</span></span><span class="line"><span class="cl">用 layouts/static/assets 做定制、
+</span></span><span class="line"><span class="cl">用 public 作为发布产物仓库、
+</span></span><span class="line"><span class="cl">再通过 deploy.ps1 推送到 GitHub Pages 的博客系统。
+</span></span></code></pre></div><p>这样你以后想改部署方式、换主题、拆仓库、迁移到 Actions，思路都会更清楚。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="next" href="https://blog.mineguai.com/blog/%E9%92%A5%E5%8C%99%E9%97%AE%E9%A2%98/">
+    <span class="title">Next »</span>
+    <br>
+    <span>钥匙问题</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://blog.mineguai.com/">怪话怪的博客</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a><script>
+  window.mineguaiMouseRunnerFrames = ["/images/mouse-runner/1.png","/images/mouse-runner/2.png","/images/mouse-runner/3.png","/images/mouse-runner/4.png"];
+</script>
+
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+</body>
+
+</html>

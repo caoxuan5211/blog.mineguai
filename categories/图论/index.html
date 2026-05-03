@@ -7,7 +7,7 @@
 <meta name="robots" content="index, follow">
 <title>图论 | 怪话怪的博客</title>
 <meta name="keywords" content="">
-<meta name="description" content="">
+<meta name="description" content="算法、工程记录和一点怪话。">
 <meta name="author" content="">
 <link rel="canonical" href="https://blog.mineguai.com/categories/%E5%9B%BE%E8%AE%BA/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
@@ -16,7 +16,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="https://blog.mineguai.com/favicon-32x32.png">
 <link rel="apple-touch-icon" href="https://blog.mineguai.com/apple-touch-icon.png">
 <link rel="mask-icon" href="https://blog.mineguai.com/safari-pinned-tab.svg">
-<meta name="theme-color" content="#2e2e33">
+<meta name="theme-color" content="#f4eed4">
 <meta name="msapplication-TileColor" content="#2e2e33">
 <link rel="alternate" type="application/rss+xml" href="https://blog.mineguai.com/categories/%E5%9B%BE%E8%AE%BA/index.xml">
 <link rel="alternate" hreflang="en" href="https://blog.mineguai.com/categories/%E5%9B%BE%E8%AE%BA/">
@@ -28,50 +28,27 @@
         }
 
     </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: rgb(29, 30, 32);
-                --entry: rgb(46, 46, 51);
-                --primary: rgb(218, 218, 219);
-                --secondary: rgb(155, 156, 157);
-                --tertiary: rgb(65, 66, 68);
-                --content: rgb(196, 196, 197);
-                --code-block-bg: rgb(46, 46, 51);
-                --code-bg: rgb(55, 56, 62);
-                --border: rgb(51, 51, 51);
-            }
-
-            .list {
-                background: var(--theme);
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-track {
-                background: 0 0;
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-thumb {
-                border-color: var(--theme);
-            }
-        }
-
-    </style>
 </noscript><meta property="og:url" content="https://blog.mineguai.com/categories/%E5%9B%BE%E8%AE%BA/">
   <meta property="og:site_name" content="怪话怪的博客">
   <meta property="og:title" content="图论">
+  <meta property="og:description" content="算法、工程记录和一点怪话。">
   <meta property="og:locale" content="en-us">
   <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="图论">
-<meta name="twitter:description" content="">
+<meta name="twitter:description" content="算法、工程记录和一点怪话。">
 
-  <link rel="stylesheet" href="https://blog.mineguai.com/css/extended/code-copy.css">
-  <link rel="stylesheet" href="https://blog.mineguai.com/css/extended/custom-fonts.css">
-  <link rel="stylesheet" href="https://blog.mineguai.com/css/extended/mouse-runner.css">
+  <link rel="stylesheet" href="/css/extended/code-copy.css">
+  <link rel="stylesheet" href="/css/extended/custom-fonts.css">
+  <link rel="stylesheet" href="/css/extended/mouse-runner.css">
+  <link rel="stylesheet" href="/css/extended/click-burst.css">
+  <link rel="stylesheet" href="/css/extended/blog-ui.css">
 
 
-  <script type="text/javascript" src="https://blog.mineguai.com/js/code-copy.js" defer></script>
-  <script type="text/javascript" src="https://blog.mineguai.com/js/mouse-runner.js" defer></script>
+  <script type="text/javascript" src="/js/code-copy.js" defer></script>
+  <script type="text/javascript" src="/js/mouse-runner.js" defer></script>
+  <script type="text/javascript" src="/js/click-burst.js" defer></script>
+  <script type="text/javascript" src="/js/blog-toys.js" defer></script>
 
 
   <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css' integrity='sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=' crossorigin='anonymous'>
@@ -83,10 +60,6 @@
 <body class="list" id="top">
 <script>
     if (localStorage.getItem("pref-theme") === "dark") {
-        document.body.classList.add('dark');
-    } else if (localStorage.getItem("pref-theme") === "light") {
-        document.body.classList.remove('dark')
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
         document.body.classList.add('dark');
     }
 
@@ -123,7 +96,7 @@
             <img src="/images/wanzi1.jpg" alt="Logo" class="home-left-logo" />
             <div class="home-info-text">
                 <h1>怪话怪的博客</h1>
-                <p></p>
+                <p>算法、工程记录和一点怪话。</p>
             </div>
         </div>
         <ul id="menu">
@@ -136,7 +109,7 @@
     </nav>
 </header>
 <main class="main"> 
-<header class="page-header">
+<header class="page-header"><div class="breadcrumbs"><a href="https://blog.mineguai.com/">Home</a>&nbsp;»&nbsp;<a href="https://blog.mineguai.com/categories/">Categories</a></div>
   <h1>
     图论
   </h1>
@@ -152,7 +125,7 @@
 时间复杂度是O(2n·n2)
 #include &lt;bits/stdc&#43;&#43;.h&gt; using namespace std; int main() { ios::sync_with_stdio(false); cin.tie(nullptr); int n, m; cin &gt;&gt; n &gt;&gt; m; vector&lt;unsigned long long&gt; adj(n, 0); vector&lt;vector&lt;long long&gt;&gt; w(n, vector&lt;long long&gt;(n, 0)); for (int i = 0; i &lt; m; i&#43;&#43;) { int u, v; long long ww; cin &gt;&gt; u &gt;&gt; v &gt;&gt; ww; --u; --v; if (u == v) continue; adj[u] |= (1ULL &lt;&lt; v); adj[v] |= (1ULL &lt;&lt; u); w[u][v] = w[v][u] = max(w[u][v], ww); // 重边取最大，想累加就改这里 } long long bestW = LLONG_MIN; unsigned long long bestMask = 0; //最优2进制团 unsigned long long ALL = (n == 64 ? ~0ULL : ((1ULL &lt;&lt; n) - 1)); for (unsigned long long mask = 1; mask &lt;= ALL; mask&#43;&#43;) { bool ok = true; //ok标记当前mask是不是团，如果不是团继续下一个mask(也就是mask&#43;&#43;) for (int i = 0; i &lt; n; i&#43;&#43;) { if (mask &amp; (1ULL &lt;&lt; i)) //i在当前mask里面 { unsigned long long others = mask &amp; ~(1ULL &lt;&lt; i); //others是i之外的mask之内的点 if (others &amp; ~adj[i]) //如果这些i之外的mask之内的点与i之间存在没有边的情况就说明不是团,ok=false { ok = false; break; } } } if (!ok) continue; //如果不能成团直接排除这个mask long long sum = 0; for (int i = 0; i &lt; n; i&#43;&#43;) if (mask &amp; (1ULL &lt;&lt; i)) //i点在mask内 for (int j = i &#43; 1; j &lt; n; j&#43;&#43;) if (mask &amp; (1ULL &lt;&lt; j)) //j点也在musk内 sum &#43;= w[i][j]; //直接加上w[i][j]因为就算没有边权值也是0不影响结果 if (sum &gt; bestW) { bestW = sum; bestMask = mask; } //记录最大团 } cout &lt;&lt; bestW &lt;&lt; &#34;\n&#34;; bool first = true; for (int i = 0; i &lt; n; i&#43;&#43;) if (bestMask &amp; (1ULL &lt;&lt; i)) { if (!first) cout &lt;&lt; &#39; &#39;; first = false; //这两行是输出格式化的，美观 cout &lt;&lt; (i &#43; 1); //下标转换为序号 } cout &lt;&lt; &#34;\n&#34;; return 0; } </p>
   </div>
-  <footer class="entry-footer"><span title='2026-01-09 15:52:21 +0800 CST'>January 9, 2026</span></footer>
+  <footer class="entry-footer"><span title='2026-01-09 15:52:21 +0800 CST'>January 9, 2026</span>&nbsp;·&nbsp;2 min</footer>
   <a class="entry-link" aria-label="post link to 最大团" href="https://blog.mineguai.com/blog/%E6%9C%80%E5%A4%A7%E5%9B%A2/"></a>
 </article>
     </main>

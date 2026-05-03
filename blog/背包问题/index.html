@@ -69,7 +69,7 @@ int main()
 <link rel="icon" type="image/png" sizes="32x32" href="https://blog.mineguai.com/favicon-32x32.png">
 <link rel="apple-touch-icon" href="https://blog.mineguai.com/apple-touch-icon.png">
 <link rel="mask-icon" href="https://blog.mineguai.com/safari-pinned-tab.svg">
-<meta name="theme-color" content="#2e2e33">
+<meta name="theme-color" content="#f4eed4">
 <meta name="msapplication-TileColor" content="#2e2e33">
 <link rel="alternate" hreflang="en" href="https://blog.mineguai.com/blog/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/">
 <noscript>
@@ -77,34 +77,6 @@ int main()
         #theme-toggle,
         .top-link {
             display: none;
-        }
-
-    </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: rgb(29, 30, 32);
-                --entry: rgb(46, 46, 51);
-                --primary: rgb(218, 218, 219);
-                --secondary: rgb(155, 156, 157);
-                --tertiary: rgb(65, 66, 68);
-                --content: rgb(196, 196, 197);
-                --code-block-bg: rgb(46, 46, 51);
-                --code-bg: rgb(55, 56, 62);
-                --border: rgb(51, 51, 51);
-            }
-
-            .list {
-                background: var(--theme);
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-track {
-                background: 0 0;
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-thumb {
-                border-color: var(--theme);
-            }
         }
 
     </style>
@@ -230,13 +202,17 @@ int main()
   }
 }
 </script>
-  <link rel="stylesheet" href="https://blog.mineguai.com/css/extended/code-copy.css">
-  <link rel="stylesheet" href="https://blog.mineguai.com/css/extended/custom-fonts.css">
-  <link rel="stylesheet" href="https://blog.mineguai.com/css/extended/mouse-runner.css">
+  <link rel="stylesheet" href="/css/extended/code-copy.css">
+  <link rel="stylesheet" href="/css/extended/custom-fonts.css">
+  <link rel="stylesheet" href="/css/extended/mouse-runner.css">
+  <link rel="stylesheet" href="/css/extended/click-burst.css">
+  <link rel="stylesheet" href="/css/extended/blog-ui.css">
 
 
-  <script type="text/javascript" src="https://blog.mineguai.com/js/code-copy.js" defer></script>
-  <script type="text/javascript" src="https://blog.mineguai.com/js/mouse-runner.js" defer></script>
+  <script type="text/javascript" src="/js/code-copy.js" defer></script>
+  <script type="text/javascript" src="/js/mouse-runner.js" defer></script>
+  <script type="text/javascript" src="/js/click-burst.js" defer></script>
+  <script type="text/javascript" src="/js/blog-toys.js" defer></script>
 
 
   <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css' integrity='sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=' crossorigin='anonymous'>
@@ -248,10 +224,6 @@ int main()
 <body class="" id="top">
 <script>
     if (localStorage.getItem("pref-theme") === "dark") {
-        document.body.classList.add('dark');
-    } else if (localStorage.getItem("pref-theme") === "light") {
-        document.body.classList.remove('dark')
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
         document.body.classList.add('dark');
     }
 
@@ -288,7 +260,7 @@ int main()
             <img src="/images/wanzi1.jpg" alt="Logo" class="home-left-logo" />
             <div class="home-info-text">
                 <h1>怪话怪的博客</h1>
-                <p></p>
+                <p>算法、工程记录和一点怪话。</p>
             </div>
         </div>
         <ul id="menu">
@@ -304,7 +276,7 @@ int main()
 
 <article class="post-single">
   <header class="post-header">
-    
+    <div class="breadcrumbs"><a href="https://blog.mineguai.com/">Home</a>&nbsp;»&nbsp;<a href="https://blog.mineguai.com/blog/">Blogs</a></div>
     <h1 class="post-title entry-hint-parent">
       背包问题
       <span class="entry-hint" title="Draft">
@@ -314,7 +286,7 @@ int main()
         </svg>
       </span>
     </h1>
-    <div class="post-meta"><span title='2025-11-05 12:58:42 +0800 CST'>November 5, 2025</span>
+    <div class="post-meta"><span title='2025-11-05 12:58:42 +0800 CST'>November 5, 2025</span>&nbsp;·&nbsp;1 min
 
 </div>
   </header> <div class="toc">
@@ -408,6 +380,19 @@ int main()
     <ul class="post-tags">
       <li><a href="https://blog.mineguai.com/tags/%E7%AE%97%E6%B3%95/">算法</a></li>
     </ul>
+<nav class="paginav">
+  <a class="prev" href="https://blog.mineguai.com/blog/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>匈牙利算法</span>
+  </a>
+  <a class="next" href="https://blog.mineguai.com/blog/p1382/">
+    <span class="title">Next »</span>
+    <br>
+    <span>洛谷 P1382</span>
+  </a>
+</nav>
+
   </footer>
 </article>
     </main>
@@ -484,6 +469,54 @@ int main()
     })
 
 </script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
 </body>
 
 </html>

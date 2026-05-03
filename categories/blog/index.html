@@ -7,7 +7,7 @@
 <meta name="robots" content="index, follow">
 <title>Blog | 怪话怪的博客</title>
 <meta name="keywords" content="">
-<meta name="description" content="">
+<meta name="description" content="算法、工程记录和一点怪话。">
 <meta name="author" content="">
 <link rel="canonical" href="https://blog.mineguai.com/categories/blog/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
@@ -16,7 +16,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="https://blog.mineguai.com/favicon-32x32.png">
 <link rel="apple-touch-icon" href="https://blog.mineguai.com/apple-touch-icon.png">
 <link rel="mask-icon" href="https://blog.mineguai.com/safari-pinned-tab.svg">
-<meta name="theme-color" content="#2e2e33">
+<meta name="theme-color" content="#f4eed4">
 <meta name="msapplication-TileColor" content="#2e2e33">
 <link rel="alternate" type="application/rss+xml" href="https://blog.mineguai.com/categories/blog/index.xml">
 <link rel="alternate" hreflang="en" href="https://blog.mineguai.com/categories/blog/">
@@ -28,50 +28,27 @@
         }
 
     </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: rgb(29, 30, 32);
-                --entry: rgb(46, 46, 51);
-                --primary: rgb(218, 218, 219);
-                --secondary: rgb(155, 156, 157);
-                --tertiary: rgb(65, 66, 68);
-                --content: rgb(196, 196, 197);
-                --code-block-bg: rgb(46, 46, 51);
-                --code-bg: rgb(55, 56, 62);
-                --border: rgb(51, 51, 51);
-            }
-
-            .list {
-                background: var(--theme);
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-track {
-                background: 0 0;
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-thumb {
-                border-color: var(--theme);
-            }
-        }
-
-    </style>
 </noscript><meta property="og:url" content="https://blog.mineguai.com/categories/blog/">
   <meta property="og:site_name" content="怪话怪的博客">
   <meta property="og:title" content="Blog">
+  <meta property="og:description" content="算法、工程记录和一点怪话。">
   <meta property="og:locale" content="en-us">
   <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Blog">
-<meta name="twitter:description" content="">
+<meta name="twitter:description" content="算法、工程记录和一点怪话。">
 
-  <link rel="stylesheet" href="https://blog.mineguai.com/css/extended/code-copy.css">
-  <link rel="stylesheet" href="https://blog.mineguai.com/css/extended/custom-fonts.css">
-  <link rel="stylesheet" href="https://blog.mineguai.com/css/extended/mouse-runner.css">
+  <link rel="stylesheet" href="/css/extended/code-copy.css">
+  <link rel="stylesheet" href="/css/extended/custom-fonts.css">
+  <link rel="stylesheet" href="/css/extended/mouse-runner.css">
+  <link rel="stylesheet" href="/css/extended/click-burst.css">
+  <link rel="stylesheet" href="/css/extended/blog-ui.css">
 
 
-  <script type="text/javascript" src="https://blog.mineguai.com/js/code-copy.js" defer></script>
-  <script type="text/javascript" src="https://blog.mineguai.com/js/mouse-runner.js" defer></script>
+  <script type="text/javascript" src="/js/code-copy.js" defer></script>
+  <script type="text/javascript" src="/js/mouse-runner.js" defer></script>
+  <script type="text/javascript" src="/js/click-burst.js" defer></script>
+  <script type="text/javascript" src="/js/blog-toys.js" defer></script>
 
 
   <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css' integrity='sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=' crossorigin='anonymous'>
@@ -83,10 +60,6 @@
 <body class="list" id="top">
 <script>
     if (localStorage.getItem("pref-theme") === "dark") {
-        document.body.classList.add('dark');
-    } else if (localStorage.getItem("pref-theme") === "light") {
-        document.body.classList.remove('dark')
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
         document.body.classList.add('dark');
     }
 
@@ -123,7 +96,7 @@
             <img src="/images/wanzi1.jpg" alt="Logo" class="home-left-logo" />
             <div class="home-info-text">
                 <h1>怪话怪的博客</h1>
-                <p></p>
+                <p>算法、工程记录和一点怪话。</p>
             </div>
         </div>
         <ul id="menu">
@@ -136,7 +109,7 @@
     </nav>
 </header>
 <main class="main"> 
-<header class="page-header">
+<header class="page-header"><div class="breadcrumbs"><a href="https://blog.mineguai.com/">Home</a>&nbsp;»&nbsp;<a href="https://blog.mineguai.com/categories/">Categories</a></div>
   <h1>
     Blog
   </h1>
@@ -152,7 +125,7 @@
 题解 #include &lt;bits/stdc&#43;&#43;.h&gt; using namespace std; int n,cnt,num ; struct build { int h,l,r; }a[100010]; //楼房 struct line { int up,x,k; //up代表线高度(楼房左右边线),k代表出入属性,1代表入，2代表出 }l[200020]; struct ANS { int ax,ay; }ans[400040]; //储存答案的交叉点 int cmp(line a,line b) { if(a.x != b.x) return a.x&lt;b.x; if(a.k != b.k) return a.k&lt;b.k;//入度优先 // 区分入度出度考虑高度优先级 if(a.k == 1) return a.up &gt; b.up; //入度，高的优先 if(a.k == 2) return a.up &lt; b.up; //出度，矮的优先 } multiset&lt;int&gt; s; int main() { cin &gt;&gt; n; for(int i=1;i&lt;=n;i&#43;&#43;) { cin &gt;&gt; a[i].h &gt;&gt; a[i].l &gt;&gt; a[i].r; l[&#43;&#43;cnt] = {a[i].h,a[i].l,1}; //楼左，入度 l[&#43;&#43;cnt] = {a[i].h,a[i].r,2}; //楼右，出度 } s.insert(0); //初始化最高为0 sort(l&#43;1,l&#43;cnt&#43;1,cmp); for(int i=1;i&lt;=cnt;i&#43;&#43;) { int m = *s.rbegin(); //存最大高度 if(l[i].k==1) { if(l[i].up &lt;= m) s.insert(l[i].up); else { &#43;&#43;num;ans[num].ax=l[i].x;ans[num].ay=m; &#43;&#43;num;ans[num].ax=l[i].x;ans[num].ay=l[i].up; s.insert(l[i].up); } } else if(l[i].k == 2) { if(l[i].up==m &amp;&amp; s.count(m)==1) { s.erase(m); //移除该高度(存交叉点)，继续下 &#43;&#43;num;ans[num].ax=l[i].x;ans[num].ay=l[i].up; &#43;&#43;num;ans[num].ax=l[i].x;ans[num].ay=*s.rbegin(); } else s.erase(s.find(l[i].up)); } } cout &lt;&lt; num &lt;&lt; &#39;\n&#39;; for(int i=1;i&lt;=num;i&#43;&#43;) cout &lt;&lt; ans[i].ax &lt;&lt; &#39; &#39; &lt;&lt; ans[i].ay &lt;&lt; &#39;\n&#39;; return 0; } 这里代码借鉴（其实是抄的）了题解中shuri001佬的代码，写得太好了，叹为观止。
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2025-11-04 22:36:22 +0800 CST'>November 4, 2025</span></footer>
+  <footer class="entry-footer"><span title='2025-11-04 22:36:22 +0800 CST'>November 4, 2025</span>&nbsp;·&nbsp;1 min</footer>
   <a class="entry-link" aria-label="post link to 洛谷 P1382" href="https://blog.mineguai.com/blog/p1382/"></a>
 </article>
     </main>

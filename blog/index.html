@@ -16,7 +16,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="https://blog.mineguai.com/favicon-32x32.png">
 <link rel="apple-touch-icon" href="https://blog.mineguai.com/apple-touch-icon.png">
 <link rel="mask-icon" href="https://blog.mineguai.com/safari-pinned-tab.svg">
-<meta name="theme-color" content="#2e2e33">
+<meta name="theme-color" content="#f4eed4">
 <meta name="msapplication-TileColor" content="#2e2e33">
 <link rel="alternate" type="application/rss+xml" href="https://blog.mineguai.com/blog/index.xml">
 <link rel="alternate" hreflang="en" href="https://blog.mineguai.com/blog/">
@@ -28,42 +28,15 @@
         }
 
     </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: rgb(29, 30, 32);
-                --entry: rgb(46, 46, 51);
-                --primary: rgb(218, 218, 219);
-                --secondary: rgb(155, 156, 157);
-                --tertiary: rgb(65, 66, 68);
-                --content: rgb(196, 196, 197);
-                --code-block-bg: rgb(46, 46, 51);
-                --code-bg: rgb(55, 56, 62);
-                --border: rgb(51, 51, 51);
-            }
-
-            .list {
-                background: var(--theme);
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-track {
-                background: 0 0;
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-thumb {
-                border-color: var(--theme);
-            }
-        }
-
-    </style>
 </noscript><meta property="og:url" content="https://blog.mineguai.com/blog/">
   <meta property="og:site_name" content="怪话怪的博客">
   <meta property="og:title" content="Blogs">
+  <meta property="og:description" content="算法、工程记录和一点怪话。">
   <meta property="og:locale" content="en-us">
   <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Blogs">
-<meta name="twitter:description" content="">
+<meta name="twitter:description" content="算法、工程记录和一点怪话。">
 
 
 <script type="application/ld+json">
@@ -80,13 +53,17 @@
   ]
 }
 </script>
-  <link rel="stylesheet" href="https://blog.mineguai.com/css/extended/code-copy.css">
-  <link rel="stylesheet" href="https://blog.mineguai.com/css/extended/custom-fonts.css">
-  <link rel="stylesheet" href="https://blog.mineguai.com/css/extended/mouse-runner.css">
+  <link rel="stylesheet" href="/css/extended/code-copy.css">
+  <link rel="stylesheet" href="/css/extended/custom-fonts.css">
+  <link rel="stylesheet" href="/css/extended/mouse-runner.css">
+  <link rel="stylesheet" href="/css/extended/click-burst.css">
+  <link rel="stylesheet" href="/css/extended/blog-ui.css">
 
 
-  <script type="text/javascript" src="https://blog.mineguai.com/js/code-copy.js" defer></script>
-  <script type="text/javascript" src="https://blog.mineguai.com/js/mouse-runner.js" defer></script>
+  <script type="text/javascript" src="/js/code-copy.js" defer></script>
+  <script type="text/javascript" src="/js/mouse-runner.js" defer></script>
+  <script type="text/javascript" src="/js/click-burst.js" defer></script>
+  <script type="text/javascript" src="/js/blog-toys.js" defer></script>
 
 
   <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css' integrity='sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=' crossorigin='anonymous'>
@@ -98,10 +75,6 @@
 <body class="list" id="top">
 <script>
     if (localStorage.getItem("pref-theme") === "dark") {
-        document.body.classList.add('dark');
-    } else if (localStorage.getItem("pref-theme") === "light") {
-        document.body.classList.remove('dark')
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
         document.body.classList.add('dark');
     }
 
@@ -138,7 +111,7 @@
             <img src="/images/wanzi1.jpg" alt="Logo" class="home-left-logo" />
             <div class="home-info-text">
                 <h1>怪话怪的博客</h1>
-                <p></p>
+                <p>算法、工程记录和一点怪话。</p>
             </div>
         </div>
         <ul id="menu">
@@ -151,11 +124,34 @@
     </nav>
 </header>
 <main class="main"> 
-<header class="page-header">
+<header class="page-header"><div class="breadcrumbs"><a href="https://blog.mineguai.com/">Home</a></div>
   <h1>
     Blogs
   </h1>
 </header>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Hugo项目整体架构与GitHub部署说明
+      <span class="entry-hint" title="Draft">
+        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
+          <path
+            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+        </svg>
+      </span>
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>先说结论 这个博客能部署到 GitHub，不只是因为“用了 Hugo”，更关键是项目架构从一开始就把“源码”和“构建产物”拆开了：
+F:\myblog 是 Hugo 源码仓库，负责写文章、配主题、改模板。 F:\myblog\public 是 Hugo 生成后的静态站点目录，同时它又是一个独立 Git 仓库。 public 的远程仓库指向 https://github.com/caoxuan5211/caoxuan5211.github.io.git。 执行 deploy.ps1 时，Hugo 先把页面生成到 public/，再把 public/ 里的静态文件推到 GitHub Pages 仓库。 所以，确实可以说：是架构决定了部署方式。
+Hugo 只负责“生成静态文件”，而“怎么上传到 GitHub”是当前这个仓库结构和脚本流程决定的。
+当前项目的整体结构 结合这个仓库，核心目录可以这样理解：
+F:\myblog ├── content/ # Markdown 文章内容 ├── layouts/ # 对主题模板的覆盖 ├── static/ # 原样复制到网站根目录的静态资源 ├── assets/ # 需要 Hugo 处理的资源 ├── themes/PaperMod/ # 主题（当前是 Git submodule） ├── hugo.toml # Hugo 主配置 ├── deploy.ps1 # 本地一键部署脚本 └── public/ # Hugo 构建输出目录，同时是独立 Git 仓库 这里最关键的是最后一行：
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-04-25 00:00:00 +0800 CST'>April 25, 2026</span>&nbsp;·&nbsp;3 min</footer>
+  <a class="entry-link" aria-label="post link to Hugo项目整体架构与GitHub部署说明" href="https://blog.mineguai.com/blog/hugo%E9%A1%B9%E7%9B%AE%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84%E4%B8%8Egithub%E9%83%A8%E7%BD%B2%E8%AF%B4%E6%98%8E/"></a>
+</article>
 
 <article class="post-entry"> 
   <header class="entry-header">
@@ -171,7 +167,7 @@ adj[u] = {v, weight} long long base_ans; 👉 必然贡献（情况4）
 三、建模部分（最关键） 1️⃣ 离散化 sort(xs.begin(), xs.end()); xs.erase(unique(xs.begin(), xs.end()), xs.end()); 👉 把所有端点压缩到连续整数
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2026-04-14 23:22:12 +0800 CST'>April 14, 2026</span></footer>
+  <footer class="entry-footer"><span title='2026-04-14 23:22:12 +0800 CST'>April 14, 2026</span>&nbsp;·&nbsp;2 min</footer>
   <a class="entry-link" aria-label="post link to 钥匙问题" href="https://blog.mineguai.com/blog/%E9%92%A5%E5%8C%99%E9%97%AE%E9%A2%98/"></a>
 </article>
 
@@ -192,7 +188,7 @@ HCHNSW 负责让多层检索真正跑得快
 我核对到的 arXiv 页面显示最新版本为 v3，2025-08-08。
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2026-04-14 23:09:55 +0800 CST'>April 14, 2026</span></footer>
+  <footer class="entry-footer"><span title='2026-04-14 23:09:55 +0800 CST'>April 14, 2026</span>&nbsp;·&nbsp;5 min</footer>
   <a class="entry-link" aria-label="post link to 大创" href="https://blog.mineguai.com/blog/%E5%A4%A7%E5%88%9B/"></a>
 </article>
 
@@ -210,7 +206,7 @@ HCHNSW 负责让多层检索真正跑得快
   <div class="entry-content">
     <p>测试</p>
   </div>
-  <footer class="entry-footer"><span title='2026-04-13 22:02:20 +0800 CST'>April 13, 2026</span></footer>
+  <footer class="entry-footer"><span title='2026-04-13 22:02:20 +0800 CST'>April 13, 2026</span>&nbsp;·&nbsp;1 min</footer>
   <a class="entry-link" aria-label="post link to 测试main" href="https://blog.mineguai.com/blog/%E6%B5%8B%E8%AF%95main/"></a>
 </article>
 
@@ -226,7 +222,7 @@ memset(dist, 0x3f, sizeof(dist)); 结果每个字节：
 0x3f3f3f3f = 1061109567 足够大且安全。
 </p>
   </div>
-  <footer class="entry-footer"><span title='2026-03-05 23:38:17 +0800 CST'>March 5, 2026</span></footer>
+  <footer class="entry-footer"><span title='2026-03-05 23:38:17 +0800 CST'>March 5, 2026</span>&nbsp;·&nbsp;1 min</footer>
   <a class="entry-link" aria-label="post link to 刷题" href="https://blog.mineguai.com/blog/%E5%88%B7%E9%A2%98/"></a>
 </article>
 
@@ -246,7 +242,7 @@ memset(dist, 0x3f, sizeof(dist)); 结果每个字节：
 它的核心作用就是告诉计算机三件事：
 怎么去？ (协议 Protocol) http://：用标准的网页送货车去。 (其他的还有 https:// 加密车, ftp:// 文件传输车, 本地文件车)。 去哪里？ (主机 Host &#43; 端口 Port) localhost：去本机（如果是百度就是 www.baidu.com）。 :12345：去这台机器的 12345 号“窗口”（不同的程序占用不同的端口，比如网页通常是 80，你的程序选了 12345）。 找什么？ (路径 Path) /sse：找一个叫 “sse” 的资源或接口。 </p>
   </div>
-  <footer class="entry-footer"><span title='2026-02-15 17:37:45 +0800 CST'>February 15, 2026</span></footer>
+  <footer class="entry-footer"><span title='2026-02-15 17:37:45 +0800 CST'>February 15, 2026</span>&nbsp;·&nbsp;1 min</footer>
   <a class="entry-link" aria-label="post link to General" href="https://blog.mineguai.com/blog/general/"></a>
 </article>
 
@@ -270,7 +266,7 @@ memset(dist, 0x3f, sizeof(dist)); 结果每个字节：
 ****：``
 </p>
   </div>
-  <footer class="entry-footer"><span title='2026-02-15 16:01:55 +0800 CST'>February 15, 2026</span></footer>
+  <footer class="entry-footer"><span title='2026-02-15 16:01:55 +0800 CST'>February 15, 2026</span>&nbsp;·&nbsp;1 min</footer>
   <a class="entry-link" aria-label="post link to Git_learn" href="https://blog.mineguai.com/blog/git_learn/"></a>
 </article>
 
@@ -284,53 +280,8 @@ memset(dist, 0x3f, sizeof(dist)); 结果每个字节：
 时间复杂度是O(2n·n2)
 #include &lt;bits/stdc&#43;&#43;.h&gt; using namespace std; int main() { ios::sync_with_stdio(false); cin.tie(nullptr); int n, m; cin &gt;&gt; n &gt;&gt; m; vector&lt;unsigned long long&gt; adj(n, 0); vector&lt;vector&lt;long long&gt;&gt; w(n, vector&lt;long long&gt;(n, 0)); for (int i = 0; i &lt; m; i&#43;&#43;) { int u, v; long long ww; cin &gt;&gt; u &gt;&gt; v &gt;&gt; ww; --u; --v; if (u == v) continue; adj[u] |= (1ULL &lt;&lt; v); adj[v] |= (1ULL &lt;&lt; u); w[u][v] = w[v][u] = max(w[u][v], ww); // 重边取最大，想累加就改这里 } long long bestW = LLONG_MIN; unsigned long long bestMask = 0; //最优2进制团 unsigned long long ALL = (n == 64 ? ~0ULL : ((1ULL &lt;&lt; n) - 1)); for (unsigned long long mask = 1; mask &lt;= ALL; mask&#43;&#43;) { bool ok = true; //ok标记当前mask是不是团，如果不是团继续下一个mask(也就是mask&#43;&#43;) for (int i = 0; i &lt; n; i&#43;&#43;) { if (mask &amp; (1ULL &lt;&lt; i)) //i在当前mask里面 { unsigned long long others = mask &amp; ~(1ULL &lt;&lt; i); //others是i之外的mask之内的点 if (others &amp; ~adj[i]) //如果这些i之外的mask之内的点与i之间存在没有边的情况就说明不是团,ok=false { ok = false; break; } } } if (!ok) continue; //如果不能成团直接排除这个mask long long sum = 0; for (int i = 0; i &lt; n; i&#43;&#43;) if (mask &amp; (1ULL &lt;&lt; i)) //i点在mask内 for (int j = i &#43; 1; j &lt; n; j&#43;&#43;) if (mask &amp; (1ULL &lt;&lt; j)) //j点也在musk内 sum &#43;= w[i][j]; //直接加上w[i][j]因为就算没有边权值也是0不影响结果 if (sum &gt; bestW) { bestW = sum; bestMask = mask; } //记录最大团 } cout &lt;&lt; bestW &lt;&lt; &#34;\n&#34;; bool first = true; for (int i = 0; i &lt; n; i&#43;&#43;) if (bestMask &amp; (1ULL &lt;&lt; i)) { if (!first) cout &lt;&lt; &#39; &#39;; first = false; //这两行是输出格式化的，美观 cout &lt;&lt; (i &#43; 1); //下标转换为序号 } cout &lt;&lt; &#34;\n&#34;; return 0; } </p>
   </div>
-  <footer class="entry-footer"><span title='2026-01-09 15:52:21 +0800 CST'>January 9, 2026</span></footer>
+  <footer class="entry-footer"><span title='2026-01-09 15:52:21 +0800 CST'>January 9, 2026</span>&nbsp;·&nbsp;2 min</footer>
   <a class="entry-link" aria-label="post link to 最大团" href="https://blog.mineguai.com/blog/%E6%9C%80%E5%A4%A7%E5%9B%A2/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Learn Process
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>图论 最大流 最短路径 最小生成树 </p>
-  </div>
-  <footer class="entry-footer"><span title='2026-01-04 20:52:40 +0800 CST'>January 4, 2026</span></footer>
-  <a class="entry-link" aria-label="post link to Learn Process" href="https://blog.mineguai.com/blog/learn-process/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Cpp常用结构
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>1.unordered_set 用处 图结构常删除点边的时候可以用避免重复查找。
-函数 insert(),find(),erase(type)（删除指定元素）,clear() 2.memset 用法 void *memset(void *str, int c, size_t n) 参数 str – 指向要填充的内存区域的指针。 c – 要设置的值，通常是一个无符号字符。 n – 要被设置为该值的字节数。 例子 memset(str,&#39;$&#39;,7); memset(nums,0,sizeof(nums)); </p>
-  </div>
-  <footer class="entry-footer"><span title='2025-12-16 16:17:18 +0800 CST'>December 16, 2025</span></footer>
-  <a class="entry-link" aria-label="post link to Cpp常用结构" href="https://blog.mineguai.com/blog/cpp%E5%B8%B8%E7%94%A8%E7%BB%93%E6%9E%84/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">对电脑操作记录
-      <span class="entry-hint" title="Draft">
-        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
-          <path
-            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
-        </svg>
-      </span>
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>管理员身份运行cmd输入了powercfg -h off(【建议收藏】全网最详细C 盘清理指南！！！绝对值得收藏！！！_哔哩哔哩_bilibili)
-D:\Program Files\JiJiDown
-</p>
-  </div>
-  <footer class="entry-footer"><span title='2025-11-18 15:21:20 +0800 CST'>November 18, 2025</span></footer>
-  <a class="entry-link" aria-label="post link to 对电脑操作记录" href="https://blog.mineguai.com/blog/%E5%AF%B9%E7%94%B5%E8%84%91%E6%93%8D%E4%BD%9C%E8%AE%B0%E5%BD%95/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

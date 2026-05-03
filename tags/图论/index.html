@@ -7,7 +7,7 @@
 <meta name="robots" content="index, follow">
 <title>图论 | 怪话怪的博客</title>
 <meta name="keywords" content="">
-<meta name="description" content="">
+<meta name="description" content="算法、工程记录和一点怪话。">
 <meta name="author" content="">
 <link rel="canonical" href="https://blog.mineguai.com/tags/%E5%9B%BE%E8%AE%BA/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
@@ -16,7 +16,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="https://blog.mineguai.com/favicon-32x32.png">
 <link rel="apple-touch-icon" href="https://blog.mineguai.com/apple-touch-icon.png">
 <link rel="mask-icon" href="https://blog.mineguai.com/safari-pinned-tab.svg">
-<meta name="theme-color" content="#2e2e33">
+<meta name="theme-color" content="#f4eed4">
 <meta name="msapplication-TileColor" content="#2e2e33">
 <link rel="alternate" type="application/rss+xml" href="https://blog.mineguai.com/tags/%E5%9B%BE%E8%AE%BA/index.xml">
 <link rel="alternate" hreflang="en" href="https://blog.mineguai.com/tags/%E5%9B%BE%E8%AE%BA/">
@@ -28,50 +28,27 @@
         }
 
     </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: rgb(29, 30, 32);
-                --entry: rgb(46, 46, 51);
-                --primary: rgb(218, 218, 219);
-                --secondary: rgb(155, 156, 157);
-                --tertiary: rgb(65, 66, 68);
-                --content: rgb(196, 196, 197);
-                --code-block-bg: rgb(46, 46, 51);
-                --code-bg: rgb(55, 56, 62);
-                --border: rgb(51, 51, 51);
-            }
-
-            .list {
-                background: var(--theme);
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-track {
-                background: 0 0;
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-thumb {
-                border-color: var(--theme);
-            }
-        }
-
-    </style>
 </noscript><meta property="og:url" content="https://blog.mineguai.com/tags/%E5%9B%BE%E8%AE%BA/">
   <meta property="og:site_name" content="怪话怪的博客">
   <meta property="og:title" content="图论">
+  <meta property="og:description" content="算法、工程记录和一点怪话。">
   <meta property="og:locale" content="en-us">
   <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="图论">
-<meta name="twitter:description" content="">
+<meta name="twitter:description" content="算法、工程记录和一点怪话。">
 
-  <link rel="stylesheet" href="https://blog.mineguai.com/css/extended/code-copy.css">
-  <link rel="stylesheet" href="https://blog.mineguai.com/css/extended/custom-fonts.css">
-  <link rel="stylesheet" href="https://blog.mineguai.com/css/extended/mouse-runner.css">
+  <link rel="stylesheet" href="/css/extended/code-copy.css">
+  <link rel="stylesheet" href="/css/extended/custom-fonts.css">
+  <link rel="stylesheet" href="/css/extended/mouse-runner.css">
+  <link rel="stylesheet" href="/css/extended/click-burst.css">
+  <link rel="stylesheet" href="/css/extended/blog-ui.css">
 
 
-  <script type="text/javascript" src="https://blog.mineguai.com/js/code-copy.js" defer></script>
-  <script type="text/javascript" src="https://blog.mineguai.com/js/mouse-runner.js" defer></script>
+  <script type="text/javascript" src="/js/code-copy.js" defer></script>
+  <script type="text/javascript" src="/js/mouse-runner.js" defer></script>
+  <script type="text/javascript" src="/js/click-burst.js" defer></script>
+  <script type="text/javascript" src="/js/blog-toys.js" defer></script>
 
 
   <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css' integrity='sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=' crossorigin='anonymous'>
@@ -83,10 +60,6 @@
 <body class="list" id="top">
 <script>
     if (localStorage.getItem("pref-theme") === "dark") {
-        document.body.classList.add('dark');
-    } else if (localStorage.getItem("pref-theme") === "light") {
-        document.body.classList.remove('dark')
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
         document.body.classList.add('dark');
     }
 
@@ -123,7 +96,7 @@
             <img src="/images/wanzi1.jpg" alt="Logo" class="home-left-logo" />
             <div class="home-info-text">
                 <h1>怪话怪的博客</h1>
-                <p></p>
+                <p>算法、工程记录和一点怪话。</p>
             </div>
         </div>
         <ul id="menu">
@@ -136,7 +109,7 @@
     </nav>
 </header>
 <main class="main"> 
-<header class="page-header">
+<header class="page-header"><div class="breadcrumbs"><a href="https://blog.mineguai.com/">Home</a>&nbsp;»&nbsp;<a href="https://blog.mineguai.com/tags/">Tags</a></div>
   <h1>
     图论
   </h1>
@@ -153,7 +126,7 @@
 代码 #include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; const int MAXN = 100; //假如最大100个结点的图 int graph[MAXN][MAXN]; int color[MAXN]; //用于确定分组,颜色为1和2 int dfs(int index,int n,int c) //仅仅用来染色出发点所在的连通分量 { //直接用对边不同色考虑 color[index]=c; for(int i=0;i&lt;n;i&#43;&#43;) if(graph[index][i] &amp;&amp; (color[i]==c || (color[i]==0 &amp;&amp; !dfs(i,n,3-c))) ) return 0; return 1; } int main() { int n,m; cin &gt;&gt; n &gt;&gt; m; for(int i=0;i&lt;m;i&#43;&#43;) { int s,t; cin &gt;&gt; s &gt;&gt; t; graph[s][t]=1,graph[t][s]=1; } for(int i=0;i&lt;n;i&#43;&#43;) { if(!color[i]) if(!dfs(i,n,1)) { cout &lt;&lt; &#34;错误，不是二分图&#34; &lt;&lt; endl; return 0; } } vector&lt;int&gt; color1,color2; for(int i=0;i&lt;n;i&#43;&#43;) { if(color[i]==1) color1.push_back(i); if(color[i]==2) color2.push_back(i); } cout &lt;&lt; &#34;染色结果:&#34; &lt;&lt; endl; for(int i=0;i&lt;color1.size();i&#43;&#43;) cout &lt;&lt; color1[i] &lt;&lt; &#39; &#39;; cout &lt;&lt; endl; for(int i=0;i&lt;color2.size();i&#43;&#43;) cout &lt;&lt; color2[i] &lt;&lt; &#39; &#39;; return 0; } 注 这两个染色问题都可以用邻接矩阵做。我用int-MAXN是因为简单:)。
 </p>
   </div>
-  <footer class="entry-footer"><span title='2025-11-17 23:51:05 +0800 CST'>November 17, 2025</span></footer>
+  <footer class="entry-footer"><span title='2025-11-17 23:51:05 +0800 CST'>November 17, 2025</span>&nbsp;·&nbsp;1 min</footer>
   <a class="entry-link" aria-label="post link to 图的染色解决" href="https://blog.mineguai.com/blog/%E5%9B%BE%E7%9A%84%E6%9F%93%E8%89%B2%E8%A7%A3%E5%86%B3/"></a>
 </article>
     </main>

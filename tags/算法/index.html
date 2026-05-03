@@ -7,7 +7,7 @@
 <meta name="robots" content="index, follow">
 <title>算法 | 怪话怪的博客</title>
 <meta name="keywords" content="">
-<meta name="description" content="">
+<meta name="description" content="算法、工程记录和一点怪话。">
 <meta name="author" content="">
 <link rel="canonical" href="https://blog.mineguai.com/tags/%E7%AE%97%E6%B3%95/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
@@ -16,7 +16,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="https://blog.mineguai.com/favicon-32x32.png">
 <link rel="apple-touch-icon" href="https://blog.mineguai.com/apple-touch-icon.png">
 <link rel="mask-icon" href="https://blog.mineguai.com/safari-pinned-tab.svg">
-<meta name="theme-color" content="#2e2e33">
+<meta name="theme-color" content="#f4eed4">
 <meta name="msapplication-TileColor" content="#2e2e33">
 <link rel="alternate" type="application/rss+xml" href="https://blog.mineguai.com/tags/%E7%AE%97%E6%B3%95/index.xml">
 <link rel="alternate" hreflang="en" href="https://blog.mineguai.com/tags/%E7%AE%97%E6%B3%95/">
@@ -28,50 +28,27 @@
         }
 
     </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: rgb(29, 30, 32);
-                --entry: rgb(46, 46, 51);
-                --primary: rgb(218, 218, 219);
-                --secondary: rgb(155, 156, 157);
-                --tertiary: rgb(65, 66, 68);
-                --content: rgb(196, 196, 197);
-                --code-block-bg: rgb(46, 46, 51);
-                --code-bg: rgb(55, 56, 62);
-                --border: rgb(51, 51, 51);
-            }
-
-            .list {
-                background: var(--theme);
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-track {
-                background: 0 0;
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-thumb {
-                border-color: var(--theme);
-            }
-        }
-
-    </style>
 </noscript><meta property="og:url" content="https://blog.mineguai.com/tags/%E7%AE%97%E6%B3%95/">
   <meta property="og:site_name" content="怪话怪的博客">
   <meta property="og:title" content="算法">
+  <meta property="og:description" content="算法、工程记录和一点怪话。">
   <meta property="og:locale" content="en-us">
   <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="算法">
-<meta name="twitter:description" content="">
+<meta name="twitter:description" content="算法、工程记录和一点怪话。">
 
-  <link rel="stylesheet" href="https://blog.mineguai.com/css/extended/code-copy.css">
-  <link rel="stylesheet" href="https://blog.mineguai.com/css/extended/custom-fonts.css">
-  <link rel="stylesheet" href="https://blog.mineguai.com/css/extended/mouse-runner.css">
+  <link rel="stylesheet" href="/css/extended/code-copy.css">
+  <link rel="stylesheet" href="/css/extended/custom-fonts.css">
+  <link rel="stylesheet" href="/css/extended/mouse-runner.css">
+  <link rel="stylesheet" href="/css/extended/click-burst.css">
+  <link rel="stylesheet" href="/css/extended/blog-ui.css">
 
 
-  <script type="text/javascript" src="https://blog.mineguai.com/js/code-copy.js" defer></script>
-  <script type="text/javascript" src="https://blog.mineguai.com/js/mouse-runner.js" defer></script>
+  <script type="text/javascript" src="/js/code-copy.js" defer></script>
+  <script type="text/javascript" src="/js/mouse-runner.js" defer></script>
+  <script type="text/javascript" src="/js/click-burst.js" defer></script>
+  <script type="text/javascript" src="/js/blog-toys.js" defer></script>
 
 
   <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css' integrity='sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=' crossorigin='anonymous'>
@@ -83,10 +60,6 @@
 <body class="list" id="top">
 <script>
     if (localStorage.getItem("pref-theme") === "dark") {
-        document.body.classList.add('dark');
-    } else if (localStorage.getItem("pref-theme") === "light") {
-        document.body.classList.remove('dark')
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
         document.body.classList.add('dark');
     }
 
@@ -123,7 +96,7 @@
             <img src="/images/wanzi1.jpg" alt="Logo" class="home-left-logo" />
             <div class="home-info-text">
                 <h1>怪话怪的博客</h1>
-                <p></p>
+                <p>算法、工程记录和一点怪话。</p>
             </div>
         </div>
         <ul id="menu">
@@ -136,7 +109,7 @@
     </nav>
 </header>
 <main class="main"> 
-<header class="page-header">
+<header class="page-header"><div class="breadcrumbs"><a href="https://blog.mineguai.com/">Home</a>&nbsp;»&nbsp;<a href="https://blog.mineguai.com/tags/">Tags</a></div>
   <h1>
     算法
   </h1>
@@ -153,7 +126,7 @@
 代码 #include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; const int MAXN = 100; //假如最大100个结点的图 int graph[MAXN][MAXN]; int color[MAXN]; //用于确定分组,颜色为1和2 int dfs(int index,int n,int c) //仅仅用来染色出发点所在的连通分量 { //直接用对边不同色考虑 color[index]=c; for(int i=0;i&lt;n;i&#43;&#43;) if(graph[index][i] &amp;&amp; (color[i]==c || (color[i]==0 &amp;&amp; !dfs(i,n,3-c))) ) return 0; return 1; } int main() { int n,m; cin &gt;&gt; n &gt;&gt; m; for(int i=0;i&lt;m;i&#43;&#43;) { int s,t; cin &gt;&gt; s &gt;&gt; t; graph[s][t]=1,graph[t][s]=1; } for(int i=0;i&lt;n;i&#43;&#43;) { if(!color[i]) if(!dfs(i,n,1)) { cout &lt;&lt; &#34;错误，不是二分图&#34; &lt;&lt; endl; return 0; } } vector&lt;int&gt; color1,color2; for(int i=0;i&lt;n;i&#43;&#43;) { if(color[i]==1) color1.push_back(i); if(color[i]==2) color2.push_back(i); } cout &lt;&lt; &#34;染色结果:&#34; &lt;&lt; endl; for(int i=0;i&lt;color1.size();i&#43;&#43;) cout &lt;&lt; color1[i] &lt;&lt; &#39; &#39;; cout &lt;&lt; endl; for(int i=0;i&lt;color2.size();i&#43;&#43;) cout &lt;&lt; color2[i] &lt;&lt; &#39; &#39;; return 0; } 注 这两个染色问题都可以用邻接矩阵做。我用int-MAXN是因为简单:)。
 </p>
   </div>
-  <footer class="entry-footer"><span title='2025-11-17 23:51:05 +0800 CST'>November 17, 2025</span></footer>
+  <footer class="entry-footer"><span title='2025-11-17 23:51:05 +0800 CST'>November 17, 2025</span>&nbsp;·&nbsp;1 min</footer>
   <a class="entry-link" aria-label="post link to 图的染色解决" href="https://blog.mineguai.com/blog/%E5%9B%BE%E7%9A%84%E6%9F%93%E8%89%B2%E8%A7%A3%E5%86%B3/"></a>
 </article>
 
@@ -167,7 +140,7 @@
 #include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; vector&lt;int&gt; A; //归并排序 void gbsort(int l,int r) { vector&lt;int&gt; temp; if(l==r) return; int m=((l&#43;r)&gt;&gt;1); printf(&#34;划分的区间:[%d,%d],[%d,%d]\n&#34;,l,m,m&#43;1,r); gbsort(l,m); gbsort(m&#43;1,r); int curL=l,curR=m&#43;1; //左右分为[l,m] [m&#43;1,r] for(int i=0;i&lt;r-l&#43;1;i&#43;&#43;) { if( curL&gt;m ) { temp.push_back(A[curR]); curR&#43;&#43;; } else if( curR&gt;r ) { temp.push_back(A[curL]); curL&#43;&#43;; } else if(A[curL]&gt;A[curR]) { temp.push_back(A[curR]); curR&#43;&#43;; } else if(A[curL]&lt;=A[curR]) { temp.push_back(A[curL]); curL&#43;&#43;; } } for(int i=l;i&lt;=r;i&#43;&#43;) { A[i]=temp[i-l]; } } int main() { int N; cin &gt;&gt; N; for(int i=0;i&lt;N;i&#43;&#43;) { int x; cin &gt;&gt; x; A.push_back(x); } // sort(A.begin(),A.end()); gbsort(0,N-1); for(int i=0;i&lt;N;i&#43;&#43;) { cout &lt;&lt; A[i] &lt;&lt; &#39; &#39;; } return 0; } C&#43;&#43;标准库sort用的是快速排序
 </p>
   </div>
-  <footer class="entry-footer"><span title='2025-11-17 20:13:46 +0800 CST'>November 17, 2025</span></footer>
+  <footer class="entry-footer"><span title='2025-11-17 20:13:46 +0800 CST'>November 17, 2025</span>&nbsp;·&nbsp;1 min</footer>
   <a class="entry-link" aria-label="post link to 归并排序" href="https://blog.mineguai.com/blog/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/"></a>
 </article>
 
@@ -180,7 +153,7 @@
     <p>不详解，看例题就完了。
 </p>
   </div>
-  <footer class="entry-footer"><span title='2025-11-06 21:18:19 +0800 CST'>November 6, 2025</span></footer>
+  <footer class="entry-footer"><span title='2025-11-06 21:18:19 +0800 CST'>November 6, 2025</span>&nbsp;·&nbsp;1 min</footer>
   <a class="entry-link" aria-label="post link to 匈牙利算法_指派问题" href="https://blog.mineguai.com/blog/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95_%E6%8C%87%E6%B4%BE%E9%97%AE%E9%A2%98/"></a>
 </article>
 
@@ -192,7 +165,7 @@
   <div class="entry-content">
     <p></p>
   </div>
-  <footer class="entry-footer"><span title='2025-11-06 20:44:08 +0800 CST'>November 6, 2025</span></footer>
+  <footer class="entry-footer"><span title='2025-11-06 20:44:08 +0800 CST'>November 6, 2025</span>&nbsp;·&nbsp;0 min</footer>
   <a class="entry-link" aria-label="post link to KM算法" href="https://blog.mineguai.com/blog/km%E7%AE%97%E6%B3%95/"></a>
 </article>
 
@@ -210,7 +183,7 @@
 const int MAXN : 根据题目调整 int n : 两边的顶点总数 int graph[MAXN][MAXN] : 基于二维数组的邻接矩阵 int match[MAXN] : match[i]表示与i匹配的点(因为最大匹配饱和点中每一个点都只可能与唯一点匹配)，如果为-1表示未匹配 int used[MAXN] : dfs访问标记（这个级别低于匹配标记match） 2. 深入： 了解所用函数。
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2025-11-06 20:40:18 +0800 CST'>November 6, 2025</span></footer>
+  <footer class="entry-footer"><span title='2025-11-06 20:40:18 +0800 CST'>November 6, 2025</span>&nbsp;·&nbsp;2 min</footer>
   <a class="entry-link" aria-label="post link to 匈牙利算法" href="https://blog.mineguai.com/blog/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/"></a>
 </article>
 
@@ -234,7 +207,7 @@ const int MAXN : 根据题目调整 int n : 两边的顶点总数 int graph[MAXN
 关于我
 </p>
   </div>
-  <footer class="entry-footer"><span title='2025-11-05 12:58:42 +0800 CST'>November 5, 2025</span></footer>
+  <footer class="entry-footer"><span title='2025-11-05 12:58:42 +0800 CST'>November 5, 2025</span>&nbsp;·&nbsp;1 min</footer>
   <a class="entry-link" aria-label="post link to 背包问题" href="https://blog.mineguai.com/blog/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/"></a>
 </article>
 
@@ -249,7 +222,7 @@ const int MAXN : 根据题目调整 int n : 两边的顶点总数 int graph[MAXN
 具体细节代码中注释已经说的很清楚了，不再赘述。
 #include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; vector&lt;int&gt; getNext(const string &amp;pattern) { int m = pattern.size(); // 既可以用来初始化也可以作为循环出口 vector&lt;int&gt; next(m); next.push_back(0); // 一个字符无法匹配默认为0 int i=1; // 后缀匹配到的字符位置（只增不减） int p=0; // 记录当前最大前缀(末)位置(其实也就是p=next[0]) while(i&lt;m) { if(next[p] == next[i]) { p&#43;&#43;; // 缀数增加，要推进主串，同时构建next next.push_back(p); i&#43;&#43;; // 向后推进 } else // 后缀断连 { if(p == 0) // 没有回退空间（找不到更小前后缀）,保持缀数不变,继续推进 { i&#43;&#43;; } else { p = next[p-1]; // 前后缀长度回退，循环继续 } } } return next; } int main() { string text;// 原串 string pattern;// 要找的目标字符串 cin &gt;&gt; text; cin &gt;&gt; pattern; int n=text.size(); int m=pattern.size(); if(n &lt; m) return 0; //长度不符合标准 vector&lt;int&gt; next = getNext(text); // 这里只处理查找到第一个匹配串的位置，如果多个匹配点,重置变量(p),继续匹配不间断输出就行 int j=0; // pattern(副)串匹配到的位置 int i=0; // text(主)串匹配到的位置 while(j&lt;m) { if(pattern[j] == text[i]) { j&#43;&#43;; i&#43;&#43;; } else { if(j==0) // 无法回退 { i&#43;&#43;; // 向前推进 } else { j = next[j-1]; } } } // 这时i位于找到的子串所在位置后面一个 printf(&#34;第一个匹配的子串位置是[%d,%d]\n&#34;,i-m,i-1); // 输出所在区间 return 0; } </p>
   </div>
-  <footer class="entry-footer"><span title='2025-09-25 19:30:11 +0800 CST'>September 25, 2025</span></footer>
+  <footer class="entry-footer"><span title='2025-09-25 19:30:11 +0800 CST'>September 25, 2025</span>&nbsp;·&nbsp;1 min</footer>
   <a class="entry-link" aria-label="post link to KMP" href="https://blog.mineguai.com/blog/kmp/"></a>
 </article>
     </main>
