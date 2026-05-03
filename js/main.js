@@ -20,6 +20,7 @@
     if (themeIcon) {
       themeIcon.src = theme === "dark" ? "/icons/sun.svg" : "/icons/moon.svg";
     }
+    themeButton?.setAttribute("aria-label", theme === "dark" ? "切换浅色模式" : "切换深色模式");
   };
 
   setTheme(initialTheme);
@@ -60,6 +61,18 @@
       mobileMenu.classList.remove("is-open");
       menuButton?.setAttribute("aria-expanded", "false");
       document.body.style.overflow = "";
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && mobileMenu?.classList.contains("is-open")) {
+      mobileMenu.classList.remove("is-open");
+      menuButton?.setAttribute("aria-expanded", "false");
+      document.body.style.overflow = "";
+    }
+    if (event.key === "/" && document.activeElement === document.body) {
+      event.preventDefault();
+      document.querySelector("[data-search-toggle]")?.click();
     }
   });
 

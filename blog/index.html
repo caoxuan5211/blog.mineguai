@@ -7,13 +7,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="算法、工程记录和一点怪话。">
 <meta name="author" content="怪话怪">
-<meta name="theme-color" content="#B85C38">
+<meta name="theme-color" content="#006B64">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Blogs · 怪话怪的博客">
+<meta property="og:description" content="算法、工程记录和一点怪话。">
+<meta property="og:url" content="https://mineguai.com/blog/">
+<meta property="og:site_name" content="怪话怪的博客">
+<meta property="og:image" content="https://mineguai.com/images/wanzi1.jpg">
+<meta name="twitter:card" content="summary">
 <title>Blogs · 怪话怪的博客</title>
 <link rel="canonical" href="https://mineguai.com/blog/">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>:root{--bg:#F8F5F0;--bg-rgb:248, 245, 240;--bg-paper:#FFFFFF;--bg-paper-rgb:255, 255, 255;--ink:#222220;--ink-dim:#666460;--ink-ghost:#999690;--accent:#B85C38;--accent-rgb:184, 92, 56;--accent-dim:rgba(184, 92, 56, 0.15);--border:rgba(34, 34, 32, 0.08);--border-md:rgba(34, 34, 32, 0.14);--code-bg:#1A1A18;--code-fg:#E8E4DC;--radius-sm:4px;--radius-md:8px;--radius-lg:12px;--serif:"GuaiLatinScale", "Noto Serif SC", "Source Han Serif SC", serif;--mono:"IBM Plex Mono", "Space Mono", monospace;--sans:"Inter", system-ui, sans-serif;--max-prose:720px;--max-site:1120px}[data-theme=dark]{--bg:#0F0F0D;--bg-rgb:15, 15, 13;--bg-paper:#161614;--bg-paper-rgb:22, 22, 20;--ink:#E8E4DC;--ink-dim:#999690;--ink-ghost:#666460;--accent:#D97757;--accent-rgb:217, 119, 87;--accent-dim:rgba(217, 119, 87, 0.15);--border:rgba(232, 228, 220, 0.09);--border-md:rgba(232, 228, 220, 0.16);--code-bg:#111110}@font-face{font-family:guailatinscale;src:local("Inter");unicode-range:U+20-7E;size-adjust:92%}*,*::before,*::after{box-sizing:border-box}html{min-height:100%;background:var(--bg);color:var(--ink);color-scheme:light;scroll-behavior:smooth;text-size-adjust:100%}html[data-theme=dark]{color-scheme:dark}body{min-height:100vh;margin:0;background:var(--bg);color:var(--ink);font-family:var(--serif);text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.028;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='80' height='80' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E")}[data-theme=dark] body::before{opacity:.04}img,svg,video,canvas{display:block;max-width:100%}a{color:inherit;text-decoration-thickness:1px;text-underline-offset:3px}a,button{cursor:none}button,input,textarea,select{font:inherit}button{border:0;background:0 0;color:inherit}::selection{background:var(--accent-dim);color:var(--ink)}::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-thumb{background:var(--border-md);border-radius:2px}:focus-visible{outline:2px solid var(--accent);outline-offset:3px}.skip-link{position:fixed;top:.75rem;left:.75rem;z-index:10000;padding:.55rem .75rem;border-radius:var(--radius-sm);background:var(--bg-paper);color:var(--ink);font-family:var(--sans);font-size:.85rem;transform:translateY(-180%)}.skip-link:focus{transform:translateY(0)}@media(pointer:coarse){a,button{cursor:pointer}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}</style>
 
@@ -22,9 +29,14 @@
 <link rel="stylesheet" href="/css/guai.min.css">
 <style>
   :root {
-    --accent: #B85C38;
+    --accent: #006B64;
   }
 </style>
+
+
+  
+  <link rel="stylesheet" href="/css/extended.min.css">
+
 
 <link rel="alternate" type="application/rss+xml" href="/blog/index.xml" title="怪话怪的博客">
 
@@ -80,7 +92,11 @@
       <main id="main" class="site-main">
         
 <section class="list-shell">
-  <h1 class="page-title">Blogs</h1>
+  <header class="list-hero">
+    <p class="hero-kicker">collection</p>
+    <h1 class="page-title">Blogs</h1>
+    <p class="list-lede">按时间收好的一组笔记，保留问题、思路和修正过程，方便以后重新接上当时的脑回路。</p>
+  </header>
   <div class="post-stream">
     
       
@@ -88,8 +104,13 @@
 
 <a class="post-row" href="/blog/hugo%E9%A1%B9%E7%9B%AE%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84%E4%B8%8Egithub%E9%83%A8%E7%BD%B2%E8%AF%B4%E6%98%8E/">
   <span class="post-cat">随记</span>
-  <span class="post-title">Hugo项目整体架构与GitHub部署说明</span>
-  <span class="post-meta">Apr 25 · 5 min</span>
+  <span class="post-body">
+    <span class="post-title">Hugo项目整体架构与GitHub部署说明</span>
+    <span class="post-summary">先说结论 这个博客能部署到 GitHub，不只是因为“用了 Hugo”，更关键是项目架构从一开始就把“源码”和“构建产物”拆开了：
+F:\myblog 是 Hugo 源码仓库，负责写文章、配主 …</span>
+    
+  </span>
+  <span class="post-meta">2026.04.25 · 5 分钟</span>
 </a>
 
     
@@ -98,8 +119,14 @@
 
 <a class="post-row" href="/blog/%E9%92%A5%E5%8C%99%E9%97%AE%E9%A2%98/">
   <span class="post-cat">随记</span>
-  <span class="post-title">钥匙问题</span>
-  <span class="post-meta">Apr 14 · 2 min</span>
+  <span class="post-body">
+    <span class="post-title">钥匙问题</span>
+    <span class="post-summary">P4890 解题代码详解（链式DP + 建模全过程） P4890 Never·island - 洛谷
+一、整体思路（先建立全局认知） 本题流程分三步：
+离散化 + 扫描线建模 把区间拆成若干小 …</span>
+    
+  </span>
+  <span class="post-meta">2026.04.14 · 2 分钟</span>
 </a>
 
     
@@ -108,8 +135,12 @@
 
 <a class="post-row" href="/blog/%E5%A4%A7%E5%88%9B/">
   <span class="post-cat">随记</span>
-  <span class="post-title">大创</span>
-  <span class="post-meta">Apr 14 · 10 min</span>
+  <span class="post-body">
+    <span class="post-title">大创</span>
+    <span class="post-summary">ArchRAG 项目理解入门 1. 项目一句话说明 ArchRAG 是一个基于知识图谱的 Graph-based RAG 系统。它的核心目标不是只做“向量检索 + 生成”，而是把语料先构造成 …</span>
+    
+  </span>
+  <span class="post-meta">2026.04.14 · 10 分钟</span>
 </a>
 
     
@@ -118,8 +149,12 @@
 
 <a class="post-row" href="/blog/%E6%B5%8B%E8%AF%95main/">
   <span class="post-cat">随记</span>
-  <span class="post-title">测试main</span>
-  <span class="post-meta">Apr 13 · 1 min</span>
+  <span class="post-body">
+    <span class="post-title">测试main</span>
+    <span class="post-summary">测试</span>
+    
+  </span>
+  <span class="post-meta">2026.04.13 · 1 分钟</span>
 </a>
 
     
@@ -128,8 +163,12 @@
 
 <a class="post-row" href="/blog/%E5%88%B7%E9%A2%98/">
   <span class="post-cat">随记</span>
-  <span class="post-title">刷题</span>
-  <span class="post-meta">Mar 5 · 1 min</span>
+  <span class="post-body">
+    <span class="post-title">刷题</span>
+    <span class="post-summary">常见类型 INF 设定（竞赛常用） 类型 位数 理论最大值 常用 INF 写法 说明 int 32bit 2,147,483,647 0x3f3f3f3f 最常见写法，可 memset int …</span>
+    
+  </span>
+  <span class="post-meta">2026.03.05 · 1 分钟</span>
 </a>
 
     
@@ -138,8 +177,12 @@
 
 <a class="post-row" href="/blog/general/">
   <span class="post-cat">随记</span>
-  <span class="post-title">General</span>
-  <span class="post-meta">Feb 15 · 1 min</span>
+  <span class="post-body">
+    <span class="post-title">General</span>
+    <span class="post-summary">什么是URL 1. URL 的全称是什么？ 全称：Uniform Resource Locator 中文翻译：统一资源定位符 2. URL 是什么意思？ 通俗地说，URL 就是互联网上的 “万 …</span>
+    
+  </span>
+  <span class="post-meta">2026.02.15 · 1 分钟</span>
 </a>
 
     
@@ -148,8 +191,18 @@
 
 <a class="post-row" href="/blog/git_learn/">
   <span class="post-cat">随记</span>
-  <span class="post-title">Git_learn</span>
-  <span class="post-meta">Feb 15 · 1 min</span>
+  <span class="post-body">
+    <span class="post-title">Git_learn</span>
+    <span class="post-summary">查看当前仓库状态：git status
+查看已暂存内容: git diff --cached
+查看分支状态：git br
+****：``
+****：``
+****：``
+</span>
+    
+  </span>
+  <span class="post-meta">2026.02.15 · 1 分钟</span>
 </a>
 
     
@@ -158,8 +211,18 @@
 
 <a class="post-row" href="/blog/%E6%9C%80%E5%A4%A7%E5%9B%A2/">
   <span class="post-cat">229</span>
-  <span class="post-title">最大团</span>
-  <span class="post-meta">Jan 9 · 2 min</span>
+  <span class="post-body">
+    <span class="post-title">最大团</span>
+    <span class="post-summary">简单起见，直接用mask遍历所有情况也就是从0-2n。
+时间复杂度是O(2n·n2)
+#include &lt;bits/stdc++.h&gt; using namespace std; …</span>
+    
+      <span class="post-tags">
+        <span>#最大团</span>
+      </span>
+    
+  </span>
+  <span class="post-meta">2026.01.09 · 2 分钟</span>
 </a>
 
     
@@ -168,8 +231,12 @@
 
 <a class="post-row" href="/blog/learn-process/">
   <span class="post-cat">随记</span>
-  <span class="post-title">Learn Process</span>
-  <span class="post-meta">Jan 4 · 1 min</span>
+  <span class="post-body">
+    <span class="post-title">Learn Process</span>
+    <span class="post-summary">图论 最大流 最短路径 最小生成树 </span>
+    
+  </span>
+  <span class="post-meta">2026.01.04 · 1 分钟</span>
 </a>
 
     
@@ -178,8 +245,13 @@
 
 <a class="post-row" href="/blog/cpp%E5%B8%B8%E7%94%A8%E7%BB%93%E6%9E%84/">
   <span class="post-cat">随记</span>
-  <span class="post-title">Cpp常用结构</span>
-  <span class="post-meta">Dec 16 · 1 min</span>
+  <span class="post-body">
+    <span class="post-title">Cpp常用结构</span>
+    <span class="post-summary">1.unordered_set 用处 图结构常删除点边的时候可以用避免重复查找。
+函数 insert(),find(),erase(type)（删除指定元素）,clear() 2.memset …</span>
+    
+  </span>
+  <span class="post-meta">2025.12.16 · 1 分钟</span>
 </a>
 
     
@@ -188,8 +260,13 @@
 
 <a class="post-row" href="/blog/%E5%AF%B9%E7%94%B5%E8%84%91%E6%93%8D%E4%BD%9C%E8%AE%B0%E5%BD%95/">
   <span class="post-cat">随记</span>
-  <span class="post-title">对电脑操作记录</span>
-  <span class="post-meta">Nov 18 · 1 min</span>
+  <span class="post-body">
+    <span class="post-title">对电脑操作记录</span>
+    <span class="post-summary">管理员身份运行cmd输入了powercfg -h off(【建议收藏】全网最详细C 盘清理指南！！！绝对值得收藏！！！_哔哩哔哩_bilibili)
+D:\Program …</span>
+    
+  </span>
+  <span class="post-meta">2025.11.18 · 1 分钟</span>
 </a>
 
     
@@ -198,8 +275,12 @@
 
 <a class="post-row" href="/blog/%E5%B7%AE%E5%88%86%E6%95%B0%E7%BB%84/">
   <span class="post-cat">随记</span>
-  <span class="post-title">对电脑操作记录</span>
-  <span class="post-meta">Nov 18 · 1 min</span>
+  <span class="post-body">
+    <span class="post-title">对电脑操作记录</span>
+    <span class="post-summary">一维差分数组 二维差分数组 差分数组例题 例题1： 例题2：</span>
+    
+  </span>
+  <span class="post-meta">2025.11.18 · 1 分钟</span>
 </a>
 
     
@@ -208,8 +289,17 @@
 
 <a class="post-row" href="/blog/%E5%9B%BE%E7%9A%84%E6%9F%93%E8%89%B2%E8%A7%A3%E5%86%B3/">
   <span class="post-cat">随记</span>
-  <span class="post-title">图的染色解决</span>
-  <span class="post-meta">Nov 17 · 1 min</span>
+  <span class="post-body">
+    <span class="post-title">图的染色解决</span>
+    <span class="post-summary">染色问题 同染色（连接点染相同颜色） 用法 得到各个连通分量（分组）。
+代码 #include&lt;bits/stdc++.h&gt; using namespace std; const …</span>
+    
+      <span class="post-tags">
+        <span>#算法</span><span>#图论</span>
+      </span>
+    
+  </span>
+  <span class="post-meta">2025.11.17 · 1 分钟</span>
 </a>
 
     
@@ -218,8 +308,17 @@
 
 <a class="post-row" href="/blog/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/">
   <span class="post-cat">随记</span>
-  <span class="post-title">归并排序</span>
-  <span class="post-meta">Nov 17 · 1 min</span>
+  <span class="post-body">
+    <span class="post-title">归并排序</span>
+    <span class="post-summary">P1177 【模板】排序 - 洛谷 我用归并排序写的。(时间复杂度O(nlogn),空间复杂度O(n))。
+#include&lt;bits/stdc++.h&gt; using …</span>
+    
+      <span class="post-tags">
+        <span>#算法</span><span>#luogu</span>
+      </span>
+    
+  </span>
+  <span class="post-meta">2025.11.17 · 1 分钟</span>
 </a>
 
     
@@ -228,8 +327,15 @@
 
 <a class="post-row" href="/blog/%E6%B4%9B%E8%B0%B7-p1559/">
   <span class="post-cat">随记</span>
-  <span class="post-title">洛谷 P1559</span>
-  <span class="post-meta">Nov 7 · 1 min</span>
+  <span class="post-body">
+    <span class="post-title">洛谷 P1559</span>
+    <span class="post-summary"> 运动员最佳匹配问题 问题前面就不多说，简单模拟得到矩阵。
+然后对矩阵用匈牙利得到最小匹配。
+我累了，看代码吧
+#include &lt;bits/stdc++.h&gt; using …</span>
+    
+  </span>
+  <span class="post-meta">2025.11.07 · 1 分钟</span>
 </a>
 
     
@@ -238,8 +344,19 @@
 
 <a class="post-row" href="/blog/hugo%E5%8D%9A%E5%AE%A2%E6%B7%BB%E5%8A%A0%E4%BB%A3%E7%A0%81%E6%A1%86%E5%A4%8D%E5%88%B6%E5%8A%9F%E8%83%BD/">
   <span class="post-cat">随记</span>
-  <span class="post-title">Hugo博客添加代码框复制功能</span>
-  <span class="post-meta">Nov 7 · 3 min</span>
+  <span class="post-body">
+    <span class="post-title">Hugo博客添加代码框复制功能</span>
+    <span class="post-summary">由于鼠标拖动复制代码有点费力，我打算给每个代码块添加一个复制按钮（学学大佬orz ）。
+经过长时间的搜索学习，我终于加上了（win）。
+话不多说。
+构建 首先，我们要清楚一 …</span>
+    
+      <span class="post-tags">
+        <span>#博客搭建问题</span>
+      </span>
+    
+  </span>
+  <span class="post-meta">2025.11.07 · 3 分钟</span>
 </a>
 
     
@@ -248,8 +365,17 @@
 
 <a class="post-row" href="/blog/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95_%E6%8C%87%E6%B4%BE%E9%97%AE%E9%A2%98/">
   <span class="post-cat">随记</span>
-  <span class="post-title">匈牙利算法_指派问题</span>
-  <span class="post-meta">Nov 6 · 1 min</span>
+  <span class="post-body">
+    <span class="post-title">匈牙利算法_指派问题</span>
+    <span class="post-summary">不详解，看例题就完了。
+</span>
+    
+      <span class="post-tags">
+        <span>#算法</span>
+      </span>
+    
+  </span>
+  <span class="post-meta">2025.11.06 · 1 分钟</span>
 </a>
 
     
@@ -258,8 +384,16 @@
 
 <a class="post-row" href="/blog/km%E7%AE%97%E6%B3%95/">
   <span class="post-cat">随记</span>
-  <span class="post-title">KM算法</span>
-  <span class="post-meta">Nov 6 · 0 min</span>
+  <span class="post-body">
+    <span class="post-title">KM算法</span>
+    <span class="post-summary"></span>
+    
+      <span class="post-tags">
+        <span>#算法</span>
+      </span>
+    
+  </span>
+  <span class="post-meta">2025.11.06 · 0 分钟</span>
 </a>
 
     
@@ -268,8 +402,17 @@
 
 <a class="post-row" href="/blog/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/">
   <span class="post-cat">随记</span>
-  <span class="post-title">匈牙利算法</span>
-  <span class="post-meta">Nov 6 · 3 min</span>
+  <span class="post-body">
+    <span class="post-title">匈牙利算法</span>
+    <span class="post-summary">前提算法 二分图染色得到L，R数组 （以下是利用染色得到二分图的代码）
+#include&lt;bits/stdc++.h&gt; using namespace std; const int …</span>
+    
+      <span class="post-tags">
+        <span>#算法</span>
+      </span>
+    
+  </span>
+  <span class="post-meta">2025.11.06 · 3 分钟</span>
 </a>
 
     
@@ -278,8 +421,18 @@
 
 <a class="post-row" href="/blog/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/">
   <span class="post-cat">随记</span>
-  <span class="post-title">背包问题</span>
-  <span class="post-meta">Nov 5 · 1 min</span>
+  <span class="post-body">
+    <span class="post-title">背包问题</span>
+    <span class="post-summary">01背包 问题 有N个物品要装到一个只能承重W的背包里，每个物品重量为w[i]（weight），价值为v[i]（value），问背包能装的最大价值
+前提 每类物品只能装一个（此谓01）。
+二维 …</span>
+    
+      <span class="post-tags">
+        <span>#算法</span>
+      </span>
+    
+  </span>
+  <span class="post-meta">2025.11.05 · 1 分钟</span>
 </a>
 
     
@@ -288,8 +441,17 @@
 
 <a class="post-row" href="/blog/p1382/">
   <span class="post-cat">blog</span>
-  <span class="post-title">洛谷 P1382</span>
-  <span class="post-meta">Nov 4 · 1 min</span>
+  <span class="post-body">
+    <span class="post-title">洛谷 P1382</span>
+    <span class="post-summary">楼房 思路 属于扫描线算法思想，通过动态维护当前高度集合，利用最大高度(天际线)来不断动态变化，同时记录轮廓拐点，最后顺序输出。
+题解 #include …</span>
+    
+      <span class="post-tags">
+        <span>#luogu</span>
+      </span>
+    
+  </span>
+  <span class="post-meta">2025.11.04 · 1 分钟</span>
 </a>
 
     
@@ -298,8 +460,12 @@
 
 <a class="post-row" href="/blog/hugo%E5%8D%9A%E5%AE%A2%E9%85%8D%E7%BD%AEmarkdown%E8%AF%AD%E6%B3%95/">
   <span class="post-cat">随记</span>
-  <span class="post-title">Hugo博客配置&amp;markdown语法</span>
-  <span class="post-meta">Oct 31 · 2 min</span>
+  <span class="post-body">
+    <span class="post-title">Hugo博客配置&amp;markdown语法</span>
+    <span class="post-summary">hugo项目结构 my-blog/ ├── archetypes/ # 内容模板 ├── assets/ # 需要 Hugo Pipes 处理的资源 (SCSS, JS) ├── …</span>
+    
+  </span>
+  <span class="post-meta">2025.10.31 · 2 分钟</span>
 </a>
 
     
@@ -308,8 +474,17 @@
 
 <a class="post-row" href="/blog/p3372/">
   <span class="post-cat">随记</span>
-  <span class="post-title">洛谷 P3372</span>
-  <span class="post-meta">Oct 31 · 2 min</span>
+  <span class="post-body">
+    <span class="post-title">洛谷 P3372</span>
+    <span class="post-summary">线段树1 用到线段树基础知识
+#include&lt;bits/stdc++.h&gt; using namespace std; // 线段树我默认每个数组下标都是从1开始的 void …</span>
+    
+      <span class="post-tags">
+        <span>#luogu</span>
+      </span>
+    
+  </span>
+  <span class="post-meta">2025.10.31 · 2 分钟</span>
 </a>
 
     
@@ -318,8 +493,18 @@
 
 <a class="post-row" href="/blog/p1590/">
   <span class="post-cat">随记</span>
-  <span class="post-title">洛谷 P1590</span>
-  <span class="post-meta">Oct 25 · 1 min</span>
+  <span class="post-body">
+    <span class="post-title">洛谷 P1590</span>
+    <span class="post-summary">失踪的7 直接找pascal的n以内的最大值
+由于需要删除7（单位大于7就减，小于7直接用）,所以可以把十进制转换为去除7的模拟九进制。
+#include …</span>
+    
+      <span class="post-tags">
+        <span>#luogu</span>
+      </span>
+    
+  </span>
+  <span class="post-meta">2025.10.25 · 1 分钟</span>
 </a>
 
     
@@ -328,8 +513,18 @@
 
 <a class="post-row" href="/blog/p1393/">
   <span class="post-cat">随记</span>
-  <span class="post-title">洛谷 P1393</span>
-  <span class="post-meta">Oct 5 · 1 min</span>
+  <span class="post-body">
+    <span class="post-title">洛谷 P1393</span>
+    <span class="post-summary">Mivik 不会做
+观摩题解后的感触 求概率取余时候除以的分母可以用模逆元转换为乘。
+还有就是KMP中的next数组可以转换为n个等差数列（顺序排列，不交叉）。也就是字符串边界理 …</span>
+    
+      <span class="post-tags">
+        <span>#luogu</span>
+      </span>
+    
+  </span>
+  <span class="post-meta">2025.10.05 · 1 分钟</span>
 </a>
 
     
@@ -338,8 +533,14 @@
 
 <a class="post-row" href="/blog/wrong/">
   <span class="post-cat">wrong</span>
-  <span class="post-title">hugo的github网页css显示失败问题</span>
-  <span class="post-meta">Oct 4 · 1 min</span>
+  <span class="post-body">
+    <span class="post-title">hugo的github网页css显示失败问题</span>
+    <span class="post-summary">打开网页后出现异常
+当时github_pages生成的网页的css加载异常，F12用浏览器控制台看了之后发现是SRI不匹配问题。
+后来找到了这篇博客:hugo发布css无法加载问题 | Le …</span>
+    
+  </span>
+  <span class="post-meta">2025.10.04 · 1 分钟</span>
 </a>
 
     
@@ -348,8 +549,18 @@
 
 <a class="post-row" href="/blog/kmp/">
   <span class="post-cat">随记</span>
-  <span class="post-title">KMP</span>
-  <span class="post-meta">Sep 25 · 2 min</span>
+  <span class="post-body">
+    <span class="post-title">KMP</span>
+    <span class="post-summary">感觉KMP很简单就没练过，用的时候太不熟练，写个博客熟悉熟悉。
+其实主要就是两部分，一个是确定next数组，一个是利用next找子串，这两部分大致思路很简单，有点异曲同工。
+具体细节代码中注释 …</span>
+    
+      <span class="post-tags">
+        <span>#算法</span>
+      </span>
+    
+  </span>
+  <span class="post-meta">2025.09.25 · 2 分钟</span>
 </a>
 
     
@@ -358,8 +569,16 @@
 
 <a class="post-row" href="/blog/deep_learning/">
   <span class="post-cat">随记</span>
-  <span class="post-title">深度学习</span>
-  <span class="post-meta">Sep 23 · 1 min</span>
+  <span class="post-body">
+    <span class="post-title">深度学习</span>
+    <span class="post-summary">笔记 广播</span>
+    
+      <span class="post-tags">
+        <span>#deep_learning</span>
+      </span>
+    
+  </span>
+  <span class="post-meta">2025.09.23 · 1 分钟</span>
 </a>
 
     
@@ -368,8 +587,16 @@
 
 <a class="post-row" href="/blog/p3193/">
   <span class="post-cat">随记</span>
-  <span class="post-title">洛谷 P3193</span>
-  <span class="post-meta">Sep 23 · 2 min</span>
+  <span class="post-body">
+    <span class="post-title">洛谷 P3193</span>
+    <span class="post-summary">[HNOI2008] GT考试 思路 状态转移矩阵T[i][j]其实就是添加一个字符之后从状态i转移到状态j的方案数量，也就是先用kmp得到对应的T然后对于长度为N的串只需要让这个转移矩阵N次 …</span>
+    
+      <span class="post-tags">
+        <span>#luogu</span>
+      </span>
+    
+  </span>
+  <span class="post-meta">2025.09.23 · 2 分钟</span>
 </a>
 
     
@@ -378,8 +605,17 @@
 
 <a class="post-row" href="/blog/first-blog/copy/">
   <span class="post-cat">随记</span>
-  <span class="post-title">w</span>
-  <span class="post-meta">Sep 23 · 1 min</span>
+  <span class="post-body">
+    <span class="post-title">w</span>
+    <span class="post-summary">（加图改md路径）改了
+</span>
+    
+      <span class="post-tags">
+        <span>#pictures</span>
+      </span>
+    
+  </span>
+  <span class="post-meta">2025.09.23 · 1 分钟</span>
 </a>
 
     
@@ -388,8 +624,16 @@
 
 <a class="post-row" href="/blog/p1328/">
   <span class="post-cat">随记</span>
-  <span class="post-title">洛谷 P1328</span>
-  <span class="post-meta">Sep 23 · 1 min</span>
+  <span class="post-body">
+    <span class="post-title">洛谷 P1328</span>
+    <span class="post-summary">生活大爆炸版石头剪刀布 思路 数字化选择方式 纯手抄一个map&lt;pair&lt;int, int&gt;, int&gt; mp用来记录出拳结果。如mp[{2,0}] = 2;表示b …</span>
+    
+      <span class="post-tags">
+        <span>#luogu</span>
+      </span>
+    
+  </span>
+  <span class="post-meta">2025.09.23 · 1 分钟</span>
 </a>
 
     

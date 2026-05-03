@@ -8,13 +8,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="算法、工程记录和一点怪话。">
 <meta name="author" content="怪话怪">
-<meta name="theme-color" content="#B85C38">
+<meta name="theme-color" content="#006B64">
+<meta property="og:type" content="website">
+<meta property="og:title" content="怪话怪的博客">
+<meta property="og:description" content="算法、工程记录和一点怪话。">
+<meta property="og:url" content="https://mineguai.com/">
+<meta property="og:site_name" content="怪话怪的博客">
+<meta property="og:image" content="https://mineguai.com/images/wanzi1.jpg">
+<meta name="twitter:card" content="summary">
 <title>怪话怪的博客</title>
 <link rel="canonical" href="https://mineguai.com/">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>:root{--bg:#F8F5F0;--bg-rgb:248, 245, 240;--bg-paper:#FFFFFF;--bg-paper-rgb:255, 255, 255;--ink:#222220;--ink-dim:#666460;--ink-ghost:#999690;--accent:#B85C38;--accent-rgb:184, 92, 56;--accent-dim:rgba(184, 92, 56, 0.15);--border:rgba(34, 34, 32, 0.08);--border-md:rgba(34, 34, 32, 0.14);--code-bg:#1A1A18;--code-fg:#E8E4DC;--radius-sm:4px;--radius-md:8px;--radius-lg:12px;--serif:"GuaiLatinScale", "Noto Serif SC", "Source Han Serif SC", serif;--mono:"IBM Plex Mono", "Space Mono", monospace;--sans:"Inter", system-ui, sans-serif;--max-prose:720px;--max-site:1120px}[data-theme=dark]{--bg:#0F0F0D;--bg-rgb:15, 15, 13;--bg-paper:#161614;--bg-paper-rgb:22, 22, 20;--ink:#E8E4DC;--ink-dim:#999690;--ink-ghost:#666460;--accent:#D97757;--accent-rgb:217, 119, 87;--accent-dim:rgba(217, 119, 87, 0.15);--border:rgba(232, 228, 220, 0.09);--border-md:rgba(232, 228, 220, 0.16);--code-bg:#111110}@font-face{font-family:guailatinscale;src:local("Inter");unicode-range:U+20-7E;size-adjust:92%}*,*::before,*::after{box-sizing:border-box}html{min-height:100%;background:var(--bg);color:var(--ink);color-scheme:light;scroll-behavior:smooth;text-size-adjust:100%}html[data-theme=dark]{color-scheme:dark}body{min-height:100vh;margin:0;background:var(--bg);color:var(--ink);font-family:var(--serif);text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.028;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='80' height='80' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E")}[data-theme=dark] body::before{opacity:.04}img,svg,video,canvas{display:block;max-width:100%}a{color:inherit;text-decoration-thickness:1px;text-underline-offset:3px}a,button{cursor:none}button,input,textarea,select{font:inherit}button{border:0;background:0 0;color:inherit}::selection{background:var(--accent-dim);color:var(--ink)}::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-thumb{background:var(--border-md);border-radius:2px}:focus-visible{outline:2px solid var(--accent);outline-offset:3px}.skip-link{position:fixed;top:.75rem;left:.75rem;z-index:10000;padding:.55rem .75rem;border-radius:var(--radius-sm);background:var(--bg-paper);color:var(--ink);font-family:var(--sans);font-size:.85rem;transform:translateY(-180%)}.skip-link:focus{transform:translateY(0)}@media(pointer:coarse){a,button{cursor:pointer}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}</style>
 
@@ -23,9 +30,14 @@
 <link rel="stylesheet" href="/css/guai.min.css">
 <style>
   :root {
-    --accent: #B85C38;
+    --accent: #006B64;
   }
 </style>
+
+
+  
+  <link rel="stylesheet" href="/css/extended.min.css">
+
 
 <link rel="alternate" type="application/rss+xml" href="/index.xml" title="怪话怪的博客">
 
@@ -81,21 +93,73 @@
       <main id="main" class="site-main">
         
 <section class="home-shell">
-  <div class="hero">
-    <h1 class="hero-title">算法、工程记录和一点<span class="accent">怪话</span>。</h1>
-    <p class="hero-text">这里记录刷题、工程实践、部署踩坑，也收纳一些没那么规整但真实有用的想法。</p>
+  
+  
+  <div class="hero hero-premium">
+    <div class="hero-copy">
+      <h1 class="hero-title hero-title-compact">怪话怪</h1>
+      <div class="hero-actions" aria-label="快速入口">
+        <a class="hero-action primary" href="/blog/">浏览文章</a>
+        <a class="hero-action" href="/archive/">时间线</a>
+      </div>
+    </div>
+    <aside class="hero-panel" aria-label="博客概览">
+      <div class="panel-line">
+        <span>posts</span>
+        <strong>31</strong>
+      </div>
+      <div class="panel-line">
+        <span>tags</span>
+        <strong>7</strong>
+      </div>
+      <div class="panel-line">
+        <span>latest</span>
+        <strong>04.25</strong>
+      </div>
+      
+      <a class="panel-feature" href="/blog/hugo%E9%A1%B9%E7%9B%AE%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84%E4%B8%8Egithub%E9%83%A8%E7%BD%B2%E8%AF%B4%E6%98%8E/">
+        <span>最近更新</span>
+        <strong>Hugo项目整体架构与GitHub部署说明</strong>
+      </a>
+      
+    </aside>
   </div>
+  <section class="topic-strip" aria-label="常看主题">
+    
+      <a href="/tags/luogu/">#Luogu <span>7</span></a>
+    
+      <a href="/tags/%E7%AE%97%E6%B3%95/">#算法 <span>7</span></a>
+    
+      <a href="/tags/deep_learning/">#Deep_learning <span>1</span></a>
+    
+      <a href="/tags/pictures/">#Pictures <span>1</span></a>
+    
+      <a href="/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E9%97%AE%E9%A2%98/">#博客搭建问题 <span>1</span></a>
+    
+      <a href="/tags/%E5%9B%BE%E8%AE%BA/">#图论 <span>1</span></a>
+    
+      <a href="/tags/%E6%9C%80%E5%A4%A7%E5%9B%A2/">#最大团 <span>1</span></a>
+    
+  </section>
   <div class="home-grid">
     <section class="post-stream" aria-label="最新文章">
-      
+      <div class="stream-head">
+        <span>latest notes</span>
+        <a href="/blog/">全部文章</a>
+      </div>
       
         
 
 
 <a class="post-row" href="/blog/hugo%E9%A1%B9%E7%9B%AE%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84%E4%B8%8Egithub%E9%83%A8%E7%BD%B2%E8%AF%B4%E6%98%8E/">
   <span class="post-cat">随记</span>
-  <span class="post-title">Hugo项目整体架构与GitHub部署说明</span>
-  <span class="post-meta">Apr 25 · 5 min</span>
+  <span class="post-body">
+    <span class="post-title">Hugo项目整体架构与GitHub部署说明</span>
+    <span class="post-summary">先说结论 这个博客能部署到 GitHub，不只是因为“用了 Hugo”，更关键是项目架构从一开始就把“源码”和“构建产物”拆开了：
+F:\myblog 是 Hugo 源码仓库，负责写文章、配主 …</span>
+    
+  </span>
+  <span class="post-meta">2026.04.25 · 5 分钟</span>
 </a>
 
       
@@ -104,8 +168,14 @@
 
 <a class="post-row" href="/blog/%E9%92%A5%E5%8C%99%E9%97%AE%E9%A2%98/">
   <span class="post-cat">随记</span>
-  <span class="post-title">钥匙问题</span>
-  <span class="post-meta">Apr 14 · 2 min</span>
+  <span class="post-body">
+    <span class="post-title">钥匙问题</span>
+    <span class="post-summary">P4890 解题代码详解（链式DP + 建模全过程） P4890 Never·island - 洛谷
+一、整体思路（先建立全局认知） 本题流程分三步：
+离散化 + 扫描线建模 把区间拆成若干小 …</span>
+    
+  </span>
+  <span class="post-meta">2026.04.14 · 2 分钟</span>
 </a>
 
       
@@ -114,8 +184,12 @@
 
 <a class="post-row" href="/blog/%E5%A4%A7%E5%88%9B/">
   <span class="post-cat">随记</span>
-  <span class="post-title">大创</span>
-  <span class="post-meta">Apr 14 · 10 min</span>
+  <span class="post-body">
+    <span class="post-title">大创</span>
+    <span class="post-summary">ArchRAG 项目理解入门 1. 项目一句话说明 ArchRAG 是一个基于知识图谱的 Graph-based RAG 系统。它的核心目标不是只做“向量检索 + 生成”，而是把语料先构造成 …</span>
+    
+  </span>
+  <span class="post-meta">2026.04.14 · 10 分钟</span>
 </a>
 
       
@@ -124,8 +198,12 @@
 
 <a class="post-row" href="/blog/%E6%B5%8B%E8%AF%95main/">
   <span class="post-cat">随记</span>
-  <span class="post-title">测试main</span>
-  <span class="post-meta">Apr 13 · 1 min</span>
+  <span class="post-body">
+    <span class="post-title">测试main</span>
+    <span class="post-summary">测试</span>
+    
+  </span>
+  <span class="post-meta">2026.04.13 · 1 分钟</span>
 </a>
 
       
@@ -134,8 +212,12 @@
 
 <a class="post-row" href="/blog/%E5%88%B7%E9%A2%98/">
   <span class="post-cat">随记</span>
-  <span class="post-title">刷题</span>
-  <span class="post-meta">Mar 5 · 1 min</span>
+  <span class="post-body">
+    <span class="post-title">刷题</span>
+    <span class="post-summary">常见类型 INF 设定（竞赛常用） 类型 位数 理论最大值 常用 INF 写法 说明 int 32bit 2,147,483,647 0x3f3f3f3f 最常见写法，可 memset int …</span>
+    
+  </span>
+  <span class="post-meta">2026.03.05 · 1 分钟</span>
 </a>
 
       
@@ -144,8 +226,12 @@
 
 <a class="post-row" href="/blog/general/">
   <span class="post-cat">随记</span>
-  <span class="post-title">General</span>
-  <span class="post-meta">Feb 15 · 1 min</span>
+  <span class="post-body">
+    <span class="post-title">General</span>
+    <span class="post-summary">什么是URL 1. URL 的全称是什么？ 全称：Uniform Resource Locator 中文翻译：统一资源定位符 2. URL 是什么意思？ 通俗地说，URL 就是互联网上的 “万 …</span>
+    
+  </span>
+  <span class="post-meta">2026.02.15 · 1 分钟</span>
 </a>
 
       
@@ -154,8 +240,18 @@
 
 <a class="post-row" href="/blog/git_learn/">
   <span class="post-cat">随记</span>
-  <span class="post-title">Git_learn</span>
-  <span class="post-meta">Feb 15 · 1 min</span>
+  <span class="post-body">
+    <span class="post-title">Git_learn</span>
+    <span class="post-summary">查看当前仓库状态：git status
+查看已暂存内容: git diff --cached
+查看分支状态：git br
+****：``
+****：``
+****：``
+</span>
+    
+  </span>
+  <span class="post-meta">2026.02.15 · 1 分钟</span>
 </a>
 
       
@@ -164,8 +260,18 @@
 
 <a class="post-row" href="/blog/%E6%9C%80%E5%A4%A7%E5%9B%A2/">
   <span class="post-cat">229</span>
-  <span class="post-title">最大团</span>
-  <span class="post-meta">Jan 9 · 2 min</span>
+  <span class="post-body">
+    <span class="post-title">最大团</span>
+    <span class="post-summary">简单起见，直接用mask遍历所有情况也就是从0-2n。
+时间复杂度是O(2n·n2)
+#include &lt;bits/stdc++.h&gt; using namespace std; …</span>
+    
+      <span class="post-tags">
+        <span>#最大团</span>
+      </span>
+    
+  </span>
+  <span class="post-meta">2026.01.09 · 2 分钟</span>
 </a>
 
       
@@ -174,8 +280,12 @@
 
 <a class="post-row" href="/blog/learn-process/">
   <span class="post-cat">随记</span>
-  <span class="post-title">Learn Process</span>
-  <span class="post-meta">Jan 4 · 1 min</span>
+  <span class="post-body">
+    <span class="post-title">Learn Process</span>
+    <span class="post-summary">图论 最大流 最短路径 最小生成树 </span>
+    
+  </span>
+  <span class="post-meta">2026.01.04 · 1 分钟</span>
 </a>
 
       
@@ -184,8 +294,13 @@
 
 <a class="post-row" href="/blog/cpp%E5%B8%B8%E7%94%A8%E7%BB%93%E6%9E%84/">
   <span class="post-cat">随记</span>
-  <span class="post-title">Cpp常用结构</span>
-  <span class="post-meta">Dec 16 · 1 min</span>
+  <span class="post-body">
+    <span class="post-title">Cpp常用结构</span>
+    <span class="post-summary">1.unordered_set 用处 图结构常删除点边的时候可以用避免重复查找。
+函数 insert(),find(),erase(type)（删除指定元素）,clear() 2.memset …</span>
+    
+  </span>
+  <span class="post-meta">2025.12.16 · 1 分钟</span>
 </a>
 
       
@@ -239,35 +354,35 @@
           <li>
             <a href="/blog/hugo%E9%A1%B9%E7%9B%AE%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84%E4%B8%8Egithub%E9%83%A8%E7%BD%B2%E8%AF%B4%E6%98%8E/">
               <span class="recent-title">Hugo项目整体架构与GitHub部署说明</span>
-              <span class="recent-age">8 天前</span>
+              <span class="recent-age">9 天前</span>
             </a>
           </li>
           
           <li>
             <a href="/blog/%E9%92%A5%E5%8C%99%E9%97%AE%E9%A2%98/">
               <span class="recent-title">钥匙问题</span>
-              <span class="recent-age">18 天前</span>
+              <span class="recent-age">19 天前</span>
             </a>
           </li>
           
           <li>
             <a href="/blog/%E5%A4%A7%E5%88%9B/">
               <span class="recent-title">大创</span>
-              <span class="recent-age">18 天前</span>
+              <span class="recent-age">19 天前</span>
             </a>
           </li>
           
           <li>
             <a href="/blog/%E6%B5%8B%E8%AF%95main/">
               <span class="recent-title">测试main</span>
-              <span class="recent-age">19 天前</span>
+              <span class="recent-age">20 天前</span>
             </a>
           </li>
           
           <li>
             <a href="/blog/%E5%88%B7%E9%A2%98/">
               <span class="recent-title">刷题</span>
-              <span class="recent-age">58 天前</span>
+              <span class="recent-age">59 天前</span>
             </a>
           </li>
           
