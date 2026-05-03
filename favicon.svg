@@ -1,0 +1,6 @@
+<!-- themes/guai/static/favicon.svg -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="12" fill="#F8F5F0"/>
+  <path d="M15 18h34v6H15zM15 31h25v6H15zM15 44h34v6H15z" fill="#222220"/>
+  <circle cx="48" cy="34" r="6" fill="#B85C38"/>
+</svg>

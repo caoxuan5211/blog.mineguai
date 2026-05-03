@@ -1,368 +1,424 @@
-<!DOCTYPE html>
-<html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
-<title>Blogs | 怪话怪的博客</title>
-<meta name="keywords" content="">
-<meta name="description" content="Blogs - 怪话怪的博客">
-<meta name="author" content="">
-<link rel="canonical" href="https://blog.mineguai.com/blog/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://blog.mineguai.com/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://blog.mineguai.com/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://blog.mineguai.com/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://blog.mineguai.com/apple-touch-icon.png">
-<link rel="mask-icon" href="https://blog.mineguai.com/safari-pinned-tab.svg">
-<meta name="theme-color" content="#f4eed4">
-<meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="https://blog.mineguai.com/blog/index.xml">
-<link rel="alternate" hreflang="en" href="https://blog.mineguai.com/blog/">
-<noscript>
-    <style>
-        #theme-toggle,
-        .top-link {
-            display: none;
-        }
-
-    </style>
-</noscript><meta property="og:url" content="https://blog.mineguai.com/blog/">
-  <meta property="og:site_name" content="怪话怪的博客">
-  <meta property="og:title" content="Blogs">
-  <meta property="og:description" content="算法、工程记录和一点怪话。">
-  <meta property="og:locale" content="en-us">
-  <meta property="og:type" content="website">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blogs">
-<meta name="twitter:description" content="算法、工程记录和一点怪话。">
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Blogs",
-      "item": "https://blog.mineguai.com/blog/"
-    }
-  ]
-}
-</script>
-  <link rel="stylesheet" href="/css/extended/code-copy.css">
-  <link rel="stylesheet" href="/css/extended/custom-fonts.css">
-  <link rel="stylesheet" href="/css/extended/mouse-runner.css">
-  <link rel="stylesheet" href="/css/extended/click-burst.css">
-  <link rel="stylesheet" href="/css/extended/blog-ui.css">
-
-
-  <script type="text/javascript" src="/js/code-copy.js" defer></script>
-  <script type="text/javascript" src="/js/mouse-runner.js" defer></script>
-  <script type="text/javascript" src="/js/click-burst.js" defer></script>
-  <script type="text/javascript" src="/js/blog-toys.js" defer></script>
-
-
-  <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css' integrity='sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=' crossorigin='anonymous'>
-  <script src='https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js'></script>
-
-    <script src="/js/code_copy.js"></script>
-</head>
-
-<body class="list" id="top">
-<script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-        document.body.classList.add('dark');
-    }
-
-</script>
-
-<header class="header">
-    <nav class="nav">
-        <div class="logo">
-            <a href="https://blog.mineguai.com/" accesskey="h" title="怪话怪的博客 (Alt + H)">怪话怪的博客</a>
-            <div class="logo-switches">
-                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
-            </div>
-        </div>
-        <div class="home-info-container">
-            <img src="/images/wanzi1.jpg" alt="Logo" class="home-left-logo" />
-            <div class="home-info-text">
-                <h1>怪话怪的博客</h1>
-                <p>算法、工程记录和一点怪话。</p>
-            </div>
-        </div>
-        <ul id="menu">
-            <li>
-                <a href="https://blog.mineguai.com/search/" title="搜索">
-                    <span>搜索</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-</header>
-<main class="main"> 
-<header class="page-header"><div class="breadcrumbs"><a href="https://blog.mineguai.com/">Home</a></div>
-  <h1>
-    Blogs
-  </h1>
-</header>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Hugo项目整体架构与GitHub部署说明
-      <span class="entry-hint" title="Draft">
-        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
-          <path
-            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
-        </svg>
-      </span>
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>先说结论 这个博客能部署到 GitHub，不只是因为“用了 Hugo”，更关键是项目架构从一开始就把“源码”和“构建产物”拆开了：
-F:\myblog 是 Hugo 源码仓库，负责写文章、配主题、改模板。 F:\myblog\public 是 Hugo 生成后的静态站点目录，同时它又是一个独立 Git 仓库。 public 的远程仓库指向 https://github.com/caoxuan5211/caoxuan5211.github.io.git。 执行 deploy.ps1 时，Hugo 先把页面生成到 public/，再把 public/ 里的静态文件推到 GitHub Pages 仓库。 所以，确实可以说：是架构决定了部署方式。
-Hugo 只负责“生成静态文件”，而“怎么上传到 GitHub”是当前这个仓库结构和脚本流程决定的。
-当前项目的整体结构 结合这个仓库，核心目录可以这样理解：
-F:\myblog ├── content/ # Markdown 文章内容 ├── layouts/ # 对主题模板的覆盖 ├── static/ # 原样复制到网站根目录的静态资源 ├── assets/ # 需要 Hugo 处理的资源 ├── themes/PaperMod/ # 主题（当前是 Git submodule） ├── hugo.toml # Hugo 主配置 ├── deploy.ps1 # 本地一键部署脚本 └── public/ # Hugo 构建输出目录，同时是独立 Git 仓库 这里最关键的是最后一行：
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2026-04-25 00:00:00 +0800 CST'>April 25, 2026</span>&nbsp;·&nbsp;3 min</footer>
-  <a class="entry-link" aria-label="post link to Hugo项目整体架构与GitHub部署说明" href="https://blog.mineguai.com/blog/hugo%E9%A1%B9%E7%9B%AE%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84%E4%B8%8Egithub%E9%83%A8%E7%BD%B2%E8%AF%B4%E6%98%8E/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">钥匙问题
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>P4890 解题代码详解（链式DP &#43; 建模全过程） P4890 Never·island - 洛谷
-一、整体思路（先建立全局认知） 本题流程分三步：
-离散化 &#43; 扫描线建模 把区间拆成若干小段 转换成「点权 &#43; 边权 &#43; 固定贡献」 构建链式图 每个考察队是一个点 区间贡献变成： 点权（选一个点获得） 边权（两个点都选才获得） 链上DP &#43; 背包合并 每条链独立DP 最后用背包合并选 k 个点 二、变量说明（代码核心变量） int n, k; n：区间数量 k：最多选的考察队数量 vector&lt;int&gt; xs; 存所有端点（用于离散化） struct Seg { int l, r, id_l, id_r; }; l, r：原始端点 id_l, id_r：离散化后的下标 long long node_w[MAXN]; 👉 点权数组
-node_w[i] 表示：选择第 i 个考察队获得的贡献 vector&lt;pair&lt;int,int&gt;&gt; adj[MAXN]; 👉 邻接表（存边）
-adj[u] = {v, weight} long long base_ans; 👉 必然贡献（情况4）
-三、建模部分（最关键） 1️⃣ 离散化 sort(xs.begin(), xs.end()); xs.erase(unique(xs.begin(), xs.end()), xs.end()); 👉 把所有端点压缩到连续整数
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2026-04-14 23:22:12 +0800 CST'>April 14, 2026</span>&nbsp;·&nbsp;2 min</footer>
-  <a class="entry-link" aria-label="post link to 钥匙问题" href="https://blog.mineguai.com/blog/%E9%92%A5%E5%8C%99%E9%97%AE%E9%A2%98/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">大创
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>ArchRAG 项目理解入门 1. 项目一句话说明 ArchRAG 是一个基于知识图谱的 Graph-based RAG 系统。它的核心目标不是只做“向量检索 &#43; 生成”，而是把语料先构造成图，再把图中的实体与**社区（community）**组织成多层级结构，最后在查询时按层级检索并做答案生成。
-这套仓库同时包含两部分：
-论文方法本体的实现层：根目录 src/*.py GraphRAG / Faiss 的基础设施层： src/graphrag/：Microsoft GraphRAG 的基线与图构建代码 HCHNSW/faiss/：基于 Faiss 1.8.0 改造的自定义 ANN 索引实现 可以把它理解成：
-GraphRAG 负责把文本变成 KG
-ArchRAG 负责把 KG 进一步变成“层次社区索引”
-HCHNSW 负责让多层检索真正跑得快
-2. 仓库结构总览 2.1 需要优先读懂的目录 目录/文件 作用 是否核心 README.md 项目总体说明、论文链接、基本运行方式 是 dataset/index.sh 离线建索引脚本样例 是 dataset/query.sh 在线问答评测脚本样例 是 dataset/settings.yaml GraphRAG 图构建配置样例 是 src/index.py ArchRAG 离线索引主入口 是 src/inference.py ArchRAG 在线检索与生成主入口 是 src/attr_cluster.py 属性增强层次聚类核心逻辑 是 src/community_report.py 社区摘要/报告生成 是 src/client_reasoning.py 层级选择、map-reduce 生成、提示词组装 是 src/hchnsw_index.py HCHNSW 索引构建与落盘 是 src/utils.py 参数解析、图读取、embedding、图增强工具 是 src/evaluate/ QA 评测、摘要评测、索引/聚类实验 重要 metric/ 聚类质量指标与基线聚类实现 重要 src/graphrag/ GraphRAG 基线与 KG 构建 基础设施 HCHNSW/ 改造版 Faiss，提供 IndexHCHNSW* 基础设施 2.2 不要一开始陷进去的目录 HCHNSW/faiss/ 代码量极大，大部分是上游 Faiss；只需要关注 IndexHCHNSW.* 与 impl/HCHNSW.* src/graphrag/ 是 GraphRAG 基线和配套模块，不是 ArchRAG 创新点本身 3. 论文在讲什么 论文题目：ArchRAG: Attributed Community-based Hierarchical Retrieval-Augmented Generation
-论文链接：https://arxiv.org/abs/2502.09891
-我核对到的 arXiv 页面显示最新版本为 v3，2025-08-08。
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2026-04-14 23:09:55 +0800 CST'>April 14, 2026</span>&nbsp;·&nbsp;5 min</footer>
-  <a class="entry-link" aria-label="post link to 大创" href="https://blog.mineguai.com/blog/%E5%A4%A7%E5%88%9B/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">测试main
-      <span class="entry-hint" title="Draft">
-        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
-          <path
-            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
-        </svg>
-      </span>
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>测试</p>
-  </div>
-  <footer class="entry-footer"><span title='2026-04-13 22:02:20 +0800 CST'>April 13, 2026</span>&nbsp;·&nbsp;1 min</footer>
-  <a class="entry-link" aria-label="post link to 测试main" href="https://blog.mineguai.com/blog/%E6%B5%8B%E8%AF%95main/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">刷题
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>常见类型 INF 设定（竞赛常用） 类型 位数 理论最大值 常用 INF 写法 说明 int 32bit 2,147,483,647 0x3f3f3f3f 最常见写法，可 memset int 32bit 2,147,483,647 1e9 简单直观 long long 64bit 9.22e18 1LL&lt;&lt;60 最常用 long long 64bit 9.22e18 4e18 也常见 float 32bit ~3.4e38 1e30f 防止精度问题 double 64bit ~1.7e308 1e100 Floyd/概率DP常用 double 64bit ~1.7e308 1e18 若数据规模较小 为什么 0x3f3f3f3f 特别流行 原因是可以这样初始化：
-memset(dist, 0x3f, sizeof(dist)); 结果每个字节：
-00111111 拼成：
-0x3f3f3f3f = 1061109567 足够大且安全。
-</p>
-  </div>
-  <footer class="entry-footer"><span title='2026-03-05 23:38:17 +0800 CST'>March 5, 2026</span>&nbsp;·&nbsp;1 min</footer>
-  <a class="entry-link" aria-label="post link to 刷题" href="https://blog.mineguai.com/blog/%E5%88%B7%E9%A2%98/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">General
-      <span class="entry-hint" title="Draft">
-        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
-          <path
-            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
-        </svg>
-      </span>
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>什么是URL 1. URL 的全称是什么？ 全称：Uniform Resource Locator 中文翻译：统一资源定位符 2. URL 是什么意思？ 通俗地说，URL 就是互联网上的 “万能地址”。
-它的核心作用就是告诉计算机三件事：
-怎么去？ (协议 Protocol) http://：用标准的网页送货车去。 (其他的还有 https:// 加密车, ftp:// 文件传输车, 本地文件车)。 去哪里？ (主机 Host &#43; 端口 Port) localhost：去本机（如果是百度就是 www.baidu.com）。 :12345：去这台机器的 12345 号“窗口”（不同的程序占用不同的端口，比如网页通常是 80，你的程序选了 12345）。 找什么？ (路径 Path) /sse：找一个叫 “sse” 的资源或接口。 </p>
-  </div>
-  <footer class="entry-footer"><span title='2026-02-15 17:37:45 +0800 CST'>February 15, 2026</span>&nbsp;·&nbsp;1 min</footer>
-  <a class="entry-link" aria-label="post link to General" href="https://blog.mineguai.com/blog/general/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Git_learn
-      <span class="entry-hint" title="Draft">
-        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
-          <path
-            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
-        </svg>
-      </span>
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>查看当前仓库状态：git status
-查看已暂存内容: git diff --cached
-查看分支状态：git br
-****：``
-****：``
-****：``
-</p>
-  </div>
-  <footer class="entry-footer"><span title='2026-02-15 16:01:55 +0800 CST'>February 15, 2026</span>&nbsp;·&nbsp;1 min</footer>
-  <a class="entry-link" aria-label="post link to Git_learn" href="https://blog.mineguai.com/blog/git_learn/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">最大团
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>简单起见，直接用mask遍历所有情况也就是从0-2n。
-时间复杂度是O(2n·n2)
-#include &lt;bits/stdc&#43;&#43;.h&gt; using namespace std; int main() { ios::sync_with_stdio(false); cin.tie(nullptr); int n, m; cin &gt;&gt; n &gt;&gt; m; vector&lt;unsigned long long&gt; adj(n, 0); vector&lt;vector&lt;long long&gt;&gt; w(n, vector&lt;long long&gt;(n, 0)); for (int i = 0; i &lt; m; i&#43;&#43;) { int u, v; long long ww; cin &gt;&gt; u &gt;&gt; v &gt;&gt; ww; --u; --v; if (u == v) continue; adj[u] |= (1ULL &lt;&lt; v); adj[v] |= (1ULL &lt;&lt; u); w[u][v] = w[v][u] = max(w[u][v], ww); // 重边取最大，想累加就改这里 } long long bestW = LLONG_MIN; unsigned long long bestMask = 0; //最优2进制团 unsigned long long ALL = (n == 64 ? ~0ULL : ((1ULL &lt;&lt; n) - 1)); for (unsigned long long mask = 1; mask &lt;= ALL; mask&#43;&#43;) { bool ok = true; //ok标记当前mask是不是团，如果不是团继续下一个mask(也就是mask&#43;&#43;) for (int i = 0; i &lt; n; i&#43;&#43;) { if (mask &amp; (1ULL &lt;&lt; i)) //i在当前mask里面 { unsigned long long others = mask &amp; ~(1ULL &lt;&lt; i); //others是i之外的mask之内的点 if (others &amp; ~adj[i]) //如果这些i之外的mask之内的点与i之间存在没有边的情况就说明不是团,ok=false { ok = false; break; } } } if (!ok) continue; //如果不能成团直接排除这个mask long long sum = 0; for (int i = 0; i &lt; n; i&#43;&#43;) if (mask &amp; (1ULL &lt;&lt; i)) //i点在mask内 for (int j = i &#43; 1; j &lt; n; j&#43;&#43;) if (mask &amp; (1ULL &lt;&lt; j)) //j点也在musk内 sum &#43;= w[i][j]; //直接加上w[i][j]因为就算没有边权值也是0不影响结果 if (sum &gt; bestW) { bestW = sum; bestMask = mask; } //记录最大团 } cout &lt;&lt; bestW &lt;&lt; &#34;\n&#34;; bool first = true; for (int i = 0; i &lt; n; i&#43;&#43;) if (bestMask &amp; (1ULL &lt;&lt; i)) { if (!first) cout &lt;&lt; &#39; &#39;; first = false; //这两行是输出格式化的，美观 cout &lt;&lt; (i &#43; 1); //下标转换为序号 } cout &lt;&lt; &#34;\n&#34;; return 0; } </p>
-  </div>
-  <footer class="entry-footer"><span title='2026-01-09 15:52:21 +0800 CST'>January 9, 2026</span>&nbsp;·&nbsp;2 min</footer>
-  <a class="entry-link" aria-label="post link to 最大团" href="https://blog.mineguai.com/blog/%E6%9C%80%E5%A4%A7%E5%9B%A2/"></a>
-</article>
-<footer class="page-footer">
-  <nav class="pagination">
-    <a class="next" href="https://blog.mineguai.com/blog/page/2/">Next&nbsp;&nbsp;»
-    </a>
-  </nav>
-</footer>
-    </main>
+<!doctype html>
+<html lang="zh-cn" data-theme="light">
+  <head>
     
-<footer class="footer">
-        <span>&copy; 2026 <a href="https://blog.mineguai.com/">怪话怪的博客</a></span> · 
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="算法、工程记录和一点怪话。">
+<meta name="author" content="怪话怪">
+<meta name="theme-color" content="#B85C38">
+<title>Blogs · 怪话怪的博客</title>
+<link rel="canonical" href="https://mineguai.com/blog/">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;600;700;800&display=swap" rel="stylesheet">
 
+<style>:root{--bg:#F8F5F0;--bg-rgb:248, 245, 240;--bg-paper:#FFFFFF;--bg-paper-rgb:255, 255, 255;--ink:#222220;--ink-dim:#666460;--ink-ghost:#999690;--accent:#B85C38;--accent-rgb:184, 92, 56;--accent-dim:rgba(184, 92, 56, 0.15);--border:rgba(34, 34, 32, 0.08);--border-md:rgba(34, 34, 32, 0.14);--code-bg:#1A1A18;--code-fg:#E8E4DC;--radius-sm:4px;--radius-md:8px;--radius-lg:12px;--serif:"GuaiLatinScale", "Noto Serif SC", "Source Han Serif SC", serif;--mono:"IBM Plex Mono", "Space Mono", monospace;--sans:"Inter", system-ui, sans-serif;--max-prose:720px;--max-site:1120px}[data-theme=dark]{--bg:#0F0F0D;--bg-rgb:15, 15, 13;--bg-paper:#161614;--bg-paper-rgb:22, 22, 20;--ink:#E8E4DC;--ink-dim:#999690;--ink-ghost:#666460;--accent:#D97757;--accent-rgb:217, 119, 87;--accent-dim:rgba(217, 119, 87, 0.15);--border:rgba(232, 228, 220, 0.09);--border-md:rgba(232, 228, 220, 0.16);--code-bg:#111110}@font-face{font-family:guailatinscale;src:local("Inter");unicode-range:U+20-7E;size-adjust:92%}*,*::before,*::after{box-sizing:border-box}html{min-height:100%;background:var(--bg);color:var(--ink);color-scheme:light;scroll-behavior:smooth;text-size-adjust:100%}html[data-theme=dark]{color-scheme:dark}body{min-height:100vh;margin:0;background:var(--bg);color:var(--ink);font-family:var(--serif);text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.028;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='80' height='80' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E")}[data-theme=dark] body::before{opacity:.04}img,svg,video,canvas{display:block;max-width:100%}a{color:inherit;text-decoration-thickness:1px;text-underline-offset:3px}a,button{cursor:none}button,input,textarea,select{font:inherit}button{border:0;background:0 0;color:inherit}::selection{background:var(--accent-dim);color:var(--ink)}::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-thumb{background:var(--border-md);border-radius:2px}:focus-visible{outline:2px solid var(--accent);outline-offset:3px}.skip-link{position:fixed;top:.75rem;left:.75rem;z-index:10000;padding:.55rem .75rem;border-radius:var(--radius-sm);background:var(--bg-paper);color:var(--ink);font-family:var(--sans);font-size:.85rem;transform:translateY(-180%)}.skip-link:focus{transform:translateY(0)}@media(pointer:coarse){a,button{cursor:pointer}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}</style>
+
+
+
+<link rel="stylesheet" href="/css/guai.min.css">
+<style>
+  :root {
+    --accent: #B85C38;
+  }
+</style>
+
+<link rel="alternate" type="application/rss+xml" href="/blog/index.xml" title="怪话怪的博客">
+
+
+  </head>
+  <body>
+    <a class="skip-link" href="#main">跳到正文</a>
+    <div class="reading-progress" data-progress="0%"></div>
+    <div class="cursor-dot" aria-hidden="true"></div>
+    <div class="site-wrap">
+      
+<header class="site-header" data-site-header>
+  <div class="nav-shell">
+    <a class="brand" href="/" aria-label="返回首页">
+      <span class="brand-name">怪话怪</span>
+      <span class="brand-subtitle">caoxuan5211</span>
+    </a>
+    <div class="nav-right">
+      <nav class="nav-links" aria-label="主导航">
+        <a class="nav-link" href="/">首页</a>
+        <a class="nav-link is-active" href="/blog/">文章</a>
+        <a class="nav-link" href="/categories/">分类</a>
+        <a class="nav-link" href="/tags/">标签</a>
+        <a class="nav-link" href="/archive/">归档</a>
+      </nav>
+      <div class="nav-icons">
+        <form class="search-form" data-search-form role="search">
+          <input class="search-input" data-search-input type="search" autocomplete="off" placeholder="搜索文章" aria-label="搜索文章">
+          <button class="icon-btn" data-search-toggle type="button" aria-label="打开搜索">
+            <img src="/icons/search.svg" alt="" width="18" height="18">
+          </button>
+        </form>
+        <button class="icon-btn theme-toggle" data-theme-toggle type="button" aria-label="切换深色模式">
+          <img data-theme-icon src="/icons/moon.svg" alt="" width="18" height="18">
+        </button>
+        <button class="hamburger" data-menu-toggle type="button" aria-label="打开移动导航" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <nav class="mobile-menu" data-mobile-menu aria-label="移动导航">
+    <div class="mobile-menu-inner">
+      <a href="/">首页</a>
+      <a href="/blog/">文章</a>
+      <a href="/categories/">分类</a>
+      <a href="/tags/">标签</a>
+      <a href="/archive/">归档</a>
+    </div>
+  </nav>
+</header>
+
+      <main id="main" class="site-main">
+        
+<section class="list-shell">
+  <h1 class="page-title">Blogs</h1>
+  <div class="post-stream">
+    
+      
+
+
+<a class="post-row" href="/blog/hugo%E9%A1%B9%E7%9B%AE%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84%E4%B8%8Egithub%E9%83%A8%E7%BD%B2%E8%AF%B4%E6%98%8E/">
+  <span class="post-cat">随记</span>
+  <span class="post-title">Hugo项目整体架构与GitHub部署说明</span>
+  <span class="post-meta">Apr 25 · 5 min</span>
+</a>
+
+    
+      
+
+
+<a class="post-row" href="/blog/%E9%92%A5%E5%8C%99%E9%97%AE%E9%A2%98/">
+  <span class="post-cat">随记</span>
+  <span class="post-title">钥匙问题</span>
+  <span class="post-meta">Apr 14 · 2 min</span>
+</a>
+
+    
+      
+
+
+<a class="post-row" href="/blog/%E5%A4%A7%E5%88%9B/">
+  <span class="post-cat">随记</span>
+  <span class="post-title">大创</span>
+  <span class="post-meta">Apr 14 · 10 min</span>
+</a>
+
+    
+      
+
+
+<a class="post-row" href="/blog/%E6%B5%8B%E8%AF%95main/">
+  <span class="post-cat">随记</span>
+  <span class="post-title">测试main</span>
+  <span class="post-meta">Apr 13 · 1 min</span>
+</a>
+
+    
+      
+
+
+<a class="post-row" href="/blog/%E5%88%B7%E9%A2%98/">
+  <span class="post-cat">随记</span>
+  <span class="post-title">刷题</span>
+  <span class="post-meta">Mar 5 · 1 min</span>
+</a>
+
+    
+      
+
+
+<a class="post-row" href="/blog/general/">
+  <span class="post-cat">随记</span>
+  <span class="post-title">General</span>
+  <span class="post-meta">Feb 15 · 1 min</span>
+</a>
+
+    
+      
+
+
+<a class="post-row" href="/blog/git_learn/">
+  <span class="post-cat">随记</span>
+  <span class="post-title">Git_learn</span>
+  <span class="post-meta">Feb 15 · 1 min</span>
+</a>
+
+    
+      
+
+
+<a class="post-row" href="/blog/%E6%9C%80%E5%A4%A7%E5%9B%A2/">
+  <span class="post-cat">229</span>
+  <span class="post-title">最大团</span>
+  <span class="post-meta">Jan 9 · 2 min</span>
+</a>
+
+    
+      
+
+
+<a class="post-row" href="/blog/learn-process/">
+  <span class="post-cat">随记</span>
+  <span class="post-title">Learn Process</span>
+  <span class="post-meta">Jan 4 · 1 min</span>
+</a>
+
+    
+      
+
+
+<a class="post-row" href="/blog/cpp%E5%B8%B8%E7%94%A8%E7%BB%93%E6%9E%84/">
+  <span class="post-cat">随记</span>
+  <span class="post-title">Cpp常用结构</span>
+  <span class="post-meta">Dec 16 · 1 min</span>
+</a>
+
+    
+      
+
+
+<a class="post-row" href="/blog/%E5%AF%B9%E7%94%B5%E8%84%91%E6%93%8D%E4%BD%9C%E8%AE%B0%E5%BD%95/">
+  <span class="post-cat">随记</span>
+  <span class="post-title">对电脑操作记录</span>
+  <span class="post-meta">Nov 18 · 1 min</span>
+</a>
+
+    
+      
+
+
+<a class="post-row" href="/blog/%E5%B7%AE%E5%88%86%E6%95%B0%E7%BB%84/">
+  <span class="post-cat">随记</span>
+  <span class="post-title">对电脑操作记录</span>
+  <span class="post-meta">Nov 18 · 1 min</span>
+</a>
+
+    
+      
+
+
+<a class="post-row" href="/blog/%E5%9B%BE%E7%9A%84%E6%9F%93%E8%89%B2%E8%A7%A3%E5%86%B3/">
+  <span class="post-cat">随记</span>
+  <span class="post-title">图的染色解决</span>
+  <span class="post-meta">Nov 17 · 1 min</span>
+</a>
+
+    
+      
+
+
+<a class="post-row" href="/blog/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/">
+  <span class="post-cat">随记</span>
+  <span class="post-title">归并排序</span>
+  <span class="post-meta">Nov 17 · 1 min</span>
+</a>
+
+    
+      
+
+
+<a class="post-row" href="/blog/%E6%B4%9B%E8%B0%B7-p1559/">
+  <span class="post-cat">随记</span>
+  <span class="post-title">洛谷 P1559</span>
+  <span class="post-meta">Nov 7 · 1 min</span>
+</a>
+
+    
+      
+
+
+<a class="post-row" href="/blog/hugo%E5%8D%9A%E5%AE%A2%E6%B7%BB%E5%8A%A0%E4%BB%A3%E7%A0%81%E6%A1%86%E5%A4%8D%E5%88%B6%E5%8A%9F%E8%83%BD/">
+  <span class="post-cat">随记</span>
+  <span class="post-title">Hugo博客添加代码框复制功能</span>
+  <span class="post-meta">Nov 7 · 3 min</span>
+</a>
+
+    
+      
+
+
+<a class="post-row" href="/blog/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95_%E6%8C%87%E6%B4%BE%E9%97%AE%E9%A2%98/">
+  <span class="post-cat">随记</span>
+  <span class="post-title">匈牙利算法_指派问题</span>
+  <span class="post-meta">Nov 6 · 1 min</span>
+</a>
+
+    
+      
+
+
+<a class="post-row" href="/blog/km%E7%AE%97%E6%B3%95/">
+  <span class="post-cat">随记</span>
+  <span class="post-title">KM算法</span>
+  <span class="post-meta">Nov 6 · 0 min</span>
+</a>
+
+    
+      
+
+
+<a class="post-row" href="/blog/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/">
+  <span class="post-cat">随记</span>
+  <span class="post-title">匈牙利算法</span>
+  <span class="post-meta">Nov 6 · 3 min</span>
+</a>
+
+    
+      
+
+
+<a class="post-row" href="/blog/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/">
+  <span class="post-cat">随记</span>
+  <span class="post-title">背包问题</span>
+  <span class="post-meta">Nov 5 · 1 min</span>
+</a>
+
+    
+      
+
+
+<a class="post-row" href="/blog/p1382/">
+  <span class="post-cat">blog</span>
+  <span class="post-title">洛谷 P1382</span>
+  <span class="post-meta">Nov 4 · 1 min</span>
+</a>
+
+    
+      
+
+
+<a class="post-row" href="/blog/hugo%E5%8D%9A%E5%AE%A2%E9%85%8D%E7%BD%AEmarkdown%E8%AF%AD%E6%B3%95/">
+  <span class="post-cat">随记</span>
+  <span class="post-title">Hugo博客配置&amp;markdown语法</span>
+  <span class="post-meta">Oct 31 · 2 min</span>
+</a>
+
+    
+      
+
+
+<a class="post-row" href="/blog/p3372/">
+  <span class="post-cat">随记</span>
+  <span class="post-title">洛谷 P3372</span>
+  <span class="post-meta">Oct 31 · 2 min</span>
+</a>
+
+    
+      
+
+
+<a class="post-row" href="/blog/p1590/">
+  <span class="post-cat">随记</span>
+  <span class="post-title">洛谷 P1590</span>
+  <span class="post-meta">Oct 25 · 1 min</span>
+</a>
+
+    
+      
+
+
+<a class="post-row" href="/blog/p1393/">
+  <span class="post-cat">随记</span>
+  <span class="post-title">洛谷 P1393</span>
+  <span class="post-meta">Oct 5 · 1 min</span>
+</a>
+
+    
+      
+
+
+<a class="post-row" href="/blog/wrong/">
+  <span class="post-cat">wrong</span>
+  <span class="post-title">hugo的github网页css显示失败问题</span>
+  <span class="post-meta">Oct 4 · 1 min</span>
+</a>
+
+    
+      
+
+
+<a class="post-row" href="/blog/kmp/">
+  <span class="post-cat">随记</span>
+  <span class="post-title">KMP</span>
+  <span class="post-meta">Sep 25 · 2 min</span>
+</a>
+
+    
+      
+
+
+<a class="post-row" href="/blog/deep_learning/">
+  <span class="post-cat">随记</span>
+  <span class="post-title">深度学习</span>
+  <span class="post-meta">Sep 23 · 1 min</span>
+</a>
+
+    
+      
+
+
+<a class="post-row" href="/blog/p3193/">
+  <span class="post-cat">随记</span>
+  <span class="post-title">洛谷 P3193</span>
+  <span class="post-meta">Sep 23 · 2 min</span>
+</a>
+
+    
+      
+
+
+<a class="post-row" href="/blog/first-blog/copy/">
+  <span class="post-cat">随记</span>
+  <span class="post-title">w</span>
+  <span class="post-meta">Sep 23 · 1 min</span>
+</a>
+
+    
+      
+
+
+<a class="post-row" href="/blog/p1328/">
+  <span class="post-cat">随记</span>
+  <span class="post-title">洛谷 P1328</span>
+  <span class="post-meta">Sep 23 · 1 min</span>
+</a>
+
+    
+  </div>
+</section>
+
+      </main>
+      
+<footer class="site-footer">
+  <div class="footer-inner">
+    <span>© 2026 怪话怪</span>
     <span>
-        Powered by
-        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
-        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+      <a href="https://github.com/caoxuan5211" rel="noopener noreferrer">GitHub</a>
+      · Built with Hugo
     </span>
+  </div>
 </footer>
-<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
-        <path d="M12 6H0l6-6z" />
-    </svg>
-</a><script>
-  window.mineguaiMouseRunnerFrames = ["/images/mouse-runner/1.png","/images/mouse-runner/2.png","/images/mouse-runner/3.png","/images/mouse-runner/4.png"];
-</script>
 
+    </div>
+    
+<aside class="search-modal" data-search-modal aria-label="搜索结果" aria-live="polite">
+  <div class="search-results" data-search-results>
+    <div class="search-result-meta">输入关键词后显示结果。</div>
+  </div>
+</aside>
 
-<script>
-    let menu = document.getElementById('menu')
-    if (menu) {
-        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
-        menu.onscroll = function () {
-            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
-        }
-    }
-
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            var id = this.getAttribute("href").substr(1);
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
-                    behavior: "smooth"
-                });
-            } else {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
-            }
-            if (id === "top") {
-                history.replaceState(null, null, " ");
-            } else {
-                history.pushState(null, null, `#${id}`);
-            }
-        });
-    });
-
-</script>
-<script>
-    var mybutton = document.getElementById("top-link");
-    window.onscroll = function () {
-        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
-            mybutton.style.visibility = "visible";
-            mybutton.style.opacity = "1";
-        } else {
-            mybutton.style.visibility = "hidden";
-            mybutton.style.opacity = "0";
-        }
-    };
-
-</script>
-<script>
-    document.getElementById("theme-toggle").addEventListener("click", () => {
-        if (document.body.className.includes("dark")) {
-            document.body.classList.remove('dark');
-            localStorage.setItem("pref-theme", 'light');
-        } else {
-            document.body.classList.add('dark');
-            localStorage.setItem("pref-theme", 'dark');
-        }
-    })
-
-</script>
-</body>
-
+    <script src="/js/main.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js" defer></script>
+    <script src="/js/search.js" defer></script>
+    <script src="/js/toc.js" defer></script>
+  </body>
 </html>

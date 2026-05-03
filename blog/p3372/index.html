@@ -1,380 +1,114 @@
-<!DOCTYPE html>
-<html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
-<title>洛谷 P3372 | 怪话怪的博客</title>
-<meta name="keywords" content="luogu">
-<meta name="description" content="线段树1
-用到线段树基础知识
-#include&lt;bits/stdc&#43;&#43;.h&gt;
+<!doctype html>
+<html lang="zh-cn" data-theme="light">
+  <head>
+    
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="算法、工程记录和一点怪话。">
+<meta name="author" content="怪话怪">
+<meta name="theme-color" content="#B85C38">
+<title>洛谷 P3372 · 怪话怪的博客</title>
+<link rel="canonical" href="https://mineguai.com/blog/p3372/">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-using namespace std;
-
-// 线段树我默认每个数组下标都是从1开始的
-
-void build(const vector&lt;long long&gt;&amp; nums,vector&lt;long long&gt;&amp; d,int s,int t,int p);
-long long getSum(vector&lt;long long&gt;&amp; d,vector&lt;long long&gt;&amp; b,int l,int r,int s,int t,int p);
-void update_plus(vector&lt;long long&gt;&amp; d,vector&lt;long long&gt;&amp; b,int l,int r,int s,int t,int p,long long c);
-
-int main()
-{
-    int n,m,type,l,r;
-    long long k;
-    cin &gt;&gt; n &gt;&gt; m;
-    vector&lt;long long&gt; nums(n&#43;1), d(4*n&#43;1), b(4*n&#43;1, 0);  // 修改这里
-    for(int i=1;i&lt;=n;i&#43;&#43;) cin&gt;&gt;nums[i];
-    build(nums,d,1,n,1);
-    while(m--)
-    {
-        cin &gt;&gt; type;
-        if(type==2)
-        {
-            cin &gt;&gt; l &gt;&gt; r;
-            cout &lt;&lt; getSum(d,b,l,r,1,n,1) &lt;&lt; &#39;\n&#39;;
-        }
-        else if(type==1)
-        {
-            cin &gt;&gt; l &gt;&gt; r &gt;&gt; k;
-            update_plus(d,b,l,r,1,n,1,k);
-        }
-    }
-    return 0;
-}
+<style>:root{--bg:#F8F5F0;--bg-rgb:248, 245, 240;--bg-paper:#FFFFFF;--bg-paper-rgb:255, 255, 255;--ink:#222220;--ink-dim:#666460;--ink-ghost:#999690;--accent:#B85C38;--accent-rgb:184, 92, 56;--accent-dim:rgba(184, 92, 56, 0.15);--border:rgba(34, 34, 32, 0.08);--border-md:rgba(34, 34, 32, 0.14);--code-bg:#1A1A18;--code-fg:#E8E4DC;--radius-sm:4px;--radius-md:8px;--radius-lg:12px;--serif:"GuaiLatinScale", "Noto Serif SC", "Source Han Serif SC", serif;--mono:"IBM Plex Mono", "Space Mono", monospace;--sans:"Inter", system-ui, sans-serif;--max-prose:720px;--max-site:1120px}[data-theme=dark]{--bg:#0F0F0D;--bg-rgb:15, 15, 13;--bg-paper:#161614;--bg-paper-rgb:22, 22, 20;--ink:#E8E4DC;--ink-dim:#999690;--ink-ghost:#666460;--accent:#D97757;--accent-rgb:217, 119, 87;--accent-dim:rgba(217, 119, 87, 0.15);--border:rgba(232, 228, 220, 0.09);--border-md:rgba(232, 228, 220, 0.16);--code-bg:#111110}@font-face{font-family:guailatinscale;src:local("Inter");unicode-range:U+20-7E;size-adjust:92%}*,*::before,*::after{box-sizing:border-box}html{min-height:100%;background:var(--bg);color:var(--ink);color-scheme:light;scroll-behavior:smooth;text-size-adjust:100%}html[data-theme=dark]{color-scheme:dark}body{min-height:100vh;margin:0;background:var(--bg);color:var(--ink);font-family:var(--serif);text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.028;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='80' height='80' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E")}[data-theme=dark] body::before{opacity:.04}img,svg,video,canvas{display:block;max-width:100%}a{color:inherit;text-decoration-thickness:1px;text-underline-offset:3px}a,button{cursor:none}button,input,textarea,select{font:inherit}button{border:0;background:0 0;color:inherit}::selection{background:var(--accent-dim);color:var(--ink)}::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-thumb{background:var(--border-md);border-radius:2px}:focus-visible{outline:2px solid var(--accent);outline-offset:3px}.skip-link{position:fixed;top:.75rem;left:.75rem;z-index:10000;padding:.55rem .75rem;border-radius:var(--radius-sm);background:var(--bg-paper);color:var(--ink);font-family:var(--sans);font-size:.85rem;transform:translateY(-180%)}.skip-link:focus{transform:translateY(0)}@media(pointer:coarse){a,button{cursor:pointer}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}</style>
 
 
-void build(const vector&lt;long long&gt;&amp; nums,vector&lt;long long&gt;&amp; d,int s,int t,int p)
-{
-    if(s==t)
-    {
-        d[p] = nums[s];
-        return;
-    }
-    int m = s &#43; ((t-s)&gt;&gt;1);
-    build(nums,d,s,m,2*p);
-    build(nums,d,m&#43;1,t,2*p&#43;1);
-    d[p] = d[2*p] &#43; d[2*p&#43;1];
-}
 
-long long getSum(vector&lt;long long&gt;&amp; d,vector&lt;long long&gt;&amp; b,int l,int r,int s,int t,int p)
-{
-    if(l&lt;=s &amp;&amp; t&lt;=r)
-    {
-        return d[p];
-    }
-    int m = s &#43; ((t-s)&gt;&gt;1);
-    long long sum=0;
-    if (b[p] &amp;&amp; s != t) //下传懒标记
-    {  
-        d[p*2] &#43;= b[p]*(m-s&#43;1);
-        d[p*2&#43;1] &#43;= b[p]*(t-m);
-        b[p*2] &#43;= b[p];
-        b[p*2&#43;1] &#43;= b[p];
-        b[p] = 0;
-    }
-    if(l&lt;=m) sum &#43;= getSum(d,b,l,r,s,m,2*p);
-    if(r&gt;m) sum &#43;= getSum(d,b,l,r,m&#43;1,t,2*p&#43;1);  //等价于r&gt;=m&#43;1
-    return sum;
-}
-
-void update_plus(vector&lt;long long&gt;&amp; d,vector&lt;long long&gt;&amp; b,int l,int r,int s,int t,int p,long long c)
-{
-    // 当前区间为修改区间的子集时直接修改当前节点的值,修改后标记
-    if (l &lt;= s &amp;&amp; t &lt;= r) {
-        d[p] &#43;= (t - s &#43; 1) * c, b[p] &#43;= c;
-        return;
-    }
-    int m = s &#43; ((t - s) &gt;&gt; 1);
-    if (b[p] &amp;&amp; s != t) //下放标记(不会有s==t的情况因为s==t的时候肯定是lr的子区间已经直接return了)
-    {
-        d[p * 2] &#43;= b[p] * (m - s &#43; 1), d[p * 2 &#43; 1] &#43;= b[p] * (t - m);
-        b[p * 2] &#43;= b[p], b[p * 2 &#43; 1] &#43;= b[p];
-        b[p] = 0;
-    }
-    if (l &lt;= m) update_plus(d, b, l, r, s, m, p * 2, c);
-    if (r &gt; m) update_plus(d, b, l, r, m &#43; 1, t, p * 2 &#43; 1, c);
-    d[p] = d[p * 2] &#43; d[p * 2 &#43; 1];
-}
-这里用了懒惰区间标记。对有些当次不需要访问但是确实有变化的区间进行了标记，如果下次访问到了标记区间，则执行修改并下放标记。">
-<meta name="author" content="">
-<link rel="canonical" href="https://blog.mineguai.com/blog/p3372/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://blog.mineguai.com/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://blog.mineguai.com/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://blog.mineguai.com/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://blog.mineguai.com/apple-touch-icon.png">
-<link rel="mask-icon" href="https://blog.mineguai.com/safari-pinned-tab.svg">
-<meta name="theme-color" content="#f4eed4">
-<meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="https://blog.mineguai.com/blog/p3372/">
-<noscript>
-    <style>
-        #theme-toggle,
-        .top-link {
-            display: none;
-        }
-
-    </style>
-</noscript><meta property="og:url" content="https://blog.mineguai.com/blog/p3372/">
-  <meta property="og:site_name" content="怪话怪的博客">
-  <meta property="og:title" content="洛谷 P3372">
-  <meta property="og:description" content="线段树1 用到线段树基础知识
-#include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; // 线段树我默认每个数组下标都是从1开始的 void build(const vector&lt;long long&gt;&amp; nums,vector&lt;long long&gt;&amp; d,int s,int t,int p); long long getSum(vector&lt;long long&gt;&amp; d,vector&lt;long long&gt;&amp; b,int l,int r,int s,int t,int p); void update_plus(vector&lt;long long&gt;&amp; d,vector&lt;long long&gt;&amp; b,int l,int r,int s,int t,int p,long long c); int main() { int n,m,type,l,r; long long k; cin &gt;&gt; n &gt;&gt; m; vector&lt;long long&gt; nums(n&#43;1), d(4*n&#43;1), b(4*n&#43;1, 0); // 修改这里 for(int i=1;i&lt;=n;i&#43;&#43;) cin&gt;&gt;nums[i]; build(nums,d,1,n,1); while(m--) { cin &gt;&gt; type; if(type==2) { cin &gt;&gt; l &gt;&gt; r; cout &lt;&lt; getSum(d,b,l,r,1,n,1) &lt;&lt; &#39;\n&#39;; } else if(type==1) { cin &gt;&gt; l &gt;&gt; r &gt;&gt; k; update_plus(d,b,l,r,1,n,1,k); } } return 0; } void build(const vector&lt;long long&gt;&amp; nums,vector&lt;long long&gt;&amp; d,int s,int t,int p) { if(s==t) { d[p] = nums[s]; return; } int m = s &#43; ((t-s)&gt;&gt;1); build(nums,d,s,m,2*p); build(nums,d,m&#43;1,t,2*p&#43;1); d[p] = d[2*p] &#43; d[2*p&#43;1]; } long long getSum(vector&lt;long long&gt;&amp; d,vector&lt;long long&gt;&amp; b,int l,int r,int s,int t,int p) { if(l&lt;=s &amp;&amp; t&lt;=r) { return d[p]; } int m = s &#43; ((t-s)&gt;&gt;1); long long sum=0; if (b[p] &amp;&amp; s != t) //下传懒标记 { d[p*2] &#43;= b[p]*(m-s&#43;1); d[p*2&#43;1] &#43;= b[p]*(t-m); b[p*2] &#43;= b[p]; b[p*2&#43;1] &#43;= b[p]; b[p] = 0; } if(l&lt;=m) sum &#43;= getSum(d,b,l,r,s,m,2*p); if(r&gt;m) sum &#43;= getSum(d,b,l,r,m&#43;1,t,2*p&#43;1); //等价于r&gt;=m&#43;1 return sum; } void update_plus(vector&lt;long long&gt;&amp; d,vector&lt;long long&gt;&amp; b,int l,int r,int s,int t,int p,long long c) { // 当前区间为修改区间的子集时直接修改当前节点的值,修改后标记 if (l &lt;= s &amp;&amp; t &lt;= r) { d[p] &#43;= (t - s &#43; 1) * c, b[p] &#43;= c; return; } int m = s &#43; ((t - s) &gt;&gt; 1); if (b[p] &amp;&amp; s != t) //下放标记(不会有s==t的情况因为s==t的时候肯定是lr的子区间已经直接return了) { d[p * 2] &#43;= b[p] * (m - s &#43; 1), d[p * 2 &#43; 1] &#43;= b[p] * (t - m); b[p * 2] &#43;= b[p], b[p * 2 &#43; 1] &#43;= b[p]; b[p] = 0; } if (l &lt;= m) update_plus(d, b, l, r, s, m, p * 2, c); if (r &gt; m) update_plus(d, b, l, r, m &#43; 1, t, p * 2 &#43; 1, c); d[p] = d[p * 2] &#43; d[p * 2 &#43; 1]; } 这里用了懒惰区间标记。对有些当次不需要访问但是确实有变化的区间进行了标记，如果下次访问到了标记区间，则执行修改并下放标记。">
-  <meta property="og:locale" content="en-us">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="blog">
-    <meta property="article:published_time" content="2025-10-31T22:00:08+08:00">
-    <meta property="article:modified_time" content="2025-10-31T22:00:08+08:00">
-    <meta property="article:tag" content="Luogu">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="洛谷 P3372">
-<meta name="twitter:description" content="线段树1
-用到线段树基础知识
-#include&lt;bits/stdc&#43;&#43;.h&gt;
-
-using namespace std;
-
-// 线段树我默认每个数组下标都是从1开始的
-
-void build(const vector&lt;long long&gt;&amp; nums,vector&lt;long long&gt;&amp; d,int s,int t,int p);
-long long getSum(vector&lt;long long&gt;&amp; d,vector&lt;long long&gt;&amp; b,int l,int r,int s,int t,int p);
-void update_plus(vector&lt;long long&gt;&amp; d,vector&lt;long long&gt;&amp; b,int l,int r,int s,int t,int p,long long c);
-
-int main()
-{
-    int n,m,type,l,r;
-    long long k;
-    cin &gt;&gt; n &gt;&gt; m;
-    vector&lt;long long&gt; nums(n&#43;1), d(4*n&#43;1), b(4*n&#43;1, 0);  // 修改这里
-    for(int i=1;i&lt;=n;i&#43;&#43;) cin&gt;&gt;nums[i];
-    build(nums,d,1,n,1);
-    while(m--)
-    {
-        cin &gt;&gt; type;
-        if(type==2)
-        {
-            cin &gt;&gt; l &gt;&gt; r;
-            cout &lt;&lt; getSum(d,b,l,r,1,n,1) &lt;&lt; &#39;\n&#39;;
-        }
-        else if(type==1)
-        {
-            cin &gt;&gt; l &gt;&gt; r &gt;&gt; k;
-            update_plus(d,b,l,r,1,n,1,k);
-        }
-    }
-    return 0;
-}
-
-
-void build(const vector&lt;long long&gt;&amp; nums,vector&lt;long long&gt;&amp; d,int s,int t,int p)
-{
-    if(s==t)
-    {
-        d[p] = nums[s];
-        return;
-    }
-    int m = s &#43; ((t-s)&gt;&gt;1);
-    build(nums,d,s,m,2*p);
-    build(nums,d,m&#43;1,t,2*p&#43;1);
-    d[p] = d[2*p] &#43; d[2*p&#43;1];
-}
-
-long long getSum(vector&lt;long long&gt;&amp; d,vector&lt;long long&gt;&amp; b,int l,int r,int s,int t,int p)
-{
-    if(l&lt;=s &amp;&amp; t&lt;=r)
-    {
-        return d[p];
-    }
-    int m = s &#43; ((t-s)&gt;&gt;1);
-    long long sum=0;
-    if (b[p] &amp;&amp; s != t) //下传懒标记
-    {  
-        d[p*2] &#43;= b[p]*(m-s&#43;1);
-        d[p*2&#43;1] &#43;= b[p]*(t-m);
-        b[p*2] &#43;= b[p];
-        b[p*2&#43;1] &#43;= b[p];
-        b[p] = 0;
-    }
-    if(l&lt;=m) sum &#43;= getSum(d,b,l,r,s,m,2*p);
-    if(r&gt;m) sum &#43;= getSum(d,b,l,r,m&#43;1,t,2*p&#43;1);  //等价于r&gt;=m&#43;1
-    return sum;
-}
-
-void update_plus(vector&lt;long long&gt;&amp; d,vector&lt;long long&gt;&amp; b,int l,int r,int s,int t,int p,long long c)
-{
-    // 当前区间为修改区间的子集时直接修改当前节点的值,修改后标记
-    if (l &lt;= s &amp;&amp; t &lt;= r) {
-        d[p] &#43;= (t - s &#43; 1) * c, b[p] &#43;= c;
-        return;
-    }
-    int m = s &#43; ((t - s) &gt;&gt; 1);
-    if (b[p] &amp;&amp; s != t) //下放标记(不会有s==t的情况因为s==t的时候肯定是lr的子区间已经直接return了)
-    {
-        d[p * 2] &#43;= b[p] * (m - s &#43; 1), d[p * 2 &#43; 1] &#43;= b[p] * (t - m);
-        b[p * 2] &#43;= b[p], b[p * 2 &#43; 1] &#43;= b[p];
-        b[p] = 0;
-    }
-    if (l &lt;= m) update_plus(d, b, l, r, s, m, p * 2, c);
-    if (r &gt; m) update_plus(d, b, l, r, m &#43; 1, t, p * 2 &#43; 1, c);
-    d[p] = d[p * 2] &#43; d[p * 2 &#43; 1];
-}
-这里用了懒惰区间标记。对有些当次不需要访问但是确实有变化的区间进行了标记，如果下次访问到了标记区间，则执行修改并下放标记。">
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Blogs",
-      "item": "https://blog.mineguai.com/blog/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "洛谷 P3372",
-      "item": "https://blog.mineguai.com/blog/p3372/"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "洛谷 P3372",
-  "name": "洛谷 P3372",
-  "description": "线段树1 用到线段树基础知识\n#include\u0026lt;bits/stdc++.h\u0026gt; using namespace std; // 线段树我默认每个数组下标都是从1开始的 void build(const vector\u0026lt;long long\u0026gt;\u0026amp; nums,vector\u0026lt;long long\u0026gt;\u0026amp; d,int s,int t,int p); long long getSum(vector\u0026lt;long long\u0026gt;\u0026amp; d,vector\u0026lt;long long\u0026gt;\u0026amp; b,int l,int r,int s,int t,int p); void update_plus(vector\u0026lt;long long\u0026gt;\u0026amp; d,vector\u0026lt;long long\u0026gt;\u0026amp; b,int l,int r,int s,int t,int p,long long c); int main() { int n,m,type,l,r; long long k; cin \u0026gt;\u0026gt; n \u0026gt;\u0026gt; m; vector\u0026lt;long long\u0026gt; nums(n+1), d(4*n+1), b(4*n+1, 0); // 修改这里 for(int i=1;i\u0026lt;=n;i++) cin\u0026gt;\u0026gt;nums[i]; build(nums,d,1,n,1); while(m--) { cin \u0026gt;\u0026gt; type; if(type==2) { cin \u0026gt;\u0026gt; l \u0026gt;\u0026gt; r; cout \u0026lt;\u0026lt; getSum(d,b,l,r,1,n,1) \u0026lt;\u0026lt; \u0026#39;\\n\u0026#39;; } else if(type==1) { cin \u0026gt;\u0026gt; l \u0026gt;\u0026gt; r \u0026gt;\u0026gt; k; update_plus(d,b,l,r,1,n,1,k); } } return 0; } void build(const vector\u0026lt;long long\u0026gt;\u0026amp; nums,vector\u0026lt;long long\u0026gt;\u0026amp; d,int s,int t,int p) { if(s==t) { d[p] = nums[s]; return; } int m = s + ((t-s)\u0026gt;\u0026gt;1); build(nums,d,s,m,2*p); build(nums,d,m+1,t,2*p+1); d[p] = d[2*p] + d[2*p+1]; } long long getSum(vector\u0026lt;long long\u0026gt;\u0026amp; d,vector\u0026lt;long long\u0026gt;\u0026amp; b,int l,int r,int s,int t,int p) { if(l\u0026lt;=s \u0026amp;\u0026amp; t\u0026lt;=r) { return d[p]; } int m = s + ((t-s)\u0026gt;\u0026gt;1); long long sum=0; if (b[p] \u0026amp;\u0026amp; s != t) //下传懒标记 { d[p*2] += b[p]*(m-s+1); d[p*2+1] += b[p]*(t-m); b[p*2] += b[p]; b[p*2+1] += b[p]; b[p] = 0; } if(l\u0026lt;=m) sum += getSum(d,b,l,r,s,m,2*p); if(r\u0026gt;m) sum += getSum(d,b,l,r,m+1,t,2*p+1); //等价于r\u0026gt;=m+1 return sum; } void update_plus(vector\u0026lt;long long\u0026gt;\u0026amp; d,vector\u0026lt;long long\u0026gt;\u0026amp; b,int l,int r,int s,int t,int p,long long c) { // 当前区间为修改区间的子集时直接修改当前节点的值,修改后标记 if (l \u0026lt;= s \u0026amp;\u0026amp; t \u0026lt;= r) { d[p] += (t - s + 1) * c, b[p] += c; return; } int m = s + ((t - s) \u0026gt;\u0026gt; 1); if (b[p] \u0026amp;\u0026amp; s != t) //下放标记(不会有s==t的情况因为s==t的时候肯定是lr的子区间已经直接return了) { d[p * 2] += b[p] * (m - s + 1), d[p * 2 + 1] += b[p] * (t - m); b[p * 2] += b[p], b[p * 2 + 1] += b[p]; b[p] = 0; } if (l \u0026lt;= m) update_plus(d, b, l, r, s, m, p * 2, c); if (r \u0026gt; m) update_plus(d, b, l, r, m + 1, t, p * 2 + 1, c); d[p] = d[p * 2] + d[p * 2 + 1]; } 这里用了懒惰区间标记。对有些当次不需要访问但是确实有变化的区间进行了标记，如果下次访问到了标记区间，则执行修改并下放标记。\n",
-  "keywords": [
-    "luogu"
-  ],
-  "articleBody": "线段树1 用到线段树基础知识\n#include using namespace std; // 线段树我默认每个数组下标都是从1开始的 void build(const vector\u003clong long\u003e\u0026 nums,vector\u003clong long\u003e\u0026 d,int s,int t,int p); long long getSum(vector\u003clong long\u003e\u0026 d,vector\u003clong long\u003e\u0026 b,int l,int r,int s,int t,int p); void update_plus(vector\u003clong long\u003e\u0026 d,vector\u003clong long\u003e\u0026 b,int l,int r,int s,int t,int p,long long c); int main() { int n,m,type,l,r; long long k; cin \u003e\u003e n \u003e\u003e m; vector\u003clong long\u003e nums(n+1), d(4*n+1), b(4*n+1, 0); // 修改这里 for(int i=1;i\u003c=n;i++) cin\u003e\u003enums[i]; build(nums,d,1,n,1); while(m--) { cin \u003e\u003e type; if(type==2) { cin \u003e\u003e l \u003e\u003e r; cout \u003c\u003c getSum(d,b,l,r,1,n,1) \u003c\u003c '\\n'; } else if(type==1) { cin \u003e\u003e l \u003e\u003e r \u003e\u003e k; update_plus(d,b,l,r,1,n,1,k); } } return 0; } void build(const vector\u003clong long\u003e\u0026 nums,vector\u003clong long\u003e\u0026 d,int s,int t,int p) { if(s==t) { d[p] = nums[s]; return; } int m = s + ((t-s)\u003e\u003e1); build(nums,d,s,m,2*p); build(nums,d,m+1,t,2*p+1); d[p] = d[2*p] + d[2*p+1]; } long long getSum(vector\u003clong long\u003e\u0026 d,vector\u003clong long\u003e\u0026 b,int l,int r,int s,int t,int p) { if(l\u003c=s \u0026\u0026 t\u003c=r) { return d[p]; } int m = s + ((t-s)\u003e\u003e1); long long sum=0; if (b[p] \u0026\u0026 s != t) //下传懒标记 { d[p*2] += b[p]*(m-s+1); d[p*2+1] += b[p]*(t-m); b[p*2] += b[p]; b[p*2+1] += b[p]; b[p] = 0; } if(l\u003c=m) sum += getSum(d,b,l,r,s,m,2*p); if(r\u003em) sum += getSum(d,b,l,r,m+1,t,2*p+1); //等价于r\u003e=m+1 return sum; } void update_plus(vector\u003clong long\u003e\u0026 d,vector\u003clong long\u003e\u0026 b,int l,int r,int s,int t,int p,long long c) { // 当前区间为修改区间的子集时直接修改当前节点的值,修改后标记 if (l \u003c= s \u0026\u0026 t \u003c= r) { d[p] += (t - s + 1) * c, b[p] += c; return; } int m = s + ((t - s) \u003e\u003e 1); if (b[p] \u0026\u0026 s != t) //下放标记(不会有s==t的情况因为s==t的时候肯定是lr的子区间已经直接return了) { d[p * 2] += b[p] * (m - s + 1), d[p * 2 + 1] += b[p] * (t - m); b[p * 2] += b[p], b[p * 2 + 1] += b[p]; b[p] = 0; } if (l \u003c= m) update_plus(d, b, l, r, s, m, p * 2, c); if (r \u003e m) update_plus(d, b, l, r, m + 1, t, p * 2 + 1, c); d[p] = d[p * 2] + d[p * 2 + 1]; } 这里用了懒惰区间标记。对有些当次不需要访问但是确实有变化的区间进行了标记，如果下次访问到了标记区间，则执行修改并下放标记。\nnums,d,b分别代表原数组，区间数组（（从二叉树顶部为1开始(结点p子树为2p,2p+1）），结点懒惰标记数组。\nupdate与getSum都需要用到标记判断与下放，判断条件是b[p] \u0026\u0026 s != t。\n",
-  "wordCount" : "345",
-  "inLanguage": "en",
-  "datePublished": "2025-10-31T22:00:08+08:00",
-  "dateModified": "2025-10-31T22:00:08+08:00",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://blog.mineguai.com/blog/p3372/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "怪话怪的博客",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://blog.mineguai.com/favicon.ico"
-    }
+<link rel="stylesheet" href="/css/guai.min.css">
+<style>
+  :root {
+    --accent: #B85C38;
   }
-}
-</script>
-  <link rel="stylesheet" href="/css/extended/code-copy.css">
-  <link rel="stylesheet" href="/css/extended/custom-fonts.css">
-  <link rel="stylesheet" href="/css/extended/mouse-runner.css">
-  <link rel="stylesheet" href="/css/extended/click-burst.css">
-  <link rel="stylesheet" href="/css/extended/blog-ui.css">
+</style>
 
 
-  <script type="text/javascript" src="/js/code-copy.js" defer></script>
-  <script type="text/javascript" src="/js/mouse-runner.js" defer></script>
-  <script type="text/javascript" src="/js/click-burst.js" defer></script>
-  <script type="text/javascript" src="/js/blog-toys.js" defer></script>
-
-
-  <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css' integrity='sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=' crossorigin='anonymous'>
-  <script src='https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js'></script>
-
-    <script src="/js/code_copy.js"></script>
-</head>
-
-<body class="" id="top">
-<script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-        document.body.classList.add('dark');
-    }
-
-</script>
-
-<header class="header">
-    <nav class="nav">
-        <div class="logo">
-            <a href="https://blog.mineguai.com/" accesskey="h" title="怪话怪的博客 (Alt + H)">怪话怪的博客</a>
-            <div class="logo-switches">
-                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
-            </div>
-        </div>
-        <div class="home-info-container">
-            <img src="/images/wanzi1.jpg" alt="Logo" class="home-left-logo" />
-            <div class="home-info-text">
-                <h1>怪话怪的博客</h1>
-                <p>算法、工程记录和一点怪话。</p>
-            </div>
-        </div>
-        <ul id="menu">
-            <li>
-                <a href="https://blog.mineguai.com/search/" title="搜索">
-                    <span>搜索</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">跳到正文</a>
+    <div class="reading-progress" data-progress="0%"></div>
+    <div class="cursor-dot" aria-hidden="true"></div>
+    <div class="site-wrap">
+      
+<header class="site-header" data-site-header>
+  <div class="nav-shell">
+    <a class="brand" href="/" aria-label="返回首页">
+      <span class="brand-name">怪话怪</span>
+      <span class="brand-subtitle">caoxuan5211</span>
+    </a>
+    <div class="nav-right">
+      <nav class="nav-links" aria-label="主导航">
+        <a class="nav-link" href="/">首页</a>
+        <a class="nav-link is-active" href="/blog/">文章</a>
+        <a class="nav-link" href="/categories/">分类</a>
+        <a class="nav-link" href="/tags/">标签</a>
+        <a class="nav-link" href="/archive/">归档</a>
+      </nav>
+      <div class="nav-icons">
+        <form class="search-form" data-search-form role="search">
+          <input class="search-input" data-search-input type="search" autocomplete="off" placeholder="搜索文章" aria-label="搜索文章">
+          <button class="icon-btn" data-search-toggle type="button" aria-label="打开搜索">
+            <img src="/icons/search.svg" alt="" width="18" height="18">
+          </button>
+        </form>
+        <button class="icon-btn theme-toggle" data-theme-toggle type="button" aria-label="切换深色模式">
+          <img data-theme-icon src="/icons/moon.svg" alt="" width="18" height="18">
+        </button>
+        <button class="hamburger" data-menu-toggle type="button" aria-label="打开移动导航" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <nav class="mobile-menu" data-mobile-menu aria-label="移动导航">
+    <div class="mobile-menu-inner">
+      <a href="/">首页</a>
+      <a href="/blog/">文章</a>
+      <a href="/categories/">分类</a>
+      <a href="/tags/">标签</a>
+      <a href="/archive/">归档</a>
+    </div>
+  </nav>
 </header>
-<main class="main">
 
-<article class="post-single">
-  <header class="post-header">
-    <div class="breadcrumbs"><a href="https://blog.mineguai.com/">Home</a>&nbsp;»&nbsp;<a href="https://blog.mineguai.com/blog/">Blogs</a></div>
-    <h1 class="post-title entry-hint-parent">
-      洛谷 P3372
-      <span class="entry-hint" title="Draft">
-        <svg xmlns="http://www.w3.org/2000/svg" height="35" viewBox="0 -960 960 960" fill="currentColor">
-          <path
-            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
-        </svg>
-      </span>
-    </h1>
-    <div class="post-meta"><span title='2025-10-31 22:00:08 +0800 CST'>October 31, 2025</span>&nbsp;·&nbsp;2 min
+      <main id="main" class="site-main">
+        
+<div class="single-shell">
+  <article class="post-article">
+    <header class="post-header">
+      
+      <h1 class="post-heading">洛谷 P3372</h1>
+      <div class="post-meta">
+        2025-10-31 · 2 min
+      </div>
+      
+      
+    </header>
+    <details class="mobile-toc">
+      <summary>展开目录</summary>
+      
 
-</div>
-  </header> <div class="toc">
-    <details >
-        <summary accesskey="c" title="(Alt + C)">
-            <span class="details">Table of Contents</span>
-        </summary>
 
-        <div class="inner"><ul>
-                <li>
-                    <a href="#%e7%ba%bf%e6%ae%b5%e6%a0%911" aria-label="线段树1">线段树1</a>
-                </li>
-            </ul>
-        </div>
+<nav class="toc" data-toc aria-label="文章目录">
+  <div class="toc-title">目录</div>
+  <ul class="toc-list" data-toc-list>
+    <span class="toc-dot" data-toc-dot aria-hidden="true"></span>
+    
+      
+      
+      <li><a href="#%e7%ba%bf%e6%ae%b5%e6%a0%911" data-toc-link data-target-id="线段树1">线段树1</a></li>
+    
+  </ul>
+</nav>
+
+
     </details>
-</div>
-
-  <div class="post-content"><h2 id="线段树1"><a href="https://www.luogu.com.cn/problem/P3372">线段树1</a><a hidden class="anchor" aria-hidden="true" href="#线段树1">#</a></h2>
+    <div class="post-content">
+      <h2 id="线段树1"><a href="https://www.luogu.com.cn/problem/P3372">线段树1</a></h2>
 <p>用到线段树基础知识</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="cp">#include&lt;bits/stdc++.h&gt;
 </span></span></span><span class="line"><span class="cl"><span class="cp"></span>
@@ -468,150 +202,51 @@ void update_plus(vector&lt;long long&gt;&amp; d,vector&lt;long long&gt;&amp; b,i
 <p>nums,d,b分别代表原数组，区间数组（（从二叉树顶部为1开始(结点p子树为2p,2p+1）），结点懒惰标记数组。</p>
 <p>update与getSum都需要用到标记判断与下放，判断条件是b[p] &amp;&amp; s != t。</p>
 
+    </div>
+  </article>
+  <aside class="toc-aside">
+    
 
-  </div>
 
-  <footer class="post-footer">
-    <ul class="post-tags">
-      <li><a href="https://blog.mineguai.com/tags/luogu/">Luogu</a></li>
-    </ul>
-<nav class="paginav">
-  <a class="prev" href="https://blog.mineguai.com/blog/hugo%E5%8D%9A%E5%AE%A2%E9%85%8D%E7%BD%AEmarkdown%E8%AF%AD%E6%B3%95/">
-    <span class="title">« Prev</span>
-    <br>
-    <span>Hugo博客配置&amp;markdown语法</span>
-  </a>
-  <a class="next" href="https://blog.mineguai.com/blog/p1590/">
-    <span class="title">Next »</span>
-    <br>
-    <span>洛谷 P1590</span>
-  </a>
+<nav class="toc" data-toc aria-label="文章目录">
+  <div class="toc-title">目录</div>
+  <ul class="toc-list" data-toc-list>
+    <span class="toc-dot" data-toc-dot aria-hidden="true"></span>
+    
+      
+      
+      <li><a href="#%e7%ba%bf%e6%ae%b5%e6%a0%911" data-toc-link data-target-id="线段树1">线段树1</a></li>
+    
+  </ul>
 </nav>
 
-  </footer>
-</article>
-    </main>
-    
-<footer class="footer">
-        <span>&copy; 2026 <a href="https://blog.mineguai.com/">怪话怪的博客</a></span> · 
 
+  </aside>
+</div>
+
+      </main>
+      
+<footer class="site-footer">
+  <div class="footer-inner">
+    <span>© 2026 怪话怪</span>
     <span>
-        Powered by
-        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
-        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+      <a href="https://github.com/caoxuan5211" rel="noopener noreferrer">GitHub</a>
+      · Built with Hugo
     </span>
+  </div>
 </footer>
-<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
-        <path d="M12 6H0l6-6z" />
-    </svg>
-</a><script>
-  window.mineguaiMouseRunnerFrames = ["/images/mouse-runner/1.png","/images/mouse-runner/2.png","/images/mouse-runner/3.png","/images/mouse-runner/4.png"];
-</script>
 
+    </div>
+    
+<aside class="search-modal" data-search-modal aria-label="搜索结果" aria-live="polite">
+  <div class="search-results" data-search-results>
+    <div class="search-result-meta">输入关键词后显示结果。</div>
+  </div>
+</aside>
 
-<script>
-    let menu = document.getElementById('menu')
-    if (menu) {
-        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
-        menu.onscroll = function () {
-            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
-        }
-    }
-
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            var id = this.getAttribute("href").substr(1);
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
-                    behavior: "smooth"
-                });
-            } else {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
-            }
-            if (id === "top") {
-                history.replaceState(null, null, " ");
-            } else {
-                history.pushState(null, null, `#${id}`);
-            }
-        });
-    });
-
-</script>
-<script>
-    var mybutton = document.getElementById("top-link");
-    window.onscroll = function () {
-        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
-            mybutton.style.visibility = "visible";
-            mybutton.style.opacity = "1";
-        } else {
-            mybutton.style.visibility = "hidden";
-            mybutton.style.opacity = "0";
-        }
-    };
-
-</script>
-<script>
-    document.getElementById("theme-toggle").addEventListener("click", () => {
-        if (document.body.className.includes("dark")) {
-            document.body.classList.remove('dark');
-            localStorage.setItem("pref-theme", 'light');
-        } else {
-            document.body.classList.add('dark');
-            localStorage.setItem("pref-theme", 'dark');
-        }
-    })
-
-</script>
-<script>
-    document.querySelectorAll('pre > code').forEach((codeblock) => {
-        const container = codeblock.parentNode.parentNode;
-
-        const copybutton = document.createElement('button');
-        copybutton.classList.add('copy-code');
-        copybutton.innerHTML = 'copy';
-
-        function copyingDone() {
-            copybutton.innerHTML = 'copied!';
-            setTimeout(() => {
-                copybutton.innerHTML = 'copy';
-            }, 2000);
-        }
-
-        copybutton.addEventListener('click', (cb) => {
-            if ('clipboard' in navigator) {
-                navigator.clipboard.writeText(codeblock.textContent);
-                copyingDone();
-                return;
-            }
-
-            const range = document.createRange();
-            range.selectNodeContents(codeblock);
-            const selection = window.getSelection();
-            selection.removeAllRanges();
-            selection.addRange(range);
-            try {
-                document.execCommand('copy');
-                copyingDone();
-            } catch (e) { };
-            selection.removeRange(range);
-        });
-
-        if (container.classList.contains("highlight")) {
-            container.appendChild(copybutton);
-        } else if (container.parentNode.firstChild == container) {
-            
-        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
-            
-            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
-        } else {
-            
-            codeblock.parentNode.appendChild(copybutton);
-        }
-    });
-</script>
-
-</body>
-
+    <script src="/js/main.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js" defer></script>
+    <script src="/js/search.js" defer></script>
+    <script src="/js/toc.js" defer></script>
+  </body>
 </html>

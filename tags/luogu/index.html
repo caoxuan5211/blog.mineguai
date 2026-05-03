@@ -1,298 +1,184 @@
-<!DOCTYPE html>
-<html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
-<title>Luogu | 怪话怪的博客</title>
-<meta name="keywords" content="">
-<meta name="description" content="算法、工程记录和一点怪话。">
-<meta name="author" content="">
-<link rel="canonical" href="https://blog.mineguai.com/tags/luogu/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://blog.mineguai.com/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://blog.mineguai.com/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://blog.mineguai.com/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://blog.mineguai.com/apple-touch-icon.png">
-<link rel="mask-icon" href="https://blog.mineguai.com/safari-pinned-tab.svg">
-<meta name="theme-color" content="#f4eed4">
-<meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="https://blog.mineguai.com/tags/luogu/index.xml">
-<link rel="alternate" hreflang="en" href="https://blog.mineguai.com/tags/luogu/">
-<noscript>
-    <style>
-        #theme-toggle,
-        .top-link {
-            display: none;
-        }
-
-    </style>
-</noscript><meta property="og:url" content="https://blog.mineguai.com/tags/luogu/">
-  <meta property="og:site_name" content="怪话怪的博客">
-  <meta property="og:title" content="Luogu">
-  <meta property="og:description" content="算法、工程记录和一点怪话。">
-  <meta property="og:locale" content="en-us">
-  <meta property="og:type" content="website">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Luogu">
-<meta name="twitter:description" content="算法、工程记录和一点怪话。">
-
-  <link rel="stylesheet" href="/css/extended/code-copy.css">
-  <link rel="stylesheet" href="/css/extended/custom-fonts.css">
-  <link rel="stylesheet" href="/css/extended/mouse-runner.css">
-  <link rel="stylesheet" href="/css/extended/click-burst.css">
-  <link rel="stylesheet" href="/css/extended/blog-ui.css">
-
-
-  <script type="text/javascript" src="/js/code-copy.js" defer></script>
-  <script type="text/javascript" src="/js/mouse-runner.js" defer></script>
-  <script type="text/javascript" src="/js/click-burst.js" defer></script>
-  <script type="text/javascript" src="/js/blog-toys.js" defer></script>
-
-
-  <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css' integrity='sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=' crossorigin='anonymous'>
-  <script src='https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js'></script>
-
-    <script src="/js/code_copy.js"></script>
-</head>
-
-<body class="list" id="top">
-<script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-        document.body.classList.add('dark');
-    }
-
-</script>
-
-<header class="header">
-    <nav class="nav">
-        <div class="logo">
-            <a href="https://blog.mineguai.com/" accesskey="h" title="怪话怪的博客 (Alt + H)">怪话怪的博客</a>
-            <div class="logo-switches">
-                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
-            </div>
-        </div>
-        <div class="home-info-container">
-            <img src="/images/wanzi1.jpg" alt="Logo" class="home-left-logo" />
-            <div class="home-info-text">
-                <h1>怪话怪的博客</h1>
-                <p>算法、工程记录和一点怪话。</p>
-            </div>
-        </div>
-        <ul id="menu">
-            <li>
-                <a href="https://blog.mineguai.com/search/" title="搜索">
-                    <span>搜索</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-</header>
-<main class="main"> 
-<header class="page-header"><div class="breadcrumbs"><a href="https://blog.mineguai.com/">Home</a>&nbsp;»&nbsp;<a href="https://blog.mineguai.com/tags/">Tags</a></div>
-  <h1>
-    Luogu
-  </h1>
-</header>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">归并排序
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>P1177 【模板】排序 - 洛谷 我用归并排序写的。(时间复杂度O(nlogn),空间复杂度O(n))。
-#include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; vector&lt;int&gt; A; //归并排序 void gbsort(int l,int r) { vector&lt;int&gt; temp; if(l==r) return; int m=((l&#43;r)&gt;&gt;1); printf(&#34;划分的区间:[%d,%d],[%d,%d]\n&#34;,l,m,m&#43;1,r); gbsort(l,m); gbsort(m&#43;1,r); int curL=l,curR=m&#43;1; //左右分为[l,m] [m&#43;1,r] for(int i=0;i&lt;r-l&#43;1;i&#43;&#43;) { if( curL&gt;m ) { temp.push_back(A[curR]); curR&#43;&#43;; } else if( curR&gt;r ) { temp.push_back(A[curL]); curL&#43;&#43;; } else if(A[curL]&gt;A[curR]) { temp.push_back(A[curR]); curR&#43;&#43;; } else if(A[curL]&lt;=A[curR]) { temp.push_back(A[curL]); curL&#43;&#43;; } } for(int i=l;i&lt;=r;i&#43;&#43;) { A[i]=temp[i-l]; } } int main() { int N; cin &gt;&gt; N; for(int i=0;i&lt;N;i&#43;&#43;) { int x; cin &gt;&gt; x; A.push_back(x); } // sort(A.begin(),A.end()); gbsort(0,N-1); for(int i=0;i&lt;N;i&#43;&#43;) { cout &lt;&lt; A[i] &lt;&lt; &#39; &#39;; } return 0; } C&#43;&#43;标准库sort用的是快速排序
-</p>
-  </div>
-  <footer class="entry-footer"><span title='2025-11-17 20:13:46 +0800 CST'>November 17, 2025</span>&nbsp;·&nbsp;1 min</footer>
-  <a class="entry-link" aria-label="post link to 归并排序" href="https://blog.mineguai.com/blog/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">洛谷 P1382
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>楼房 思路 属于扫描线算法思想，通过动态维护当前高度集合，利用最大高度(天际线)来不断动态变化，同时记录轮廓拐点，最后顺序输出。
-题解 #include &lt;bits/stdc&#43;&#43;.h&gt; using namespace std; int n,cnt,num ; struct build { int h,l,r; }a[100010]; //楼房 struct line { int up,x,k; //up代表线高度(楼房左右边线),k代表出入属性,1代表入，2代表出 }l[200020]; struct ANS { int ax,ay; }ans[400040]; //储存答案的交叉点 int cmp(line a,line b) { if(a.x != b.x) return a.x&lt;b.x; if(a.k != b.k) return a.k&lt;b.k;//入度优先 // 区分入度出度考虑高度优先级 if(a.k == 1) return a.up &gt; b.up; //入度，高的优先 if(a.k == 2) return a.up &lt; b.up; //出度，矮的优先 } multiset&lt;int&gt; s; int main() { cin &gt;&gt; n; for(int i=1;i&lt;=n;i&#43;&#43;) { cin &gt;&gt; a[i].h &gt;&gt; a[i].l &gt;&gt; a[i].r; l[&#43;&#43;cnt] = {a[i].h,a[i].l,1}; //楼左，入度 l[&#43;&#43;cnt] = {a[i].h,a[i].r,2}; //楼右，出度 } s.insert(0); //初始化最高为0 sort(l&#43;1,l&#43;cnt&#43;1,cmp); for(int i=1;i&lt;=cnt;i&#43;&#43;) { int m = *s.rbegin(); //存最大高度 if(l[i].k==1) { if(l[i].up &lt;= m) s.insert(l[i].up); else { &#43;&#43;num;ans[num].ax=l[i].x;ans[num].ay=m; &#43;&#43;num;ans[num].ax=l[i].x;ans[num].ay=l[i].up; s.insert(l[i].up); } } else if(l[i].k == 2) { if(l[i].up==m &amp;&amp; s.count(m)==1) { s.erase(m); //移除该高度(存交叉点)，继续下 &#43;&#43;num;ans[num].ax=l[i].x;ans[num].ay=l[i].up; &#43;&#43;num;ans[num].ax=l[i].x;ans[num].ay=*s.rbegin(); } else s.erase(s.find(l[i].up)); } } cout &lt;&lt; num &lt;&lt; &#39;\n&#39;; for(int i=1;i&lt;=num;i&#43;&#43;) cout &lt;&lt; ans[i].ax &lt;&lt; &#39; &#39; &lt;&lt; ans[i].ay &lt;&lt; &#39;\n&#39;; return 0; } 这里代码借鉴（其实是抄的）了题解中shuri001佬的代码，写得太好了，叹为观止。
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2025-11-04 22:36:22 +0800 CST'>November 4, 2025</span>&nbsp;·&nbsp;1 min</footer>
-  <a class="entry-link" aria-label="post link to 洛谷 P1382" href="https://blog.mineguai.com/blog/p1382/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">洛谷 P3372
-      <span class="entry-hint" title="Draft">
-        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
-          <path
-            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
-        </svg>
-      </span>
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>线段树1 用到线段树基础知识
-#include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; // 线段树我默认每个数组下标都是从1开始的 void build(const vector&lt;long long&gt;&amp; nums,vector&lt;long long&gt;&amp; d,int s,int t,int p); long long getSum(vector&lt;long long&gt;&amp; d,vector&lt;long long&gt;&amp; b,int l,int r,int s,int t,int p); void update_plus(vector&lt;long long&gt;&amp; d,vector&lt;long long&gt;&amp; b,int l,int r,int s,int t,int p,long long c); int main() { int n,m,type,l,r; long long k; cin &gt;&gt; n &gt;&gt; m; vector&lt;long long&gt; nums(n&#43;1), d(4*n&#43;1), b(4*n&#43;1, 0); // 修改这里 for(int i=1;i&lt;=n;i&#43;&#43;) cin&gt;&gt;nums[i]; build(nums,d,1,n,1); while(m--) { cin &gt;&gt; type; if(type==2) { cin &gt;&gt; l &gt;&gt; r; cout &lt;&lt; getSum(d,b,l,r,1,n,1) &lt;&lt; &#39;\n&#39;; } else if(type==1) { cin &gt;&gt; l &gt;&gt; r &gt;&gt; k; update_plus(d,b,l,r,1,n,1,k); } } return 0; } void build(const vector&lt;long long&gt;&amp; nums,vector&lt;long long&gt;&amp; d,int s,int t,int p) { if(s==t) { d[p] = nums[s]; return; } int m = s &#43; ((t-s)&gt;&gt;1); build(nums,d,s,m,2*p); build(nums,d,m&#43;1,t,2*p&#43;1); d[p] = d[2*p] &#43; d[2*p&#43;1]; } long long getSum(vector&lt;long long&gt;&amp; d,vector&lt;long long&gt;&amp; b,int l,int r,int s,int t,int p) { if(l&lt;=s &amp;&amp; t&lt;=r) { return d[p]; } int m = s &#43; ((t-s)&gt;&gt;1); long long sum=0; if (b[p] &amp;&amp; s != t) //下传懒标记 { d[p*2] &#43;= b[p]*(m-s&#43;1); d[p*2&#43;1] &#43;= b[p]*(t-m); b[p*2] &#43;= b[p]; b[p*2&#43;1] &#43;= b[p]; b[p] = 0; } if(l&lt;=m) sum &#43;= getSum(d,b,l,r,s,m,2*p); if(r&gt;m) sum &#43;= getSum(d,b,l,r,m&#43;1,t,2*p&#43;1); //等价于r&gt;=m&#43;1 return sum; } void update_plus(vector&lt;long long&gt;&amp; d,vector&lt;long long&gt;&amp; b,int l,int r,int s,int t,int p,long long c) { // 当前区间为修改区间的子集时直接修改当前节点的值,修改后标记 if (l &lt;= s &amp;&amp; t &lt;= r) { d[p] &#43;= (t - s &#43; 1) * c, b[p] &#43;= c; return; } int m = s &#43; ((t - s) &gt;&gt; 1); if (b[p] &amp;&amp; s != t) //下放标记(不会有s==t的情况因为s==t的时候肯定是lr的子区间已经直接return了) { d[p * 2] &#43;= b[p] * (m - s &#43; 1), d[p * 2 &#43; 1] &#43;= b[p] * (t - m); b[p * 2] &#43;= b[p], b[p * 2 &#43; 1] &#43;= b[p]; b[p] = 0; } if (l &lt;= m) update_plus(d, b, l, r, s, m, p * 2, c); if (r &gt; m) update_plus(d, b, l, r, m &#43; 1, t, p * 2 &#43; 1, c); d[p] = d[p * 2] &#43; d[p * 2 &#43; 1]; } 这里用了懒惰区间标记。对有些当次不需要访问但是确实有变化的区间进行了标记，如果下次访问到了标记区间，则执行修改并下放标记。
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2025-10-31 22:00:08 +0800 CST'>October 31, 2025</span>&nbsp;·&nbsp;2 min</footer>
-  <a class="entry-link" aria-label="post link to 洛谷 P3372" href="https://blog.mineguai.com/blog/p3372/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">洛谷 P1590
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>失踪的7 直接找pascal的n以内的最大值
-由于需要删除7（单位大于7就减，小于7直接用）,所以可以把十进制转换为去除7的模拟九进制。
-#include &lt;bits/stdc&#43;&#43;.h&gt; using namespace std; #define ll long long int main() { int t; cin &gt;&gt; t; while(t--) { string s; cin &gt;&gt; s; ll result = 0; for(char c : s) { int dig = c-&#39;0&#39;; if(dig &gt; 7) dig--; result = result*9 &#43; dig; } cout &lt;&lt; result &lt;&lt; &#34;\n&#34;; } return 0; } </p>
-  </div>
-  <footer class="entry-footer"><span title='2025-10-25 13:02:09 +0800 CST'>October 25, 2025</span>&nbsp;·&nbsp;1 min</footer>
-  <a class="entry-link" aria-label="post link to 洛谷 P1590" href="https://blog.mineguai.com/blog/p1590/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">洛谷 P1393
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Mivik 不会做
-观摩题解后的感触 求概率取余时候除以的分母可以用模逆元转换为乘。
-还有就是KMP中的next数组可以转换为n个等差数列（顺序排列，不交叉）。也就是字符串边界理论（Border Theory）
-题解里面FjswYuzu写的还可以,有时间学学。
-题解(ctrl&#43;c/v) #include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; typedef long long LL; char buf[1&lt;&lt;18],*p1=buf,*p2=buf; #define getchar() (p1==p2 &amp;&amp; (p2=(p1=buf)&#43;fread(buf,1,1&lt;&lt;18,stdin),p1==p2)?EOF:*p1&#43;&#43;) int read() { int x=0; char c=getchar(); while(c&lt;&#39;0&#39; || c&gt;&#39;9&#39;)	c=getchar(); while(c&gt;=&#39;0&#39; &amp;&amp; c&lt;=&#39;9&#39;)	x=(x&lt;&lt;1)&#43;(x&lt;&lt;3)&#43;(c^&#39;0&#39;),c=getchar(); return x; } void write(int x) { if(x&gt;9)	write(x/10); putchar(x%10&#43;&#39;0&#39;); } const int MOD=998244353; inline int Add(int x,int y){return x&#43;y&gt;=MOD?x&#43;y-MOD:x&#43;y;} inline int Sub(int x,int y){return x&lt;y?x-y&#43;MOD:x-y;} inline int Mul(int x,int y){return 1ll*x*y%MOD;} int QuickPow(int x,int p) { int ans=1,base=x; while(p) { if(p&amp;1)	ans=Mul(ans,base); base=Mul(base,base); p&gt;&gt;=1; } return ans; } int n,m,k; int s[100005],nxt[100005]; struct BorderSeq{ int l,r,d; BorderSeq(){} BorderSeq(int L,int R,int D){l=L,r=R,d=D;} }brd[200005]; int cnt,dp[200005],sum[200005]; int pw[200005],ipw[200005]; void Kmp() { int j=0; for(int i=2;i&lt;=k;&#43;&#43;i) { while(j &amp;&amp; s[j&#43;1]!=s[i])	j=nxt[j]; if(s[j&#43;1]==s[i])	&#43;&#43;j; nxt[i]=j; } int now=nxt[k],d=k-nxt[k],fir=nxt[k]; while(now) { if(d!=now-nxt[now] || !nxt[now])	brd[&#43;&#43;cnt]=BorderSeq(now,fir,d),fir=nxt[now]; if(!nxt[now])	break; d=now-nxt[now],now=nxt[now]; } } vector&lt;int&gt; Sum[20][200005]; int pos[20][200005]; int main(){ n=read(),m=read(),k=read(); for(int i=1;i&lt;=k;&#43;&#43;i)	s[i]=read(); Kmp(); int invm=QuickPow(m,MOD-2); pw[0]=ipw[0]=1; for(int i=1;i&lt;=n;&#43;&#43;i)	pw[i]=Mul(pw[i-1],m); for(int i=1;i&lt;=n;&#43;&#43;i)	ipw[i]=Mul(ipw[i-1],invm); memset(pos,-1,sizeof pos); for(int i=k;i&lt;=n;&#43;&#43;i) { dp[i]=Sub(pw[i-k],sum[i-k]); for(int j=1;j&lt;=cnt;&#43;&#43;j) { int d=brd[j].d,l=brd[j].l,r=brd[j].r; int idx=(l&#43;i-k)%d; if(!Sum[j][idx].empty()) { int L=l&#43;i-k,R=r&#43;i-k; if(~pos[j][R])	dp[i]=Sub(dp[i],Sum[j][idx][pos[j][R]]); if(pos[j][L]&gt;0)	dp[i]=Add(dp[i],Sum[j][idx][pos[j][L]-1]); } } for(int j=1;j&lt;=cnt;&#43;&#43;j) { int d=brd[j].d; int idx=i%d; pos[j][i]=int(Sum[j][idx].size()); Sum[j][idx].push_back(Add(Sum[j][idx].empty()?0:Sum[j][idx].back(),dp[i])); } sum[i]=Add(Mul(sum[i-1],m),dp[i]); } int ans=0; for(int i=k;i&lt;=n;&#43;&#43;i)	ans=Add(ans,Mul(dp[i],pw[n-i])); write(Mul(ans,ipw[n])); return 0; } </p>
-  </div>
-  <footer class="entry-footer"><span title='2025-10-05 00:00:50 +0800 CST'>October 5, 2025</span>&nbsp;·&nbsp;1 min</footer>
-  <a class="entry-link" aria-label="post link to 洛谷 P1393" href="https://blog.mineguai.com/blog/p1393/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">洛谷 P3193
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>[HNOI2008] GT考试 思路 状态转移矩阵T[i][j]其实就是添加一个字符之后从状态i转移到状态j的方案数量，也就是先用kmp得到对应的T然后对于长度为N的串只需要让这个转移矩阵N次方就行了，然后Tn[0][j]就是子串最大匹配到j位的方案数，所求结果就是Tn[0][0]一直加到Tn[0][M-1](M是子串的长度)。
-算法 KMP 自动机建模 &#43; 矩阵快速幂
-主要函数以及主要流程 矩阵相乘函数 矩阵快速幂函数(利用到矩阵相乘函数和快速幂算法) kmp算法(过于基础就不介绍了) 利用next函数得到基础转移矩阵T[m][n] 对T运用幂n函数得到Tn Tn按照思路直接操作就行了 题解（借鉴了AI，自己敲的，我太强了） #include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; typedef long long ll; // 得到next函数 vector&lt;int&gt; getNext(string pattern) { int m = pattern.size(); vector&lt;int&gt; next(m,0); for(int i=1,j=0;i&lt;m;i&#43;&#43;) { while(j!=0 &amp;&amp; pattern[i] != pattern[j]) j = next[j-1]; if(pattern[j] == pattern[i]) j&#43;&#43;; next[i] = j; } return next; } // 矩阵相乘函数 vector&lt;vector&lt;int&gt;&gt; matMul(vector&lt;vector&lt;int&gt;&gt; a,vector&lt;vector&lt;int&gt;&gt; b,int K) { int m = a.size(); vector&lt;vector&lt;int&gt;&gt; res(m,vector&lt;int&gt;(m,0)); //结果 for(int i=0;i&lt;m;i&#43;&#43;) // i-k,k-j { for(int k=0;k&lt;m;k&#43;&#43;) { if(a[i][k]!=0) //剪枝减小工作量 { for(int j=0;j&lt;m;j&#43;&#43;) { res[i][j] = (res[i][j] &#43; (ll)a[i][k] * b[k][j]) % K; } } } } return res; } // 矩阵幂函数(利用快速幂算法) vector&lt;vector&lt;int&gt;&gt; matPow(vector&lt;vector&lt;int&gt;&gt; a,int p,int K) { int m = a.size(); vector&lt;vector&lt;int&gt;&gt; res(m,vector&lt;int&gt;(m,0)); //结果 for(int i=0;i&lt;m;i&#43;&#43;) res[i][i] = 1; //单位矩阵用于起步 while(p!=0) { if(p &amp; 1) res = matMul(res,a,K); a = matMul(a,a,K); p &gt;&gt;= 1; // p /= 2 } return res; } int main() { int N,M,K; // M&lt;=20 N&lt;=1e9 K&lt;=10000,所以不能暴力解 cin &gt;&gt; N &gt;&gt; M &gt;&gt; K; string pattern; // 子串（此题中指的是不该出现的子串） cin &gt;&gt; pattern; // 求 pattern 的状态转移方程T[i][j] // 因为要用到pattern的next数组，所以先求next vector&lt;int&gt; next = getNext(pattern); vector&lt;vector&lt;int&gt;&gt; T(M,vector&lt;int&gt;(M,0)); // T[M][M],表示基础转移矩阵 for(int m=0;m&lt;M;m&#43;&#43;) // m为当前匹配数量,由于不准出现匹配到完整M的，所以最大长度为M-1 { for(int digit=0;digit&lt;=9;digit&#43;&#43;) // 尝试每一个数字,从而进行状态转移 { int cur = m; // 从当前位置开始回退 while(cur!=0 &amp;&amp; (pattern[cur]-&#39;0&#39;) != digit) cur = next[cur-1]; if((pattern[cur]-&#39;0&#39;) == digit) cur&#43;&#43;; if(cur &lt; M) T[m][cur] = (T[m][cur] &#43; 1) % K; } } // 得到完整的状态转移矩阵 vector&lt;vector&lt;int&gt;&gt; Tn = matPow(T,N,K); ll result = 0; for(int i=0;i&lt;M;i&#43;&#43;) { result = (result &#43; Tn[0][i]) % K; } cout &lt;&lt; result &lt;&lt; endl; return 0; } 遇到问题 p&gt;&gt;1不会改变p的值应该是p&gt;&gt;=1 int类型乘法要注意防止溢出，一般用ll </p>
-  </div>
-  <footer class="entry-footer"><span title='2025-09-23 12:57:20 +0800 CST'>September 23, 2025</span>&nbsp;·&nbsp;2 min</footer>
-  <a class="entry-link" aria-label="post link to 洛谷 P3193" href="https://blog.mineguai.com/blog/p3193/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">洛谷 P1328
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>生活大爆炸版石头剪刀布 思路 数字化选择方式 纯手抄一个map&lt;pair&lt;int, int&gt;, int&gt; mp用来记录出拳结果。如mp[{2,0}] = 2;表示b赢了 直接取余数组处理得到结果 题解 #include &lt;bits/stdc&#43;&#43;.h&gt; using namespace std; int main() { // 0 表示 剪刀， // 1 表示 石头， // 2 表示 布， // 3 表示 蜥蜴人， // 4 表示 斯波克 // 结果0表示平局，1表示a赢，2表示b赢 map&lt;pair&lt;int, int&gt;, int&gt; mp; int n,na,nb; int result[3]={0}; //0无意义，1为a分数，2为b分数 cin &gt;&gt; n &gt;&gt; na &gt;&gt; nb; vector&lt;int&gt; a(na),b(nb); for (int i=0;i&lt;na;i&#43;&#43;) { cin &gt;&gt; a[i]; } for (int i=0;i&lt;nb;i&#43;&#43;) { cin &gt;&gt; b[i]; } for(int i=0;i&lt;5;i&#43;&#43;) { mp[{i,i}] = 0; } mp[{2,0}] = 2; mp[{3,0}] = 2; mp[{3,1}] = 2; mp[{4,2}] = 2; mp[{4,3}] = 2; mp[{1,0}] = 1; mp[{2,1}] = 1; mp[{3,2}] = 1; mp[{4,0}] = 1; mp[{4,1}] = 1; mp[{0,2}] = 1; mp[{0,3}] = 1; mp[{1,3}] = 1; mp[{2,4}] = 1; mp[{3,4}] = 1; mp[{0,1}] = 2; mp[{1,2}] = 2; mp[{2,3}] = 2; mp[{0,4}] = 2; mp[{1,4}] = 2; for(int i=0;i&lt;n;i&#43;&#43;) { int xi = i%na; int x = a[i%na]; int y = b[i%nb]; result[mp[{x,y}]]&#43;&#43;; } cout &lt;&lt; result[1] &lt;&lt; &#34; &#34; &lt;&lt; result[2] &lt;&lt; endl; return 0; } 优化 看了别人的题解，大多是用一个二维[5][5]的数组存储对局输赢，后面处理简单一些。
-</p>
-  </div>
-  <footer class="entry-footer"><span title='2025-09-23 00:00:00 +0800 CST'>September 23, 2025</span>&nbsp;·&nbsp;1 min</footer>
-  <a class="entry-link" aria-label="post link to 洛谷 P1328" href="https://blog.mineguai.com/blog/p1328/"></a>
-</article>
-    </main>
+<!doctype html>
+<html lang="zh-cn" data-theme="light">
+  <head>
     
-<footer class="footer">
-        <span>&copy; 2026 <a href="https://blog.mineguai.com/">怪话怪的博客</a></span> · 
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="算法、工程记录和一点怪话。">
+<meta name="author" content="怪话怪">
+<meta name="theme-color" content="#B85C38">
+<title>Luogu · 怪话怪的博客</title>
+<link rel="canonical" href="https://mineguai.com/tags/luogu/">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;600;700;800&display=swap" rel="stylesheet">
 
+<style>:root{--bg:#F8F5F0;--bg-rgb:248, 245, 240;--bg-paper:#FFFFFF;--bg-paper-rgb:255, 255, 255;--ink:#222220;--ink-dim:#666460;--ink-ghost:#999690;--accent:#B85C38;--accent-rgb:184, 92, 56;--accent-dim:rgba(184, 92, 56, 0.15);--border:rgba(34, 34, 32, 0.08);--border-md:rgba(34, 34, 32, 0.14);--code-bg:#1A1A18;--code-fg:#E8E4DC;--radius-sm:4px;--radius-md:8px;--radius-lg:12px;--serif:"GuaiLatinScale", "Noto Serif SC", "Source Han Serif SC", serif;--mono:"IBM Plex Mono", "Space Mono", monospace;--sans:"Inter", system-ui, sans-serif;--max-prose:720px;--max-site:1120px}[data-theme=dark]{--bg:#0F0F0D;--bg-rgb:15, 15, 13;--bg-paper:#161614;--bg-paper-rgb:22, 22, 20;--ink:#E8E4DC;--ink-dim:#999690;--ink-ghost:#666460;--accent:#D97757;--accent-rgb:217, 119, 87;--accent-dim:rgba(217, 119, 87, 0.15);--border:rgba(232, 228, 220, 0.09);--border-md:rgba(232, 228, 220, 0.16);--code-bg:#111110}@font-face{font-family:guailatinscale;src:local("Inter");unicode-range:U+20-7E;size-adjust:92%}*,*::before,*::after{box-sizing:border-box}html{min-height:100%;background:var(--bg);color:var(--ink);color-scheme:light;scroll-behavior:smooth;text-size-adjust:100%}html[data-theme=dark]{color-scheme:dark}body{min-height:100vh;margin:0;background:var(--bg);color:var(--ink);font-family:var(--serif);text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.028;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='80' height='80' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E")}[data-theme=dark] body::before{opacity:.04}img,svg,video,canvas{display:block;max-width:100%}a{color:inherit;text-decoration-thickness:1px;text-underline-offset:3px}a,button{cursor:none}button,input,textarea,select{font:inherit}button{border:0;background:0 0;color:inherit}::selection{background:var(--accent-dim);color:var(--ink)}::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-thumb{background:var(--border-md);border-radius:2px}:focus-visible{outline:2px solid var(--accent);outline-offset:3px}.skip-link{position:fixed;top:.75rem;left:.75rem;z-index:10000;padding:.55rem .75rem;border-radius:var(--radius-sm);background:var(--bg-paper);color:var(--ink);font-family:var(--sans);font-size:.85rem;transform:translateY(-180%)}.skip-link:focus{transform:translateY(0)}@media(pointer:coarse){a,button{cursor:pointer}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}</style>
+
+
+
+<link rel="stylesheet" href="/css/guai.min.css">
+<style>
+  :root {
+    --accent: #B85C38;
+  }
+</style>
+
+<link rel="alternate" type="application/rss+xml" href="/tags/luogu/index.xml" title="怪话怪的博客">
+
+
+  </head>
+  <body>
+    <a class="skip-link" href="#main">跳到正文</a>
+    <div class="reading-progress" data-progress="0%"></div>
+    <div class="cursor-dot" aria-hidden="true"></div>
+    <div class="site-wrap">
+      
+<header class="site-header" data-site-header>
+  <div class="nav-shell">
+    <a class="brand" href="/" aria-label="返回首页">
+      <span class="brand-name">怪话怪</span>
+      <span class="brand-subtitle">caoxuan5211</span>
+    </a>
+    <div class="nav-right">
+      <nav class="nav-links" aria-label="主导航">
+        <a class="nav-link" href="/">首页</a>
+        <a class="nav-link" href="/blog/">文章</a>
+        <a class="nav-link" href="/categories/">分类</a>
+        <a class="nav-link" href="/tags/">标签</a>
+        <a class="nav-link" href="/archive/">归档</a>
+      </nav>
+      <div class="nav-icons">
+        <form class="search-form" data-search-form role="search">
+          <input class="search-input" data-search-input type="search" autocomplete="off" placeholder="搜索文章" aria-label="搜索文章">
+          <button class="icon-btn" data-search-toggle type="button" aria-label="打开搜索">
+            <img src="/icons/search.svg" alt="" width="18" height="18">
+          </button>
+        </form>
+        <button class="icon-btn theme-toggle" data-theme-toggle type="button" aria-label="切换深色模式">
+          <img data-theme-icon src="/icons/moon.svg" alt="" width="18" height="18">
+        </button>
+        <button class="hamburger" data-menu-toggle type="button" aria-label="打开移动导航" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <nav class="mobile-menu" data-mobile-menu aria-label="移动导航">
+    <div class="mobile-menu-inner">
+      <a href="/">首页</a>
+      <a href="/blog/">文章</a>
+      <a href="/categories/">分类</a>
+      <a href="/tags/">标签</a>
+      <a href="/archive/">归档</a>
+    </div>
+  </nav>
+</header>
+
+      <main id="main" class="site-main">
+        
+<section class="list-shell">
+  <h1 class="page-title">Luogu</h1>
+  <div class="post-stream">
+    
+      
+
+
+<a class="post-row" href="/blog/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/">
+  <span class="post-cat">随记</span>
+  <span class="post-title">归并排序</span>
+  <span class="post-meta">Nov 17 · 1 min</span>
+</a>
+
+    
+      
+
+
+<a class="post-row" href="/blog/p1382/">
+  <span class="post-cat">blog</span>
+  <span class="post-title">洛谷 P1382</span>
+  <span class="post-meta">Nov 4 · 1 min</span>
+</a>
+
+    
+      
+
+
+<a class="post-row" href="/blog/p3372/">
+  <span class="post-cat">随记</span>
+  <span class="post-title">洛谷 P3372</span>
+  <span class="post-meta">Oct 31 · 2 min</span>
+</a>
+
+    
+      
+
+
+<a class="post-row" href="/blog/p1590/">
+  <span class="post-cat">随记</span>
+  <span class="post-title">洛谷 P1590</span>
+  <span class="post-meta">Oct 25 · 1 min</span>
+</a>
+
+    
+      
+
+
+<a class="post-row" href="/blog/p1393/">
+  <span class="post-cat">随记</span>
+  <span class="post-title">洛谷 P1393</span>
+  <span class="post-meta">Oct 5 · 1 min</span>
+</a>
+
+    
+      
+
+
+<a class="post-row" href="/blog/p3193/">
+  <span class="post-cat">随记</span>
+  <span class="post-title">洛谷 P3193</span>
+  <span class="post-meta">Sep 23 · 2 min</span>
+</a>
+
+    
+      
+
+
+<a class="post-row" href="/blog/p1328/">
+  <span class="post-cat">随记</span>
+  <span class="post-title">洛谷 P1328</span>
+  <span class="post-meta">Sep 23 · 1 min</span>
+</a>
+
+    
+  </div>
+</section>
+
+      </main>
+      
+<footer class="site-footer">
+  <div class="footer-inner">
+    <span>© 2026 怪话怪</span>
     <span>
-        Powered by
-        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
-        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+      <a href="https://github.com/caoxuan5211" rel="noopener noreferrer">GitHub</a>
+      · Built with Hugo
     </span>
+  </div>
 </footer>
-<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
-        <path d="M12 6H0l6-6z" />
-    </svg>
-</a><script>
-  window.mineguaiMouseRunnerFrames = ["/images/mouse-runner/1.png","/images/mouse-runner/2.png","/images/mouse-runner/3.png","/images/mouse-runner/4.png"];
-</script>
 
+    </div>
+    
+<aside class="search-modal" data-search-modal aria-label="搜索结果" aria-live="polite">
+  <div class="search-results" data-search-results>
+    <div class="search-result-meta">输入关键词后显示结果。</div>
+  </div>
+</aside>
 
-<script>
-    let menu = document.getElementById('menu')
-    if (menu) {
-        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
-        menu.onscroll = function () {
-            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
-        }
-    }
-
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            var id = this.getAttribute("href").substr(1);
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
-                    behavior: "smooth"
-                });
-            } else {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
-            }
-            if (id === "top") {
-                history.replaceState(null, null, " ");
-            } else {
-                history.pushState(null, null, `#${id}`);
-            }
-        });
-    });
-
-</script>
-<script>
-    var mybutton = document.getElementById("top-link");
-    window.onscroll = function () {
-        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
-            mybutton.style.visibility = "visible";
-            mybutton.style.opacity = "1";
-        } else {
-            mybutton.style.visibility = "hidden";
-            mybutton.style.opacity = "0";
-        }
-    };
-
-</script>
-<script>
-    document.getElementById("theme-toggle").addEventListener("click", () => {
-        if (document.body.className.includes("dark")) {
-            document.body.classList.remove('dark');
-            localStorage.setItem("pref-theme", 'light');
-        } else {
-            document.body.classList.add('dark');
-            localStorage.setItem("pref-theme", 'dark');
-        }
-    })
-
-</script>
-</body>
-
+    <script src="/js/main.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js" defer></script>
+    <script src="/js/search.js" defer></script>
+    <script src="/js/toc.js" defer></script>
+  </body>
 </html>

@@ -1,60 +1,60 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on 怪话怪的博客</title>
-    <link>https://blog.mineguai.com/tags/</link>
+    <link>https://mineguai.com/tags/</link>
     <description>Recent content in Tags on 怪话怪的博客</description>
-    <generator>Hugo -- 0.150.0</generator>
-    <language>en-us</language>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
     <lastBuildDate>Fri, 09 Jan 2026 15:52:21 +0800</lastBuildDate>
-    <atom:link href="https://blog.mineguai.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://mineguai.com/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>最大团</title>
-      <link>https://blog.mineguai.com/tags/%E6%9C%80%E5%A4%A7%E5%9B%A2/</link>
+      <link>https://mineguai.com/tags/%E6%9C%80%E5%A4%A7%E5%9B%A2/</link>
       <pubDate>Fri, 09 Jan 2026 15:52:21 +0800</pubDate>
-      <guid>https://blog.mineguai.com/tags/%E6%9C%80%E5%A4%A7%E5%9B%A2/</guid>
+      <guid>https://mineguai.com/tags/%E6%9C%80%E5%A4%A7%E5%9B%A2/</guid>
       <description></description>
     </item>
     <item>
       <title>图论</title>
-      <link>https://blog.mineguai.com/tags/%E5%9B%BE%E8%AE%BA/</link>
+      <link>https://mineguai.com/tags/%E5%9B%BE%E8%AE%BA/</link>
       <pubDate>Mon, 17 Nov 2025 23:51:05 +0800</pubDate>
-      <guid>https://blog.mineguai.com/tags/%E5%9B%BE%E8%AE%BA/</guid>
+      <guid>https://mineguai.com/tags/%E5%9B%BE%E8%AE%BA/</guid>
       <description></description>
     </item>
     <item>
       <title>算法</title>
-      <link>https://blog.mineguai.com/tags/%E7%AE%97%E6%B3%95/</link>
+      <link>https://mineguai.com/tags/%E7%AE%97%E6%B3%95/</link>
       <pubDate>Mon, 17 Nov 2025 23:51:05 +0800</pubDate>
-      <guid>https://blog.mineguai.com/tags/%E7%AE%97%E6%B3%95/</guid>
+      <guid>https://mineguai.com/tags/%E7%AE%97%E6%B3%95/</guid>
       <description></description>
     </item>
     <item>
       <title>Luogu</title>
-      <link>https://blog.mineguai.com/tags/luogu/</link>
+      <link>https://mineguai.com/tags/luogu/</link>
       <pubDate>Mon, 17 Nov 2025 20:13:46 +0800</pubDate>
-      <guid>https://blog.mineguai.com/tags/luogu/</guid>
+      <guid>https://mineguai.com/tags/luogu/</guid>
       <description></description>
     </item>
     <item>
       <title>博客搭建问题</title>
-      <link>https://blog.mineguai.com/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E9%97%AE%E9%A2%98/</link>
+      <link>https://mineguai.com/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E9%97%AE%E9%A2%98/</link>
       <pubDate>Fri, 07 Nov 2025 19:35:23 +0800</pubDate>
-      <guid>https://blog.mineguai.com/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E9%97%AE%E9%A2%98/</guid>
+      <guid>https://mineguai.com/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E9%97%AE%E9%A2%98/</guid>
       <description></description>
     </item>
     <item>
       <title>Deep_learning</title>
-      <link>https://blog.mineguai.com/tags/deep_learning/</link>
+      <link>https://mineguai.com/tags/deep_learning/</link>
       <pubDate>Tue, 23 Sep 2025 20:14:23 +0800</pubDate>
-      <guid>https://blog.mineguai.com/tags/deep_learning/</guid>
+      <guid>https://mineguai.com/tags/deep_learning/</guid>
       <description></description>
     </item>
     <item>
       <title>Pictures</title>
-      <link>https://blog.mineguai.com/tags/pictures/</link>
+      <link>https://mineguai.com/tags/pictures/</link>
       <pubDate>Tue, 23 Sep 2025 00:00:00 +0800</pubDate>
-      <guid>https://blog.mineguai.com/tags/pictures/</guid>
+      <guid>https://mineguai.com/tags/pictures/</guid>
       <description></description>
     </item>
   </channel>

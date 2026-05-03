@@ -1,321 +1,114 @@
-<!DOCTYPE html>
-<html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
-<title>归并排序 | 怪话怪的博客</title>
-<meta name="keywords" content="算法, luogu">
-<meta name="description" content="P1177 【模板】排序 - 洛谷
-我用归并排序写的。(时间复杂度O(nlogn),空间复杂度O(n))。
-#include&lt;bits/stdc&#43;&#43;.h&gt;
-using namespace std;
+<!doctype html>
+<html lang="zh-cn" data-theme="light">
+  <head>
+    
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="算法、工程记录和一点怪话。">
+<meta name="author" content="怪话怪">
+<meta name="theme-color" content="#B85C38">
+<title>归并排序 · 怪话怪的博客</title>
+<link rel="canonical" href="https://mineguai.com/blog/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-vector&lt;int&gt; A;
-//归并排序
-void gbsort(int l,int r)
-{
-    vector&lt;int&gt; temp;
-    if(l==r) return;
-    int m=((l&#43;r)&gt;&gt;1);
-    printf(&#34;划分的区间:[%d,%d],[%d,%d]\n&#34;,l,m,m&#43;1,r);
-    gbsort(l,m);
-    gbsort(m&#43;1,r);
-    int curL=l,curR=m&#43;1; //左右分为[l,m] [m&#43;1,r]
-    for(int i=0;i&lt;r-l&#43;1;i&#43;&#43;)
-    {
-        if( curL&gt;m )
-        {
-            temp.push_back(A[curR]);
-            curR&#43;&#43;;
-        }
-        else if( curR&gt;r )
-        {
-            temp.push_back(A[curL]);
-            curL&#43;&#43;;
-        }
-        else if(A[curL]&gt;A[curR])
-        {
-            temp.push_back(A[curR]);
-            curR&#43;&#43;;
-        }
-        else if(A[curL]&lt;=A[curR])
-        {
-            temp.push_back(A[curL]);
-            curL&#43;&#43;;
-        }
-    }
-    for(int i=l;i&lt;=r;i&#43;&#43;)
-    {
-        A[i]=temp[i-l];
-    }
-}
-
-int main()
-{
-    int N;
-    cin &gt;&gt; N;
-    for(int i=0;i&lt;N;i&#43;&#43;)
-    {
-        int x;
-        cin &gt;&gt; x;
-        A.push_back(x);
-    }
-    // sort(A.begin(),A.end());
-    gbsort(0,N-1);
-    for(int i=0;i&lt;N;i&#43;&#43;)
-    {
-        cout &lt;&lt; A[i] &lt;&lt; &#39; &#39;;
-    }
-    return 0;
-}
-C&#43;&#43;标准库sort用的是快速排序">
-<meta name="author" content="">
-<link rel="canonical" href="https://blog.mineguai.com/blog/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://blog.mineguai.com/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://blog.mineguai.com/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://blog.mineguai.com/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://blog.mineguai.com/apple-touch-icon.png">
-<link rel="mask-icon" href="https://blog.mineguai.com/safari-pinned-tab.svg">
-<meta name="theme-color" content="#f4eed4">
-<meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="https://blog.mineguai.com/blog/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/">
-<noscript>
-    <style>
-        #theme-toggle,
-        .top-link {
-            display: none;
-        }
-
-    </style>
-</noscript><meta property="og:url" content="https://blog.mineguai.com/blog/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/">
-  <meta property="og:site_name" content="怪话怪的博客">
-  <meta property="og:title" content="归并排序">
-  <meta property="og:description" content="P1177 【模板】排序 - 洛谷 我用归并排序写的。(时间复杂度O(nlogn),空间复杂度O(n))。
-#include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; vector&lt;int&gt; A; //归并排序 void gbsort(int l,int r) { vector&lt;int&gt; temp; if(l==r) return; int m=((l&#43;r)&gt;&gt;1); printf(&#34;划分的区间:[%d,%d],[%d,%d]\n&#34;,l,m,m&#43;1,r); gbsort(l,m); gbsort(m&#43;1,r); int curL=l,curR=m&#43;1; //左右分为[l,m] [m&#43;1,r] for(int i=0;i&lt;r-l&#43;1;i&#43;&#43;) { if( curL&gt;m ) { temp.push_back(A[curR]); curR&#43;&#43;; } else if( curR&gt;r ) { temp.push_back(A[curL]); curL&#43;&#43;; } else if(A[curL]&gt;A[curR]) { temp.push_back(A[curR]); curR&#43;&#43;; } else if(A[curL]&lt;=A[curR]) { temp.push_back(A[curL]); curL&#43;&#43;; } } for(int i=l;i&lt;=r;i&#43;&#43;) { A[i]=temp[i-l]; } } int main() { int N; cin &gt;&gt; N; for(int i=0;i&lt;N;i&#43;&#43;) { int x; cin &gt;&gt; x; A.push_back(x); } // sort(A.begin(),A.end()); gbsort(0,N-1); for(int i=0;i&lt;N;i&#43;&#43;) { cout &lt;&lt; A[i] &lt;&lt; &#39; &#39;; } return 0; } C&#43;&#43;标准库sort用的是快速排序">
-  <meta property="og:locale" content="en-us">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="blog">
-    <meta property="article:published_time" content="2025-11-17T20:13:46+08:00">
-    <meta property="article:modified_time" content="2025-11-17T20:13:46+08:00">
-    <meta property="article:tag" content="算法">
-    <meta property="article:tag" content="Luogu">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="归并排序">
-<meta name="twitter:description" content="P1177 【模板】排序 - 洛谷
-我用归并排序写的。(时间复杂度O(nlogn),空间复杂度O(n))。
-#include&lt;bits/stdc&#43;&#43;.h&gt;
-using namespace std;
-
-vector&lt;int&gt; A;
-//归并排序
-void gbsort(int l,int r)
-{
-    vector&lt;int&gt; temp;
-    if(l==r) return;
-    int m=((l&#43;r)&gt;&gt;1);
-    printf(&#34;划分的区间:[%d,%d],[%d,%d]\n&#34;,l,m,m&#43;1,r);
-    gbsort(l,m);
-    gbsort(m&#43;1,r);
-    int curL=l,curR=m&#43;1; //左右分为[l,m] [m&#43;1,r]
-    for(int i=0;i&lt;r-l&#43;1;i&#43;&#43;)
-    {
-        if( curL&gt;m )
-        {
-            temp.push_back(A[curR]);
-            curR&#43;&#43;;
-        }
-        else if( curR&gt;r )
-        {
-            temp.push_back(A[curL]);
-            curL&#43;&#43;;
-        }
-        else if(A[curL]&gt;A[curR])
-        {
-            temp.push_back(A[curR]);
-            curR&#43;&#43;;
-        }
-        else if(A[curL]&lt;=A[curR])
-        {
-            temp.push_back(A[curL]);
-            curL&#43;&#43;;
-        }
-    }
-    for(int i=l;i&lt;=r;i&#43;&#43;)
-    {
-        A[i]=temp[i-l];
-    }
-}
-
-int main()
-{
-    int N;
-    cin &gt;&gt; N;
-    for(int i=0;i&lt;N;i&#43;&#43;)
-    {
-        int x;
-        cin &gt;&gt; x;
-        A.push_back(x);
-    }
-    // sort(A.begin(),A.end());
-    gbsort(0,N-1);
-    for(int i=0;i&lt;N;i&#43;&#43;)
-    {
-        cout &lt;&lt; A[i] &lt;&lt; &#39; &#39;;
-    }
-    return 0;
-}
-C&#43;&#43;标准库sort用的是快速排序">
+<style>:root{--bg:#F8F5F0;--bg-rgb:248, 245, 240;--bg-paper:#FFFFFF;--bg-paper-rgb:255, 255, 255;--ink:#222220;--ink-dim:#666460;--ink-ghost:#999690;--accent:#B85C38;--accent-rgb:184, 92, 56;--accent-dim:rgba(184, 92, 56, 0.15);--border:rgba(34, 34, 32, 0.08);--border-md:rgba(34, 34, 32, 0.14);--code-bg:#1A1A18;--code-fg:#E8E4DC;--radius-sm:4px;--radius-md:8px;--radius-lg:12px;--serif:"GuaiLatinScale", "Noto Serif SC", "Source Han Serif SC", serif;--mono:"IBM Plex Mono", "Space Mono", monospace;--sans:"Inter", system-ui, sans-serif;--max-prose:720px;--max-site:1120px}[data-theme=dark]{--bg:#0F0F0D;--bg-rgb:15, 15, 13;--bg-paper:#161614;--bg-paper-rgb:22, 22, 20;--ink:#E8E4DC;--ink-dim:#999690;--ink-ghost:#666460;--accent:#D97757;--accent-rgb:217, 119, 87;--accent-dim:rgba(217, 119, 87, 0.15);--border:rgba(232, 228, 220, 0.09);--border-md:rgba(232, 228, 220, 0.16);--code-bg:#111110}@font-face{font-family:guailatinscale;src:local("Inter");unicode-range:U+20-7E;size-adjust:92%}*,*::before,*::after{box-sizing:border-box}html{min-height:100%;background:var(--bg);color:var(--ink);color-scheme:light;scroll-behavior:smooth;text-size-adjust:100%}html[data-theme=dark]{color-scheme:dark}body{min-height:100vh;margin:0;background:var(--bg);color:var(--ink);font-family:var(--serif);text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.028;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='80' height='80' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E")}[data-theme=dark] body::before{opacity:.04}img,svg,video,canvas{display:block;max-width:100%}a{color:inherit;text-decoration-thickness:1px;text-underline-offset:3px}a,button{cursor:none}button,input,textarea,select{font:inherit}button{border:0;background:0 0;color:inherit}::selection{background:var(--accent-dim);color:var(--ink)}::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-thumb{background:var(--border-md);border-radius:2px}:focus-visible{outline:2px solid var(--accent);outline-offset:3px}.skip-link{position:fixed;top:.75rem;left:.75rem;z-index:10000;padding:.55rem .75rem;border-radius:var(--radius-sm);background:var(--bg-paper);color:var(--ink);font-family:var(--sans);font-size:.85rem;transform:translateY(-180%)}.skip-link:focus{transform:translateY(0)}@media(pointer:coarse){a,button{cursor:pointer}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}</style>
 
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Blogs",
-      "item": "https://blog.mineguai.com/blog/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "归并排序",
-      "item": "https://blog.mineguai.com/blog/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "归并排序",
-  "name": "归并排序",
-  "description": "P1177 【模板】排序 - 洛谷 我用归并排序写的。(时间复杂度O(nlogn),空间复杂度O(n))。\n#include\u0026lt;bits/stdc++.h\u0026gt; using namespace std; vector\u0026lt;int\u0026gt; A; //归并排序 void gbsort(int l,int r) { vector\u0026lt;int\u0026gt; temp; if(l==r) return; int m=((l+r)\u0026gt;\u0026gt;1); printf(\u0026#34;划分的区间:[%d,%d],[%d,%d]\\n\u0026#34;,l,m,m+1,r); gbsort(l,m); gbsort(m+1,r); int curL=l,curR=m+1; //左右分为[l,m] [m+1,r] for(int i=0;i\u0026lt;r-l+1;i++) { if( curL\u0026gt;m ) { temp.push_back(A[curR]); curR++; } else if( curR\u0026gt;r ) { temp.push_back(A[curL]); curL++; } else if(A[curL]\u0026gt;A[curR]) { temp.push_back(A[curR]); curR++; } else if(A[curL]\u0026lt;=A[curR]) { temp.push_back(A[curL]); curL++; } } for(int i=l;i\u0026lt;=r;i++) { A[i]=temp[i-l]; } } int main() { int N; cin \u0026gt;\u0026gt; N; for(int i=0;i\u0026lt;N;i++) { int x; cin \u0026gt;\u0026gt; x; A.push_back(x); } // sort(A.begin(),A.end()); gbsort(0,N-1); for(int i=0;i\u0026lt;N;i++) { cout \u0026lt;\u0026lt; A[i] \u0026lt;\u0026lt; \u0026#39; \u0026#39;; } return 0; } C++标准库sort用的是快速排序\n",
-  "keywords": [
-    "算法", "luogu"
-  ],
-  "articleBody": "P1177 【模板】排序 - 洛谷 我用归并排序写的。(时间复杂度O(nlogn),空间复杂度O(n))。\n#include using namespace std; vector\u003cint\u003e A; //归并排序 void gbsort(int l,int r) { vector\u003cint\u003e temp; if(l==r) return; int m=((l+r)\u003e\u003e1); printf(\"划分的区间:[%d,%d],[%d,%d]\\n\",l,m,m+1,r); gbsort(l,m); gbsort(m+1,r); int curL=l,curR=m+1; //左右分为[l,m] [m+1,r] for(int i=0;i\u003cr-l+1;i++) { if( curL\u003em ) { temp.push_back(A[curR]); curR++; } else if( curR\u003er ) { temp.push_back(A[curL]); curL++; } else if(A[curL]\u003eA[curR]) { temp.push_back(A[curR]); curR++; } else if(A[curL]\u003c=A[curR]) { temp.push_back(A[curL]); curL++; } } for(int i=l;i\u003c=r;i++) { A[i]=temp[i-l]; } } int main() { int N; cin \u003e\u003e N; for(int i=0;i\u003cN;i++) { int x; cin \u003e\u003e x; A.push_back(x); } // sort(A.begin(),A.end()); gbsort(0,N-1); for(int i=0;i\u003cN;i++) { cout \u003c\u003c A[i] \u003c\u003c ' '; } return 0; } C++标准库sort用的是快速排序\n",
-  "wordCount" : "102",
-  "inLanguage": "en",
-  "datePublished": "2025-11-17T20:13:46+08:00",
-  "dateModified": "2025-11-17T20:13:46+08:00",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://blog.mineguai.com/blog/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "怪话怪的博客",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://blog.mineguai.com/favicon.ico"
-    }
+
+<link rel="stylesheet" href="/css/guai.min.css">
+<style>
+  :root {
+    --accent: #B85C38;
   }
-}
-</script>
-  <link rel="stylesheet" href="/css/extended/code-copy.css">
-  <link rel="stylesheet" href="/css/extended/custom-fonts.css">
-  <link rel="stylesheet" href="/css/extended/mouse-runner.css">
-  <link rel="stylesheet" href="/css/extended/click-burst.css">
-  <link rel="stylesheet" href="/css/extended/blog-ui.css">
+</style>
 
 
-  <script type="text/javascript" src="/js/code-copy.js" defer></script>
-  <script type="text/javascript" src="/js/mouse-runner.js" defer></script>
-  <script type="text/javascript" src="/js/click-burst.js" defer></script>
-  <script type="text/javascript" src="/js/blog-toys.js" defer></script>
-
-
-  <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css' integrity='sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=' crossorigin='anonymous'>
-  <script src='https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js'></script>
-
-    <script src="/js/code_copy.js"></script>
-</head>
-
-<body class="" id="top">
-<script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-        document.body.classList.add('dark');
-    }
-
-</script>
-
-<header class="header">
-    <nav class="nav">
-        <div class="logo">
-            <a href="https://blog.mineguai.com/" accesskey="h" title="怪话怪的博客 (Alt + H)">怪话怪的博客</a>
-            <div class="logo-switches">
-                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
-            </div>
-        </div>
-        <div class="home-info-container">
-            <img src="/images/wanzi1.jpg" alt="Logo" class="home-left-logo" />
-            <div class="home-info-text">
-                <h1>怪话怪的博客</h1>
-                <p>算法、工程记录和一点怪话。</p>
-            </div>
-        </div>
-        <ul id="menu">
-            <li>
-                <a href="https://blog.mineguai.com/search/" title="搜索">
-                    <span>搜索</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">跳到正文</a>
+    <div class="reading-progress" data-progress="0%"></div>
+    <div class="cursor-dot" aria-hidden="true"></div>
+    <div class="site-wrap">
+      
+<header class="site-header" data-site-header>
+  <div class="nav-shell">
+    <a class="brand" href="/" aria-label="返回首页">
+      <span class="brand-name">怪话怪</span>
+      <span class="brand-subtitle">caoxuan5211</span>
+    </a>
+    <div class="nav-right">
+      <nav class="nav-links" aria-label="主导航">
+        <a class="nav-link" href="/">首页</a>
+        <a class="nav-link is-active" href="/blog/">文章</a>
+        <a class="nav-link" href="/categories/">分类</a>
+        <a class="nav-link" href="/tags/">标签</a>
+        <a class="nav-link" href="/archive/">归档</a>
+      </nav>
+      <div class="nav-icons">
+        <form class="search-form" data-search-form role="search">
+          <input class="search-input" data-search-input type="search" autocomplete="off" placeholder="搜索文章" aria-label="搜索文章">
+          <button class="icon-btn" data-search-toggle type="button" aria-label="打开搜索">
+            <img src="/icons/search.svg" alt="" width="18" height="18">
+          </button>
+        </form>
+        <button class="icon-btn theme-toggle" data-theme-toggle type="button" aria-label="切换深色模式">
+          <img data-theme-icon src="/icons/moon.svg" alt="" width="18" height="18">
+        </button>
+        <button class="hamburger" data-menu-toggle type="button" aria-label="打开移动导航" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <nav class="mobile-menu" data-mobile-menu aria-label="移动导航">
+    <div class="mobile-menu-inner">
+      <a href="/">首页</a>
+      <a href="/blog/">文章</a>
+      <a href="/categories/">分类</a>
+      <a href="/tags/">标签</a>
+      <a href="/archive/">归档</a>
+    </div>
+  </nav>
 </header>
-<main class="main">
 
-<article class="post-single">
-  <header class="post-header">
-    <div class="breadcrumbs"><a href="https://blog.mineguai.com/">Home</a>&nbsp;»&nbsp;<a href="https://blog.mineguai.com/blog/">Blogs</a></div>
-    <h1 class="post-title entry-hint-parent">
-      归并排序
-    </h1>
-    <div class="post-meta"><span title='2025-11-17 20:13:46 +0800 CST'>November 17, 2025</span>&nbsp;·&nbsp;1 min
+      <main id="main" class="site-main">
+        
+<div class="single-shell">
+  <article class="post-article">
+    <header class="post-header">
+      
+      <h1 class="post-heading">归并排序</h1>
+      <div class="post-meta">
+        2025-11-17 · 1 min
+      </div>
+      
+      
+    </header>
+    <details class="mobile-toc">
+      <summary>展开目录</summary>
+      
 
-</div>
-  </header> <div class="toc">
-    <details >
-        <summary accesskey="c" title="(Alt + C)">
-            <span class="details">Table of Contents</span>
-        </summary>
 
-        <div class="inner"><ul>
-                <li>
-                    <a href="#p1177-%e6%a8%a1%e6%9d%bf%e6%8e%92%e5%ba%8f---%e6%b4%9b%e8%b0%b7" aria-label="P1177 【模板】排序 - 洛谷">P1177 【模板】排序 - 洛谷</a>
-                </li>
-            </ul>
-        </div>
+<nav class="toc" data-toc aria-label="文章目录">
+  <div class="toc-title">目录</div>
+  <ul class="toc-list" data-toc-list>
+    <span class="toc-dot" data-toc-dot aria-hidden="true"></span>
+    
+      
+      
+      <li><a href="#p1177-%e6%a8%a1%e6%9d%bf%e6%8e%92%e5%ba%8f---%e6%b4%9b%e8%b0%b7" data-toc-link data-target-id="p1177-模板排序---洛谷">P1177 【模板】排序 - 洛谷</a></li>
+    
+  </ul>
+</nav>
+
+
     </details>
-</div>
-
-  <div class="post-content"><h3 id="p1177-模板排序---洛谷"><a href="https://www.luogu.com.cn/problem/P1177">P1177 【模板】排序 - 洛谷</a><a hidden class="anchor" aria-hidden="true" href="#p1177-模板排序---洛谷">#</a></h3>
+    <div class="post-content">
+      <h3 id="p1177-模板排序---洛谷"><a href="https://www.luogu.com.cn/problem/P1177">P1177 【模板】排序 - 洛谷</a></h3>
 <p>我用归并排序写的。(时间复杂度O(nlogn),空间复杂度O(n))。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="cp">#include&lt;bits/stdc++.h&gt;
 </span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
@@ -380,151 +173,51 @@ C&#43;&#43;标准库sort用的是快速排序">
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>C++标准库sort用的是快速排序</p>
 
+    </div>
+  </article>
+  <aside class="toc-aside">
+    
 
-  </div>
 
-  <footer class="post-footer">
-    <ul class="post-tags">
-      <li><a href="https://blog.mineguai.com/tags/%E7%AE%97%E6%B3%95/">算法</a></li>
-      <li><a href="https://blog.mineguai.com/tags/luogu/">Luogu</a></li>
-    </ul>
-<nav class="paginav">
-  <a class="prev" href="https://blog.mineguai.com/blog/%E5%9B%BE%E7%9A%84%E6%9F%93%E8%89%B2%E8%A7%A3%E5%86%B3/">
-    <span class="title">« Prev</span>
-    <br>
-    <span>图的染色解决</span>
-  </a>
-  <a class="next" href="https://blog.mineguai.com/blog/%E6%B4%9B%E8%B0%B7-p1559/">
-    <span class="title">Next »</span>
-    <br>
-    <span>洛谷 P1559</span>
-  </a>
+<nav class="toc" data-toc aria-label="文章目录">
+  <div class="toc-title">目录</div>
+  <ul class="toc-list" data-toc-list>
+    <span class="toc-dot" data-toc-dot aria-hidden="true"></span>
+    
+      
+      
+      <li><a href="#p1177-%e6%a8%a1%e6%9d%bf%e6%8e%92%e5%ba%8f---%e6%b4%9b%e8%b0%b7" data-toc-link data-target-id="p1177-模板排序---洛谷">P1177 【模板】排序 - 洛谷</a></li>
+    
+  </ul>
 </nav>
 
-  </footer>
-</article>
-    </main>
-    
-<footer class="footer">
-        <span>&copy; 2026 <a href="https://blog.mineguai.com/">怪话怪的博客</a></span> · 
 
+  </aside>
+</div>
+
+      </main>
+      
+<footer class="site-footer">
+  <div class="footer-inner">
+    <span>© 2026 怪话怪</span>
     <span>
-        Powered by
-        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
-        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+      <a href="https://github.com/caoxuan5211" rel="noopener noreferrer">GitHub</a>
+      · Built with Hugo
     </span>
+  </div>
 </footer>
-<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
-        <path d="M12 6H0l6-6z" />
-    </svg>
-</a><script>
-  window.mineguaiMouseRunnerFrames = ["/images/mouse-runner/1.png","/images/mouse-runner/2.png","/images/mouse-runner/3.png","/images/mouse-runner/4.png"];
-</script>
 
+    </div>
+    
+<aside class="search-modal" data-search-modal aria-label="搜索结果" aria-live="polite">
+  <div class="search-results" data-search-results>
+    <div class="search-result-meta">输入关键词后显示结果。</div>
+  </div>
+</aside>
 
-<script>
-    let menu = document.getElementById('menu')
-    if (menu) {
-        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
-        menu.onscroll = function () {
-            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
-        }
-    }
-
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            var id = this.getAttribute("href").substr(1);
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
-                    behavior: "smooth"
-                });
-            } else {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
-            }
-            if (id === "top") {
-                history.replaceState(null, null, " ");
-            } else {
-                history.pushState(null, null, `#${id}`);
-            }
-        });
-    });
-
-</script>
-<script>
-    var mybutton = document.getElementById("top-link");
-    window.onscroll = function () {
-        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
-            mybutton.style.visibility = "visible";
-            mybutton.style.opacity = "1";
-        } else {
-            mybutton.style.visibility = "hidden";
-            mybutton.style.opacity = "0";
-        }
-    };
-
-</script>
-<script>
-    document.getElementById("theme-toggle").addEventListener("click", () => {
-        if (document.body.className.includes("dark")) {
-            document.body.classList.remove('dark');
-            localStorage.setItem("pref-theme", 'light');
-        } else {
-            document.body.classList.add('dark');
-            localStorage.setItem("pref-theme", 'dark');
-        }
-    })
-
-</script>
-<script>
-    document.querySelectorAll('pre > code').forEach((codeblock) => {
-        const container = codeblock.parentNode.parentNode;
-
-        const copybutton = document.createElement('button');
-        copybutton.classList.add('copy-code');
-        copybutton.innerHTML = 'copy';
-
-        function copyingDone() {
-            copybutton.innerHTML = 'copied!';
-            setTimeout(() => {
-                copybutton.innerHTML = 'copy';
-            }, 2000);
-        }
-
-        copybutton.addEventListener('click', (cb) => {
-            if ('clipboard' in navigator) {
-                navigator.clipboard.writeText(codeblock.textContent);
-                copyingDone();
-                return;
-            }
-
-            const range = document.createRange();
-            range.selectNodeContents(codeblock);
-            const selection = window.getSelection();
-            selection.removeAllRanges();
-            selection.addRange(range);
-            try {
-                document.execCommand('copy');
-                copyingDone();
-            } catch (e) { };
-            selection.removeRange(range);
-        });
-
-        if (container.classList.contains("highlight")) {
-            container.appendChild(copybutton);
-        } else if (container.parentNode.firstChild == container) {
-            
-        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
-            
-            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
-        } else {
-            
-            codeblock.parentNode.appendChild(copybutton);
-        }
-    });
-</script>
-
-</body>
-
+    <script src="/js/main.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js" defer></script>
+    <script src="/js/search.js" defer></script>
+    <script src="/js/toc.js" defer></script>
+  </body>
 </html>
