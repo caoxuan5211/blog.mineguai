@@ -91,6 +91,46 @@
     });
   }
 
+  document.querySelectorAll("[data-copy-link]").forEach((button) => {
+    button.addEventListener("click", async () => {
+      const url = button.dataset.copyLink || window.location.href;
+      if (navigator.clipboard) {
+        await navigator.clipboard.writeText(url);
+      } else {
+        const input = document.createElement("input");
+        input.value = url;
+        input.setAttribute("readonly", "");
+        input.style.position = "fixed";
+        input.style.opacity = "0";
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand("copy");
+        input.remove();
+      }
+      const original = button.textContent;
+      button.textContent = "已复制";
+      button.classList.add("is-copied");
+      window.setTimeout(() => {
+        button.textContent = original;
+        button.classList.remove("is-copied");
+      }, 1400);
+    });
+  });
+
+  document.querySelectorAll("[data-share-native]").forEach((button) => {
+    const data = {
+      title: button.dataset.shareTitle || document.title,
+      url: button.dataset.shareUrl || window.location.href
+    };
+    if (!navigator.share) {
+      button.hidden = true;
+      return;
+    }
+    button.addEventListener("click", async () => {
+      await navigator.share(data);
+    });
+  });
+
   document.querySelectorAll("pre").forEach((pre) => {
     const code = pre.querySelector("code");
     if (!code) return;
