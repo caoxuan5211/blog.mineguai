@@ -40,6 +40,7 @@
 
   </head>
   <body>
+    <canvas class="ambient-network" aria-hidden="true"></canvas>
     <a class="skip-link" href="#main">跳到正文</a>
     <div class="reading-progress" data-progress="0%"></div>
     <div class="cursor-dot" aria-hidden="true"></div>
@@ -100,7 +101,7 @@
 
 
 <a class="post-row" href="/blog/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/">
-  <span class="post-cat">随记</span>
+  <span class="post-cat" data-cat="随记">随记</span>
   <span class="post-body">
     <span class="post-title">归并排序</span>
     <span class="post-summary">P1177 【模板】排序 - 洛谷 我用归并排序写的。(时间复杂度O(nlogn),空间复杂度O(n))。
@@ -119,7 +120,7 @@
 
 
 <a class="post-row" href="/blog/p1382/">
-  <span class="post-cat">blog</span>
+  <span class="post-cat" data-cat="blog">blog</span>
   <span class="post-body">
     <span class="post-title">洛谷 P1382</span>
     <span class="post-summary">楼房 思路 属于扫描线算法思想，通过动态维护当前高度集合，利用最大高度(天际线)来不断动态变化，同时记录轮廓拐点，最后顺序输出。
@@ -138,7 +139,7 @@
 
 
 <a class="post-row" href="/blog/p3372/">
-  <span class="post-cat">随记</span>
+  <span class="post-cat" data-cat="随记">随记</span>
   <span class="post-body">
     <span class="post-title">洛谷 P3372</span>
     <span class="post-summary">线段树1 用到线段树基础知识
@@ -157,7 +158,7 @@
 
 
 <a class="post-row" href="/blog/p1590/">
-  <span class="post-cat">随记</span>
+  <span class="post-cat" data-cat="随记">随记</span>
   <span class="post-body">
     <span class="post-title">洛谷 P1590</span>
     <span class="post-summary">失踪的7 直接找pascal的n以内的最大值
@@ -177,7 +178,7 @@
 
 
 <a class="post-row" href="/blog/p1393/">
-  <span class="post-cat">随记</span>
+  <span class="post-cat" data-cat="随记">随记</span>
   <span class="post-body">
     <span class="post-title">洛谷 P1393</span>
     <span class="post-summary">Mivik 不会做
@@ -197,7 +198,7 @@
 
 
 <a class="post-row" href="/blog/p3193/">
-  <span class="post-cat">随记</span>
+  <span class="post-cat" data-cat="随记">随记</span>
   <span class="post-body">
     <span class="post-title">洛谷 P3193</span>
     <span class="post-summary">[HNOI2008] GT考试 思路 状态转移矩阵T[i][j]其实就是添加一个字符之后从状态i转移到状态j的方案数量，也就是先用kmp得到对应的T然后对于长度为N的串只需要让这个转移矩阵N次 …</span>
@@ -215,7 +216,7 @@
 
 
 <a class="post-row" href="/blog/p1328/">
-  <span class="post-cat">随记</span>
+  <span class="post-cat" data-cat="随记">随记</span>
   <span class="post-body">
     <span class="post-title">洛谷 P1328</span>
     <span class="post-summary">生活大爆炸版石头剪刀布 思路 数字化选择方式 纯手抄一个map&lt;pair&lt;int, int&gt;, int&gt; mp用来记录出拳结果。如mp[{2,0}] = 2;表示b …</span>
@@ -254,6 +255,7 @@
 
     <script src="/js/main.js" defer></script>
     <script src="/js/search.js" defer></script>
+    <script src="/js/ambient-network.js" defer></script>
     
   </body>
 </html>

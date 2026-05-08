@@ -41,6 +41,7 @@
 
   </head>
   <body>
+    <canvas class="ambient-network" aria-hidden="true"></canvas>
     <a class="skip-link" href="#main">跳到正文</a>
     <div class="reading-progress" data-progress="0%"></div>
     <div class="cursor-dot" aria-hidden="true"></div>
@@ -97,21 +98,29 @@
       <h1 class="hero-title hero-title-compact">怪话怪</h1>
       <div class="hero-actions" aria-label="快速入口">
         <a class="hero-action primary" href="/blog/">浏览文章</a>
-        <a class="hero-action" href="/archive/">时间线</a>
       </div>
     </div>
     <aside class="hero-panel" aria-label="博客概览">
-      <div class="panel-line">
-        <span>posts</span>
-        <strong>31</strong>
+      <div class="hero-profile">
+        <img class="profile-avatar" src="/images/wanzi1.jpg" alt="怪话怪头像" width="72" height="72">
+        <div>
+          <h2 class="profile-name">怪话怪</h2>
+          <p class="profile-bio">算法、工程记录和一点怪话。</p>
+        </div>
       </div>
-      <div class="panel-line">
-        <span>tags</span>
-        <strong>7</strong>
-      </div>
-      <div class="panel-line">
-        <span>latest</span>
-        <strong>04.25</strong>
+      <div class="panel-metrics">
+        <div class="panel-line">
+          <span>posts</span>
+          <strong>31</strong>
+        </div>
+        <div class="panel-line">
+          <span>tags</span>
+          <strong>7</strong>
+        </div>
+        <div class="panel-line">
+          <span>latest</span>
+          <strong>04.25</strong>
+        </div>
       </div>
       
       <a class="panel-feature" href="/blog/hugo%E9%A1%B9%E7%9B%AE%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84%E4%B8%8Egithub%E9%83%A8%E7%BD%B2%E8%AF%B4%E6%98%8E/">
@@ -121,23 +130,6 @@
       
     </aside>
   </div>
-  <section class="topic-strip" aria-label="常看主题">
-    
-      <a href="/tags/luogu/">#Luogu <span>7</span></a>
-    
-      <a href="/tags/%E7%AE%97%E6%B3%95/">#算法 <span>7</span></a>
-    
-      <a href="/tags/deep_learning/">#Deep_learning <span>1</span></a>
-    
-      <a href="/tags/pictures/">#Pictures <span>1</span></a>
-    
-      <a href="/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E9%97%AE%E9%A2%98/">#博客搭建问题 <span>1</span></a>
-    
-      <a href="/tags/%E5%9B%BE%E8%AE%BA/">#图论 <span>1</span></a>
-    
-      <a href="/tags/%E6%9C%80%E5%A4%A7%E5%9B%A2/">#最大团 <span>1</span></a>
-    
-  </section>
   <div class="home-grid">
     <section class="post-stream" aria-label="最新文章">
       <div class="stream-head">
@@ -149,7 +141,7 @@
 
 
 <a class="post-row" href="/blog/hugo%E9%A1%B9%E7%9B%AE%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84%E4%B8%8Egithub%E9%83%A8%E7%BD%B2%E8%AF%B4%E6%98%8E/">
-  <span class="post-cat">随记</span>
+  <span class="post-cat" data-cat="随记">随记</span>
   <span class="post-body">
     <span class="post-title">Hugo项目整体架构与GitHub部署说明</span>
     <span class="post-summary">先说结论 这个博客能部署到 GitHub，不只是因为“用了 Hugo”，更关键是项目架构从一开始就把“源码”和“构建产物”拆开了：
@@ -164,7 +156,7 @@ F:\myblog 是 Hugo 源码仓库，负责写文章、配主 …</span>
 
 
 <a class="post-row" href="/blog/%E9%92%A5%E5%8C%99%E9%97%AE%E9%A2%98/">
-  <span class="post-cat">随记</span>
+  <span class="post-cat" data-cat="随记">随记</span>
   <span class="post-body">
     <span class="post-title">钥匙问题</span>
     <span class="post-summary">P4890 解题代码详解（链式DP + 建模全过程） P4890 Never·island - 洛谷
@@ -180,7 +172,7 @@ F:\myblog 是 Hugo 源码仓库，负责写文章、配主 …</span>
 
 
 <a class="post-row" href="/blog/%E5%A4%A7%E5%88%9B/">
-  <span class="post-cat">随记</span>
+  <span class="post-cat" data-cat="随记">随记</span>
   <span class="post-body">
     <span class="post-title">大创</span>
     <span class="post-summary">ArchRAG 项目理解入门 1. 项目一句话说明 ArchRAG 是一个基于知识图谱的 Graph-based RAG 系统。它的核心目标不是只做“向量检索 + 生成”，而是把语料先构造成 …</span>
@@ -194,7 +186,7 @@ F:\myblog 是 Hugo 源码仓库，负责写文章、配主 …</span>
 
 
 <a class="post-row" href="/blog/%E6%B5%8B%E8%AF%95main/">
-  <span class="post-cat">随记</span>
+  <span class="post-cat" data-cat="随记">随记</span>
   <span class="post-body">
     <span class="post-title">测试main</span>
     <span class="post-summary">测试</span>
@@ -208,7 +200,7 @@ F:\myblog 是 Hugo 源码仓库，负责写文章、配主 …</span>
 
 
 <a class="post-row" href="/blog/%E5%88%B7%E9%A2%98/">
-  <span class="post-cat">随记</span>
+  <span class="post-cat" data-cat="随记">随记</span>
   <span class="post-body">
     <span class="post-title">刷题</span>
     <span class="post-summary">常见类型 INF 设定（竞赛常用） 类型 位数 理论最大值 常用 INF 写法 说明 int 32bit 2,147,483,647 0x3f3f3f3f 最常见写法，可 memset int …</span>
@@ -222,7 +214,7 @@ F:\myblog 是 Hugo 源码仓库，负责写文章、配主 …</span>
 
 
 <a class="post-row" href="/blog/general/">
-  <span class="post-cat">随记</span>
+  <span class="post-cat" data-cat="随记">随记</span>
   <span class="post-body">
     <span class="post-title">General</span>
     <span class="post-summary">什么是URL 1. URL 的全称是什么？ 全称：Uniform Resource Locator 中文翻译：统一资源定位符 2. URL 是什么意思？ 通俗地说，URL 就是互联网上的 “万 …</span>
@@ -236,7 +228,7 @@ F:\myblog 是 Hugo 源码仓库，负责写文章、配主 …</span>
 
 
 <a class="post-row" href="/blog/git_learn/">
-  <span class="post-cat">随记</span>
+  <span class="post-cat" data-cat="随记">随记</span>
   <span class="post-body">
     <span class="post-title">Git_learn</span>
     <span class="post-summary">查看当前仓库状态：git status
@@ -256,7 +248,7 @@ F:\myblog 是 Hugo 源码仓库，负责写文章、配主 …</span>
 
 
 <a class="post-row" href="/blog/%E6%9C%80%E5%A4%A7%E5%9B%A2/">
-  <span class="post-cat">229</span>
+  <span class="post-cat" data-cat="229">229</span>
   <span class="post-body">
     <span class="post-title">最大团</span>
     <span class="post-summary">简单起见，直接用mask遍历所有情况也就是从0-2n。
@@ -276,7 +268,7 @@ F:\myblog 是 Hugo 源码仓库，负责写文章、配主 …</span>
 
 
 <a class="post-row" href="/blog/learn-process/">
-  <span class="post-cat">随记</span>
+  <span class="post-cat" data-cat="随记">随记</span>
   <span class="post-body">
     <span class="post-title">Learn Process</span>
     <span class="post-summary">图论 最大流 最短路径 最小生成树 </span>
@@ -290,7 +282,7 @@ F:\myblog 是 Hugo 源码仓库，负责写文章、配主 …</span>
 
 
 <a class="post-row" href="/blog/cpp%E5%B8%B8%E7%94%A8%E7%BB%93%E6%9E%84/">
-  <span class="post-cat">随记</span>
+  <span class="post-cat" data-cat="随记">随记</span>
   <span class="post-body">
     <span class="post-title">Cpp常用结构</span>
     <span class="post-summary">1.unordered_set 用处 图结构常删除点边的时候可以用避免重复查找。
@@ -303,13 +295,6 @@ F:\myblog 是 Hugo 源码仓库，负责写文章、配主 …</span>
       
     </section>
     <aside class="sidebar" aria-label="侧边栏">
-      <section class="sidebar-card profile">
-        <img class="profile-avatar" src="/images/wanzi1.jpg" alt="怪话怪头像" width="80" height="80">
-        <div>
-          <h2 class="profile-name">怪话怪</h2>
-          <p class="profile-bio">算法、工程记录和一点怪话。</p>
-        </div>
-      </section>
       <section class="sidebar-card">
         <h2 class="sidebar-title">标签云</h2>
         <div class="tag-cloud">
@@ -351,35 +336,35 @@ F:\myblog 是 Hugo 源码仓库，负责写文章、配主 …</span>
           <li>
             <a href="/blog/hugo%E9%A1%B9%E7%9B%AE%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84%E4%B8%8Egithub%E9%83%A8%E7%BD%B2%E8%AF%B4%E6%98%8E/">
               <span class="recent-title">Hugo项目整体架构与GitHub部署说明</span>
-              <span class="recent-age">13 天前</span>
+              <span class="recent-age">14 天前</span>
             </a>
           </li>
           
           <li>
             <a href="/blog/%E9%92%A5%E5%8C%99%E9%97%AE%E9%A2%98/">
               <span class="recent-title">钥匙问题</span>
-              <span class="recent-age">23 天前</span>
+              <span class="recent-age">24 天前</span>
             </a>
           </li>
           
           <li>
             <a href="/blog/%E5%A4%A7%E5%88%9B/">
               <span class="recent-title">大创</span>
-              <span class="recent-age">23 天前</span>
+              <span class="recent-age">24 天前</span>
             </a>
           </li>
           
           <li>
             <a href="/blog/%E6%B5%8B%E8%AF%95main/">
               <span class="recent-title">测试main</span>
-              <span class="recent-age">24 天前</span>
+              <span class="recent-age">25 天前</span>
             </a>
           </li>
           
           <li>
             <a href="/blog/%E5%88%B7%E9%A2%98/">
               <span class="recent-title">刷题</span>
-              <span class="recent-age">63 天前</span>
+              <span class="recent-age">64 天前</span>
             </a>
           </li>
           
@@ -411,6 +396,7 @@ F:\myblog 是 Hugo 源码仓库，负责写文章、配主 …</span>
 
     <script src="/js/main.js" defer></script>
     <script src="/js/search.js" defer></script>
+    <script src="/js/ambient-network.js" defer></script>
     
   </body>
 </html>

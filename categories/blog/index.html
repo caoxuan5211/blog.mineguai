@@ -40,6 +40,7 @@
 
   </head>
   <body>
+    <canvas class="ambient-network" aria-hidden="true"></canvas>
     <a class="skip-link" href="#main">跳到正文</a>
     <div class="reading-progress" data-progress="0%"></div>
     <div class="cursor-dot" aria-hidden="true"></div>
@@ -100,7 +101,7 @@
 
 
 <a class="post-row" href="/blog/p1382/">
-  <span class="post-cat">blog</span>
+  <span class="post-cat" data-cat="blog">blog</span>
   <span class="post-body">
     <span class="post-title">洛谷 P1382</span>
     <span class="post-summary">楼房 思路 属于扫描线算法思想，通过动态维护当前高度集合，利用最大高度(天际线)来不断动态变化，同时记录轮廓拐点，最后顺序输出。
@@ -140,6 +141,7 @@
 
     <script src="/js/main.js" defer></script>
     <script src="/js/search.js" defer></script>
+    <script src="/js/ambient-network.js" defer></script>
     
   </body>
 </html>

@@ -77,9 +77,31 @@
   });
 
   if (cursor && !coarsePointer) {
+    const restoreCursor = () => {
+      try {
+        const position = JSON.parse(sessionStorage.getItem("guai-cursor-position") || "null");
+        if (!Array.isArray(position)) return;
+        cursor.style.left = `${position[0]}px`;
+        cursor.style.top = `${position[1]}px`;
+        cursor.classList.add("is-visible");
+        root.classList.add("has-custom-cursor");
+      } catch {
+        sessionStorage.removeItem("guai-cursor-position");
+      }
+    };
+
+    const updateCursor = (x, y) => {
+      cursor.style.left = `${x}px`;
+      cursor.style.top = `${y}px`;
+      cursor.classList.add("is-visible");
+      root.classList.add("has-custom-cursor");
+      sessionStorage.setItem("guai-cursor-position", JSON.stringify([x, y]));
+    };
+
+    restoreCursor();
+
     window.addEventListener("mousemove", (event) => {
-      cursor.style.left = `${event.clientX}px`;
-      cursor.style.top = `${event.clientY}px`;
+      updateCursor(event.clientX, event.clientY);
     });
 
     document.addEventListener("mouseover", (event) => {
