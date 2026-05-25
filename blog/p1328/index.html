@@ -41,22 +41,58 @@
     <canvas class="ambient-network" aria-hidden="true"></canvas>
     <a class="skip-link" href="#main">跳到正文</a>
     <div class="reading-progress" data-progress="0%"></div>
+    <div class="love-walk-progress" aria-hidden="true">
+      <div class="love-walk-track"></div>
+      <div class="love-walk-couple" data-love-walk-couple>
+        <div class="love-walk-figure">
+          <svg viewBox="0 0 112 48" role="img" focusable="false">
+            <path class="love-walk-heart" d="M55.8 17.2c-5-3.4-9.8-7.1-9.8-11.9C46 2.5 48.1.4 50.8.4c2.1 0 3.7 1.1 5 3 1.4-1.9 3-3 5.1-3 2.7 0 4.7 2.1 4.7 4.9 0 4.8-4.8 8.5-9.8 11.9z"/>
+            <g class="love-walk-person love-walk-person-a" transform="translate(28 7)">
+              <circle class="love-walk-head" cx="0" cy="0" r="5.4"/>
+              <path class="love-walk-body" d="M0 6v14"/>
+              <path class="love-walk-arm love-walk-arm-free" d="M0 10l-9 7"/>
+              <path class="love-walk-arm love-walk-arm-hand" d="M0 11l16 4"/>
+              <path class="love-walk-leg love-walk-leg-front" d="M0 20l-7 15"/>
+              <path class="love-walk-leg love-walk-leg-back" d="M0 20l9 15"/>
+            </g>
+            <g class="love-walk-person love-walk-person-b" transform="translate(84 7)">
+              <circle class="love-walk-head" cx="0" cy="0" r="5.4"/>
+              <path class="love-walk-body" d="M0 6v14"/>
+              <path class="love-walk-arm love-walk-arm-free" d="M0 10l9 7"/>
+              <path class="love-walk-arm love-walk-arm-hand" d="M0 11l-16 4"/>
+              <path class="love-walk-leg love-walk-leg-front" d="M0 20l7 15"/>
+              <path class="love-walk-leg love-walk-leg-back" d="M0 20l-9 15"/>
+            </g>
+            <path class="love-walk-hand" d="M44 22c6-3.8 17.3-3.8 24 0"/>
+          </svg>
+        </div>
+      </div>
+    </div>
     <div class="cursor-dot" aria-hidden="true"></div>
     <div class="site-wrap">
       
 <header class="site-header" data-site-header>
+  <div class="love-header-orbit" aria-hidden="true">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
   <div class="nav-shell">
     <a class="brand" href="/" aria-label="返回首页">
+      <span class="brand-mark">love letter no.5211</span>
       <span class="brand-name">怪话怪</span>
       <span class="brand-subtitle">caoxuan5211</span>
     </a>
     <div class="nav-right">
+      <div class="nav-whisper" aria-hidden="true">玫瑰在导航里失重</div>
       <nav class="nav-links" aria-label="主导航">
+        
         <a class="nav-link" href="/">首页</a>
         <a class="nav-link is-active" href="/blog/">文章</a>
         <a class="nav-link" href="/categories/">分类</a>
         <a class="nav-link" href="/tags/">标签</a>
         <a class="nav-link" href="/archive/">归档</a>
+        <a class="nav-link" href="/blog/hugo%E9%A1%B9%E7%9B%AE%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84%E4%B8%8Egithub%E9%83%A8%E7%BD%B2%E8%AF%B4%E6%98%8E/">最新</a>
       </nav>
       <div class="nav-icons">
         <form class="search-form" data-search-form role="search" action="/search/">
@@ -81,20 +117,29 @@
       <a href="/categories/">分类</a>
       <a href="/tags/">标签</a>
       <a href="/archive/">归档</a>
+      <a href="/blog/hugo%E9%A1%B9%E7%9B%AE%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84%E4%B8%8Egithub%E9%83%A8%E7%BD%B2%E8%AF%B4%E6%98%8E/">最新</a>
     </div>
   </nav>
 </header>
 
       <main id="main" class="site-main">
         
-<div class="single-shell">
+
+
+
+<div class="single-shell" data-experimental-article data-love-fragments="[&amp;#34;玫瑰在低处漂流&amp;#34;,&amp;#34;一封信绕过重力&amp;#34;,&amp;#34;心跳把纸面折弯&amp;#34;,&amp;#34;潮汐藏在句子背面&amp;#34;,&amp;#34;靠近是一种慢速坠落&amp;#34;,&amp;#34;回声替我保存距离&amp;#34;]">
   <article class="post-article">
-    <header class="post-header">
+    <header class="post-header post-header-loose">
       
       <h1 class="post-heading">洛谷 P1328</h1>
       <div class="post-meta">
         2025-09-23 · 1 min
       </div>
+      
+      <div class="post-header-tags" aria-label="文章标签">
+        <a href="/tags/luogu/">#luogu</a>
+      </div>
+      
       
       
     </header>
@@ -240,6 +285,7 @@
 
 
   </aside>
+  <button class="awake-toggle" type="button" data-awake-toggle aria-pressed="false">清醒</button>
 </div>
 
       </main>
