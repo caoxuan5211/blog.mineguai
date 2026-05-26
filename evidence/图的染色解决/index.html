@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="zh-CN" data-persona="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>图的染色解决 · 怪话怪的档案</title>
+    <script type="module" crossorigin src="/assets/index-D0GLROMq.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-D-YZBiZ_.css">
+  <meta name="description" content="染色问题 同染色（连接点染相同颜色） 用法 得到各个连通分量（分组）。 代码 #include &amp;#x3C;bits/stdc++.h&gt; using namespace std; const int MAXN = 100 ; int graph [MAXN][MAXN]; int" />
+<meta property="og:title" content="图的染色解决 · 怪话怪的档案" />
+<meta property="og:description" content="染色问题 同染色（连接点染相同颜色） 用法 得到各个连通分量（分组）。 代码 #include &amp;#x3C;bits/stdc++.h&gt; using namespace std; const int MAXN = 100 ; int graph [MAXN][MAXN]; int" />
+<meta property="og:url" content="https://blog.mineguai.com/evidence/%E5%9B%BE%E7%9A%84%E6%9F%93%E8%89%B2%E8%A7%A3%E5%86%B3/" />
+<link rel="canonical" href="https://blog.mineguai.com/evidence/%E5%9B%BE%E7%9A%84%E6%9F%93%E8%89%B2%E8%A7%A3%E5%86%B3/" />
+</head>
+  <body>
+    <div id="root"><a class="skip-link" href="#content">跳到正文</a><script>(()=>{try{const p=localStorage.getItem('guai-persona')||'dark';document.documentElement.dataset.persona=p;}catch{document.documentElement.dataset.persona='dark';}})();</script><canvas class="clue-canvas" data-clue-canvas="true" aria-hidden="true"></canvas><div class="texture-field" aria-hidden="true"></div><header class="site-header"><a class="brand-stamp" href="/" aria-label="返回证物首页"><span class="brand-mark">冷粉勾线 / 5211</span><strong>怪话怪</strong><small>黑白档案</small></a><nav class="paper-nav" aria-label="主导航"><a href="/" class="" style="--pin-tilt:-5deg"><span>证物</span><em>evidence</em></a><a href="/dossier/" class="" style="--pin-tilt:3deg"><span>档案</span><em>dossier</em></a><a href="/clues/" class="" style="--pin-tilt:-2deg"><span>线索</span><em>clues</em></a></nav><div class="header-tools"><button class="ink-button" type="button">搜寻</button><button class="persona-toggle" type="button" aria-label="切换黑白人格"><span>反稿</span></button></div></header><main id="content" class="site-main"><article class="evidence-page"><header class="evidence-hero"><a class="back-link" href="/dossier/">返回档案柜</a><p class="kicker">E-<!-- -->0016<!-- --> / evidence</p><h1>图的染色解决</h1><div class="evidence-hero-meta"><span>2025/11/17</span><span>2 分钟</span></div><div class="clue-list hero-clues"><a href="/clues/%E7%AE%97%E6%B3%95/">#<!-- -->算法</a><a href="/clues/%E5%9B%BE%E8%AE%BA/">#<!-- -->图论</a></div></header><div class="manuscript"><h1>染色问题</h1>
+<h2>同染色（连接点染相同颜色）</h2>
+<h3>用法</h3>
+<p>得到各个连通分量（分组）。</p>
+<h3>代码</h3>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">#include</span><span style="color:#F4D9E5">&#x3C;bits/stdc++.h></span></span>
+<span class="line"><span style="color:#FFFFFF">using namespace std;</span></span>
+<span class="line"><span style="color:#FFFFFF">const int MAXN = </span><span style="color:#F4D9E5">100</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#FFFFFF">int </span><span style="color:#E8E8E8">graph</span><span style="color:#FFFFFF">[MAXN][MAXN];</span></span>
+<span class="line"><span style="color:#FFFFFF">int </span><span style="color:#E8E8E8">color</span><span style="color:#FFFFFF">[MAXN];</span></span>
+<span class="line"><span style="color:#FFFFFF">int cnt;</span><span style="color:#9A9A9A;font-style:italic"> //连通分量数量</span></span>
+<span class="line"><span style="color:#FFFFFF">void dfs(int </span><span style="color:#E8E8E8">index</span><span style="color:#FFFFFF">,int </span><span style="color:#E8E8E8">n</span><span style="color:#FFFFFF">,int </span><span style="color:#E8E8E8">c</span><span style="color:#FFFFFF">)</span></span>
+<span class="line"><span style="color:#FFFFFF">{</span></span>
+<span class="line"><span style="color:#E8E8E8">    color</span><span style="color:#FFFFFF">[index]=c;</span></span>
+<span class="line"><span style="color:#FFFFFF">    for(int i=</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;i&#x3C;n;i++) if(</span><span style="color:#E8E8E8">graph</span><span style="color:#FFFFFF">[index][i]&#x26;&#x26;!</span><span style="color:#E8E8E8">color</span><span style="color:#FFFFFF">[i]) dfs(i,n,c);</span></span>
+<span class="line"><span style="color:#FFFFFF">}</span></span>
+<span class="line"><span style="color:#FFFFFF">int main()</span></span>
+<span class="line"><span style="color:#FFFFFF">{</span></span>
+<span class="line"><span style="color:#FFFFFF">    int n,m;</span></span>
+<span class="line"><span style="color:#FFFFFF">    cin >> n >> m;</span></span>
+<span class="line"><span style="color:#FFFFFF">    for(int i=</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;i&#x3C;m;i++)</span></span>
+<span class="line"><span style="color:#FFFFFF">    {</span></span>
+<span class="line"><span style="color:#FFFFFF">        int s,t;</span></span>
+<span class="line"><span style="color:#FFFFFF">        cin >> s >> t;</span></span>
+<span class="line"><span style="color:#E8E8E8">        graph</span><span style="color:#FFFFFF">[s][t]=</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">,</span><span style="color:#E8E8E8">graph</span><span style="color:#FFFFFF">[t][s]=</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#FFFFFF">    }</span></span>
+<span class="line"><span style="color:#FFFFFF">    for(int i=</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;i&#x3C;n;i++)</span></span>
+<span class="line"><span style="color:#FFFFFF">    {</span></span>
+<span class="line"><span style="color:#FFFFFF">        if(!</span><span style="color:#E8E8E8">color</span><span style="color:#FFFFFF">[i])</span></span>
+<span class="line"><span style="color:#FFFFFF">        {</span></span>
+<span class="line"><span style="color:#FFFFFF">            cnt++;</span></span>
+<span class="line"><span style="color:#FFFFFF">            dfs(i,n,cnt);</span></span>
+<span class="line"><span style="color:#FFFFFF">        }</span></span>
+<span class="line"><span style="color:#FFFFFF">    }</span></span>
+<span class="line"><span style="color:#FFFFFF">    vector&#x3C;vector&#x3C;int>> group(cnt+</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">,vector&#x3C;int>());</span></span>
+<span class="line"><span style="color:#FFFFFF">    for(int i=</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;i&#x3C;n;i++) </span><span style="color:#E8E8E8">group</span><span style="color:#FFFFFF">[</span><span style="color:#E8E8E8">color</span><span style="color:#FFFFFF">[i]].push_back(i);</span></span>
+<span class="line"><span style="color:#FFFFFF">    for(int i=</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">;i&#x3C;=cnt;i++)</span></span>
+<span class="line"><span style="color:#FFFFFF">    {</span></span>
+<span class="line"><span style="color:#FFFFFF">        cout &#x3C;&#x3C; </span><span style="color:#F4D9E5">"颜色"</span><span style="color:#FFFFFF"> &#x3C;&#x3C; i &#x3C;&#x3C; </span><span style="color:#F4D9E5">":"</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#FFFFFF">        for(int j=</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;j&#x3C;</span><span style="color:#E8E8E8">group</span><span style="color:#FFFFFF">[i].size();j++) cout &#x3C;&#x3C; </span><span style="color:#E8E8E8">group</span><span style="color:#FFFFFF">[i][j] &#x3C;&#x3C; </span><span style="color:#F4D9E5">' '</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#FFFFFF">        cout &#x3C;&#x3C; endl;</span></span>
+<span class="line"><span style="color:#FFFFFF">    }</span></span>
+<span class="line"><span style="color:#FFFFFF">}</span></span>
+<span class="line"></span></code></pre>
+<h2>异染色（连接点染不同颜色）</h2>
+<h3>用法</h3>
+<p>得到二分图。</p>
+<h3>代码</h3>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">#include</span><span style="color:#F4D9E5">&#x3C;bits/stdc++.h></span></span>
+<span class="line"><span style="color:#FFFFFF">using namespace std;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFFFFF">const int MAXN = </span><span style="color:#F4D9E5">100</span><span style="color:#FFFFFF">;</span><span style="color:#9A9A9A;font-style:italic"> //假如最大100个结点的图</span></span>
+<span class="line"><span style="color:#FFFFFF">int </span><span style="color:#E8E8E8">graph</span><span style="color:#FFFFFF">[MAXN][MAXN];</span></span>
+<span class="line"><span style="color:#FFFFFF">int </span><span style="color:#E8E8E8">color</span><span style="color:#FFFFFF">[MAXN];</span><span style="color:#9A9A9A;font-style:italic"> //用于确定分组,颜色为1和2</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFFFFF">int dfs(int </span><span style="color:#E8E8E8">index</span><span style="color:#FFFFFF">,int </span><span style="color:#E8E8E8">n</span><span style="color:#FFFFFF">,int </span><span style="color:#E8E8E8">c</span><span style="color:#FFFFFF">)</span><span style="color:#9A9A9A;font-style:italic"> //仅仅用来染色出发点所在的连通分量</span></span>
+<span class="line"><span style="color:#FFFFFF">{</span></span>
+<span class="line"><span style="color:#9A9A9A;font-style:italic">    //直接用对边不同色考虑</span></span>
+<span class="line"><span style="color:#E8E8E8">    color</span><span style="color:#FFFFFF">[index]=c;</span></span>
+<span class="line"><span style="color:#FFFFFF">    for(int i=</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;i&#x3C;n;i++) if(</span><span style="color:#E8E8E8">graph</span><span style="color:#FFFFFF">[index][i] &#x26;&#x26; (</span><span style="color:#E8E8E8">color</span><span style="color:#FFFFFF">[i]==c || (</span><span style="color:#E8E8E8">color</span><span style="color:#FFFFFF">[i]==</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF"> &#x26;&#x26; !dfs(i,n,</span><span style="color:#F4D9E5">3</span><span style="color:#FFFFFF">-c))) ) return </span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#FFFFFF">    return </span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#FFFFFF">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFFFFF">int main()</span></span>
+<span class="line"><span style="color:#FFFFFF">{</span></span>
+<span class="line"><span style="color:#FFFFFF">    int n,m;</span></span>
+<span class="line"><span style="color:#FFFFFF">    cin >> n >> m;</span></span>
+<span class="line"><span style="color:#FFFFFF">    for(int i=</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;i&#x3C;m;i++)</span></span>
+<span class="line"><span style="color:#FFFFFF">    {</span></span>
+<span class="line"><span style="color:#FFFFFF">        int s,t;</span></span>
+<span class="line"><span style="color:#FFFFFF">        cin >> s >> t;</span></span>
+<span class="line"><span style="color:#E8E8E8">        graph</span><span style="color:#FFFFFF">[s][t]=</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">,</span><span style="color:#E8E8E8">graph</span><span style="color:#FFFFFF">[t][s]=</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#FFFFFF">    }</span></span>
+<span class="line"><span style="color:#FFFFFF">    for(int i=</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;i&#x3C;n;i++)</span></span>
+<span class="line"><span style="color:#FFFFFF">    {</span></span>
+<span class="line"><span style="color:#FFFFFF">        if(!</span><span style="color:#E8E8E8">color</span><span style="color:#FFFFFF">[i])</span></span>
+<span class="line"><span style="color:#FFFFFF">            if(!dfs(i,n,</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">)) </span></span>
+<span class="line"><span style="color:#FFFFFF">            {</span></span>
+<span class="line"><span style="color:#FFFFFF">                cout &#x3C;&#x3C; </span><span style="color:#F4D9E5">"错误，不是二分图"</span><span style="color:#FFFFFF"> &#x3C;&#x3C; endl;</span></span>
+<span class="line"><span style="color:#FFFFFF">                return </span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#FFFFFF">            }</span></span>
+<span class="line"><span style="color:#FFFFFF">    }</span></span>
+<span class="line"><span style="color:#FFFFFF">    vector&#x3C;int> color1,color2;</span></span>
+<span class="line"><span style="color:#FFFFFF">    for(int i=</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;i&#x3C;n;i++)</span></span>
+<span class="line"><span style="color:#FFFFFF">    {</span></span>
+<span class="line"><span style="color:#FFFFFF">        if(</span><span style="color:#E8E8E8">color</span><span style="color:#FFFFFF">[i]==</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">) </span><span style="color:#E8E8E8">color1</span><span style="color:#FFFFFF">.push_back(i);</span></span>
+<span class="line"><span style="color:#FFFFFF">        if(</span><span style="color:#E8E8E8">color</span><span style="color:#FFFFFF">[i]==</span><span style="color:#F4D9E5">2</span><span style="color:#FFFFFF">) </span><span style="color:#E8E8E8">color2</span><span style="color:#FFFFFF">.push_back(i);</span></span>
+<span class="line"><span style="color:#FFFFFF">    }</span></span>
+<span class="line"><span style="color:#FFFFFF">    cout &#x3C;&#x3C; </span><span style="color:#F4D9E5">"染色结果:"</span><span style="color:#FFFFFF"> &#x3C;&#x3C; endl;</span></span>
+<span class="line"><span style="color:#FFFFFF">    for(int i=</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;i&#x3C;</span><span style="color:#E8E8E8">color1</span><span style="color:#FFFFFF">.size();i++) cout &#x3C;&#x3C; </span><span style="color:#E8E8E8">color1</span><span style="color:#FFFFFF">[i] &#x3C;&#x3C; </span><span style="color:#F4D9E5">' '</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#FFFFFF">    cout &#x3C;&#x3C; endl;</span></span>
+<span class="line"><span style="color:#FFFFFF">    for(int i=</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;i&#x3C;</span><span style="color:#E8E8E8">color2</span><span style="color:#FFFFFF">.size();i++) cout &#x3C;&#x3C; </span><span style="color:#E8E8E8">color2</span><span style="color:#FFFFFF">[i] &#x3C;&#x3C; </span><span style="color:#F4D9E5">' '</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFFFFF">    return </span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#FFFFFF">}</span></span>
+<span class="line"></span></code></pre>
+<h2>注</h2>
+<p>这两个染色问题都可以用邻接矩阵做。我用int-MAXN是因为简单:)。</p></div></article></main><footer class="site-footer"><span>34<!-- --> 件证物 / <!-- -->10<!-- --> 条线索</span><a href="/rss.xml">RSS</a></footer></div>
+  </body>
+</html>

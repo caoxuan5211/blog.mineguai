@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="zh-CN" data-persona="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>洛谷 P1559 · 怪话怪的档案</title>
+    <script type="module" crossorigin src="/assets/index-D0GLROMq.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-D-YZBiZ_.css">
+  <meta name="description" content="运动员最佳匹配问题 问题前面就不多说，简单模拟得到矩阵。 然后对矩阵用匈牙利得到最小匹配。 我累了，看代码吧 #include &amp;#x3C;bits/stdc++.h&gt; using namespace std; const int MAXN = 25 ; int n; int P" />
+<meta property="og:title" content="洛谷 P1559 · 怪话怪的档案" />
+<meta property="og:description" content="运动员最佳匹配问题 问题前面就不多说，简单模拟得到矩阵。 然后对矩阵用匈牙利得到最小匹配。 我累了，看代码吧 #include &amp;#x3C;bits/stdc++.h&gt; using namespace std; const int MAXN = 25 ; int n; int P" />
+<meta property="og:url" content="https://blog.mineguai.com/evidence/%E6%B4%9B%E8%B0%B7-p1559/" />
+<link rel="canonical" href="https://blog.mineguai.com/evidence/%E6%B4%9B%E8%B0%B7-p1559/" />
+</head>
+  <body>
+    <div id="root"><a class="skip-link" href="#content">跳到正文</a><script>(()=>{try{const p=localStorage.getItem('guai-persona')||'dark';document.documentElement.dataset.persona=p;}catch{document.documentElement.dataset.persona='dark';}})();</script><canvas class="clue-canvas" data-clue-canvas="true" aria-hidden="true"></canvas><div class="texture-field" aria-hidden="true"></div><header class="site-header"><a class="brand-stamp" href="/" aria-label="返回证物首页"><span class="brand-mark">冷粉勾线 / 5211</span><strong>怪话怪</strong><small>黑白档案</small></a><nav class="paper-nav" aria-label="主导航"><a href="/" class="" style="--pin-tilt:-5deg"><span>证物</span><em>evidence</em></a><a href="/dossier/" class="" style="--pin-tilt:3deg"><span>档案</span><em>dossier</em></a><a href="/clues/" class="" style="--pin-tilt:-2deg"><span>线索</span><em>clues</em></a></nav><div class="header-tools"><button class="ink-button" type="button">搜寻</button><button class="persona-toggle" type="button" aria-label="切换黑白人格"><span>反稿</span></button></div></header><main id="content" class="site-main"><article class="evidence-page"><header class="evidence-hero"><a class="back-link" href="/dossier/">返回档案柜</a><p class="kicker">E-<!-- -->0018<!-- --> / evidence</p><h1>洛谷 P1559</h1><div class="evidence-hero-meta"><span>2025/11/07</span><span>1 分钟</span></div><div class="clue-list hero-clues"></div></header><div class="manuscript"><h2><a href="https://www.luogu.com.cn/problem/P1559"> 运动员最佳匹配问题</a></h2>
+<p>问题前面就不多说，简单模拟得到矩阵。</p>
+<p>然后对矩阵用匈牙利得到最小匹配。</p>
+<p><strong>我累了，看代码吧</strong></p>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">#include </span><span style="color:#F4D9E5">&#x3C;bits/stdc++.h></span></span>
+<span class="line"><span style="color:#FFFFFF">using namespace std;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFFFFF">const int MAXN = </span><span style="color:#F4D9E5">25</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#FFFFFF">int n;</span></span>
+<span class="line"><span style="color:#FFFFFF">int </span><span style="color:#E8E8E8">P</span><span style="color:#FFFFFF">[MAXN][MAXN], </span><span style="color:#E8E8E8">Q</span><span style="color:#FFFFFF">[MAXN][MAXN];</span></span>
+<span class="line"><span style="color:#FFFFFF">int </span><span style="color:#E8E8E8">cost</span><span style="color:#FFFFFF">[MAXN][MAXN];</span></span>
+<span class="line"><span style="color:#FFFFFF">int </span><span style="color:#E8E8E8">u</span><span style="color:#FFFFFF">[MAXN], </span><span style="color:#E8E8E8">v</span><span style="color:#FFFFFF">[MAXN], </span><span style="color:#E8E8E8">p</span><span style="color:#FFFFFF">[MAXN], </span><span style="color:#E8E8E8">way</span><span style="color:#FFFFFF">[MAXN];</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFFFFF">int hungarian() {</span></span>
+<span class="line"><span style="color:#FFFFFF">    for (int i = </span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">; i &#x3C;= n; i++) {</span></span>
+<span class="line"><span style="color:#E8E8E8">        p</span><span style="color:#FFFFFF">[</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">] = i;</span></span>
+<span class="line"><span style="color:#FFFFFF">        int j0 = </span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#FFFFFF">        vector&#x3C;int> minv(n+</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">, INT_MAX);</span></span>
+<span class="line"><span style="color:#FFFFFF">        vector&#x3C;bool> used(n+</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">, </span><span style="color:#F4D9E5">false</span><span style="color:#FFFFFF">);</span></span>
+<span class="line"><span style="color:#FFFFFF">        do {</span></span>
+<span class="line"><span style="color:#E8E8E8">            used</span><span style="color:#FFFFFF">[j0] = </span><span style="color:#F4D9E5">true</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#FFFFFF">            int i0 = </span><span style="color:#E8E8E8">p</span><span style="color:#FFFFFF">[j0], delta = INT_MAX, j1 = </span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#FFFFFF">            for (int j = </span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">; j &#x3C;= n; j++) {</span></span>
+<span class="line"><span style="color:#FFFFFF">                if (!</span><span style="color:#E8E8E8">used</span><span style="color:#FFFFFF">[j]) {</span></span>
+<span class="line"><span style="color:#FFFFFF">                    int cur = -</span><span style="color:#E8E8E8">cost</span><span style="color:#FFFFFF">[i0][j] - </span><span style="color:#E8E8E8">u</span><span style="color:#FFFFFF">[i0] - </span><span style="color:#E8E8E8">v</span><span style="color:#FFFFFF">[j];</span><span style="color:#9A9A9A;font-style:italic"> // 取负数求最大匹配</span></span>
+<span class="line"><span style="color:#FFFFFF">                    if (cur &#x3C; </span><span style="color:#E8E8E8">minv</span><span style="color:#FFFFFF">[j]) {</span></span>
+<span class="line"><span style="color:#E8E8E8">                        minv</span><span style="color:#FFFFFF">[j] = cur;</span></span>
+<span class="line"><span style="color:#E8E8E8">                        way</span><span style="color:#FFFFFF">[j] = j0;</span></span>
+<span class="line"><span style="color:#FFFFFF">                    }</span></span>
+<span class="line"><span style="color:#FFFFFF">                    if (</span><span style="color:#E8E8E8">minv</span><span style="color:#FFFFFF">[j] &#x3C; delta) {</span></span>
+<span class="line"><span style="color:#FFFFFF">                        delta = </span><span style="color:#E8E8E8">minv</span><span style="color:#FFFFFF">[j];</span></span>
+<span class="line"><span style="color:#FFFFFF">                        j1 = j;</span></span>
+<span class="line"><span style="color:#FFFFFF">                    }</span></span>
+<span class="line"><span style="color:#FFFFFF">                }</span></span>
+<span class="line"><span style="color:#FFFFFF">            }</span></span>
+<span class="line"><span style="color:#FFFFFF">            for (int j = </span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">; j &#x3C;= n; j++) {</span></span>
+<span class="line"><span style="color:#FFFFFF">                if (</span><span style="color:#E8E8E8">used</span><span style="color:#FFFFFF">[j]) {</span></span>
+<span class="line"><span style="color:#E8E8E8">                    u</span><span style="color:#FFFFFF">[</span><span style="color:#E8E8E8">p</span><span style="color:#FFFFFF">[j]] += delta;</span></span>
+<span class="line"><span style="color:#E8E8E8">                    v</span><span style="color:#FFFFFF">[j] -= delta;</span></span>
+<span class="line"><span style="color:#FFFFFF">                } else {</span></span>
+<span class="line"><span style="color:#E8E8E8">                    minv</span><span style="color:#FFFFFF">[j] -= delta;</span></span>
+<span class="line"><span style="color:#FFFFFF">                }</span></span>
+<span class="line"><span style="color:#FFFFFF">            }</span></span>
+<span class="line"><span style="color:#FFFFFF">            j0 = j1;</span></span>
+<span class="line"><span style="color:#FFFFFF">        } while (</span><span style="color:#E8E8E8">p</span><span style="color:#FFFFFF">[j0] != </span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">);</span></span>
+<span class="line"><span style="color:#FFFFFF">        do {</span></span>
+<span class="line"><span style="color:#FFFFFF">            int j1 = </span><span style="color:#E8E8E8">way</span><span style="color:#FFFFFF">[j0];</span></span>
+<span class="line"><span style="color:#E8E8E8">            p</span><span style="color:#FFFFFF">[j0] = </span><span style="color:#E8E8E8">p</span><span style="color:#FFFFFF">[j1];</span></span>
+<span class="line"><span style="color:#FFFFFF">            j0 = j1;</span></span>
+<span class="line"><span style="color:#FFFFFF">        } while (j0);</span></span>
+<span class="line"><span style="color:#FFFFFF">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFFFFF">    int result = </span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#FFFFFF">    for (int j = </span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">; j &#x3C;= n; j++) result += </span><span style="color:#E8E8E8">cost</span><span style="color:#FFFFFF">[</span><span style="color:#E8E8E8">p</span><span style="color:#FFFFFF">[j]][j];</span></span>
+<span class="line"><span style="color:#FFFFFF">    return result;</span></span>
+<span class="line"><span style="color:#FFFFFF">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFFFFF">int main() {</span></span>
+<span class="line"><span style="color:#FFFFFF">    cin >> n;</span></span>
+<span class="line"><span style="color:#FFFFFF">    for (int i = </span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">; i &#x3C; n; i++)</span></span>
+<span class="line"><span style="color:#FFFFFF">        for (int j = </span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">; j &#x3C; n; j++)</span></span>
+<span class="line"><span style="color:#FFFFFF">            cin >> </span><span style="color:#E8E8E8">P</span><span style="color:#FFFFFF">[i][j];</span></span>
+<span class="line"><span style="color:#FFFFFF">    for (int i = </span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">; i &#x3C; n; i++)</span></span>
+<span class="line"><span style="color:#FFFFFF">        for (int j = </span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">; j &#x3C; n; j++)</span></span>
+<span class="line"><span style="color:#FFFFFF">            cin >> </span><span style="color:#E8E8E8">Q</span><span style="color:#FFFFFF">[i][j];</span></span>
+<span class="line"><span style="color:#9A9A9A;font-style:italic">    // 构造竞赛优势矩阵</span></span>
+<span class="line"><span style="color:#FFFFFF">    for (int i = </span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">; i &#x3C; n; i++)</span></span>
+<span class="line"><span style="color:#FFFFFF">        for (int j = </span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">; j &#x3C; n; j++)</span></span>
+<span class="line"><span style="color:#E8E8E8">            cost</span><span style="color:#FFFFFF">[i+</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">][j+</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">] = </span><span style="color:#E8E8E8">P</span><span style="color:#FFFFFF">[i][j] * </span><span style="color:#E8E8E8">Q</span><span style="color:#FFFFFF">[j][i];</span></span>
+<span class="line"><span style="color:#FFFFFF">    cout &#x3C;&#x3C; hungarian() &#x3C;&#x3C; endl;</span></span>
+<span class="line"><span style="color:#FFFFFF">    return </span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#FFFFFF">}</span></span>
+<span class="line"></span>
+<span class="line"></span></code></pre></div></article></main><footer class="site-footer"><span>34<!-- --> 件证物 / <!-- -->10<!-- --> 条线索</span><a href="/rss.xml">RSS</a></footer></div>
+  </body>
+</html>

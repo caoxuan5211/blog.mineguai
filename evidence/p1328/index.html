@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh-CN" data-persona="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>洛谷 P1328 · 怪话怪的档案</title>
+    <script type="module" crossorigin src="/assets/index-D0GLROMq.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-D-YZBiZ_.css">
+  <meta name="description" content="生活大爆炸版石头剪刀布 思路 数字化选择方式 纯手抄一个 map&amp;#x3C;pair&amp;#x3C;int, int&gt;, int&gt; mp 用来记录出拳结果。如 mp[{2,0}] = 2 ;表示 b 赢了 直接取余数组处理得到结果 题解 #include &amp;#x3C;bits/std" />
+<meta property="og:title" content="洛谷 P1328 · 怪话怪的档案" />
+<meta property="og:description" content="生活大爆炸版石头剪刀布 思路 数字化选择方式 纯手抄一个 map&amp;#x3C;pair&amp;#x3C;int, int&gt;, int&gt; mp 用来记录出拳结果。如 mp[{2,0}] = 2 ;表示 b 赢了 直接取余数组处理得到结果 题解 #include &amp;#x3C;bits/std" />
+<meta property="og:url" content="https://blog.mineguai.com/evidence/p1328/" />
+<link rel="canonical" href="https://blog.mineguai.com/evidence/p1328/" />
+</head>
+  <body>
+    <div id="root"><a class="skip-link" href="#content">跳到正文</a><script>(()=>{try{const p=localStorage.getItem('guai-persona')||'dark';document.documentElement.dataset.persona=p;}catch{document.documentElement.dataset.persona='dark';}})();</script><canvas class="clue-canvas" data-clue-canvas="true" aria-hidden="true"></canvas><div class="texture-field" aria-hidden="true"></div><header class="site-header"><a class="brand-stamp" href="/" aria-label="返回证物首页"><span class="brand-mark">冷粉勾线 / 5211</span><strong>怪话怪</strong><small>黑白档案</small></a><nav class="paper-nav" aria-label="主导航"><a href="/" class="" style="--pin-tilt:-5deg"><span>证物</span><em>evidence</em></a><a href="/dossier/" class="" style="--pin-tilt:3deg"><span>档案</span><em>dossier</em></a><a href="/clues/" class="" style="--pin-tilt:-2deg"><span>线索</span><em>clues</em></a></nav><div class="header-tools"><button class="ink-button" type="button">搜寻</button><button class="persona-toggle" type="button" aria-label="切换黑白人格"><span>反稿</span></button></div></header><main id="content" class="site-main"><article class="evidence-page"><header class="evidence-hero"><a class="back-link" href="/dossier/">返回档案柜</a><p class="kicker">E-<!-- -->0034<!-- --> / evidence</p><h1>洛谷 P1328</h1><div class="evidence-hero-meta"><span>2025/09/23</span><span>1 分钟</span></div><div class="clue-list hero-clues"><a href="/clues/luogu/">#<!-- -->luogu</a></div></header><div class="manuscript"><h2><a href="https://www.luogu.com.cn/problem/P1328">生活大爆炸版石头剪刀布</a></h2>
+<h3>思路</h3>
+<ul>
+<li>数字化选择方式</li>
+<li>纯手抄一个<code>map&#x3C;pair&#x3C;int, int>, int> mp</code>用来记录出拳结果。如<code>mp[{2,0}] = 2</code>;表示<em>b</em>赢了</li>
+<li>直接取余数组处理得到结果</li>
+</ul>
+<h3>题解</h3>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">#include </span><span style="color:#F4D9E5">&#x3C;bits/stdc++.h></span></span>
+<span class="line"><span style="color:#FFFFFF">using namespace std;</span></span>
+<span class="line"><span style="color:#FFFFFF">int main()</span></span>
+<span class="line"><span style="color:#FFFFFF">{</span></span>
+<span class="line"><span style="color:#9A9A9A;font-style:italic">    // 0 表示 剪刀，</span></span>
+<span class="line"><span style="color:#9A9A9A;font-style:italic">    // 1 表示 石头，</span></span>
+<span class="line"><span style="color:#9A9A9A;font-style:italic">    // 2 表示 布，</span></span>
+<span class="line"><span style="color:#9A9A9A;font-style:italic">    // 3 表示 蜥蜴人，</span></span>
+<span class="line"><span style="color:#9A9A9A;font-style:italic">    // 4 表示 斯波克</span></span>
+<span class="line"><span style="color:#9A9A9A;font-style:italic">    // 结果0表示平局，1表示a赢，2表示b赢</span></span>
+<span class="line"><span style="color:#FFFFFF">    map&#x3C;pair&#x3C;int, int>, int> mp;</span></span>
+<span class="line"><span style="color:#FFFFFF">    int n,na,nb;</span></span>
+<span class="line"><span style="color:#FFFFFF">    int </span><span style="color:#E8E8E8">result</span><span style="color:#FFFFFF">[</span><span style="color:#F4D9E5">3</span><span style="color:#FFFFFF">]={</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">};</span><span style="color:#9A9A9A;font-style:italic"> //0无意义，1为a分数，2为b分数</span></span>
+<span class="line"><span style="color:#FFFFFF">    cin >> n >> na >> nb;</span></span>
+<span class="line"><span style="color:#FFFFFF">    vector&#x3C;int> a(na),b(nb);</span></span>
+<span class="line"><span style="color:#FFFFFF">    for (int i=</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;i&#x3C;na;i++)</span></span>
+<span class="line"><span style="color:#FFFFFF">    {</span></span>
+<span class="line"><span style="color:#FFFFFF">        cin >> </span><span style="color:#E8E8E8">a</span><span style="color:#FFFFFF">[i];</span></span>
+<span class="line"><span style="color:#FFFFFF">    }</span></span>
+<span class="line"><span style="color:#FFFFFF">    for (int i=</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;i&#x3C;nb;i++)</span></span>
+<span class="line"><span style="color:#FFFFFF">    {</span></span>
+<span class="line"><span style="color:#FFFFFF">        cin >> </span><span style="color:#E8E8E8">b</span><span style="color:#FFFFFF">[i];</span></span>
+<span class="line"><span style="color:#FFFFFF">    }</span></span>
+<span class="line"><span style="color:#FFFFFF">    for(int i=</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;i&#x3C;</span><span style="color:#F4D9E5">5</span><span style="color:#FFFFFF">;i++)</span></span>
+<span class="line"><span style="color:#FFFFFF">    {</span></span>
+<span class="line"><span style="color:#E8E8E8">        mp</span><span style="color:#FFFFFF">[{i,i}] = </span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#FFFFFF">    }</span></span>
+<span class="line"><span style="color:#E8E8E8">    mp</span><span style="color:#FFFFFF">[{</span><span style="color:#F4D9E5">2</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">}] = </span><span style="color:#F4D9E5">2</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#E8E8E8">    mp</span><span style="color:#FFFFFF">[{</span><span style="color:#F4D9E5">3</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">}] = </span><span style="color:#F4D9E5">2</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#E8E8E8">    mp</span><span style="color:#FFFFFF">[{</span><span style="color:#F4D9E5">3</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">}] = </span><span style="color:#F4D9E5">2</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#E8E8E8">    mp</span><span style="color:#FFFFFF">[{</span><span style="color:#F4D9E5">4</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">2</span><span style="color:#FFFFFF">}] = </span><span style="color:#F4D9E5">2</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#E8E8E8">    mp</span><span style="color:#FFFFFF">[{</span><span style="color:#F4D9E5">4</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">3</span><span style="color:#FFFFFF">}] = </span><span style="color:#F4D9E5">2</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#E8E8E8">    mp</span><span style="color:#FFFFFF">[{</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">}] = </span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#E8E8E8">    mp</span><span style="color:#FFFFFF">[{</span><span style="color:#F4D9E5">2</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">}] = </span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#E8E8E8">    mp</span><span style="color:#FFFFFF">[{</span><span style="color:#F4D9E5">3</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">2</span><span style="color:#FFFFFF">}] = </span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#E8E8E8">    mp</span><span style="color:#FFFFFF">[{</span><span style="color:#F4D9E5">4</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">}] = </span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#E8E8E8">    mp</span><span style="color:#FFFFFF">[{</span><span style="color:#F4D9E5">4</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">}] = </span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#E8E8E8">    mp</span><span style="color:#FFFFFF">[{</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">2</span><span style="color:#FFFFFF">}] = </span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#E8E8E8">    mp</span><span style="color:#FFFFFF">[{</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">3</span><span style="color:#FFFFFF">}] = </span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#E8E8E8">    mp</span><span style="color:#FFFFFF">[{</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">3</span><span style="color:#FFFFFF">}] = </span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#E8E8E8">    mp</span><span style="color:#FFFFFF">[{</span><span style="color:#F4D9E5">2</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">4</span><span style="color:#FFFFFF">}] = </span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#E8E8E8">    mp</span><span style="color:#FFFFFF">[{</span><span style="color:#F4D9E5">3</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">4</span><span style="color:#FFFFFF">}] = </span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#E8E8E8">    mp</span><span style="color:#FFFFFF">[{</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">}] = </span><span style="color:#F4D9E5">2</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#E8E8E8">    mp</span><span style="color:#FFFFFF">[{</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">2</span><span style="color:#FFFFFF">}] = </span><span style="color:#F4D9E5">2</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#E8E8E8">    mp</span><span style="color:#FFFFFF">[{</span><span style="color:#F4D9E5">2</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">3</span><span style="color:#FFFFFF">}] = </span><span style="color:#F4D9E5">2</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#E8E8E8">    mp</span><span style="color:#FFFFFF">[{</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">4</span><span style="color:#FFFFFF">}] = </span><span style="color:#F4D9E5">2</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#E8E8E8">    mp</span><span style="color:#FFFFFF">[{</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">4</span><span style="color:#FFFFFF">}] = </span><span style="color:#F4D9E5">2</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#FFFFFF">    for(int i=</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;i&#x3C;n;i++)</span></span>
+<span class="line"><span style="color:#FFFFFF">    {</span></span>
+<span class="line"><span style="color:#FFFFFF">        int xi = i%na;</span></span>
+<span class="line"><span style="color:#FFFFFF">        int x = </span><span style="color:#E8E8E8">a</span><span style="color:#FFFFFF">[i%na];</span></span>
+<span class="line"><span style="color:#FFFFFF">        int y = </span><span style="color:#E8E8E8">b</span><span style="color:#FFFFFF">[i%nb];</span></span>
+<span class="line"><span style="color:#E8E8E8">        result</span><span style="color:#FFFFFF">[</span><span style="color:#E8E8E8">mp</span><span style="color:#FFFFFF">[{x,y}]]++;</span></span>
+<span class="line"><span style="color:#FFFFFF">    }</span></span>
+<span class="line"><span style="color:#FFFFFF">    cout &#x3C;&#x3C; </span><span style="color:#E8E8E8">result</span><span style="color:#FFFFFF">[</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">] &#x3C;&#x3C; </span><span style="color:#F4D9E5">" "</span><span style="color:#FFFFFF"> &#x3C;&#x3C; </span><span style="color:#E8E8E8">result</span><span style="color:#FFFFFF">[</span><span style="color:#F4D9E5">2</span><span style="color:#FFFFFF">] &#x3C;&#x3C; endl;</span></span>
+<span class="line"><span style="color:#FFFFFF">    return </span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#FFFFFF">}</span></span>
+<span class="line"></span></code></pre>
+<h2></h2>
+<h3>优化</h3>
+<p>看了别人的题解，大多是用一个二维<code>[5][5]</code>的数组存储对局输赢，后面处理简单一些。</p></div></article></main><footer class="site-footer"><span>34<!-- --> 件证物 / <!-- -->10<!-- --> 条线索</span><a href="/rss.xml">RSS</a></footer></div>
+  </body>
+</html>

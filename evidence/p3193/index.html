@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="zh-CN" data-persona="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>洛谷 P3193 · 怪话怪的档案</title>
+    <script type="module" crossorigin src="/assets/index-D0GLROMq.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-D-YZBiZ_.css">
+  <meta name="description" content="[HNOI2008] GT考试 思路 状态转移矩阵 T[i][j] 其实就是添加一个字符之后从状态 i 转移到状态 j 的方案数量，也就是先用 kmp 得到对应的T然后对于长度为N的串只需要让这个转移矩阵 N 次方就行了，然后 Tn[0][j] 就是子串最大匹配到j位的方案数，所" />
+<meta property="og:title" content="洛谷 P3193 · 怪话怪的档案" />
+<meta property="og:description" content="[HNOI2008] GT考试 思路 状态转移矩阵 T[i][j] 其实就是添加一个字符之后从状态 i 转移到状态 j 的方案数量，也就是先用 kmp 得到对应的T然后对于长度为N的串只需要让这个转移矩阵 N 次方就行了，然后 Tn[0][j] 就是子串最大匹配到j位的方案数，所" />
+<meta property="og:url" content="https://blog.mineguai.com/evidence/p3193/" />
+<link rel="canonical" href="https://blog.mineguai.com/evidence/p3193/" />
+</head>
+  <body>
+    <div id="root"><a class="skip-link" href="#content">跳到正文</a><script>(()=>{try{const p=localStorage.getItem('guai-persona')||'dark';document.documentElement.dataset.persona=p;}catch{document.documentElement.dataset.persona='dark';}})();</script><canvas class="clue-canvas" data-clue-canvas="true" aria-hidden="true"></canvas><div class="texture-field" aria-hidden="true"></div><header class="site-header"><a class="brand-stamp" href="/" aria-label="返回证物首页"><span class="brand-mark">冷粉勾线 / 5211</span><strong>怪话怪</strong><small>黑白档案</small></a><nav class="paper-nav" aria-label="主导航"><a href="/" class="" style="--pin-tilt:-5deg"><span>证物</span><em>evidence</em></a><a href="/dossier/" class="" style="--pin-tilt:3deg"><span>档案</span><em>dossier</em></a><a href="/clues/" class="" style="--pin-tilt:-2deg"><span>线索</span><em>clues</em></a></nav><div class="header-tools"><button class="ink-button" type="button">搜寻</button><button class="persona-toggle" type="button" aria-label="切换黑白人格"><span>反稿</span></button></div></header><main id="content" class="site-main"><article class="evidence-page"><header class="evidence-hero"><a class="back-link" href="/dossier/">返回档案柜</a><p class="kicker">E-<!-- -->0032<!-- --> / evidence</p><h1>洛谷 P3193</h1><div class="evidence-hero-meta"><span>2025/09/23</span><span>2 分钟</span></div><div class="clue-list hero-clues"><a href="/clues/luogu/">#<!-- -->luogu</a></div></header><div class="manuscript"><h2><a href="https://www.luogu.com.cn/problem/P3193">[HNOI2008] GT考试</a></h2>
+<h3>思路</h3>
+<p>状态转移矩阵<code>T[i][j]</code>其实就是添加一个字符之后从状态<em>i</em>转移到状态<em>j</em>的方案数量，也就是先用<code>kmp</code>得到对应的T然后对于长度为N的串只需要让这个转移矩阵<em>N</em>次方就行了，然后<code>Tn[0][j]</code>就是子串最大匹配到j位的方案数，所求结果就是<code>Tn[0][0]</code>一直加到<code>Tn[0][M-1](M是子串的长度)</code>。</p>
+<h3>算法</h3>
+<p><strong>KMP 自动机建模 + 矩阵快速幂</strong></p>
+<h3>主要函数以及主要流程</h3>
+<ul>
+<li>矩阵相乘函数</li>
+<li>矩阵快速幂函数(利用到<strong>矩阵相乘函数</strong>和<strong>快速幂算法</strong>)</li>
+<li>kmp算法(过于基础就不介绍了)</li>
+<li>利用next函数得到基础转移矩阵T[m][n]</li>
+<li>对T运用幂n函数得到Tn</li>
+<li>Tn按照<a href="#%E6%80%9D%E8%B7%AF">思路</a>直接操作就行了</li>
+</ul>
+<h3>题解（借鉴了AI，自己敲的，我太强了）</h3>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">#include</span><span style="color:#F4D9E5">&#x3C;bits/stdc++.h></span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFFFFF">using namespace std;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFFFFF">typedef long long ll;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#9A9A9A;font-style:italic">// 得到next函数</span></span>
+<span class="line"><span style="color:#E8E8E8">vector</span><span style="color:#FFFFFF">&#x3C;int> getNext(</span><span style="color:#E8E8E8">string</span><span style="color:#E8E8E8"> pattern</span><span style="color:#FFFFFF">)</span></span>
+<span class="line"><span style="color:#FFFFFF">{</span></span>
+<span class="line"><span style="color:#FFFFFF">    int m = </span><span style="color:#E8E8E8">pattern</span><span style="color:#FFFFFF">.size();</span></span>
+<span class="line"><span style="color:#FFFFFF">    vector&#x3C;int> next(m,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">);</span></span>
+<span class="line"><span style="color:#FFFFFF">    for(int i=</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">,j=</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;i&#x3C;m;i++)</span></span>
+<span class="line"><span style="color:#FFFFFF">    {</span></span>
+<span class="line"><span style="color:#FFFFFF">        while(j!=</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF"> &#x26;&#x26; </span><span style="color:#E8E8E8">pattern</span><span style="color:#FFFFFF">[i] != </span><span style="color:#E8E8E8">pattern</span><span style="color:#FFFFFF">[j]) j = </span><span style="color:#E8E8E8">next</span><span style="color:#FFFFFF">[j-</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">];</span></span>
+<span class="line"><span style="color:#FFFFFF">        if(</span><span style="color:#E8E8E8">pattern</span><span style="color:#FFFFFF">[j] == </span><span style="color:#E8E8E8">pattern</span><span style="color:#FFFFFF">[i]) j++;</span></span>
+<span class="line"><span style="color:#E8E8E8">        next</span><span style="color:#FFFFFF">[i] = j;</span></span>
+<span class="line"><span style="color:#FFFFFF">    }</span></span>
+<span class="line"><span style="color:#FFFFFF">    return next;</span></span>
+<span class="line"><span style="color:#FFFFFF">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#9A9A9A;font-style:italic">// 矩阵相乘函数</span></span>
+<span class="line"><span style="color:#E8E8E8">vector</span><span style="color:#FFFFFF">&#x3C;</span><span style="color:#E8E8E8">vector</span><span style="color:#FFFFFF">&#x3C;int>> matMul(</span><span style="color:#E8E8E8">vector</span><span style="color:#FFFFFF">&#x3C;</span><span style="color:#E8E8E8">vector</span><span style="color:#FFFFFF">&#x3C;int>> </span><span style="color:#E8E8E8">a</span><span style="color:#FFFFFF">,</span><span style="color:#E8E8E8">vector</span><span style="color:#FFFFFF">&#x3C;</span><span style="color:#E8E8E8">vector</span><span style="color:#FFFFFF">&#x3C;int>> </span><span style="color:#E8E8E8">b</span><span style="color:#FFFFFF">,int </span><span style="color:#E8E8E8">K</span><span style="color:#FFFFFF">)</span></span>
+<span class="line"><span style="color:#FFFFFF">{</span></span>
+<span class="line"><span style="color:#FFFFFF">    int m = </span><span style="color:#E8E8E8">a</span><span style="color:#FFFFFF">.size();</span></span>
+<span class="line"><span style="color:#FFFFFF">    vector&#x3C;vector&#x3C;int>> res(m,vector&#x3C;int>(m,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">));</span><span style="color:#9A9A9A;font-style:italic"> //结果</span></span>
+<span class="line"><span style="color:#FFFFFF">    for(int i=</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;i&#x3C;m;i++)</span><span style="color:#9A9A9A;font-style:italic"> // i-k,k-j</span></span>
+<span class="line"><span style="color:#FFFFFF">    {</span></span>
+<span class="line"><span style="color:#FFFFFF">        for(int k=</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;k&#x3C;m;k++)</span></span>
+<span class="line"><span style="color:#FFFFFF">        {</span></span>
+<span class="line"><span style="color:#FFFFFF">            if(</span><span style="color:#E8E8E8">a</span><span style="color:#FFFFFF">[i][k]!=</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">)</span><span style="color:#9A9A9A;font-style:italic"> //剪枝减小工作量</span></span>
+<span class="line"><span style="color:#FFFFFF">            {</span></span>
+<span class="line"><span style="color:#FFFFFF">                for(int j=</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;j&#x3C;m;j++)</span></span>
+<span class="line"><span style="color:#FFFFFF">                {</span></span>
+<span class="line"><span style="color:#E8E8E8">                    res</span><span style="color:#FFFFFF">[i][j] = (</span><span style="color:#E8E8E8">res</span><span style="color:#FFFFFF">[i][j] + (ll)</span><span style="color:#E8E8E8">a</span><span style="color:#FFFFFF">[i][k] * </span><span style="color:#E8E8E8">b</span><span style="color:#FFFFFF">[k][j]) % K;</span></span>
+<span class="line"><span style="color:#FFFFFF">                }</span></span>
+<span class="line"><span style="color:#FFFFFF">            }</span></span>
+<span class="line"><span style="color:#FFFFFF">        }</span></span>
+<span class="line"><span style="color:#FFFFFF">    }</span></span>
+<span class="line"><span style="color:#FFFFFF">    return res;</span></span>
+<span class="line"><span style="color:#FFFFFF">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#9A9A9A;font-style:italic">// 矩阵幂函数(利用快速幂算法)</span></span>
+<span class="line"><span style="color:#E8E8E8">vector</span><span style="color:#FFFFFF">&#x3C;</span><span style="color:#E8E8E8">vector</span><span style="color:#FFFFFF">&#x3C;int>> matPow(</span><span style="color:#E8E8E8">vector</span><span style="color:#FFFFFF">&#x3C;</span><span style="color:#E8E8E8">vector</span><span style="color:#FFFFFF">&#x3C;int>> </span><span style="color:#E8E8E8">a</span><span style="color:#FFFFFF">,int </span><span style="color:#E8E8E8">p</span><span style="color:#FFFFFF">,int </span><span style="color:#E8E8E8">K</span><span style="color:#FFFFFF">)</span></span>
+<span class="line"><span style="color:#FFFFFF">{</span></span>
+<span class="line"><span style="color:#FFFFFF">    int m = </span><span style="color:#E8E8E8">a</span><span style="color:#FFFFFF">.size();</span></span>
+<span class="line"><span style="color:#FFFFFF">    vector&#x3C;vector&#x3C;int>> res(m,vector&#x3C;int>(m,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">));</span><span style="color:#9A9A9A;font-style:italic"> //结果</span></span>
+<span class="line"><span style="color:#FFFFFF">    for(int i=</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;i&#x3C;m;i++) </span><span style="color:#E8E8E8">res</span><span style="color:#FFFFFF">[i][i] = </span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">;</span><span style="color:#9A9A9A;font-style:italic"> //单位矩阵用于起步</span></span>
+<span class="line"><span style="color:#FFFFFF">    while(p!=</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">)</span></span>
+<span class="line"><span style="color:#FFFFFF">    {</span></span>
+<span class="line"><span style="color:#FFFFFF">        if(p &#x26; </span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">) res = matMul(res,a,K);</span></span>
+<span class="line"><span style="color:#FFFFFF">        a = matMul(a,a,K);</span></span>
+<span class="line"><span style="color:#FFFFFF">        p >>= </span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">;</span><span style="color:#9A9A9A;font-style:italic"> // p /= 2</span></span>
+<span class="line"><span style="color:#FFFFFF">    }</span></span>
+<span class="line"><span style="color:#FFFFFF">    return res;</span></span>
+<span class="line"><span style="color:#FFFFFF">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFFFFF">int main()</span></span>
+<span class="line"><span style="color:#FFFFFF">{</span></span>
+<span class="line"><span style="color:#FFFFFF">    int N,M,K;</span></span>
+<span class="line"><span style="color:#9A9A9A;font-style:italic">    // M&#x3C;=20 N&#x3C;=1e9 K&#x3C;=10000,所以不能暴力解</span></span>
+<span class="line"><span style="color:#FFFFFF">    cin >> N >> M >> K;</span></span>
+<span class="line"><span style="color:#FFFFFF">    string pattern;</span><span style="color:#9A9A9A;font-style:italic"> // 子串（此题中指的是不该出现的子串）</span></span>
+<span class="line"><span style="color:#FFFFFF">    cin >> pattern;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#9A9A9A;font-style:italic">    // 求 pattern 的状态转移方程T[i][j]</span></span>
+<span class="line"><span style="color:#9A9A9A;font-style:italic">    // 因为要用到pattern的next数组，所以先求next</span></span>
+<span class="line"><span style="color:#FFFFFF">    vector&#x3C;int> next = getNext(pattern);</span></span>
+<span class="line"><span style="color:#FFFFFF">    vector&#x3C;vector&#x3C;int>> T(M,vector&#x3C;int>(M,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">));</span><span style="color:#9A9A9A;font-style:italic"> // T[M][M],表示基础转移矩阵</span></span>
+<span class="line"><span style="color:#FFFFFF">    for(int m=</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;m&#x3C;M;m++)</span><span style="color:#9A9A9A;font-style:italic"> // m为当前匹配数量,由于不准出现匹配到完整M的，所以最大长度为M-1</span></span>
+<span class="line"><span style="color:#FFFFFF">    { </span></span>
+<span class="line"><span style="color:#FFFFFF">        for(int digit=</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;digit&#x3C;=</span><span style="color:#F4D9E5">9</span><span style="color:#FFFFFF">;digit++)</span><span style="color:#9A9A9A;font-style:italic"> // 尝试每一个数字,从而进行状态转移</span></span>
+<span class="line"><span style="color:#FFFFFF">        {</span></span>
+<span class="line"><span style="color:#FFFFFF">            int cur = m;</span><span style="color:#9A9A9A;font-style:italic"> // 从当前位置开始回退</span></span>
+<span class="line"><span style="color:#FFFFFF">            while(cur!=</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF"> &#x26;&#x26; (</span><span style="color:#E8E8E8">pattern</span><span style="color:#FFFFFF">[cur]-</span><span style="color:#F4D9E5">'0'</span><span style="color:#FFFFFF">) != digit) cur = </span><span style="color:#E8E8E8">next</span><span style="color:#FFFFFF">[cur-</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">];</span></span>
+<span class="line"><span style="color:#FFFFFF">            if((</span><span style="color:#E8E8E8">pattern</span><span style="color:#FFFFFF">[cur]-</span><span style="color:#F4D9E5">'0'</span><span style="color:#FFFFFF">) == digit) cur++;</span></span>
+<span class="line"><span style="color:#FFFFFF">            if(cur &#x3C; M) </span><span style="color:#E8E8E8">T</span><span style="color:#FFFFFF">[m][cur] = (</span><span style="color:#E8E8E8">T</span><span style="color:#FFFFFF">[m][cur] + </span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">) % K;</span></span>
+<span class="line"><span style="color:#FFFFFF">        }</span></span>
+<span class="line"><span style="color:#FFFFFF">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#9A9A9A;font-style:italic">    // 得到完整的状态转移矩阵</span></span>
+<span class="line"><span style="color:#FFFFFF">    vector&#x3C;vector&#x3C;int>> Tn = matPow(T,N,K);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFFFFF">    ll result = </span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#FFFFFF">    for(int i=</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;i&#x3C;M;i++)</span></span>
+<span class="line"><span style="color:#FFFFFF">    {</span></span>
+<span class="line"><span style="color:#FFFFFF">        result = (result + </span><span style="color:#E8E8E8">Tn</span><span style="color:#FFFFFF">[</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">][i]) % K;</span></span>
+<span class="line"><span style="color:#FFFFFF">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFFFFF">    cout &#x3C;&#x3C; result &#x3C;&#x3C; endl; </span></span>
+<span class="line"><span style="color:#FFFFFF">    return </span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#FFFFFF">}</span></span>
+<span class="line"></span></code></pre>
+<h3>遇到问题</h3>
+<ul>
+<li><code>p>>1</code>不会改变<em>p</em>的值应该是<code>p>>=1</code></li>
+<li><strong>int</strong>类型乘法要注意防止溢出，一般用<strong>ll</strong></li>
+</ul></div></article></main><footer class="site-footer"><span>34<!-- --> 件证物 / <!-- -->10<!-- --> 条线索</span><a href="/rss.xml">RSS</a></footer></div>
+  </body>
+</html>

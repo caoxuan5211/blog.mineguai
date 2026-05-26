@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="zh-CN" data-persona="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>匈牙利算法 · 怪话怪的档案</title>
+    <script type="module" crossorigin src="/assets/index-D0GLROMq.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-D-YZBiZ_.css">
+  <meta name="description" content="前提算法 二分图染色得到L，R数组 （以下是利用染色得到二分图的代码） #include &amp;#x3C;bits/stdc++.h&gt; using namespace std; const int MAXN = 100 ; //假如最大100个结点的图 int graph [MAXN" />
+<meta property="og:title" content="匈牙利算法 · 怪话怪的档案" />
+<meta property="og:description" content="前提算法 二分图染色得到L，R数组 （以下是利用染色得到二分图的代码） #include &amp;#x3C;bits/stdc++.h&gt; using namespace std; const int MAXN = 100 ; //假如最大100个结点的图 int graph [MAXN" />
+<meta property="og:url" content="https://blog.mineguai.com/evidence/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/" />
+<link rel="canonical" href="https://blog.mineguai.com/evidence/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/" />
+</head>
+  <body>
+    <div id="root"><a class="skip-link" href="#content">跳到正文</a><script>(()=>{try{const p=localStorage.getItem('guai-persona')||'dark';document.documentElement.dataset.persona=p;}catch{document.documentElement.dataset.persona='dark';}})();</script><canvas class="clue-canvas" data-clue-canvas="true" aria-hidden="true"></canvas><div class="texture-field" aria-hidden="true"></div><header class="site-header"><a class="brand-stamp" href="/" aria-label="返回证物首页"><span class="brand-mark">冷粉勾线 / 5211</span><strong>怪话怪</strong><small>黑白档案</small></a><nav class="paper-nav" aria-label="主导航"><a href="/" class="" style="--pin-tilt:-5deg"><span>证物</span><em>evidence</em></a><a href="/dossier/" class="" style="--pin-tilt:3deg"><span>档案</span><em>dossier</em></a><a href="/clues/" class="" style="--pin-tilt:-2deg"><span>线索</span><em>clues</em></a></nav><div class="header-tools"><button class="ink-button" type="button">搜寻</button><button class="persona-toggle" type="button" aria-label="切换黑白人格"><span>反稿</span></button></div></header><main id="content" class="site-main"><article class="evidence-page"><header class="evidence-hero"><a class="back-link" href="/dossier/">返回档案柜</a><p class="kicker">E-<!-- -->0022<!-- --> / evidence</p><h1>匈牙利算法</h1><div class="evidence-hero-meta"><span>2025/11/06</span><span>3 分钟</span></div><div class="clue-list hero-clues"><a href="/clues/%E7%AE%97%E6%B3%95/">#<!-- -->算法</a></div></header><div class="manuscript"><h1>前提算法</h1>
+<h2>二分图染色得到L，R数组</h2>
+<p>（以下是利用染色得到二分图的代码）</p>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">#include</span><span style="color:#F4D9E5">&#x3C;bits/stdc++.h></span></span>
+<span class="line"><span style="color:#FFFFFF">using namespace std;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFFFFF">const int MAXN = </span><span style="color:#F4D9E5">100</span><span style="color:#FFFFFF">;</span><span style="color:#9A9A9A;font-style:italic"> //假如最大100个结点的图</span></span>
+<span class="line"><span style="color:#FFFFFF">int </span><span style="color:#E8E8E8">graph</span><span style="color:#FFFFFF">[MAXN][MAXN];</span></span>
+<span class="line"><span style="color:#FFFFFF">int </span><span style="color:#E8E8E8">color</span><span style="color:#FFFFFF">[MAXN];</span><span style="color:#9A9A9A;font-style:italic"> //用于确定分组,颜色为1和2</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFFFFF">int dfs(int </span><span style="color:#E8E8E8">index</span><span style="color:#FFFFFF">,int </span><span style="color:#E8E8E8">n</span><span style="color:#FFFFFF">,int </span><span style="color:#E8E8E8">c</span><span style="color:#FFFFFF">)</span><span style="color:#9A9A9A;font-style:italic"> //仅仅用来染色出发点所在的连通分量</span></span>
+<span class="line"><span style="color:#FFFFFF">{</span></span>
+<span class="line"><span style="color:#9A9A9A;font-style:italic">    //直接用对边不同色考虑</span></span>
+<span class="line"><span style="color:#E8E8E8">    color</span><span style="color:#FFFFFF">[index]=c;</span></span>
+<span class="line"><span style="color:#FFFFFF">    for(int i=</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;i&#x3C;n;i++) if(</span><span style="color:#E8E8E8">graph</span><span style="color:#FFFFFF">[index][i] &#x26;&#x26; (</span><span style="color:#E8E8E8">color</span><span style="color:#FFFFFF">[i]==c || (</span><span style="color:#E8E8E8">color</span><span style="color:#FFFFFF">[i]==</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF"> &#x26;&#x26; !dfs(i,n,</span><span style="color:#F4D9E5">3</span><span style="color:#FFFFFF">-c))) ) return </span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#FFFFFF">    return </span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#FFFFFF">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFFFFF">int main()</span></span>
+<span class="line"><span style="color:#FFFFFF">{</span></span>
+<span class="line"><span style="color:#FFFFFF">    int n,m;</span></span>
+<span class="line"><span style="color:#FFFFFF">    cin >> n >> m;</span></span>
+<span class="line"><span style="color:#FFFFFF">    for(int i=</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;i&#x3C;m;i++)</span></span>
+<span class="line"><span style="color:#FFFFFF">    {</span></span>
+<span class="line"><span style="color:#FFFFFF">        int s,t;</span></span>
+<span class="line"><span style="color:#FFFFFF">        cin >> s >> t;</span></span>
+<span class="line"><span style="color:#E8E8E8">        graph</span><span style="color:#FFFFFF">[s][t]=</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">,</span><span style="color:#E8E8E8">graph</span><span style="color:#FFFFFF">[t][s]=</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#FFFFFF">    }</span></span>
+<span class="line"><span style="color:#FFFFFF">    for(int i=</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;i&#x3C;n;i++)</span></span>
+<span class="line"><span style="color:#FFFFFF">    {</span></span>
+<span class="line"><span style="color:#FFFFFF">        if(!</span><span style="color:#E8E8E8">color</span><span style="color:#FFFFFF">[i])</span></span>
+<span class="line"><span style="color:#FFFFFF">            if(!dfs(i,n,</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">)) </span></span>
+<span class="line"><span style="color:#FFFFFF">            {</span></span>
+<span class="line"><span style="color:#FFFFFF">                cout &#x3C;&#x3C; </span><span style="color:#F4D9E5">"错误，不是二分图"</span><span style="color:#FFFFFF"> &#x3C;&#x3C; endl;</span></span>
+<span class="line"><span style="color:#FFFFFF">                return </span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#FFFFFF">            }</span></span>
+<span class="line"><span style="color:#FFFFFF">    }</span></span>
+<span class="line"><span style="color:#FFFFFF">    vector&#x3C;int> color1,color2;</span></span>
+<span class="line"><span style="color:#FFFFFF">    for(int i=</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;i&#x3C;n;i++)</span></span>
+<span class="line"><span style="color:#FFFFFF">    {</span></span>
+<span class="line"><span style="color:#FFFFFF">        if(</span><span style="color:#E8E8E8">color</span><span style="color:#FFFFFF">[i]==</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">) </span><span style="color:#E8E8E8">color1</span><span style="color:#FFFFFF">.push_back(i);</span></span>
+<span class="line"><span style="color:#FFFFFF">        if(</span><span style="color:#E8E8E8">color</span><span style="color:#FFFFFF">[i]==</span><span style="color:#F4D9E5">2</span><span style="color:#FFFFFF">) </span><span style="color:#E8E8E8">color2</span><span style="color:#FFFFFF">.push_back(i);</span></span>
+<span class="line"><span style="color:#FFFFFF">    }</span></span>
+<span class="line"><span style="color:#FFFFFF">    cout &#x3C;&#x3C; </span><span style="color:#F4D9E5">"染色结果:"</span><span style="color:#FFFFFF"> &#x3C;&#x3C; endl;</span></span>
+<span class="line"><span style="color:#FFFFFF">    for(int i=</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;i&#x3C;</span><span style="color:#E8E8E8">color1</span><span style="color:#FFFFFF">.size();i++) cout &#x3C;&#x3C; </span><span style="color:#E8E8E8">color1</span><span style="color:#FFFFFF">[i] &#x3C;&#x3C; </span><span style="color:#F4D9E5">' '</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#FFFFFF">    cout &#x3C;&#x3C; endl;</span></span>
+<span class="line"><span style="color:#FFFFFF">    for(int i=</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;i&#x3C;</span><span style="color:#E8E8E8">color2</span><span style="color:#FFFFFF">.size();i++) cout &#x3C;&#x3C; </span><span style="color:#E8E8E8">color2</span><span style="color:#FFFFFF">[i] &#x3C;&#x3C; </span><span style="color:#F4D9E5">' '</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFFFFF">    return </span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#FFFFFF">}</span></span>
+<span class="line"></span></code></pre>
+<p>染色后，可以用来得到最大匹配，最大匹配又可以用来得到最小点覆盖，最小点覆盖又可以用来实现匈牙利算法，匈牙利算法用可以用来解决指派问题。顺了，都理顺了:)。</p>
+<h1>最大匹配</h1>
+<h3>面向问题</h3>
+<p>求解一个二分图中的最大匹配问题。</p>
+<h3>总体思路</h3>
+<p>从任意一个顶点出发，</p>
+<h3>写代码</h3>
+<p><strong>1.</strong> 起步：初始化所用变量与内存。</p>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span>const int MAXN : 根据题目调整</span></span>
+<span class="line"><span>int n : 两边的顶点总数</span></span>
+<span class="line"><span>int graph[MAXN][MAXN] : 基于二维数组的邻接矩阵</span></span>
+<span class="line"><span>int match[MAXN] : match[i]表示与i匹配的点(因为最大匹配饱和点中每一个点都只可能与唯一点匹配)，如果为-1表示未匹配</span></span>
+<span class="line"><span>int used[MAXN] : dfs访问标记（这个级别低于匹配标记match）</span></span>
+<span class="line"><span></span></span></code></pre>
+<p><strong>2.</strong> 深入： 了解所用函数。</p>
+<ul>
+<li>hungarian（）：匈牙利算法</li>
+<li>dfs（）：寻找增广路径</li>
+</ul>
+<p><strong>3.</strong> 完整代码:</p>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">#include</span><span style="color:#F4D9E5">&#x3C;bits/stdc++.h></span></span>
+<span class="line"><span style="color:#FFFFFF">using namespace std;</span></span>
+<span class="line"><span style="color:#FFFFFF">const int MAXN = </span><span style="color:#F4D9E5">20</span><span style="color:#FFFFFF">;</span><span style="color:#9A9A9A;font-style:italic">// 根据题目调整</span></span>
+<span class="line"><span style="color:#FFFFFF">int n;</span><span style="color:#9A9A9A;font-style:italic">// 两边的顶点总数</span></span>
+<span class="line"><span style="color:#FFFFFF">int </span><span style="color:#E8E8E8">graph</span><span style="color:#FFFFFF">[MAXN][MAXN];</span><span style="color:#9A9A9A;font-style:italic">// 基于二维数组的邻接矩阵</span></span>
+<span class="line"><span style="color:#FFFFFF">int </span><span style="color:#E8E8E8">match</span><span style="color:#FFFFFF">[MAXN];</span><span style="color:#9A9A9A;font-style:italic">// match[i]表示与i匹配的点(因为最大匹配饱和点中每一个点都只可能与唯一点匹配)，如果为-1表示未匹配</span></span>
+<span class="line"><span style="color:#FFFFFF">bool </span><span style="color:#E8E8E8">used</span><span style="color:#FFFFFF">[MAXN];</span><span style="color:#9A9A9A;font-style:italic">// dfs访问标记（这个级别低于匹配标记match）</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFFFFF">bool dfs(int </span><span style="color:#E8E8E8">x</span><span style="color:#FFFFFF">)</span><span style="color:#9A9A9A;font-style:italic"> //从x出发寻找增广路径</span></span>
+<span class="line"><span style="color:#FFFFFF">{</span></span>
+<span class="line"><span style="color:#FFFFFF">    for(int i=</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;i&#x3C;n;i++)</span></span>
+<span class="line"><span style="color:#FFFFFF">    {</span></span>
+<span class="line"><span style="color:#FFFFFF">        if(</span><span style="color:#E8E8E8">graph</span><span style="color:#FFFFFF">[x][i] &#x26;&#x26; </span><span style="color:#E8E8E8">used</span><span style="color:#FFFFFF">[i]==</span><span style="color:#F4D9E5">false</span><span style="color:#FFFFFF">)</span><span style="color:#9A9A9A;font-style:italic"> //这里避免了递归i的对象时再次返回i的情况</span></span>
+<span class="line"><span style="color:#FFFFFF">        {</span></span>
+<span class="line"><span style="color:#E8E8E8">            used</span><span style="color:#FFFFFF">[i] = </span><span style="color:#F4D9E5">true</span><span style="color:#FFFFFF">;</span><span style="color:#9A9A9A;font-style:italic"> //打上dfs访问标记,防止循环卡死</span></span>
+<span class="line"><span style="color:#FFFFFF">            if(</span><span style="color:#E8E8E8">match</span><span style="color:#FFFFFF">[i]==-</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF"> || dfs(</span><span style="color:#E8E8E8">match</span><span style="color:#FFFFFF">[i])==</span><span style="color:#F4D9E5">true</span><span style="color:#FFFFFF">)</span><span style="color:#9A9A9A;font-style:italic"> //i点就是未匹配点直接满足x-i加匹配 || i点是匹配过的点,从i点对象开始找到未匹配点  这两种都说明找到了增广路径</span></span>
+<span class="line"><span style="color:#FFFFFF">            {</span></span>
+<span class="line"><span style="color:#E8E8E8">                match</span><span style="color:#FFFFFF">[i] = x;</span></span>
+<span class="line"><span style="color:#E8E8E8">                match</span><span style="color:#FFFFFF">[x] = i;</span></span>
+<span class="line"><span style="color:#FFFFFF">                return </span><span style="color:#F4D9E5">true</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#FFFFFF">            }</span></span>
+<span class="line"><span style="color:#FFFFFF">        }</span></span>
+<span class="line"><span style="color:#FFFFFF">    }</span></span>
+<span class="line"><span style="color:#FFFFFF">    return </span><span style="color:#F4D9E5">false</span><span style="color:#FFFFFF">;</span><span style="color:#9A9A9A;font-style:italic"> //没true即false</span></span>
+<span class="line"><span style="color:#FFFFFF">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#9A9A9A;font-style:italic">//匈牙利算法求最大匹配数</span></span>
+<span class="line"><span style="color:#FFFFFF">int hungarian()</span></span>
+<span class="line"><span style="color:#FFFFFF">{</span></span>
+<span class="line"><span style="color:#FFFFFF">    fill(match,match+n,-</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">);</span></span>
+<span class="line"><span style="color:#FFFFFF">    int res=</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#FFFFFF">    for(int i=</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;i&#x3C;n;i++)</span></span>
+<span class="line"><span style="color:#FFFFFF">    {</span></span>
+<span class="line"><span style="color:#FFFFFF">        if(</span><span style="color:#E8E8E8">match</span><span style="color:#FFFFFF">[i]==-</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">)</span></span>
+<span class="line"><span style="color:#FFFFFF">        {</span></span>
+<span class="line"><span style="color:#FFFFFF">            fill(used,used+n,</span><span style="color:#F4D9E5">false</span><span style="color:#FFFFFF">);</span><span style="color:#9A9A9A;font-style:italic"> //清除dfs标记</span></span>
+<span class="line"><span style="color:#FFFFFF">            if(dfs(i)) res++;</span></span>
+<span class="line"><span style="color:#FFFFFF">        }</span></span>
+<span class="line"><span style="color:#FFFFFF">    }</span></span>
+<span class="line"><span style="color:#FFFFFF">    return res;</span></span>
+<span class="line"><span style="color:#FFFFFF">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFFFFF">int main()</span></span>
+<span class="line"><span style="color:#FFFFFF">{</span></span>
+<span class="line"><span style="color:#9A9A9A;font-style:italic">    //举个例子</span></span>
+<span class="line"><span style="color:#FFFFFF">    n = </span><span style="color:#F4D9E5">8</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#FFFFFF">    int </span><span style="color:#E8E8E8">tmp</span><span style="color:#FFFFFF">[</span><span style="color:#F4D9E5">8</span><span style="color:#FFFFFF">][</span><span style="color:#F4D9E5">8</span><span style="color:#FFFFFF">] = {</span></span>
+<span class="line"><span style="color:#FFFFFF">        {</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">},</span></span>
+<span class="line"><span style="color:#FFFFFF">        {</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">},</span></span>
+<span class="line"><span style="color:#FFFFFF">        {</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">},</span></span>
+<span class="line"><span style="color:#FFFFFF">        {</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">},</span></span>
+<span class="line"><span style="color:#FFFFFF">        {</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">},</span></span>
+<span class="line"><span style="color:#FFFFFF">        {</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">},</span></span>
+<span class="line"><span style="color:#FFFFFF">        {</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">},</span></span>
+<span class="line"><span style="color:#FFFFFF">        {</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">,</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">}</span></span>
+<span class="line"><span style="color:#FFFFFF">    };</span></span>
+<span class="line"><span style="color:#FFFFFF">    memcpy(graph, tmp, sizeof(tmp));</span></span>
+<span class="line"><span style="color:#FFFFFF">    cout &#x3C;&#x3C; </span><span style="color:#F4D9E5">"最大匹配边数量:"</span><span style="color:#FFFFFF"> &#x3C;&#x3C; hungarian() &#x3C;&#x3C; endl;</span></span>
+<span class="line"><span style="color:#FFFFFF">    return </span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#FFFFFF">}</span></span>
+<span class="line"></span></code></pre>
+<h3>联系</h3>
+<p>再加一点步骤就可以实现<a href="/evidence/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95_%E6%8C%87%E6%B4%BE%E9%97%AE%E9%A2%98/">匈牙利指派算法</a>问题。</p>
+<h3>参考</h3>
+<p><a href="https://www.zhihu.com/question/313845998/answer/2268260397">Hungarian algorithm(匈牙利算法)的实现原理是什么？ - 鱼鲲的回答 - 知乎</a></p>
+<h1>性质</h1>
+<p>最大匹配（边）数量等于最小覆盖数量（点）(<a href="https://baike.baidu.com/item/%E6%9F%AF%E5%B0%BC%E5%B8%8C%E5%AE%9A%E7%90%86/19584092">柯尼希定理</a>)</p>
+<p>在网上学了学如何通过最大匹配寻找最小点覆盖集。</p>
+<p>现在总结一下，大致思路是</p>
+<p>二分图嘛，就是左边一半，右边一半。</p>
+<h1>最小覆盖</h1>
+<h3>面向问题</h3>
+<p>求解一个二分图中的最小覆盖问题。</p>
+<h3>总体思路</h3>
+<p>先求得最大匹配</p>
+<h3>写代码</h3></div></article></main><footer class="site-footer"><span>34<!-- --> 件证物 / <!-- -->10<!-- --> 条线索</span><a href="/rss.xml">RSS</a></footer></div>
+  </body>
+</html>

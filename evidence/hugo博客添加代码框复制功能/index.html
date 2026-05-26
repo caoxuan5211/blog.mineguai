@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="zh-CN" data-persona="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>Hugo博客添加代码框复制功能 · 怪话怪的档案</title>
+    <script type="module" crossorigin src="/assets/index-D0GLROMq.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-D-YZBiZ_.css">
+  <meta name="description" content="由于鼠标拖动复制代码有点费力，我打算给每个代码块添加一个复制按钮（学学大佬orz ）。 经过长时间的搜索学习，我终于加上了（win）。 话不多说。 构建 首先，我们要清楚一点，hugo-papermod本身是不包含代码复制按钮功能的。 所以，我们要自己写，包括写css和js，同时" />
+<meta property="og:title" content="Hugo博客添加代码框复制功能 · 怪话怪的档案" />
+<meta property="og:description" content="由于鼠标拖动复制代码有点费力，我打算给每个代码块添加一个复制按钮（学学大佬orz ）。 经过长时间的搜索学习，我终于加上了（win）。 话不多说。 构建 首先，我们要清楚一点，hugo-papermod本身是不包含代码复制按钮功能的。 所以，我们要自己写，包括写css和js，同时" />
+<meta property="og:url" content="https://blog.mineguai.com/evidence/hugo%E5%8D%9A%E5%AE%A2%E6%B7%BB%E5%8A%A0%E4%BB%A3%E7%A0%81%E6%A1%86%E5%A4%8D%E5%88%B6%E5%8A%9F%E8%83%BD/" />
+<link rel="canonical" href="https://blog.mineguai.com/evidence/hugo%E5%8D%9A%E5%AE%A2%E6%B7%BB%E5%8A%A0%E4%BB%A3%E7%A0%81%E6%A1%86%E5%A4%8D%E5%88%B6%E5%8A%9F%E8%83%BD/" />
+</head>
+  <body>
+    <div id="root"><a class="skip-link" href="#content">跳到正文</a><script>(()=>{try{const p=localStorage.getItem('guai-persona')||'dark';document.documentElement.dataset.persona=p;}catch{document.documentElement.dataset.persona='dark';}})();</script><canvas class="clue-canvas" data-clue-canvas="true" aria-hidden="true"></canvas><div class="texture-field" aria-hidden="true"></div><header class="site-header"><a class="brand-stamp" href="/" aria-label="返回证物首页"><span class="brand-mark">冷粉勾线 / 5211</span><strong>怪话怪</strong><small>黑白档案</small></a><nav class="paper-nav" aria-label="主导航"><a href="/" class="" style="--pin-tilt:-5deg"><span>证物</span><em>evidence</em></a><a href="/dossier/" class="" style="--pin-tilt:3deg"><span>档案</span><em>dossier</em></a><a href="/clues/" class="" style="--pin-tilt:-2deg"><span>线索</span><em>clues</em></a></nav><div class="header-tools"><button class="ink-button" type="button">搜寻</button><button class="persona-toggle" type="button" aria-label="切换黑白人格"><span>反稿</span></button></div></header><main id="content" class="site-main"><article class="evidence-page"><header class="evidence-hero"><a class="back-link" href="/dossier/">返回档案柜</a><p class="kicker">E-<!-- -->0019<!-- --> / evidence</p><h1>Hugo博客添加代码框复制功能</h1><div class="evidence-hero-meta"><span>2025/11/07</span><span>2 分钟</span><span>未定稿证物</span></div><div class="clue-list hero-clues"><a href="/clues/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E9%97%AE%E9%A2%98/">#<!-- -->博客搭建问题</a></div></header><div class="manuscript"><p>由于鼠标拖动复制代码有点费力，我打算给每个代码块添加一个复制按钮（学学大佬orz ）。</p>
+<p>经过长时间的搜索学习，我终于加上了（win）。</p>
+<p>话不多说。</p>
+<h2>构建</h2>
+<p>首先，我们要清楚一点，hugo-papermod本身是不包含代码复制按钮功能的。</p>
+<p>所以，我们要自己写，包括写css和js，同时要修改hugo的相关配置。</p>
+<h2>步骤</h2>
+<h3>1.写css/js文件</h3>
+<ul>
+<li>
+<p><strong>static\css\extended\code-copy.css</strong>(注意不要写错地方了，当然放在assests/css里面也未尝不可，但是相应的要修改一些文件，本人懒得搞了=-=)</p>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">.highlight-copy-btn {</span></span>
+<span class="line"><span style="color:#FFFFFF">    position: absolute;</span></span>
+<span class="line"><span style="color:#FFFFFF">    top: </span><span style="color:#F4D9E5">7</span><span style="color:#FFFFFF">px;</span></span>
+<span class="line"><span style="color:#FFFFFF">    right: </span><span style="color:#F4D9E5">7</span><span style="color:#FFFFFF">px;</span></span>
+<span class="line"><span style="color:#FFFFFF">    border: </span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#FFFFFF">    border-radius: </span><span style="color:#F4D9E5">4</span><span style="color:#FFFFFF">px;</span></span>
+<span class="line"><span style="color:#FFFFFF">    width: </span><span style="color:#F4D9E5">28</span><span style="color:#FFFFFF">px;           </span><span style="color:#9A9A9A;font-style:italic">/* 固定按钮大小 */</span></span>
+<span class="line"><span style="color:#FFFFFF">    height: </span><span style="color:#F4D9E5">28</span><span style="color:#FFFFFF">px;</span></span>
+<span class="line"><span style="color:#FFFFFF">    background-color: </span><span style="color:#F4D9E5">#777</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#FFFFFF">    color: </span><span style="color:#F4D9E5">#fff</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#FFFFFF">    display: flex;         </span><span style="color:#9A9A9A;font-style:italic">/* flex 布局 */</span></span>
+<span class="line"><span style="color:#FFFFFF">    align-items: center;   </span><span style="color:#9A9A9A;font-style:italic">/* 垂直居中 */</span></span>
+<span class="line"><span style="color:#FFFFFF">    justify-content: center; </span><span style="color:#9A9A9A;font-style:italic">/* 水平居中 */</span></span>
+<span class="line"><span style="color:#FFFFFF">    cursor: pointer;</span></span>
+<span class="line"><span style="color:#FFFFFF">    padding: </span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;            </span><span style="color:#9A9A9A;font-style:italic">/* 去掉多余 padding */</span></span>
+<span class="line"><span style="color:#FFFFFF">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFFFFF">.highlight-copy-btn:hover {</span></span>
+<span class="line"><span style="color:#FFFFFF">    background-color: </span><span style="color:#F4D9E5">#666</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#FFFFFF">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#9A9A9A;font-style:italic">/* 控制 svg 图标大小 */</span></span>
+<span class="line"><span style="color:#FFFFFF">.highlight-copy-btn i svg {</span></span>
+<span class="line"><span style="color:#FFFFFF">    width: </span><span style="color:#F4D9E5">16</span><span style="color:#FFFFFF">px;</span></span>
+<span class="line"><span style="color:#FFFFFF">    height: </span><span style="color:#F4D9E5">16</span><span style="color:#FFFFFF">px;</span></span>
+<span class="line"><span style="color:#FFFFFF">    display: block;        </span><span style="color:#9A9A9A;font-style:italic">/* 避免 inline 导致偏上 */</span></span>
+<span class="line"><span style="color:#FFFFFF">}</span></span>
+<span class="line"></span>
+<span class="line"></span></code></pre>
+</li>
+<li>
+<p><strong>static\js\code-copy.js</strong></p>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">(function() {</span></span>
+<span class="line"><span style="color:#F4D9E5">  'use strict'</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#9A9A9A;font-style:italic">  // 切换图标</span></span>
+<span class="line"><span style="color:#FFFFFF">  function flashCopyMessage(</span><span style="color:#E8E8E8">el</span><span style="color:#FFFFFF">, </span><span style="color:#E8E8E8">iconName</span><span style="color:#FFFFFF">) {</span></span>
+<span class="line"><span style="color:#E8E8E8">    el</span><span style="color:#FFFFFF">.</span><span style="color:#E8E8E8">innerHTML</span><span style="color:#FFFFFF"> = </span><span style="color:#F4D9E5">`&#x3C;i data-feather="${</span><span style="color:#E8E8E8">iconName</span><span style="color:#F4D9E5">}">&#x3C;/i>`</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#E8E8E8">    feather</span><span style="color:#FFFFFF">.replace(); </span><span style="color:#9A9A9A;font-style:italic">// 更新图标</span></span>
+<span class="line"><span style="color:#FFFFFF">    setTimeout(function() {</span></span>
+<span class="line"><span style="color:#E8E8E8">      el</span><span style="color:#FFFFFF">.</span><span style="color:#E8E8E8">innerHTML</span><span style="color:#FFFFFF"> = </span><span style="color:#F4D9E5">'&#x3C;i data-feather="copy">&#x3C;/i>'</span><span style="color:#FFFFFF">; </span><span style="color:#9A9A9A;font-style:italic">// 恢复复制图标</span></span>
+<span class="line"><span style="color:#E8E8E8">      feather</span><span style="color:#FFFFFF">.replace();</span></span>
+<span class="line"><span style="color:#FFFFFF">    }, </span><span style="color:#F4D9E5">1000</span><span style="color:#FFFFFF">);</span></span>
+<span class="line"><span style="color:#FFFFFF">  }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#9A9A9A;font-style:italic">  // 复制文本</span></span>
+<span class="line"><span style="color:#FFFFFF">  async function copyText(</span><span style="color:#E8E8E8">text</span><span style="color:#FFFFFF">, </span><span style="color:#E8E8E8">btn</span><span style="color:#FFFFFF">) {</span></span>
+<span class="line"><span style="color:#FFFFFF">    try {</span></span>
+<span class="line"><span style="color:#FFFFFF">      await </span><span style="color:#E8E8E8">navigator</span><span style="color:#FFFFFF">.</span><span style="color:#E8E8E8">clipboard</span><span style="color:#FFFFFF">.writeText(</span><span style="color:#E8E8E8">text</span><span style="color:#FFFFFF">);</span></span>
+<span class="line"><span style="color:#FFFFFF">      flashCopyMessage(</span><span style="color:#E8E8E8">btn</span><span style="color:#FFFFFF">, </span><span style="color:#F4D9E5">'check'</span><span style="color:#FFFFFF">);   </span><span style="color:#9A9A9A;font-style:italic">// 成功图标</span></span>
+<span class="line"><span style="color:#FFFFFF">    } catch (</span><span style="color:#E8E8E8">e</span><span style="color:#FFFFFF">) {</span></span>
+<span class="line"><span style="color:#FFFFFF">      flashCopyMessage(</span><span style="color:#E8E8E8">btn</span><span style="color:#FFFFFF">, </span><span style="color:#F4D9E5">'x'</span><span style="color:#FFFFFF">);       </span><span style="color:#9A9A9A;font-style:italic">// 失败图标</span></span>
+<span class="line"><span style="color:#FFFFFF">    }</span></span>
+<span class="line"><span style="color:#FFFFFF">  }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#9A9A9A;font-style:italic">  // 为每个代码块添加按钮</span></span>
+<span class="line"><span style="color:#FFFFFF">  function addCopyButton(</span><span style="color:#E8E8E8">containerEl</span><span style="color:#FFFFFF">) {</span></span>
+<span class="line"><span style="color:#FFFFFF">    var </span><span style="color:#E8E8E8">copyBtn</span><span style="color:#FFFFFF"> = </span><span style="color:#E8E8E8">document</span><span style="color:#FFFFFF">.createElement(</span><span style="color:#F4D9E5">"button"</span><span style="color:#FFFFFF">);</span></span>
+<span class="line"><span style="color:#E8E8E8">    copyBtn</span><span style="color:#FFFFFF">.</span><span style="color:#E8E8E8">className</span><span style="color:#FFFFFF"> = </span><span style="color:#F4D9E5">"highlight-copy-btn"</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#E8E8E8">    copyBtn</span><span style="color:#FFFFFF">.</span><span style="color:#E8E8E8">innerHTML</span><span style="color:#FFFFFF"> = </span><span style="color:#F4D9E5">'&#x3C;i data-feather="copy">&#x3C;/i>'</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFFFFF">    var </span><span style="color:#E8E8E8">codeEl</span><span style="color:#FFFFFF"> = </span><span style="color:#E8E8E8">containerEl</span><span style="color:#FFFFFF">.querySelector(</span><span style="color:#F4D9E5">"pre code"</span><span style="color:#FFFFFF">);</span></span>
+<span class="line"><span style="color:#FFFFFF">    if (!</span><span style="color:#E8E8E8">codeEl</span><span style="color:#FFFFFF">) return;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E8E8E8">    copyBtn</span><span style="color:#FFFFFF">.addEventListener(</span><span style="color:#F4D9E5">'click'</span><span style="color:#FFFFFF">, function() {</span></span>
+<span class="line"><span style="color:#FFFFFF">      copyText(</span><span style="color:#E8E8E8">codeEl</span><span style="color:#FFFFFF">.</span><span style="color:#E8E8E8">innerText</span><span style="color:#FFFFFF">, </span><span style="color:#E8E8E8">copyBtn</span><span style="color:#FFFFFF">);</span></span>
+<span class="line"><span style="color:#FFFFFF">    });</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E8E8E8">    containerEl</span><span style="color:#FFFFFF">.</span><span style="color:#E8E8E8">style</span><span style="color:#FFFFFF">.</span><span style="color:#E8E8E8">position</span><span style="color:#FFFFFF"> = </span><span style="color:#F4D9E5">"relative"</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#E8E8E8">    containerEl</span><span style="color:#FFFFFF">.appendChild(</span><span style="color:#E8E8E8">copyBtn</span><span style="color:#FFFFFF">);</span></span>
+<span class="line"><span style="color:#E8E8E8">    feather</span><span style="color:#FFFFFF">.replace(); </span><span style="color:#9A9A9A;font-style:italic">// 初始化图标</span></span>
+<span class="line"><span style="color:#FFFFFF">  }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#9A9A9A;font-style:italic">  // 初始化所有高亮块</span></span>
+<span class="line"><span style="color:#FFFFFF">  function init() {</span></span>
+<span class="line"><span style="color:#FFFFFF">    var </span><span style="color:#E8E8E8">highlightBlocks</span><span style="color:#FFFFFF"> = </span><span style="color:#E8E8E8">document</span><span style="color:#FFFFFF">.getElementsByClassName(</span><span style="color:#F4D9E5">'highlight'</span><span style="color:#FFFFFF">);</span></span>
+<span class="line"><span style="color:#FFFFFF">    Array.prototype.</span><span style="color:#E8E8E8">forEach</span><span style="color:#FFFFFF">.call(</span><span style="color:#E8E8E8">highlightBlocks</span><span style="color:#FFFFFF">, </span><span style="color:#E8E8E8">addCopyButton</span><span style="color:#FFFFFF">);</span></span>
+<span class="line"><span style="color:#FFFFFF">  }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E8E8E8">  document</span><span style="color:#FFFFFF">.addEventListener(</span><span style="color:#F4D9E5">"DOMContentLoaded"</span><span style="color:#FFFFFF">, </span><span style="color:#E8E8E8">init</span><span style="color:#FFFFFF">);</span></span>
+<span class="line"><span style="color:#FFFFFF">})();</span></span>
+<span class="line"></span></code></pre>
+</li>
+</ul>
+<h3>2.修改配置文件</h3>
+<p><strong>1.</strong> 把<code>themes\PaperMod\layouts\partials\head.html</code>拷贝一份到<code>layouts\partials\head.html</code>然后修改后者（<a href="/evidence/hugo%E5%8D%9A%E5%AE%A2%E9%85%8D%E7%BD%AE%26markdown%E8%AF%AD%E6%B3%95/" title="悬停指示（标题）">模板覆盖规则</a>）：</p>
+<p>在文件结尾添加</p>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">{{ range .Site.Params.assets.customCSS }}</span></span>
+<span class="line"><span style="color:#FFFFFF">  &#x3C;link rel=</span><span style="color:#F4D9E5">"stylesheet"</span><span style="color:#FFFFFF"> href=</span><span style="color:#F4D9E5">"{{ . | absURL }}"</span><span style="color:#FFFFFF">></span></span>
+<span class="line"><span style="color:#FFFFFF">{{- end }}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFFFFF">{{ range .Site.Params.assets.customJS }}</span></span>
+<span class="line"><span style="color:#FFFFFF">  &#x3C;script type=</span><span style="color:#F4D9E5">"text/javascript"</span><span style="color:#FFFFFF"> src=</span><span style="color:#F4D9E5">"{{ . | absURL }}"</span><span style="color:#FFFFFF"> defer>&#x3C;/script></span></span>
+<span class="line"><span style="color:#FFFFFF">{{- end }}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFFFFF">{{ range $elem := .Site.Params.assets.customjscssraw }}</span></span>
+<span class="line"><span style="color:#FFFFFF">  {{ $elem | safeHTML }}</span></span>
+<span class="line"><span style="color:#FFFFFF">{{- end }}</span></span>
+<span class="line"></span>
+<span class="line"></span></code></pre>
+<p><strong>2.</strong> 与之对应的要修改<code>hugo.toml</code>：</p>
+<p>添加</p>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span>[params.assets]</span></span>
+<span class="line"><span>    customCSS = ["css/extended/code-copy.css","css/extended/custom-fonts.css"]</span></span>
+<span class="line"><span>    customJS = ["js/code-copy.js"]</span></span>
+<span class="line"><span>    customjscssraw = [</span></span>
+<span class="line"><span>      "&#x3C;link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css' integrity='sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=' crossorigin='anonymous'>",</span></span>
+<span class="line"><span>      "&#x3C;script src='https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js'>&#x3C;/script>"</span></span>
+<span class="line"><span>    ] #图标库链接</span></span>
+<span class="line"><span></span></span></code></pre>
+<p>这两步其实是实现了：你在<code>hugo.toml</code>里面直接添加文件比如<code>css/extended/code-copy.css</code>（如上代码），对应的<code>head.html</code>里面添加的代码可以利用<code>range.Site.Params.assets.customJS</code>对配置中的文件进行链接。感觉其实相当于简化操作，就是原来我们需要在<code>head.html</code>里面手动添加&#x3C;<em>link</em>>，&#x3C;<em>script</em>>等，但是这样操作后我们只需要把css等相对于static的文件路径直接写入明面上的<code>hugo.toml</code>配置文件就好了。</p>
+<p>另外，最后的图标库链接可以用自己喜欢的，我只添加了两个用的第二种（当然如果更换图标库js对应的使用代码也要修改，css也要相应调整）。</p>
+<p>这样就实现代码块复制按钮的添加了。</p>
+<h2>思考</h2>
+<p>如果直接把css和js放在assets里面好像需要用到Hugo 的 <strong>资源管道（Hugo Pipes）</strong>，我没用。</p>
+<h2>参考</h2>
+<p><a href="https://zhuanlan.zhihu.com/p/442553846">(6 封私信) Hugo添加自定义css和javascript - 知乎</a></p>
+<p><a href="https://huuuuuuo.github.io/post/hugo%E6%8F%92%E4%BB%B6%E4%B9%8B%E4%BB%A3%E7%A0%81%E5%9D%97%E6%8B%B7%E8%B4%9D%E6%8F%92%E4%BB%B6/">你可真是个大帅哥</a></p></div></article></main><footer class="site-footer"><span>34<!-- --> 件证物 / <!-- -->10<!-- --> 条线索</span><a href="/rss.xml">RSS</a></footer></div>
+  </body>
+</html>
