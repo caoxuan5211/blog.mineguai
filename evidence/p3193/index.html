@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <title>洛谷 P3193 · 怪话怪</title>
-    <script type="module" crossorigin src="/assets/index-Bxj1JUiB.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-BL3QhC4Q.css">
+    <script type="module" crossorigin src="/assets/index-BndKBr4I.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-D9CdOJae.css">
   <meta name="description" content="[HNOI2008] GT考试 思路 状态转移矩阵 T[i][j] 其实就是添加一个字符之后从状态 i 转移到状态 j 的方案数量，也就是先用 kmp 得到对应的T然后对于长度为N的串只需要让这个转移矩阵 N 次方就行了，然后 Tn[0][j] 就是子串最大匹配到j位的方案数，所" />
 <meta property="og:title" content="洛谷 P3193 · 怪话怪" />
 <meta property="og:description" content="[HNOI2008] GT考试 思路 状态转移矩阵 T[i][j] 其实就是添加一个字符之后从状态 i 转移到状态 j 的方案数量，也就是先用 kmp 得到对应的T然后对于长度为N的串只需要让这个转移矩阵 N 次方就行了，然后 Tn[0][j] 就是子串最大匹配到j位的方案数，所" />
@@ -14,12 +14,12 @@
 <link rel="canonical" href="https://blog.mineguai.com/evidence/p3193/" />
 </head>
   <body>
-    <div id="root"><a class="skip-link" href="#content">跳到正文</a><script>(()=>{try{const p=localStorage.getItem('guai-persona')||'dark';document.documentElement.dataset.persona=p;}catch{document.documentElement.dataset.persona='dark';}})();</script><canvas class="clue-canvas" data-clue-canvas="true" aria-hidden="true"></canvas><div class="texture-field" aria-hidden="true"></div><header class="site-header"><a class="brand-stamp" href="/" aria-label="返回证物首页"><strong>怪话怪</strong><small>黑白档案</small></a><nav class="paper-nav" aria-label="主导航"><a href="/" class="" style="--pin-tilt:-5deg"><span>证物</span><em>evidence</em></a><a href="/dossier/" class="" style="--pin-tilt:3deg"><span>档案</span><em>dossier</em></a><a href="/clues/" class="" style="--pin-tilt:-2deg"><span>线索</span><em>clues</em></a></nav><div class="header-tools"><button class="ink-button" type="button">搜寻</button><button class="persona-toggle desktop-persona-toggle" type="button" aria-label="切换黑白人格"><span>反稿</span></button><button class="ink-button menu-button" type="button" aria-controls="mobile-site-menu" aria-expanded="false" aria-label="打开目录">目录</button></div><div id="mobile-site-menu" class="mobile-menu" hidden=""><nav class="mobile-nav" aria-label="手机端目录"><a href="/" class="" style="--pin-tilt:-5deg"><span>证物</span><em>evidence</em></a><a href="/dossier/" class="" style="--pin-tilt:3deg"><span>档案</span><em>dossier</em></a><a href="/clues/" class="" style="--pin-tilt:-2deg"><span>线索</span><em>clues</em></a></nav><button class="persona-toggle mobile-persona-toggle" type="button" aria-label="切换黑白人格"><span>反稿</span></button></div></header><main id="content" class="site-main"><article class="evidence-page"><header class="evidence-hero"><a class="back-link" href="/dossier/">返回档案柜</a><p class="kicker">E-<!-- -->0031<!-- --> / evidence</p><h1 class="fragment-title evidence-title" aria-label="洛谷 P3193"><span>洛谷 P3193</span></h1><div class="evidence-hero-meta"><span>2025/09/23</span><span>2 分钟</span></div><div class="clue-list hero-clues"><a href="/clues/luogu/">#<!-- -->luogu</a></div></header><div class="manuscript"><h2><a href="https://www.luogu.com.cn/problem/P3193">[HNOI2008] GT考试</a></h2>
-<h3>思路</h3>
+    <div id="root"><a class="skip-link" href="#content">跳到正文</a><script>(()=>{try{const p=localStorage.getItem('guai-persona')||'dark';document.documentElement.dataset.persona=p;}catch{document.documentElement.dataset.persona='dark';}})();</script><canvas class="clue-canvas" data-clue-canvas="true" aria-hidden="true"></canvas><div class="texture-field" aria-hidden="true"></div><header class="site-header"><a class="brand-stamp" href="/" aria-label="返回证物首页"><strong>怪话怪</strong><small>黑白档案</small></a><nav class="paper-nav" aria-label="主导航"><a href="/" class="" style="--pin-tilt:-5deg"><span>证物</span><em>evidence</em></a><a href="/dossier/" class="" style="--pin-tilt:3deg"><span>档案</span><em>dossier</em></a><a href="/clues/" class="" style="--pin-tilt:-2deg"><span>线索</span><em>clues</em></a></nav><div class="header-tools"><button class="ink-button" type="button">搜寻</button><button class="persona-toggle desktop-persona-toggle" type="button" aria-label="切换黑白人格"><span>反稿</span></button><button class="ink-button menu-button" type="button" aria-controls="mobile-site-menu" aria-expanded="false" aria-label="打开目录">目录</button></div><div id="mobile-site-menu" class="mobile-menu" hidden=""><nav class="mobile-nav" aria-label="手机端目录"><a href="/" class="" style="--pin-tilt:-5deg"><span>证物</span><em>evidence</em></a><a href="/dossier/" class="" style="--pin-tilt:3deg"><span>档案</span><em>dossier</em></a><a href="/clues/" class="" style="--pin-tilt:-2deg"><span>线索</span><em>clues</em></a></nav><button class="persona-toggle mobile-persona-toggle" type="button" aria-label="切换黑白人格"><span>反稿</span></button></div></header><main id="content" class="site-main"><article class="evidence-page"><header class="evidence-hero"><a class="back-link" href="/dossier/">返回档案柜</a><p class="kicker">E-<!-- -->0032<!-- --> / evidence</p><h1 class="fragment-title evidence-title" aria-label="洛谷 P3193"><span>洛谷 P3193</span></h1><div class="evidence-hero-meta"><span>2025/09/23</span><span>2 分钟</span></div><div class="clue-list hero-clues"><a href="/clues/luogu/">#<!-- -->luogu</a></div></header><div class="manuscript"><h2 id="hnoi2008-gt考试"><a href="https://www.luogu.com.cn/problem/P3193">[HNOI2008] GT考试</a></h2>
+<h3 id="思路">思路</h3>
 <p>状态转移矩阵<code>T[i][j]</code>其实就是添加一个字符之后从状态<em>i</em>转移到状态<em>j</em>的方案数量，也就是先用<code>kmp</code>得到对应的T然后对于长度为N的串只需要让这个转移矩阵<em>N</em>次方就行了，然后<code>Tn[0][j]</code>就是子串最大匹配到j位的方案数，所求结果就是<code>Tn[0][0]</code>一直加到<code>Tn[0][M-1](M是子串的长度)</code>。</p>
-<h3>算法</h3>
+<h3 id="算法">算法</h3>
 <p><strong>KMP 自动机建模 + 矩阵快速幂</strong></p>
-<h3>主要函数以及主要流程</h3>
+<h3 id="主要函数以及主要流程">主要函数以及主要流程</h3>
 <ul>
 <li>矩阵相乘函数</li>
 <li>矩阵快速幂函数(利用到<strong>矩阵相乘函数</strong>和<strong>快速幂算法</strong>)</li>
@@ -28,7 +28,7 @@
 <li>对T运用幂n函数得到Tn</li>
 <li>Tn按照<a href="#%E6%80%9D%E8%B7%AF">思路</a>直接操作就行了</li>
 </ul>
-<h3>题解（借鉴了AI，自己敲的，我太强了）</h3>
+<h3 id="题解-借鉴了ai-自己敲的-我太强了">题解（借鉴了AI，自己敲的，我太强了）</h3>
 <pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFB86C">#include</span><span style="color:#FFD1E1">&#x3C;bits/stdc++.h></span></span>
 <span class="line"></span>
 <span class="line"><span style="color:#FF8FBF">using</span><span style="color:#FF8FBF"> namespace</span><span style="color:#FFFFFF"> std</span><span style="color:#C8C8C8">;</span></span>
@@ -121,10 +121,10 @@
 <span class="line"><span style="color:#FF8FBF">    return</span><span style="color:#B7F7C8"> 0</span><span style="color:#C8C8C8">;</span></span>
 <span class="line"><span style="color:#C8C8C8">}</span></span>
 <span class="line"></span></code></pre>
-<h3>遇到问题</h3>
+<h3 id="遇到问题">遇到问题</h3>
 <ul>
 <li><code>p>>1</code>不会改变<em>p</em>的值应该是<code>p>>=1</code></li>
 <li><strong>int</strong>类型乘法要注意防止溢出，一般用<strong>ll</strong></li>
-</ul></div></article></main><footer class="site-footer"><span>33<!-- --> 件证物 / <!-- -->10<!-- --> 条线索</span><a href="/rss.xml">RSS</a></footer></div>
+</ul></div><aside class="evidence-toc"><button class="toc-tab" type="button" aria-label="展开文章目录" aria-expanded="false"><span aria-hidden="true">←</span></button><nav class="toc-panel" aria-label="文章目录"><div class="toc-head"><span>sealed index</span><strong>目录</strong></div><ol><li class="toc-level-2"><a href="#hnoi2008-gt考试">[HNOI2008] GT考试</a></li><li class="toc-level-3"><a href="#思路">思路</a></li><li class="toc-level-3"><a href="#算法">算法</a></li><li class="toc-level-3"><a href="#主要函数以及主要流程">主要函数以及主要流程</a></li><li class="toc-level-3"><a href="#题解-借鉴了ai-自己敲的-我太强了">题解（借鉴了AI，自己敲的，我太强了）</a></li><li class="toc-level-3"><a href="#遇到问题">遇到问题</a></li></ol></nav></aside></article></main><footer class="site-footer"><span>34<!-- --> 件证物 / <!-- -->13<!-- --> 条线索</span><a href="/rss.xml">RSS</a></footer></div>
   </body>
 </html>

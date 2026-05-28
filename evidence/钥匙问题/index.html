@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <title>钥匙问题 · 怪话怪</title>
-    <script type="module" crossorigin src="/assets/index-Bxj1JUiB.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-BL3QhC4Q.css">
+    <script type="module" crossorigin src="/assets/index-BndKBr4I.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-D9CdOJae.css">
   <meta name="description" content="P4890 解题代码详解（链式DP + 建模全过程） P4890 Never·island - 洛谷 一、整体思路（先建立全局认知） 本题流程分三步： 离散化 + 扫描线建模 把区间拆成若干小段 转换成「点权 + 边权 + 固定贡献」 构建链式图 每个考察队是一个点 区间贡献变成" />
 <meta property="og:title" content="钥匙问题 · 怪话怪" />
 <meta property="og:description" content="P4890 解题代码详解（链式DP + 建模全过程） P4890 Never·island - 洛谷 一、整体思路（先建立全局认知） 本题流程分三步： 离散化 + 扫描线建模 把区间拆成若干小段 转换成「点权 + 边权 + 固定贡献」 构建链式图 每个考察队是一个点 区间贡献变成" />
@@ -14,7 +14,7 @@
 <link rel="canonical" href="https://blog.mineguai.com/evidence/%E9%92%A5%E5%8C%99%E9%97%AE%E9%A2%98/" />
 </head>
   <body>
-    <div id="root"><a class="skip-link" href="#content">跳到正文</a><script>(()=>{try{const p=localStorage.getItem('guai-persona')||'dark';document.documentElement.dataset.persona=p;}catch{document.documentElement.dataset.persona='dark';}})();</script><canvas class="clue-canvas" data-clue-canvas="true" aria-hidden="true"></canvas><div class="texture-field" aria-hidden="true"></div><header class="site-header"><a class="brand-stamp" href="/" aria-label="返回证物首页"><strong>怪话怪</strong><small>黑白档案</small></a><nav class="paper-nav" aria-label="主导航"><a href="/" class="" style="--pin-tilt:-5deg"><span>证物</span><em>evidence</em></a><a href="/dossier/" class="" style="--pin-tilt:3deg"><span>档案</span><em>dossier</em></a><a href="/clues/" class="" style="--pin-tilt:-2deg"><span>线索</span><em>clues</em></a></nav><div class="header-tools"><button class="ink-button" type="button">搜寻</button><button class="persona-toggle desktop-persona-toggle" type="button" aria-label="切换黑白人格"><span>反稿</span></button><button class="ink-button menu-button" type="button" aria-controls="mobile-site-menu" aria-expanded="false" aria-label="打开目录">目录</button></div><div id="mobile-site-menu" class="mobile-menu" hidden=""><nav class="mobile-nav" aria-label="手机端目录"><a href="/" class="" style="--pin-tilt:-5deg"><span>证物</span><em>evidence</em></a><a href="/dossier/" class="" style="--pin-tilt:3deg"><span>档案</span><em>dossier</em></a><a href="/clues/" class="" style="--pin-tilt:-2deg"><span>线索</span><em>clues</em></a></nav><button class="persona-toggle mobile-persona-toggle" type="button" aria-label="切换黑白人格"><span>反稿</span></button></div></header><main id="content" class="site-main"><article class="evidence-page"><header class="evidence-hero"><a class="back-link" href="/dossier/">返回档案柜</a><p class="kicker">E-<!-- -->0004<!-- --> / evidence</p><h1 class="fragment-title evidence-title" aria-label="钥匙问题"><span>钥匙问题</span></h1><div class="evidence-hero-meta"><span>2026/04/14</span><span>2 分钟</span></div><div class="clue-list hero-clues"></div></header><div class="manuscript"><h1>P4890 解题代码详解（链式DP + 建模全过程）</h1>
+    <div id="root"><a class="skip-link" href="#content">跳到正文</a><script>(()=>{try{const p=localStorage.getItem('guai-persona')||'dark';document.documentElement.dataset.persona=p;}catch{document.documentElement.dataset.persona='dark';}})();</script><canvas class="clue-canvas" data-clue-canvas="true" aria-hidden="true"></canvas><div class="texture-field" aria-hidden="true"></div><header class="site-header"><a class="brand-stamp" href="/" aria-label="返回证物首页"><strong>怪话怪</strong><small>黑白档案</small></a><nav class="paper-nav" aria-label="主导航"><a href="/" class="" style="--pin-tilt:-5deg"><span>证物</span><em>evidence</em></a><a href="/dossier/" class="" style="--pin-tilt:3deg"><span>档案</span><em>dossier</em></a><a href="/clues/" class="" style="--pin-tilt:-2deg"><span>线索</span><em>clues</em></a></nav><div class="header-tools"><button class="ink-button" type="button">搜寻</button><button class="persona-toggle desktop-persona-toggle" type="button" aria-label="切换黑白人格"><span>反稿</span></button><button class="ink-button menu-button" type="button" aria-controls="mobile-site-menu" aria-expanded="false" aria-label="打开目录">目录</button></div><div id="mobile-site-menu" class="mobile-menu" hidden=""><nav class="mobile-nav" aria-label="手机端目录"><a href="/" class="" style="--pin-tilt:-5deg"><span>证物</span><em>evidence</em></a><a href="/dossier/" class="" style="--pin-tilt:3deg"><span>档案</span><em>dossier</em></a><a href="/clues/" class="" style="--pin-tilt:-2deg"><span>线索</span><em>clues</em></a></nav><button class="persona-toggle mobile-persona-toggle" type="button" aria-label="切换黑白人格"><span>反稿</span></button></div></header><main id="content" class="site-main"><article class="evidence-page"><header class="evidence-hero"><a class="back-link" href="/dossier/">返回档案柜</a><p class="kicker">E-<!-- -->0005<!-- --> / evidence</p><h1 class="fragment-title evidence-title" aria-label="钥匙问题"><span>钥匙问题</span></h1><div class="evidence-hero-meta"><span>2026/04/14</span><span>2 分钟</span></div><div class="clue-list hero-clues"></div></header><div class="manuscript"><h1>P4890 解题代码详解（链式DP + 建模全过程）</h1>
 <p><a href="https://www.luogu.com.cn/problem/solution/P4890">P4890 Never·island - 洛谷</a></p>
 <hr>
 <h1>一、整体思路（先建立全局认知）</h1>
@@ -87,42 +87,42 @@
 <p>👉 必然贡献（情况4）</p>
 <hr>
 <h1>三、建模部分（最关键）</h1>
-<h2>1️⃣ 离散化</h2>
+<h2 id="1-离散化">1️⃣ 离散化</h2>
 <pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFE08A">sort</span><span style="color:#C8C8C8">(</span><span style="color:#E8ECFF">xs</span><span style="color:#C8C8C8">.</span><span style="color:#FFE08A">begin</span><span style="color:#C8C8C8">(),</span><span style="color:#E8ECFF"> xs</span><span style="color:#C8C8C8">.</span><span style="color:#FFE08A">end</span><span style="color:#C8C8C8">());</span></span>
 <span class="line"><span style="color:#E8ECFF">xs</span><span style="color:#C8C8C8">.</span><span style="color:#FFE08A">erase</span><span style="color:#C8C8C8">(</span><span style="color:#FFE08A">unique</span><span style="color:#C8C8C8">(</span><span style="color:#E8ECFF">xs</span><span style="color:#C8C8C8">.</span><span style="color:#FFE08A">begin</span><span style="color:#C8C8C8">(),</span><span style="color:#E8ECFF"> xs</span><span style="color:#C8C8C8">.</span><span style="color:#FFE08A">end</span><span style="color:#C8C8C8">()),</span><span style="color:#E8ECFF"> xs</span><span style="color:#C8C8C8">.</span><span style="color:#FFE08A">end</span><span style="color:#C8C8C8">());</span></span>
 <span class="line"></span></code></pre>
 <p>👉 把所有端点压缩到连续整数</p>
 <hr>
-<h2>2️⃣ 扫描每一小段区间</h2>
+<h2 id="2-扫描每一小段区间">2️⃣ 扫描每一小段区间</h2>
 <pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FF8FBF">for</span><span style="color:#C8C8C8"> (</span><span style="color:#FF8FBF">int</span><span style="color:#FFFFFF"> i </span><span style="color:#FF8FBF">=</span><span style="color:#B7F7C8"> 1</span><span style="color:#C8C8C8">;</span><span style="color:#FFFFFF"> i </span><span style="color:#FF8FBF">&#x3C;</span><span style="color:#E8ECFF"> xs</span><span style="color:#C8C8C8">.</span><span style="color:#FFE08A">size</span><span style="color:#C8C8C8">();</span><span style="color:#FFFFFF"> i</span><span style="color:#FF8FBF">++</span><span style="color:#C8C8C8">)</span><span style="color:#C8C8C8"> {</span></span>
 <span class="line"><span style="color:#FF8FBF">    int</span><span style="color:#FFFFFF"> len </span><span style="color:#FF8FBF">=</span><span style="color:#E8ECFF"> xs</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">i</span><span style="color:#C8C8C8">]</span><span style="color:#FF8FBF"> -</span><span style="color:#E8ECFF"> xs</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">i</span><span style="color:#FF8FBF">-</span><span style="color:#B7F7C8">1</span><span style="color:#C8C8C8">];</span></span>
 <span class="line"><span style="color:#C8C8C8">}</span></span>
 <span class="line"></span></code></pre>
 <p>👉 每个小段长度 = 相邻离散点差值</p>
 <hr>
-<h2>3️⃣ 判断左右端点归属（核心）</h2>
+<h2 id="3-判断左右端点归属-核心">3️⃣ 判断左右端点归属（核心）</h2>
 <p>假设：</p>
 <pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FF8FBF">int</span><span style="color:#FFFFFF"> L </span><span style="color:#FF8FBF">=</span><span style="color:#E8ECFF"> belong_left</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">i</span><span style="color:#C8C8C8">];</span></span>
 <span class="line"><span style="color:#FF8FBF">int</span><span style="color:#FFFFFF"> R </span><span style="color:#FF8FBF">=</span><span style="color:#E8ECFF"> belong_right</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">i</span><span style="color:#C8C8C8">];</span></span>
 <span class="line"></span></code></pre>
 <hr>
-<h3>情况1：同一个队</h3>
+<h3 id="情况1-同一个队">情况1：同一个队</h3>
 <pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FF8FBF">if</span><span style="color:#C8C8C8"> (</span><span style="color:#FFFFFF">L </span><span style="color:#FF8FBF">==</span><span style="color:#FFFFFF"> R</span><span style="color:#C8C8C8">)</span><span style="color:#C8C8C8"> {</span></span>
 <span class="line"><span style="color:#E8ECFF">    node_w</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">L</span><span style="color:#C8C8C8">]</span><span style="color:#FF8FBF"> +=</span><span style="color:#FFFFFF"> len</span><span style="color:#C8C8C8">;</span></span>
 <span class="line"><span style="color:#C8C8C8">}</span></span>
 <span class="line"></span></code></pre>
 <hr>
-<h3>情况2：不同队</h3>
+<h3 id="情况2-不同队">情况2：不同队</h3>
 <pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FF8FBF">else</span><span style="color:#C8C8C8"> {</span></span>
 <span class="line"><span style="color:#E8ECFF">    adj</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">L</span><span style="color:#C8C8C8">].</span><span style="color:#FFE08A">push_back</span><span style="color:#C8C8C8">(</span><span style="color:#FFFFFF">{R</span><span style="color:#C8C8C8">,</span><span style="color:#FFFFFF"> len}</span><span style="color:#C8C8C8">);</span></span>
 <span class="line"><span style="color:#E8ECFF">    adj</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">R</span><span style="color:#C8C8C8">].</span><span style="color:#FFE08A">push_back</span><span style="color:#C8C8C8">(</span><span style="color:#FFFFFF">{L</span><span style="color:#C8C8C8">,</span><span style="color:#FFFFFF"> len}</span><span style="color:#C8C8C8">);</span></span>
 <span class="line"><span style="color:#C8C8C8">}</span></span>
 <span class="line"></span></code></pre>
 <hr>
-<h3>情况3：都是起点</h3>
+<h3 id="情况3-都是起点">情况3：都是起点</h3>
 <p>（代码里通常已经合并到情况1）</p>
 <hr>
-<h3>情况4：左终点右起点</h3>
+<h3 id="情况4-左终点右起点">情况4：左终点右起点</h3>
 <pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">base_ans </span><span style="color:#FF8FBF">+=</span><span style="color:#FFFFFF"> len</span><span style="color:#C8C8C8">;</span></span>
 <span class="line"></span></code></pre>
 <hr>
@@ -134,7 +134,7 @@
 <span class="line"><span></span></span></code></pre>
 <hr>
 <h1>五、链上DP</h1>
-<h2>状态定义</h2>
+<h2 id="状态定义">状态定义</h2>
 <pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#E8ECFF">dp</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">i</span><span style="color:#C8C8C8">][</span><span style="color:#FFFFFF">j</span><span style="color:#C8C8C8">][</span><span style="color:#B7F7C8">0</span><span style="color:#FF8FBF">/</span><span style="color:#B7F7C8">1</span><span style="color:#C8C8C8">]</span></span>
 <span class="line"></span></code></pre>
 <p>含义：</p>
@@ -165,24 +165,24 @@
 
 <table><thead><tr><th>变量</th><th>含义</th></tr></thead><tbody><tr><td>i</td><td>当前处理第 i 个点</td></tr><tr><td>j</td><td>已选 j 个点</td></tr><tr><td>0</td><td>不选当前点</td></tr><tr><td>1</td><td>选当前点</td></tr></tbody></table>
 <hr>
-<h2>初始化</h2>
+<h2 id="初始化">初始化</h2>
 <pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#E8ECFF">dp</span><span style="color:#C8C8C8">[</span><span style="color:#B7F7C8">0</span><span style="color:#C8C8C8">][</span><span style="color:#B7F7C8">0</span><span style="color:#C8C8C8">][</span><span style="color:#B7F7C8">0</span><span style="color:#C8C8C8">]</span><span style="color:#FF8FBF"> =</span><span style="color:#B7F7C8"> 0</span><span style="color:#C8C8C8">;</span></span>
 <span class="line"><span style="color:#E8ECFF">dp</span><span style="color:#C8C8C8">[</span><span style="color:#B7F7C8">0</span><span style="color:#C8C8C8">][</span><span style="color:#B7F7C8">0</span><span style="color:#C8C8C8">][</span><span style="color:#B7F7C8">1</span><span style="color:#C8C8C8">]</span><span style="color:#FF8FBF"> =</span><span style="color:#FF8FBF"> -</span><span style="color:#FFFFFF">INF</span><span style="color:#C8C8C8">;</span></span>
 <span class="line"></span></code></pre>
 <hr>
-<h2>转移</h2>
-<h3>不选当前点</h3>
+<h2 id="转移">转移</h2>
+<h3 id="不选当前点">不选当前点</h3>
 <pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#E8ECFF">dp</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">i</span><span style="color:#C8C8C8">][</span><span style="color:#FFFFFF">j</span><span style="color:#C8C8C8">][</span><span style="color:#B7F7C8">0</span><span style="color:#C8C8C8">]</span><span style="color:#FF8FBF"> =</span><span style="color:#FFE08A"> max</span><span style="color:#C8C8C8">(</span><span style="color:#E8ECFF">dp</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">i</span><span style="color:#FF8FBF">-</span><span style="color:#B7F7C8">1</span><span style="color:#C8C8C8">][</span><span style="color:#FFFFFF">j</span><span style="color:#C8C8C8">][</span><span style="color:#B7F7C8">0</span><span style="color:#C8C8C8">],</span><span style="color:#E8ECFF"> dp</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">i</span><span style="color:#FF8FBF">-</span><span style="color:#B7F7C8">1</span><span style="color:#C8C8C8">][</span><span style="color:#FFFFFF">j</span><span style="color:#C8C8C8">][</span><span style="color:#B7F7C8">1</span><span style="color:#C8C8C8">]);</span></span>
 <span class="line"></span></code></pre>
 <hr>
-<h3>选当前点</h3>
+<h3 id="选当前点">选当前点</h3>
 <pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#E8ECFF">dp</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">i</span><span style="color:#C8C8C8">][</span><span style="color:#FFFFFF">j</span><span style="color:#C8C8C8">][</span><span style="color:#B7F7C8">1</span><span style="color:#C8C8C8">]</span><span style="color:#FF8FBF"> =</span><span style="color:#FFE08A"> max</span><span style="color:#C8C8C8">(</span></span>
 <span class="line"><span style="color:#E8ECFF">    dp</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">i</span><span style="color:#FF8FBF">-</span><span style="color:#B7F7C8">1</span><span style="color:#C8C8C8">][</span><span style="color:#FFFFFF">j</span><span style="color:#FF8FBF">-</span><span style="color:#B7F7C8">1</span><span style="color:#C8C8C8">][</span><span style="color:#B7F7C8">0</span><span style="color:#C8C8C8">]</span><span style="color:#FF8FBF"> +</span><span style="color:#E8ECFF"> node_w</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">i</span><span style="color:#C8C8C8">],</span></span>
 <span class="line"><span style="color:#E8ECFF">    dp</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">i</span><span style="color:#FF8FBF">-</span><span style="color:#B7F7C8">1</span><span style="color:#C8C8C8">][</span><span style="color:#FFFFFF">j</span><span style="color:#FF8FBF">-</span><span style="color:#B7F7C8">1</span><span style="color:#C8C8C8">][</span><span style="color:#B7F7C8">1</span><span style="color:#C8C8C8">]</span><span style="color:#FF8FBF"> +</span><span style="color:#E8ECFF"> node_w</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">i</span><span style="color:#C8C8C8">]</span><span style="color:#FF8FBF"> +</span><span style="color:#E8ECFF"> edge_w</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">i</span><span style="color:#C8C8C8">]</span></span>
 <span class="line"><span style="color:#C8C8C8">);</span></span>
 <span class="line"></span></code></pre>
 <hr>
-<h2>edge_w[i] 含义</h2>
+<h2 id="edge-w-i-含义">edge_w[i] 含义</h2>
 <p>👉 i 和 i-1 之间的边权</p>
 <hr>
 <h1>六、链结果提取</h1>
@@ -205,16 +205,16 @@
 <span class="line"></span></code></pre>
 <hr>
 <h1>九、容易出错的点（你之前卡的）</h1>
-<h2>❌ 1. dp没初始化为 -INF</h2>
+<h2 id="1-dp没初始化为-inf">❌ 1. dp没初始化为 -INF</h2>
 <p>👉 会导致非法状态参与计算</p>
 <hr>
-<h2>❌ 2. 边权只在“两个点都选”时加</h2>
+<h2 id="2-边权只在两个点都选时加">❌ 2. 边权只在“两个点都选”时加</h2>
 <p>👉 很多人写错成只要有边就加</p>
 <hr>
-<h2>❌ 3. 没拆链直接DP</h2>
+<h2 id="3-没拆链直接dp">❌ 3. 没拆链直接DP</h2>
 <p>👉 会超复杂 + 错</p>
 <hr>
-<h2>❌ 4. 忘了 base_ans</h2>
+<h2 id="4-忘了-base-ans">❌ 4. 忘了 base_ans</h2>
 <p>👉 会少一大块答案</p>
 <hr>
 <h1>十、复杂度</h1>
@@ -238,6 +238,6 @@
 <li>👉 如何从“区间”一步步推到“链”</li>
 <li>👉 我帮你手画一个完整样例（强烈推荐）</li>
 </ul>
-<hr></div></article></main><footer class="site-footer"><span>33<!-- --> 件证物 / <!-- -->10<!-- --> 条线索</span><a href="/rss.xml">RSS</a></footer></div>
+<hr></div><aside class="evidence-toc"><button class="toc-tab" type="button" aria-label="展开文章目录" aria-expanded="false"><span aria-hidden="true">←</span></button><nav class="toc-panel" aria-label="文章目录"><div class="toc-head"><span>sealed index</span><strong>目录</strong></div><ol><li class="toc-level-2"><a href="#1-离散化">1️⃣ 离散化</a></li><li class="toc-level-2"><a href="#2-扫描每一小段区间">2️⃣ 扫描每一小段区间</a></li><li class="toc-level-2"><a href="#3-判断左右端点归属-核心">3️⃣ 判断左右端点归属（核心）</a></li><li class="toc-level-3"><a href="#情况1-同一个队">情况1：同一个队</a></li><li class="toc-level-3"><a href="#情况2-不同队">情况2：不同队</a></li><li class="toc-level-3"><a href="#情况3-都是起点">情况3：都是起点</a></li><li class="toc-level-3"><a href="#情况4-左终点右起点">情况4：左终点右起点</a></li><li class="toc-level-2"><a href="#状态定义">状态定义</a></li><li class="toc-level-2"><a href="#初始化">初始化</a></li><li class="toc-level-2"><a href="#转移">转移</a></li><li class="toc-level-3"><a href="#不选当前点">不选当前点</a></li><li class="toc-level-3"><a href="#选当前点">选当前点</a></li><li class="toc-level-2"><a href="#edge-w-i-含义">edge_w[i] 含义</a></li><li class="toc-level-2"><a href="#1-dp没初始化为-inf">❌ 1. dp没初始化为 -INF</a></li><li class="toc-level-2"><a href="#2-边权只在两个点都选时加">❌ 2. 边权只在“两个点都选”时加</a></li><li class="toc-level-2"><a href="#3-没拆链直接dp">❌ 3. 没拆链直接DP</a></li><li class="toc-level-2"><a href="#4-忘了-base-ans">❌ 4. 忘了 base_ans</a></li></ol></nav></aside></article></main><footer class="site-footer"><span>34<!-- --> 件证物 / <!-- -->13<!-- --> 条线索</span><a href="/rss.xml">RSS</a></footer></div>
   </body>
 </html>
