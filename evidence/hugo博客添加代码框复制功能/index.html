@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <title>Hugo博客添加代码框复制功能 · 怪话怪的档案</title>
-    <script type="module" crossorigin src="/assets/index-scwqNyka.js"></script>
+    <script type="module" crossorigin src="/assets/index-D2v6_Cn6.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/index-DxfmJGB3.css">
   <meta name="description" content="由于鼠标拖动复制代码有点费力，我打算给每个代码块添加一个复制按钮（学学大佬orz ）。 经过长时间的搜索学习，我终于加上了（win）。 话不多说。 构建 首先，我们要清楚一点，hugo-papermod本身是不包含代码复制按钮功能的。 所以，我们要自己写，包括写css和js，同时" />
 <meta property="og:title" content="Hugo博客添加代码框复制功能 · 怪话怪的档案" />
@@ -25,87 +25,87 @@
 <ul>
 <li>
 <p><strong>static\css\extended\code-copy.css</strong>(注意不要写错地方了，当然放在assests/css里面也未尝不可，但是相应的要修改一些文件，本人懒得搞了=-=)</p>
-<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">.highlight-copy-btn {</span></span>
-<span class="line"><span style="color:#FFFFFF">    position: absolute;</span></span>
-<span class="line"><span style="color:#FFFFFF">    top: </span><span style="color:#F4D9E5">7</span><span style="color:#FFFFFF">px;</span></span>
-<span class="line"><span style="color:#FFFFFF">    right: </span><span style="color:#F4D9E5">7</span><span style="color:#FFFFFF">px;</span></span>
-<span class="line"><span style="color:#FFFFFF">    border: </span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;</span></span>
-<span class="line"><span style="color:#FFFFFF">    border-radius: </span><span style="color:#F4D9E5">4</span><span style="color:#FFFFFF">px;</span></span>
-<span class="line"><span style="color:#FFFFFF">    width: </span><span style="color:#F4D9E5">28</span><span style="color:#FFFFFF">px;           </span><span style="color:#9A9A9A;font-style:italic">/* 固定按钮大小 */</span></span>
-<span class="line"><span style="color:#FFFFFF">    height: </span><span style="color:#F4D9E5">28</span><span style="color:#FFFFFF">px;</span></span>
-<span class="line"><span style="color:#FFFFFF">    background-color: </span><span style="color:#F4D9E5">#777</span><span style="color:#FFFFFF">;</span></span>
-<span class="line"><span style="color:#FFFFFF">    color: </span><span style="color:#F4D9E5">#fff</span><span style="color:#FFFFFF">;</span></span>
-<span class="line"><span style="color:#FFFFFF">    display: flex;         </span><span style="color:#9A9A9A;font-style:italic">/* flex 布局 */</span></span>
-<span class="line"><span style="color:#FFFFFF">    align-items: center;   </span><span style="color:#9A9A9A;font-style:italic">/* 垂直居中 */</span></span>
-<span class="line"><span style="color:#FFFFFF">    justify-content: center; </span><span style="color:#9A9A9A;font-style:italic">/* 水平居中 */</span></span>
-<span class="line"><span style="color:#FFFFFF">    cursor: pointer;</span></span>
-<span class="line"><span style="color:#FFFFFF">    padding: </span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;            </span><span style="color:#9A9A9A;font-style:italic">/* 去掉多余 padding */</span></span>
-<span class="line"><span style="color:#FFFFFF">}</span></span>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#C8C8C8">.</span><span style="color:#FFFFFF">highlight-copy-btn </span><span style="color:#C8C8C8">{</span></span>
+<span class="line"><span style="color:#94D8FF">    position</span><span style="color:#C8C8C8">:</span><span style="color:#FFFFFF"> absolute</span><span style="color:#C8C8C8">;</span></span>
+<span class="line"><span style="color:#94D8FF">    top</span><span style="color:#C8C8C8">:</span><span style="color:#B7F7C8"> 7</span><span style="color:#FF8FBF">px</span><span style="color:#C8C8C8">;</span></span>
+<span class="line"><span style="color:#94D8FF">    right</span><span style="color:#C8C8C8">:</span><span style="color:#B7F7C8"> 7</span><span style="color:#FF8FBF">px</span><span style="color:#C8C8C8">;</span></span>
+<span class="line"><span style="color:#94D8FF">    border</span><span style="color:#C8C8C8">:</span><span style="color:#B7F7C8"> 0</span><span style="color:#C8C8C8">;</span></span>
+<span class="line"><span style="color:#94D8FF">    border-radius</span><span style="color:#C8C8C8">:</span><span style="color:#B7F7C8"> 4</span><span style="color:#FF8FBF">px</span><span style="color:#C8C8C8">;</span></span>
+<span class="line"><span style="color:#94D8FF">    width</span><span style="color:#C8C8C8">:</span><span style="color:#B7F7C8"> 28</span><span style="color:#FF8FBF">px</span><span style="color:#C8C8C8">;</span><span style="color:#8F8F8F;font-style:italic">           /* 固定按钮大小 */</span></span>
+<span class="line"><span style="color:#94D8FF">    height</span><span style="color:#C8C8C8">:</span><span style="color:#B7F7C8"> 28</span><span style="color:#FF8FBF">px</span><span style="color:#C8C8C8">;</span></span>
+<span class="line"><span style="color:#94D8FF">    background-color</span><span style="color:#C8C8C8">:</span><span style="color:#C8C8C8"> #</span><span style="color:#FFFFFF">777</span><span style="color:#C8C8C8">;</span></span>
+<span class="line"><span style="color:#94D8FF">    color</span><span style="color:#C8C8C8">:</span><span style="color:#C8C8C8"> #</span><span style="color:#FFFFFF">fff</span><span style="color:#C8C8C8">;</span></span>
+<span class="line"><span style="color:#94D8FF">    display</span><span style="color:#C8C8C8">:</span><span style="color:#FFFFFF"> flex</span><span style="color:#C8C8C8">;</span><span style="color:#8F8F8F;font-style:italic">         /* flex 布局 */</span></span>
+<span class="line"><span style="color:#94D8FF">    align-items</span><span style="color:#C8C8C8">:</span><span style="color:#FFFFFF"> center</span><span style="color:#C8C8C8">;</span><span style="color:#8F8F8F;font-style:italic">   /* 垂直居中 */</span></span>
+<span class="line"><span style="color:#94D8FF">    justify-content</span><span style="color:#C8C8C8">:</span><span style="color:#FFFFFF"> center</span><span style="color:#C8C8C8">;</span><span style="color:#8F8F8F;font-style:italic"> /* 水平居中 */</span></span>
+<span class="line"><span style="color:#94D8FF">    cursor</span><span style="color:#C8C8C8">:</span><span style="color:#FFFFFF"> pointer</span><span style="color:#C8C8C8">;</span></span>
+<span class="line"><span style="color:#94D8FF">    padding</span><span style="color:#C8C8C8">:</span><span style="color:#B7F7C8"> 0</span><span style="color:#C8C8C8">;</span><span style="color:#8F8F8F;font-style:italic">            /* 去掉多余 padding */</span></span>
+<span class="line"><span style="color:#C8C8C8">}</span></span>
 <span class="line"></span>
-<span class="line"><span style="color:#FFFFFF">.highlight-copy-btn:hover {</span></span>
-<span class="line"><span style="color:#FFFFFF">    background-color: </span><span style="color:#F4D9E5">#666</span><span style="color:#FFFFFF">;</span></span>
-<span class="line"><span style="color:#FFFFFF">}</span></span>
+<span class="line"><span style="color:#C8C8C8">.</span><span style="color:#FFFFFF">highlight-copy-btn</span><span style="color:#C8C8C8">:</span><span style="color:#FFFFFF">hover </span><span style="color:#C8C8C8">{</span></span>
+<span class="line"><span style="color:#94D8FF">    background-color</span><span style="color:#C8C8C8">:</span><span style="color:#C8C8C8"> #</span><span style="color:#FFFFFF">666</span><span style="color:#C8C8C8">;</span></span>
+<span class="line"><span style="color:#C8C8C8">}</span></span>
 <span class="line"></span>
-<span class="line"><span style="color:#9A9A9A;font-style:italic">/* 控制 svg 图标大小 */</span></span>
-<span class="line"><span style="color:#FFFFFF">.highlight-copy-btn i svg {</span></span>
-<span class="line"><span style="color:#FFFFFF">    width: </span><span style="color:#F4D9E5">16</span><span style="color:#FFFFFF">px;</span></span>
-<span class="line"><span style="color:#FFFFFF">    height: </span><span style="color:#F4D9E5">16</span><span style="color:#FFFFFF">px;</span></span>
-<span class="line"><span style="color:#FFFFFF">    display: block;        </span><span style="color:#9A9A9A;font-style:italic">/* 避免 inline 导致偏上 */</span></span>
-<span class="line"><span style="color:#FFFFFF">}</span></span>
+<span class="line"><span style="color:#8F8F8F;font-style:italic">/* 控制 svg 图标大小 */</span></span>
+<span class="line"><span style="color:#C8C8C8">.</span><span style="color:#FFFFFF">highlight-copy-btn i svg </span><span style="color:#C8C8C8">{</span></span>
+<span class="line"><span style="color:#94D8FF">    width</span><span style="color:#C8C8C8">:</span><span style="color:#B7F7C8"> 16</span><span style="color:#FF8FBF">px</span><span style="color:#C8C8C8">;</span></span>
+<span class="line"><span style="color:#94D8FF">    height</span><span style="color:#C8C8C8">:</span><span style="color:#B7F7C8"> 16</span><span style="color:#FF8FBF">px</span><span style="color:#C8C8C8">;</span></span>
+<span class="line"><span style="color:#94D8FF">    display</span><span style="color:#C8C8C8">:</span><span style="color:#FFFFFF"> block</span><span style="color:#C8C8C8">;</span><span style="color:#8F8F8F;font-style:italic">        /* 避免 inline 导致偏上 */</span></span>
+<span class="line"><span style="color:#C8C8C8">}</span></span>
 <span class="line"></span>
 <span class="line"></span></code></pre>
 </li>
 <li>
 <p><strong>static\js\code-copy.js</strong></p>
-<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">(function() {</span></span>
-<span class="line"><span style="color:#F4D9E5">  'use strict'</span><span style="color:#FFFFFF">;</span></span>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">(</span><span style="color:#FF8FBF">function</span><span style="color:#C8C8C8">()</span><span style="color:#C8C8C8"> {</span></span>
+<span class="line"><span style="color:#FFD1E1">  'use strict'</span><span style="color:#C8C8C8">;</span></span>
 <span class="line"></span>
-<span class="line"><span style="color:#9A9A9A;font-style:italic">  // 切换图标</span></span>
-<span class="line"><span style="color:#FFFFFF">  function flashCopyMessage(</span><span style="color:#E8E8E8">el</span><span style="color:#FFFFFF">, </span><span style="color:#E8E8E8">iconName</span><span style="color:#FFFFFF">) {</span></span>
-<span class="line"><span style="color:#E8E8E8">    el</span><span style="color:#FFFFFF">.</span><span style="color:#E8E8E8">innerHTML</span><span style="color:#FFFFFF"> = </span><span style="color:#F4D9E5">`&#x3C;i data-feather="${</span><span style="color:#E8E8E8">iconName</span><span style="color:#F4D9E5">}">&#x3C;/i>`</span><span style="color:#FFFFFF">;</span></span>
-<span class="line"><span style="color:#E8E8E8">    feather</span><span style="color:#FFFFFF">.replace(); </span><span style="color:#9A9A9A;font-style:italic">// 更新图标</span></span>
-<span class="line"><span style="color:#FFFFFF">    setTimeout(function() {</span></span>
-<span class="line"><span style="color:#E8E8E8">      el</span><span style="color:#FFFFFF">.</span><span style="color:#E8E8E8">innerHTML</span><span style="color:#FFFFFF"> = </span><span style="color:#F4D9E5">'&#x3C;i data-feather="copy">&#x3C;/i>'</span><span style="color:#FFFFFF">; </span><span style="color:#9A9A9A;font-style:italic">// 恢复复制图标</span></span>
-<span class="line"><span style="color:#E8E8E8">      feather</span><span style="color:#FFFFFF">.replace();</span></span>
-<span class="line"><span style="color:#FFFFFF">    }, </span><span style="color:#F4D9E5">1000</span><span style="color:#FFFFFF">);</span></span>
-<span class="line"><span style="color:#FFFFFF">  }</span></span>
+<span class="line"><span style="color:#8F8F8F;font-style:italic">  // 切换图标</span></span>
+<span class="line"><span style="color:#FF8FBF">  function</span><span style="color:#FFE08A"> flashCopyMessage</span><span style="color:#C8C8C8">(</span><span style="color:#E8ECFF">el</span><span style="color:#C8C8C8">,</span><span style="color:#E8ECFF"> iconName</span><span style="color:#C8C8C8">)</span><span style="color:#C8C8C8"> {</span></span>
+<span class="line"><span style="color:#E8ECFF">    el</span><span style="color:#C8C8C8">.</span><span style="color:#E8ECFF">innerHTML</span><span style="color:#FF8FBF"> =</span><span style="color:#FFD1E1"> `&#x3C;i data-feather="${</span><span style="color:#E8ECFF">iconName</span><span style="color:#FFD1E1">}">&#x3C;/i>`</span><span style="color:#C8C8C8">;</span></span>
+<span class="line"><span style="color:#E8ECFF">    feather</span><span style="color:#C8C8C8">.</span><span style="color:#FFE08A">replace</span><span style="color:#FFFFFF">()</span><span style="color:#C8C8C8">;</span><span style="color:#8F8F8F;font-style:italic"> // 更新图标</span></span>
+<span class="line"><span style="color:#FFE08A">    setTimeout</span><span style="color:#FFFFFF">(</span><span style="color:#FF8FBF">function</span><span style="color:#C8C8C8">()</span><span style="color:#C8C8C8"> {</span></span>
+<span class="line"><span style="color:#E8ECFF">      el</span><span style="color:#C8C8C8">.</span><span style="color:#E8ECFF">innerHTML</span><span style="color:#FF8FBF"> =</span><span style="color:#FFD1E1"> '&#x3C;i data-feather="copy">&#x3C;/i>'</span><span style="color:#C8C8C8">;</span><span style="color:#8F8F8F;font-style:italic"> // 恢复复制图标</span></span>
+<span class="line"><span style="color:#E8ECFF">      feather</span><span style="color:#C8C8C8">.</span><span style="color:#FFE08A">replace</span><span style="color:#FFFFFF">()</span><span style="color:#C8C8C8">;</span></span>
+<span class="line"><span style="color:#C8C8C8">    },</span><span style="color:#B7F7C8"> 1000</span><span style="color:#FFFFFF">)</span><span style="color:#C8C8C8">;</span></span>
+<span class="line"><span style="color:#C8C8C8">  }</span></span>
 <span class="line"></span>
-<span class="line"><span style="color:#9A9A9A;font-style:italic">  // 复制文本</span></span>
-<span class="line"><span style="color:#FFFFFF">  async function copyText(</span><span style="color:#E8E8E8">text</span><span style="color:#FFFFFF">, </span><span style="color:#E8E8E8">btn</span><span style="color:#FFFFFF">) {</span></span>
-<span class="line"><span style="color:#FFFFFF">    try {</span></span>
-<span class="line"><span style="color:#FFFFFF">      await </span><span style="color:#E8E8E8">navigator</span><span style="color:#FFFFFF">.</span><span style="color:#E8E8E8">clipboard</span><span style="color:#FFFFFF">.writeText(</span><span style="color:#E8E8E8">text</span><span style="color:#FFFFFF">);</span></span>
-<span class="line"><span style="color:#FFFFFF">      flashCopyMessage(</span><span style="color:#E8E8E8">btn</span><span style="color:#FFFFFF">, </span><span style="color:#F4D9E5">'check'</span><span style="color:#FFFFFF">);   </span><span style="color:#9A9A9A;font-style:italic">// 成功图标</span></span>
-<span class="line"><span style="color:#FFFFFF">    } catch (</span><span style="color:#E8E8E8">e</span><span style="color:#FFFFFF">) {</span></span>
-<span class="line"><span style="color:#FFFFFF">      flashCopyMessage(</span><span style="color:#E8E8E8">btn</span><span style="color:#FFFFFF">, </span><span style="color:#F4D9E5">'x'</span><span style="color:#FFFFFF">);       </span><span style="color:#9A9A9A;font-style:italic">// 失败图标</span></span>
-<span class="line"><span style="color:#FFFFFF">    }</span></span>
-<span class="line"><span style="color:#FFFFFF">  }</span></span>
+<span class="line"><span style="color:#8F8F8F;font-style:italic">  // 复制文本</span></span>
+<span class="line"><span style="color:#FF8FBF">  async</span><span style="color:#FF8FBF"> function</span><span style="color:#FFE08A"> copyText</span><span style="color:#C8C8C8">(</span><span style="color:#E8ECFF">text</span><span style="color:#C8C8C8">,</span><span style="color:#E8ECFF"> btn</span><span style="color:#C8C8C8">)</span><span style="color:#C8C8C8"> {</span></span>
+<span class="line"><span style="color:#FF8FBF">    try</span><span style="color:#C8C8C8"> {</span></span>
+<span class="line"><span style="color:#FF8FBF">      await</span><span style="color:#E8ECFF"> navigator</span><span style="color:#C8C8C8">.</span><span style="color:#E8ECFF">clipboard</span><span style="color:#C8C8C8">.</span><span style="color:#FFE08A">writeText</span><span style="color:#FFFFFF">(</span><span style="color:#E8ECFF">text</span><span style="color:#FFFFFF">)</span><span style="color:#C8C8C8">;</span></span>
+<span class="line"><span style="color:#FFE08A">      flashCopyMessage</span><span style="color:#FFFFFF">(</span><span style="color:#E8ECFF">btn</span><span style="color:#C8C8C8">,</span><span style="color:#FFD1E1"> 'check'</span><span style="color:#FFFFFF">)</span><span style="color:#C8C8C8">;</span><span style="color:#8F8F8F;font-style:italic">   // 成功图标</span></span>
+<span class="line"><span style="color:#C8C8C8">    }</span><span style="color:#FF8FBF"> catch</span><span style="color:#FFFFFF"> (</span><span style="color:#E8ECFF">e</span><span style="color:#FFFFFF">) </span><span style="color:#C8C8C8">{</span></span>
+<span class="line"><span style="color:#FFE08A">      flashCopyMessage</span><span style="color:#FFFFFF">(</span><span style="color:#E8ECFF">btn</span><span style="color:#C8C8C8">,</span><span style="color:#FFD1E1"> 'x'</span><span style="color:#FFFFFF">)</span><span style="color:#C8C8C8">;</span><span style="color:#8F8F8F;font-style:italic">       // 失败图标</span></span>
+<span class="line"><span style="color:#C8C8C8">    }</span></span>
+<span class="line"><span style="color:#C8C8C8">  }</span></span>
 <span class="line"></span>
-<span class="line"><span style="color:#9A9A9A;font-style:italic">  // 为每个代码块添加按钮</span></span>
-<span class="line"><span style="color:#FFFFFF">  function addCopyButton(</span><span style="color:#E8E8E8">containerEl</span><span style="color:#FFFFFF">) {</span></span>
-<span class="line"><span style="color:#FFFFFF">    var </span><span style="color:#E8E8E8">copyBtn</span><span style="color:#FFFFFF"> = </span><span style="color:#E8E8E8">document</span><span style="color:#FFFFFF">.createElement(</span><span style="color:#F4D9E5">"button"</span><span style="color:#FFFFFF">);</span></span>
-<span class="line"><span style="color:#E8E8E8">    copyBtn</span><span style="color:#FFFFFF">.</span><span style="color:#E8E8E8">className</span><span style="color:#FFFFFF"> = </span><span style="color:#F4D9E5">"highlight-copy-btn"</span><span style="color:#FFFFFF">;</span></span>
-<span class="line"><span style="color:#E8E8E8">    copyBtn</span><span style="color:#FFFFFF">.</span><span style="color:#E8E8E8">innerHTML</span><span style="color:#FFFFFF"> = </span><span style="color:#F4D9E5">'&#x3C;i data-feather="copy">&#x3C;/i>'</span><span style="color:#FFFFFF">;</span></span>
+<span class="line"><span style="color:#8F8F8F;font-style:italic">  // 为每个代码块添加按钮</span></span>
+<span class="line"><span style="color:#FF8FBF">  function</span><span style="color:#FFE08A"> addCopyButton</span><span style="color:#C8C8C8">(</span><span style="color:#E8ECFF">containerEl</span><span style="color:#C8C8C8">)</span><span style="color:#C8C8C8"> {</span></span>
+<span class="line"><span style="color:#FF8FBF">    var</span><span style="color:#E8ECFF"> copyBtn</span><span style="color:#FF8FBF"> =</span><span style="color:#E8ECFF"> document</span><span style="color:#C8C8C8">.</span><span style="color:#FFE08A">createElement</span><span style="color:#FFFFFF">(</span><span style="color:#FFD1E1">"button"</span><span style="color:#FFFFFF">)</span><span style="color:#C8C8C8">;</span></span>
+<span class="line"><span style="color:#E8ECFF">    copyBtn</span><span style="color:#C8C8C8">.</span><span style="color:#E8ECFF">className</span><span style="color:#FF8FBF"> =</span><span style="color:#FFD1E1"> "highlight-copy-btn"</span><span style="color:#C8C8C8">;</span></span>
+<span class="line"><span style="color:#E8ECFF">    copyBtn</span><span style="color:#C8C8C8">.</span><span style="color:#E8ECFF">innerHTML</span><span style="color:#FF8FBF"> =</span><span style="color:#FFD1E1"> '&#x3C;i data-feather="copy">&#x3C;/i>'</span><span style="color:#C8C8C8">;</span></span>
 <span class="line"></span>
-<span class="line"><span style="color:#FFFFFF">    var </span><span style="color:#E8E8E8">codeEl</span><span style="color:#FFFFFF"> = </span><span style="color:#E8E8E8">containerEl</span><span style="color:#FFFFFF">.querySelector(</span><span style="color:#F4D9E5">"pre code"</span><span style="color:#FFFFFF">);</span></span>
-<span class="line"><span style="color:#FFFFFF">    if (!</span><span style="color:#E8E8E8">codeEl</span><span style="color:#FFFFFF">) return;</span></span>
+<span class="line"><span style="color:#FF8FBF">    var</span><span style="color:#E8ECFF"> codeEl</span><span style="color:#FF8FBF"> =</span><span style="color:#E8ECFF"> containerEl</span><span style="color:#C8C8C8">.</span><span style="color:#FFE08A">querySelector</span><span style="color:#FFFFFF">(</span><span style="color:#FFD1E1">"pre code"</span><span style="color:#FFFFFF">)</span><span style="color:#C8C8C8">;</span></span>
+<span class="line"><span style="color:#FF8FBF">    if</span><span style="color:#FFFFFF"> (</span><span style="color:#FF8FBF">!</span><span style="color:#E8ECFF">codeEl</span><span style="color:#FFFFFF">) </span><span style="color:#FF8FBF">return</span><span style="color:#C8C8C8">;</span></span>
 <span class="line"></span>
-<span class="line"><span style="color:#E8E8E8">    copyBtn</span><span style="color:#FFFFFF">.addEventListener(</span><span style="color:#F4D9E5">'click'</span><span style="color:#FFFFFF">, function() {</span></span>
-<span class="line"><span style="color:#FFFFFF">      copyText(</span><span style="color:#E8E8E8">codeEl</span><span style="color:#FFFFFF">.</span><span style="color:#E8E8E8">innerText</span><span style="color:#FFFFFF">, </span><span style="color:#E8E8E8">copyBtn</span><span style="color:#FFFFFF">);</span></span>
-<span class="line"><span style="color:#FFFFFF">    });</span></span>
+<span class="line"><span style="color:#E8ECFF">    copyBtn</span><span style="color:#C8C8C8">.</span><span style="color:#FFE08A">addEventListener</span><span style="color:#FFFFFF">(</span><span style="color:#FFD1E1">'click'</span><span style="color:#C8C8C8">,</span><span style="color:#FF8FBF"> function</span><span style="color:#C8C8C8">()</span><span style="color:#C8C8C8"> {</span></span>
+<span class="line"><span style="color:#FFE08A">      copyText</span><span style="color:#FFFFFF">(</span><span style="color:#E8ECFF">codeEl</span><span style="color:#C8C8C8">.</span><span style="color:#E8ECFF">innerText</span><span style="color:#C8C8C8">,</span><span style="color:#E8ECFF"> copyBtn</span><span style="color:#FFFFFF">)</span><span style="color:#C8C8C8">;</span></span>
+<span class="line"><span style="color:#C8C8C8">    }</span><span style="color:#FFFFFF">)</span><span style="color:#C8C8C8">;</span></span>
 <span class="line"></span>
-<span class="line"><span style="color:#E8E8E8">    containerEl</span><span style="color:#FFFFFF">.</span><span style="color:#E8E8E8">style</span><span style="color:#FFFFFF">.</span><span style="color:#E8E8E8">position</span><span style="color:#FFFFFF"> = </span><span style="color:#F4D9E5">"relative"</span><span style="color:#FFFFFF">;</span></span>
-<span class="line"><span style="color:#E8E8E8">    containerEl</span><span style="color:#FFFFFF">.appendChild(</span><span style="color:#E8E8E8">copyBtn</span><span style="color:#FFFFFF">);</span></span>
-<span class="line"><span style="color:#E8E8E8">    feather</span><span style="color:#FFFFFF">.replace(); </span><span style="color:#9A9A9A;font-style:italic">// 初始化图标</span></span>
-<span class="line"><span style="color:#FFFFFF">  }</span></span>
+<span class="line"><span style="color:#E8ECFF">    containerEl</span><span style="color:#C8C8C8">.</span><span style="color:#E8ECFF">style</span><span style="color:#C8C8C8">.</span><span style="color:#E8ECFF">position</span><span style="color:#FF8FBF"> =</span><span style="color:#FFD1E1"> "relative"</span><span style="color:#C8C8C8">;</span></span>
+<span class="line"><span style="color:#E8ECFF">    containerEl</span><span style="color:#C8C8C8">.</span><span style="color:#FFE08A">appendChild</span><span style="color:#FFFFFF">(</span><span style="color:#E8ECFF">copyBtn</span><span style="color:#FFFFFF">)</span><span style="color:#C8C8C8">;</span></span>
+<span class="line"><span style="color:#E8ECFF">    feather</span><span style="color:#C8C8C8">.</span><span style="color:#FFE08A">replace</span><span style="color:#FFFFFF">()</span><span style="color:#C8C8C8">;</span><span style="color:#8F8F8F;font-style:italic"> // 初始化图标</span></span>
+<span class="line"><span style="color:#C8C8C8">  }</span></span>
 <span class="line"></span>
-<span class="line"><span style="color:#9A9A9A;font-style:italic">  // 初始化所有高亮块</span></span>
-<span class="line"><span style="color:#FFFFFF">  function init() {</span></span>
-<span class="line"><span style="color:#FFFFFF">    var </span><span style="color:#E8E8E8">highlightBlocks</span><span style="color:#FFFFFF"> = </span><span style="color:#E8E8E8">document</span><span style="color:#FFFFFF">.getElementsByClassName(</span><span style="color:#F4D9E5">'highlight'</span><span style="color:#FFFFFF">);</span></span>
-<span class="line"><span style="color:#FFFFFF">    Array.prototype.</span><span style="color:#E8E8E8">forEach</span><span style="color:#FFFFFF">.call(</span><span style="color:#E8E8E8">highlightBlocks</span><span style="color:#FFFFFF">, </span><span style="color:#E8E8E8">addCopyButton</span><span style="color:#FFFFFF">);</span></span>
-<span class="line"><span style="color:#FFFFFF">  }</span></span>
+<span class="line"><span style="color:#8F8F8F;font-style:italic">  // 初始化所有高亮块</span></span>
+<span class="line"><span style="color:#FF8FBF">  function</span><span style="color:#FFE08A"> init</span><span style="color:#C8C8C8">()</span><span style="color:#C8C8C8"> {</span></span>
+<span class="line"><span style="color:#FF8FBF">    var</span><span style="color:#E8ECFF"> highlightBlocks</span><span style="color:#FF8FBF"> =</span><span style="color:#E8ECFF"> document</span><span style="color:#C8C8C8">.</span><span style="color:#FFE08A">getElementsByClassName</span><span style="color:#FFFFFF">(</span><span style="color:#FFD1E1">'highlight'</span><span style="color:#FFFFFF">)</span><span style="color:#C8C8C8">;</span></span>
+<span class="line"><span style="color:#94D8FF">    Array</span><span style="color:#C8C8C8">.</span><span style="color:#FFFFFF">prototype</span><span style="color:#C8C8C8">.</span><span style="color:#E8ECFF">forEach</span><span style="color:#C8C8C8">.</span><span style="color:#FFE08A">call</span><span style="color:#FFFFFF">(</span><span style="color:#E8ECFF">highlightBlocks</span><span style="color:#C8C8C8">,</span><span style="color:#E8ECFF"> addCopyButton</span><span style="color:#FFFFFF">)</span><span style="color:#C8C8C8">;</span></span>
+<span class="line"><span style="color:#C8C8C8">  }</span></span>
 <span class="line"></span>
-<span class="line"><span style="color:#E8E8E8">  document</span><span style="color:#FFFFFF">.addEventListener(</span><span style="color:#F4D9E5">"DOMContentLoaded"</span><span style="color:#FFFFFF">, </span><span style="color:#E8E8E8">init</span><span style="color:#FFFFFF">);</span></span>
-<span class="line"><span style="color:#FFFFFF">})();</span></span>
+<span class="line"><span style="color:#E8ECFF">  document</span><span style="color:#C8C8C8">.</span><span style="color:#FFE08A">addEventListener</span><span style="color:#FFFFFF">(</span><span style="color:#FFD1E1">"DOMContentLoaded"</span><span style="color:#C8C8C8">,</span><span style="color:#E8ECFF"> init</span><span style="color:#FFFFFF">)</span><span style="color:#C8C8C8">;</span></span>
+<span class="line"><span style="color:#C8C8C8">}</span><span style="color:#FFFFFF">)()</span><span style="color:#C8C8C8">;</span></span>
 <span class="line"></span></code></pre>
 </li>
 </ul>
@@ -113,11 +113,11 @@
 <p><strong>1.</strong> 把<code>themes\PaperMod\layouts\partials\head.html</code>拷贝一份到<code>layouts\partials\head.html</code>然后修改后者（<a href="/evidence/hugo%E5%8D%9A%E5%AE%A2%E9%85%8D%E7%BD%AE%26markdown%E8%AF%AD%E6%B3%95/" title="悬停指示（标题）">模板覆盖规则</a>）：</p>
 <p>在文件结尾添加</p>
 <pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">{{ range .Site.Params.assets.customCSS }}</span></span>
-<span class="line"><span style="color:#FFFFFF">  &#x3C;link rel=</span><span style="color:#F4D9E5">"stylesheet"</span><span style="color:#FFFFFF"> href=</span><span style="color:#F4D9E5">"{{ . | absURL }}"</span><span style="color:#FFFFFF">></span></span>
+<span class="line"><span style="color:#C8C8C8">  &#x3C;</span><span style="color:#FFFFFF">link rel</span><span style="color:#C8C8C8">=</span><span style="color:#FFD1E1">"stylesheet"</span><span style="color:#FFFFFF"> href</span><span style="color:#C8C8C8">=</span><span style="color:#FFD1E1">"{{ . | absURL }}"</span><span style="color:#C8C8C8">></span></span>
 <span class="line"><span style="color:#FFFFFF">{{- end }}</span></span>
 <span class="line"></span>
 <span class="line"><span style="color:#FFFFFF">{{ range .Site.Params.assets.customJS }}</span></span>
-<span class="line"><span style="color:#FFFFFF">  &#x3C;script type=</span><span style="color:#F4D9E5">"text/javascript"</span><span style="color:#FFFFFF"> src=</span><span style="color:#F4D9E5">"{{ . | absURL }}"</span><span style="color:#FFFFFF"> defer>&#x3C;/script></span></span>
+<span class="line"><span style="color:#C8C8C8">  &#x3C;</span><span style="color:#FFFFFF">script type</span><span style="color:#C8C8C8">=</span><span style="color:#FFD1E1">"text/javascript"</span><span style="color:#FFFFFF"> src</span><span style="color:#C8C8C8">=</span><span style="color:#FFD1E1">"{{ . | absURL }}"</span><span style="color:#FFFFFF"> defer</span><span style="color:#C8C8C8">>&#x3C;/</span><span style="color:#FFFFFF">script</span><span style="color:#C8C8C8">></span></span>
 <span class="line"><span style="color:#FFFFFF">{{- end }}</span></span>
 <span class="line"></span>
 <span class="line"><span style="color:#FFFFFF">{{ range $elem := .Site.Params.assets.customjscssraw }}</span></span>

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <title>Hugo项目整体架构与GitHub部署说明 · 怪话怪的档案</title>
-    <script type="module" crossorigin src="/assets/index-scwqNyka.js"></script>
+    <script type="module" crossorigin src="/assets/index-D2v6_Cn6.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/index-DxfmJGB3.css">
   <meta name="description" content="先说结论 这个博客能部署到 GitHub，不只是因为“用了 Hugo”，更关键是 项目架构从一开始就把“源码”和“构建产物”拆开了 ： F:\myblog 是 Hugo 源码仓库，负责写文章、配主题、改模板。 F:\myblog\public 是 Hugo 生成后的静态站点目录，" />
 <meta property="og:title" content="Hugo项目整体架构与GitHub部署说明 · 怪话怪的档案" />
@@ -79,7 +79,7 @@ Hugo 不会把它们原样发到 GitHub，而是会把它们解析后生成 HTML
 <strong>Hugo 配置决定“生成什么样的站点”，但不决定“怎么发布到 GitHub”。</strong></p>
 <h3>4. 构建层：<code>hugo</code></h3>
 <p>部署脚本里这一句最关键：</p>
-<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">hugo -D --cleanDestinationDir</span></span>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">hugo </span><span style="color:#FF8FBF">-</span><span style="color:#FFFFFF">D </span><span style="color:#FF8FBF">--</span><span style="color:#FFFFFF">cleanDestinationDir</span></span>
 <span class="line"></span></code></pre>
 <p>它做了两件事：</p>
 <ol>
@@ -126,13 +126,13 @@ GitHub Pages 看到的只是一个普通静态网站目录。</p>
 如果 <code>public/</code> 只是普通文件夹，那它只能当本地输出目录；<br>
 但当它本身也是一个独立仓库时，它就可以直接承担“发布仓库”的角色。</p>
 <p>这就是为什么 <code>deploy.ps1</code> 会先：</p>
-<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">Set-Location F:\myblog\public</span></span>
-<span class="line"><span style="color:#FFFFFF">git switch main</span></span>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFE08A">Set-Location</span><span style="color:#FFFFFF"> F:\myblog\public</span></span>
+<span class="line"><span style="color:#FFFFFF">git </span><span style="color:#FF8FBF">switch</span><span style="color:#FFFFFF"> main</span></span>
 <span class="line"></span></code></pre>
 <p>然后再：</p>
 <pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">git add .</span></span>
-<span class="line"><span style="color:#FFFFFF">git commit -m </span><span style="color:#F4D9E5">"</span><span style="color:#E8E8E8">$msg</span><span style="color:#F4D9E5">"</span></span>
-<span class="line"><span style="color:#FFFFFF">git push </span><span style="color:#FFFFFF">-f</span><span style="color:#FFFFFF"> origin main</span></span>
+<span class="line"><span style="color:#FFFFFF">git commit </span><span style="color:#FF8FBF">-</span><span style="color:#FFFFFF">m </span><span style="color:#FFD1E1">"$</span><span style="color:#E8ECFF">msg</span><span style="color:#FFD1E1">"</span></span>
+<span class="line"><span style="color:#FFFFFF">git push </span><span style="color:#FF8FBF">-f</span><span style="color:#FFFFFF"> origin main</span></span>
 <span class="line"></span></code></pre>
 <p>这已经不是 Hugo 的行为了，而是标准 Git 发布流程。</p>
 <h3>架构选择 3：GitHub Pages 仓库单独承载静态站点</h3>
@@ -161,23 +161,23 @@ GitHub Pages 看到的只是一个普通静态网站目录。</p>
 <h2><code>deploy.ps1</code> 在这套架构中的角色</h2>
 <p><code>deploy.ps1</code> 本质上是“把架构串起来”的自动化脚本。它不是简单执行一个命令，而是在串联四个阶段：</p>
 <h3>阶段 1：进入发布仓库</h3>
-<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">Set-Location F:\myblog\public</span></span>
-<span class="line"><span style="color:#FFFFFF">git switch </span><span style="color:#E8E8E8">$deployBranch</span></span>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFE08A">Set-Location</span><span style="color:#FFFFFF"> F:\myblog\public</span></span>
+<span class="line"><span style="color:#FFFFFF">git </span><span style="color:#FF8FBF">switch</span><span style="color:#C8C8C8"> $</span><span style="color:#E8ECFF">deployBranch</span></span>
 <span class="line"></span></code></pre>
 <p>目的：确保 <code>public/</code> 当前位于要发布的分支。</p>
 <h3>阶段 2：从 Hugo 源码重新生成站点</h3>
-<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">Set-Location F:\myblog</span></span>
-<span class="line"><span style="color:#FFFFFF">hugo -D --cleanDestinationDir</span></span>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFE08A">Set-Location</span><span style="color:#FFFFFF"> F:\myblog</span></span>
+<span class="line"><span style="color:#FFFFFF">hugo </span><span style="color:#FF8FBF">-</span><span style="color:#FFFFFF">D </span><span style="color:#FF8FBF">--</span><span style="color:#FFFFFF">cleanDestinationDir</span></span>
 <span class="line"></span></code></pre>
 <p>目的：从 <code>content/ + theme + layouts + static + assets + hugo.toml</code> 重新生成完整静态站点。</p>
 <h3>阶段 3：提交构建结果</h3>
-<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">Set-Location F:\myblog\public</span></span>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFE08A">Set-Location</span><span style="color:#FFFFFF"> F:\myblog\public</span></span>
 <span class="line"><span style="color:#FFFFFF">git add .</span></span>
-<span class="line"><span style="color:#FFFFFF">git commit -m </span><span style="color:#F4D9E5">"</span><span style="color:#E8E8E8">$msg</span><span style="color:#F4D9E5">"</span></span>
+<span class="line"><span style="color:#FFFFFF">git commit </span><span style="color:#FF8FBF">-</span><span style="color:#FFFFFF">m </span><span style="color:#FFD1E1">"$</span><span style="color:#E8ECFF">msg</span><span style="color:#FFD1E1">"</span></span>
 <span class="line"></span></code></pre>
 <p>目的：把这次构建结果作为一次独立发布记录保存下来。</p>
 <h3>阶段 4：推送到 GitHub</h3>
-<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">git push </span><span style="color:#FFFFFF">-f</span><span style="color:#FFFFFF"> origin </span><span style="color:#E8E8E8">$deployBranch</span></span>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">git push </span><span style="color:#FF8FBF">-f</span><span style="color:#FFFFFF"> origin </span><span style="color:#C8C8C8">$</span><span style="color:#E8ECFF">deployBranch</span></span>
 <span class="line"></span></code></pre>
 <p>目的：把最新静态站点强制推送到 GitHub Pages 仓库。</p>
 <p>注意这里用了 <code>-f</code>，说明当前发布策略更偏向“<strong>以本地最新构建结果覆盖线上内容</strong>”。<br>

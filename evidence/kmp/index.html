@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <title>KMP · 怪话怪的档案</title>
-    <script type="module" crossorigin src="/assets/index-scwqNyka.js"></script>
+    <script type="module" crossorigin src="/assets/index-D2v6_Cn6.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/index-DxfmJGB3.css">
   <meta name="description" content="感觉 KMP 很简单就没练过，用的时候太不熟练，写个博客熟悉熟悉。 其实主要就是两部分，一个是确定 next 数组，一个是利用 next 找子串，这两部分大致思路很简单，有点异曲同工。 具体细节代码中注释已经说的很清楚了，不再赘述。 #include &amp;#x3C;bits/std" />
 <meta property="og:title" content="KMP · 怪话怪的档案" />
@@ -17,80 +17,80 @@
     <div id="root"><a class="skip-link" href="#content">跳到正文</a><script>(()=>{try{const p=localStorage.getItem('guai-persona')||'dark';document.documentElement.dataset.persona=p;}catch{document.documentElement.dataset.persona='dark';}})();</script><canvas class="clue-canvas" data-clue-canvas="true" aria-hidden="true"></canvas><div class="texture-field" aria-hidden="true"></div><header class="site-header"><a class="brand-stamp" href="/" aria-label="返回证物首页"><strong>怪话怪</strong><small>黑白档案</small></a><nav class="paper-nav" aria-label="主导航"><a href="/" class="" style="--pin-tilt:-5deg"><span>证物</span><em>evidence</em></a><a href="/dossier/" class="" style="--pin-tilt:3deg"><span>档案</span><em>dossier</em></a><a href="/clues/" class="" style="--pin-tilt:-2deg"><span>线索</span><em>clues</em></a></nav><div class="header-tools"><button class="ink-button" type="button">搜寻</button><button class="persona-toggle desktop-persona-toggle" type="button" aria-label="切换黑白人格"><span>反稿</span></button><button class="ink-button menu-button" type="button" aria-controls="mobile-site-menu" aria-expanded="false" aria-label="打开目录">目录</button></div><div id="mobile-site-menu" class="mobile-menu" hidden=""><nav class="mobile-nav" aria-label="手机端目录"><a href="/" class="" style="--pin-tilt:-5deg"><span>证物</span><em>evidence</em></a><a href="/dossier/" class="" style="--pin-tilt:3deg"><span>档案</span><em>dossier</em></a><a href="/clues/" class="" style="--pin-tilt:-2deg"><span>线索</span><em>clues</em></a></nav><button class="persona-toggle mobile-persona-toggle" type="button" aria-label="切换黑白人格"><span>反稿</span></button></div></header><main id="content" class="site-main"><article class="evidence-page"><header class="evidence-hero"><a class="back-link" href="/dossier/">返回档案柜</a><p class="kicker">E-<!-- -->0029<!-- --> / evidence</p><h1 class="fragment-title evidence-title" aria-label="KMP"><span>KMP</span></h1><div class="evidence-hero-meta"><span>2025/09/25</span><span>2 分钟</span></div><div class="clue-list hero-clues"><a href="/clues/%E7%AE%97%E6%B3%95/">#<!-- -->算法</a></div></header><div class="manuscript"><p>感觉<code>KMP</code>很简单就没练过，用的时候太不熟练，写个博客熟悉熟悉。</p>
 <p>其实主要就是两部分，一个是确定<code>next</code>数组，一个是利用<code>next</code>找子串，这两部分大致思路很简单，有点异曲同工。</p>
 <p>具体细节代码中注释已经说的很清楚了，不再赘述。</p>
-<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">#include</span><span style="color:#F4D9E5">&#x3C;bits/stdc++.h></span></span>
-<span class="line"><span style="color:#FFFFFF">using namespace std;</span></span>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFB86C">#include</span><span style="color:#FFD1E1">&#x3C;bits/stdc++.h></span></span>
+<span class="line"><span style="color:#FF8FBF">using</span><span style="color:#FF8FBF"> namespace</span><span style="color:#FFFFFF"> std</span><span style="color:#C8C8C8">;</span></span>
 <span class="line"></span>
-<span class="line"><span style="color:#E8E8E8">vector</span><span style="color:#FFFFFF">&#x3C;int> getNext(const </span><span style="color:#E8E8E8">string</span><span style="color:#FFFFFF"> &#x26;</span><span style="color:#E8E8E8">pattern</span><span style="color:#FFFFFF">)</span></span>
-<span class="line"><span style="color:#FFFFFF">{</span></span>
-<span class="line"><span style="color:#FFFFFF">    int m = </span><span style="color:#E8E8E8">pattern</span><span style="color:#FFFFFF">.size();</span><span style="color:#9A9A9A;font-style:italic"> // 既可以用来初始化也可以作为循环出口</span></span>
-<span class="line"><span style="color:#FFFFFF">    vector&#x3C;int> next(m);</span></span>
-<span class="line"><span style="color:#E8E8E8">    next</span><span style="color:#FFFFFF">.push_back(</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">);</span><span style="color:#9A9A9A;font-style:italic"> // 一个字符无法匹配默认为0</span></span>
-<span class="line"><span style="color:#FFFFFF">    int i=</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">;</span><span style="color:#9A9A9A;font-style:italic"> // 后缀匹配到的字符位置（只增不减）</span></span>
-<span class="line"><span style="color:#FFFFFF">    int p=</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;</span><span style="color:#9A9A9A;font-style:italic"> // 记录当前最大前缀(末)位置(其实也就是p=next[0])</span></span>
-<span class="line"><span style="color:#FFFFFF">    while(i&#x3C;m)</span></span>
-<span class="line"><span style="color:#FFFFFF">    {</span></span>
-<span class="line"><span style="color:#FFFFFF">        if(</span><span style="color:#E8E8E8">next</span><span style="color:#FFFFFF">[p] == </span><span style="color:#E8E8E8">next</span><span style="color:#FFFFFF">[i])</span></span>
-<span class="line"><span style="color:#FFFFFF">        {</span></span>
-<span class="line"><span style="color:#FFFFFF">            p++;</span><span style="color:#9A9A9A;font-style:italic"> // 缀数增加，要推进主串，同时构建next</span></span>
-<span class="line"><span style="color:#E8E8E8">            next</span><span style="color:#FFFFFF">.push_back(p);</span></span>
-<span class="line"><span style="color:#FFFFFF">            i++;</span><span style="color:#9A9A9A;font-style:italic"> // 向后推进</span></span>
-<span class="line"><span style="color:#FFFFFF">        }</span></span>
-<span class="line"><span style="color:#FFFFFF">        else</span><span style="color:#9A9A9A;font-style:italic"> // 后缀断连</span></span>
-<span class="line"><span style="color:#FFFFFF">        {</span></span>
-<span class="line"><span style="color:#FFFFFF">            if(p == </span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">)</span><span style="color:#9A9A9A;font-style:italic"> // 没有回退空间（找不到更小前后缀）,保持缀数不变,继续推进</span></span>
-<span class="line"><span style="color:#FFFFFF">            {</span></span>
-<span class="line"><span style="color:#FFFFFF">                i++;</span></span>
-<span class="line"><span style="color:#FFFFFF">            }</span></span>
-<span class="line"><span style="color:#FFFFFF">            else</span></span>
-<span class="line"><span style="color:#FFFFFF">            {</span></span>
-<span class="line"><span style="color:#FFFFFF">                p = </span><span style="color:#E8E8E8">next</span><span style="color:#FFFFFF">[p-</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">];</span><span style="color:#9A9A9A;font-style:italic"> // 前后缀长度回退，循环继续</span></span>
-<span class="line"><span style="color:#FFFFFF">            }</span></span>
-<span class="line"><span style="color:#FFFFFF">        }</span></span>
-<span class="line"><span style="color:#FFFFFF">    }</span></span>
-<span class="line"><span style="color:#FFFFFF">    return next;</span></span>
-<span class="line"><span style="color:#FFFFFF">}</span></span>
+<span class="line"><span style="color:#94D8FF">vector</span><span style="color:#C8C8C8">&#x3C;</span><span style="color:#FF8FBF">int</span><span style="color:#C8C8C8">></span><span style="color:#FFE08A"> getNext</span><span style="color:#C8C8C8">(</span><span style="color:#FF8FBF">const</span><span style="color:#94D8FF"> string</span><span style="color:#FF8FBF"> &#x26;</span><span style="color:#E8ECFF">pattern</span><span style="color:#C8C8C8">)</span></span>
+<span class="line"><span style="color:#C8C8C8">{</span></span>
+<span class="line"><span style="color:#FF8FBF">    int</span><span style="color:#FFFFFF"> m </span><span style="color:#FF8FBF">=</span><span style="color:#E8ECFF"> pattern</span><span style="color:#C8C8C8">.</span><span style="color:#FFE08A">size</span><span style="color:#C8C8C8">();</span><span style="color:#8F8F8F;font-style:italic"> // 既可以用来初始化也可以作为循环出口</span></span>
+<span class="line"><span style="color:#FFFFFF">    vector</span><span style="color:#FF8FBF">&#x3C;int></span><span style="color:#FFE08A"> next</span><span style="color:#C8C8C8">(</span><span style="color:#FFFFFF">m</span><span style="color:#C8C8C8">);</span></span>
+<span class="line"><span style="color:#E8ECFF">    next</span><span style="color:#C8C8C8">.</span><span style="color:#FFE08A">push_back</span><span style="color:#C8C8C8">(</span><span style="color:#B7F7C8">0</span><span style="color:#C8C8C8">);</span><span style="color:#8F8F8F;font-style:italic"> // 一个字符无法匹配默认为0</span></span>
+<span class="line"><span style="color:#FF8FBF">    int</span><span style="color:#FFFFFF"> i</span><span style="color:#FF8FBF">=</span><span style="color:#B7F7C8">1</span><span style="color:#C8C8C8">;</span><span style="color:#8F8F8F;font-style:italic"> // 后缀匹配到的字符位置（只增不减）</span></span>
+<span class="line"><span style="color:#FF8FBF">    int</span><span style="color:#FFFFFF"> p</span><span style="color:#FF8FBF">=</span><span style="color:#B7F7C8">0</span><span style="color:#C8C8C8">;</span><span style="color:#8F8F8F;font-style:italic"> // 记录当前最大前缀(末)位置(其实也就是p=next[0])</span></span>
+<span class="line"><span style="color:#FF8FBF">    while</span><span style="color:#C8C8C8">(</span><span style="color:#FFFFFF">i</span><span style="color:#FF8FBF">&#x3C;</span><span style="color:#FFFFFF">m</span><span style="color:#C8C8C8">)</span></span>
+<span class="line"><span style="color:#C8C8C8">    {</span></span>
+<span class="line"><span style="color:#FF8FBF">        if</span><span style="color:#C8C8C8">(</span><span style="color:#E8ECFF">next</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">p</span><span style="color:#C8C8C8">]</span><span style="color:#FF8FBF"> ==</span><span style="color:#E8ECFF"> next</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">i</span><span style="color:#C8C8C8">])</span></span>
+<span class="line"><span style="color:#C8C8C8">        {</span></span>
+<span class="line"><span style="color:#FFFFFF">            p</span><span style="color:#FF8FBF">++</span><span style="color:#C8C8C8">;</span><span style="color:#8F8F8F;font-style:italic"> // 缀数增加，要推进主串，同时构建next</span></span>
+<span class="line"><span style="color:#E8ECFF">            next</span><span style="color:#C8C8C8">.</span><span style="color:#FFE08A">push_back</span><span style="color:#C8C8C8">(</span><span style="color:#FFFFFF">p</span><span style="color:#C8C8C8">);</span></span>
+<span class="line"><span style="color:#FFFFFF">            i</span><span style="color:#FF8FBF">++</span><span style="color:#C8C8C8">;</span><span style="color:#8F8F8F;font-style:italic"> // 向后推进</span></span>
+<span class="line"><span style="color:#C8C8C8">        }</span></span>
+<span class="line"><span style="color:#FF8FBF">        else</span><span style="color:#8F8F8F;font-style:italic"> // 后缀断连</span></span>
+<span class="line"><span style="color:#C8C8C8">        {</span></span>
+<span class="line"><span style="color:#FF8FBF">            if</span><span style="color:#C8C8C8">(</span><span style="color:#FFFFFF">p </span><span style="color:#FF8FBF">==</span><span style="color:#B7F7C8"> 0</span><span style="color:#C8C8C8">)</span><span style="color:#8F8F8F;font-style:italic"> // 没有回退空间（找不到更小前后缀）,保持缀数不变,继续推进</span></span>
+<span class="line"><span style="color:#C8C8C8">            {</span></span>
+<span class="line"><span style="color:#FFFFFF">                i</span><span style="color:#FF8FBF">++</span><span style="color:#C8C8C8">;</span></span>
+<span class="line"><span style="color:#C8C8C8">            }</span></span>
+<span class="line"><span style="color:#FF8FBF">            else</span></span>
+<span class="line"><span style="color:#C8C8C8">            {</span></span>
+<span class="line"><span style="color:#FFFFFF">                p </span><span style="color:#FF8FBF">=</span><span style="color:#E8ECFF"> next</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">p</span><span style="color:#FF8FBF">-</span><span style="color:#B7F7C8">1</span><span style="color:#C8C8C8">];</span><span style="color:#8F8F8F;font-style:italic"> // 前后缀长度回退，循环继续</span></span>
+<span class="line"><span style="color:#C8C8C8">            }</span></span>
+<span class="line"><span style="color:#C8C8C8">        }</span></span>
+<span class="line"><span style="color:#C8C8C8">    }</span></span>
+<span class="line"><span style="color:#FF8FBF">    return</span><span style="color:#FFFFFF"> next</span><span style="color:#C8C8C8">;</span></span>
+<span class="line"><span style="color:#C8C8C8">}</span></span>
 <span class="line"></span>
-<span class="line"><span style="color:#FFFFFF">int main()</span></span>
-<span class="line"><span style="color:#FFFFFF">{</span></span>
-<span class="line"><span style="color:#FFFFFF">    string text;</span><span style="color:#9A9A9A;font-style:italic">// 原串</span></span>
-<span class="line"><span style="color:#FFFFFF">    string pattern;</span><span style="color:#9A9A9A;font-style:italic">// 要找的目标字符串</span></span>
+<span class="line"><span style="color:#FF8FBF">int</span><span style="color:#FFE08A"> main</span><span style="color:#C8C8C8">()</span></span>
+<span class="line"><span style="color:#C8C8C8">{</span></span>
+<span class="line"><span style="color:#FFFFFF">    string text</span><span style="color:#C8C8C8">;</span><span style="color:#8F8F8F;font-style:italic">// 原串</span></span>
+<span class="line"><span style="color:#FFFFFF">    string pattern</span><span style="color:#C8C8C8">;</span><span style="color:#8F8F8F;font-style:italic">// 要找的目标字符串</span></span>
 <span class="line"><span style="color:#FFFFFF">    </span></span>
-<span class="line"><span style="color:#FFFFFF">    cin >> text;</span></span>
-<span class="line"><span style="color:#FFFFFF">    cin >> pattern;</span></span>
+<span class="line"><span style="color:#FFFFFF">    cin </span><span style="color:#FF8FBF">>></span><span style="color:#FFFFFF"> text</span><span style="color:#C8C8C8">;</span></span>
+<span class="line"><span style="color:#FFFFFF">    cin </span><span style="color:#FF8FBF">>></span><span style="color:#FFFFFF"> pattern</span><span style="color:#C8C8C8">;</span></span>
 <span class="line"></span>
-<span class="line"><span style="color:#FFFFFF">    int n=</span><span style="color:#E8E8E8">text</span><span style="color:#FFFFFF">.size();</span></span>
-<span class="line"><span style="color:#FFFFFF">    int m=</span><span style="color:#E8E8E8">pattern</span><span style="color:#FFFFFF">.size();</span></span>
-<span class="line"><span style="color:#FFFFFF">    if(n &#x3C; m) return </span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;</span><span style="color:#9A9A9A;font-style:italic"> //长度不符合标准</span></span>
+<span class="line"><span style="color:#FF8FBF">    int</span><span style="color:#FFFFFF"> n</span><span style="color:#FF8FBF">=</span><span style="color:#E8ECFF">text</span><span style="color:#C8C8C8">.</span><span style="color:#FFE08A">size</span><span style="color:#C8C8C8">();</span></span>
+<span class="line"><span style="color:#FF8FBF">    int</span><span style="color:#FFFFFF"> m</span><span style="color:#FF8FBF">=</span><span style="color:#E8ECFF">pattern</span><span style="color:#C8C8C8">.</span><span style="color:#FFE08A">size</span><span style="color:#C8C8C8">();</span></span>
+<span class="line"><span style="color:#FF8FBF">    if</span><span style="color:#C8C8C8">(</span><span style="color:#FFFFFF">n </span><span style="color:#FF8FBF">&#x3C;</span><span style="color:#FFFFFF"> m</span><span style="color:#C8C8C8">)</span><span style="color:#FF8FBF"> return</span><span style="color:#B7F7C8"> 0</span><span style="color:#C8C8C8">;</span><span style="color:#8F8F8F;font-style:italic"> //长度不符合标准</span></span>
 <span class="line"><span style="color:#FFFFFF">    </span></span>
-<span class="line"><span style="color:#FFFFFF">    vector&#x3C;int> next = getNext(text);</span></span>
+<span class="line"><span style="color:#FFFFFF">    vector</span><span style="color:#FF8FBF">&#x3C;int></span><span style="color:#FFFFFF"> next </span><span style="color:#FF8FBF">=</span><span style="color:#FFE08A"> getNext</span><span style="color:#C8C8C8">(</span><span style="color:#FFFFFF">text</span><span style="color:#C8C8C8">);</span></span>
 <span class="line"><span style="color:#FFFFFF">    </span></span>
-<span class="line"><span style="color:#9A9A9A;font-style:italic">    // 这里只处理查找到第一个匹配串的位置，如果多个匹配点,重置变量(p),继续匹配不间断输出就行</span></span>
+<span class="line"><span style="color:#8F8F8F;font-style:italic">    // 这里只处理查找到第一个匹配串的位置，如果多个匹配点,重置变量(p),继续匹配不间断输出就行</span></span>
 <span class="line"><span style="color:#FFFFFF">    </span></span>
-<span class="line"><span style="color:#FFFFFF">    int j=</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;</span><span style="color:#9A9A9A;font-style:italic"> // pattern(副)串匹配到的位置</span></span>
-<span class="line"><span style="color:#FFFFFF">    int i=</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;</span><span style="color:#9A9A9A;font-style:italic"> // text(主)串匹配到的位置</span></span>
-<span class="line"><span style="color:#FFFFFF">    while(j&#x3C;m)</span></span>
-<span class="line"><span style="color:#FFFFFF">    {</span></span>
-<span class="line"><span style="color:#FFFFFF">        if(</span><span style="color:#E8E8E8">pattern</span><span style="color:#FFFFFF">[j] == </span><span style="color:#E8E8E8">text</span><span style="color:#FFFFFF">[i])</span></span>
-<span class="line"><span style="color:#FFFFFF">        {</span></span>
-<span class="line"><span style="color:#FFFFFF">            j++;</span></span>
-<span class="line"><span style="color:#FFFFFF">            i++;</span></span>
-<span class="line"><span style="color:#FFFFFF">        }</span></span>
-<span class="line"><span style="color:#FFFFFF">        else</span></span>
-<span class="line"><span style="color:#FFFFFF">        {</span></span>
-<span class="line"><span style="color:#FFFFFF">            if(j==</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">)</span><span style="color:#9A9A9A;font-style:italic"> // 无法回退</span></span>
-<span class="line"><span style="color:#FFFFFF">            {</span></span>
-<span class="line"><span style="color:#FFFFFF">                i++;</span><span style="color:#9A9A9A;font-style:italic"> // 向前推进</span></span>
-<span class="line"><span style="color:#FFFFFF">            }</span></span>
-<span class="line"><span style="color:#FFFFFF">            else</span></span>
-<span class="line"><span style="color:#FFFFFF">            {</span></span>
-<span class="line"><span style="color:#FFFFFF">                j = </span><span style="color:#E8E8E8">next</span><span style="color:#FFFFFF">[j-</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">];</span></span>
-<span class="line"><span style="color:#FFFFFF">            }</span></span>
-<span class="line"><span style="color:#FFFFFF">        }</span></span>
-<span class="line"><span style="color:#FFFFFF">    }</span></span>
-<span class="line"><span style="color:#9A9A9A;font-style:italic">    // 这时i位于找到的子串所在位置后面一个</span></span>
-<span class="line"><span style="color:#FFFFFF">    printf(</span><span style="color:#F4D9E5">"第一个匹配的子串位置是[%d,%d]\n"</span><span style="color:#FFFFFF">,i-m,i-</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">);</span><span style="color:#9A9A9A;font-style:italic"> // 输出所在区间</span></span>
-<span class="line"><span style="color:#FFFFFF">    return </span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;</span></span>
-<span class="line"><span style="color:#FFFFFF">}</span></span>
+<span class="line"><span style="color:#FF8FBF">    int</span><span style="color:#FFFFFF"> j</span><span style="color:#FF8FBF">=</span><span style="color:#B7F7C8">0</span><span style="color:#C8C8C8">;</span><span style="color:#8F8F8F;font-style:italic"> // pattern(副)串匹配到的位置</span></span>
+<span class="line"><span style="color:#FF8FBF">    int</span><span style="color:#FFFFFF"> i</span><span style="color:#FF8FBF">=</span><span style="color:#B7F7C8">0</span><span style="color:#C8C8C8">;</span><span style="color:#8F8F8F;font-style:italic"> // text(主)串匹配到的位置</span></span>
+<span class="line"><span style="color:#FF8FBF">    while</span><span style="color:#C8C8C8">(</span><span style="color:#FFFFFF">j</span><span style="color:#FF8FBF">&#x3C;</span><span style="color:#FFFFFF">m</span><span style="color:#C8C8C8">)</span></span>
+<span class="line"><span style="color:#C8C8C8">    {</span></span>
+<span class="line"><span style="color:#FF8FBF">        if</span><span style="color:#C8C8C8">(</span><span style="color:#E8ECFF">pattern</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">j</span><span style="color:#C8C8C8">]</span><span style="color:#FF8FBF"> ==</span><span style="color:#E8ECFF"> text</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">i</span><span style="color:#C8C8C8">])</span></span>
+<span class="line"><span style="color:#C8C8C8">        {</span></span>
+<span class="line"><span style="color:#FFFFFF">            j</span><span style="color:#FF8FBF">++</span><span style="color:#C8C8C8">;</span></span>
+<span class="line"><span style="color:#FFFFFF">            i</span><span style="color:#FF8FBF">++</span><span style="color:#C8C8C8">;</span></span>
+<span class="line"><span style="color:#C8C8C8">        }</span></span>
+<span class="line"><span style="color:#FF8FBF">        else</span></span>
+<span class="line"><span style="color:#C8C8C8">        {</span></span>
+<span class="line"><span style="color:#FF8FBF">            if</span><span style="color:#C8C8C8">(</span><span style="color:#FFFFFF">j</span><span style="color:#FF8FBF">==</span><span style="color:#B7F7C8">0</span><span style="color:#C8C8C8">)</span><span style="color:#8F8F8F;font-style:italic"> // 无法回退</span></span>
+<span class="line"><span style="color:#C8C8C8">            {</span></span>
+<span class="line"><span style="color:#FFFFFF">                i</span><span style="color:#FF8FBF">++</span><span style="color:#C8C8C8">;</span><span style="color:#8F8F8F;font-style:italic"> // 向前推进</span></span>
+<span class="line"><span style="color:#C8C8C8">            }</span></span>
+<span class="line"><span style="color:#FF8FBF">            else</span></span>
+<span class="line"><span style="color:#C8C8C8">            {</span></span>
+<span class="line"><span style="color:#FFFFFF">                j </span><span style="color:#FF8FBF">=</span><span style="color:#E8ECFF"> next</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">j</span><span style="color:#FF8FBF">-</span><span style="color:#B7F7C8">1</span><span style="color:#C8C8C8">];</span></span>
+<span class="line"><span style="color:#C8C8C8">            }</span></span>
+<span class="line"><span style="color:#C8C8C8">        }</span></span>
+<span class="line"><span style="color:#C8C8C8">    }</span></span>
+<span class="line"><span style="color:#8F8F8F;font-style:italic">    // 这时i位于找到的子串所在位置后面一个</span></span>
+<span class="line"><span style="color:#FFE08A">    printf</span><span style="color:#C8C8C8">(</span><span style="color:#FFD1E1">"第一个匹配的子串位置是[%d,%d]</span><span style="color:#B7F7C8">\n</span><span style="color:#FFD1E1">"</span><span style="color:#C8C8C8">,</span><span style="color:#FFFFFF">i</span><span style="color:#FF8FBF">-</span><span style="color:#FFFFFF">m</span><span style="color:#C8C8C8">,</span><span style="color:#FFFFFF">i</span><span style="color:#FF8FBF">-</span><span style="color:#B7F7C8">1</span><span style="color:#C8C8C8">);</span><span style="color:#8F8F8F;font-style:italic"> // 输出所在区间</span></span>
+<span class="line"><span style="color:#FF8FBF">    return</span><span style="color:#B7F7C8"> 0</span><span style="color:#C8C8C8">;</span></span>
+<span class="line"><span style="color:#C8C8C8">}</span></span>
 <span class="line"></span>
 <span class="line"></span></code></pre></div></article></main><footer class="site-footer"><span>33<!-- --> 件证物 / <!-- -->10<!-- --> 条线索</span><a href="/rss.xml">RSS</a></footer></div>
   </body>

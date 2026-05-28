@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <title>钥匙问题 · 怪话怪的档案</title>
-    <script type="module" crossorigin src="/assets/index-scwqNyka.js"></script>
+    <script type="module" crossorigin src="/assets/index-D2v6_Cn6.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/index-DxfmJGB3.css">
   <meta name="description" content="P4890 解题代码详解（链式DP + 建模全过程） P4890 Never·island - 洛谷 一、整体思路（先建立全局认知） 本题流程分三步： 离散化 + 扫描线建模 把区间拆成若干小段 转换成「点权 + 边权 + 固定贡献」 构建链式图 每个考察队是一个点 区间贡献变成" />
 <meta property="og:title" content="钥匙问题 · 怪话怪的档案" />
@@ -46,84 +46,84 @@
 </ol>
 <hr>
 <h1>二、变量说明（代码核心变量）</h1>
-<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">int n, k;</span></span>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FF8FBF">int</span><span style="color:#FFFFFF"> n</span><span style="color:#C8C8C8">,</span><span style="color:#FFFFFF"> k</span><span style="color:#C8C8C8">;</span></span>
 <span class="line"></span></code></pre>
 <ul>
 <li>n：区间数量</li>
 <li>k：最多选的考察队数量</li>
 </ul>
 <hr>
-<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">vector&#x3C;int> xs;</span></span>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">vector</span><span style="color:#FF8FBF">&#x3C;int></span><span style="color:#FFFFFF"> xs</span><span style="color:#C8C8C8">;</span></span>
 <span class="line"></span></code></pre>
 <ul>
 <li>存所有端点（用于离散化）</li>
 </ul>
 <hr>
-<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">struct </span><span style="color:#E8E8E8">Seg</span><span style="color:#FFFFFF"> {</span></span>
-<span class="line"><span style="color:#FFFFFF">    int l, r, id_l, id_r;</span></span>
-<span class="line"><span style="color:#FFFFFF">};</span></span>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FF8FBF">struct</span><span style="color:#94D8FF"> Seg</span><span style="color:#C8C8C8"> {</span></span>
+<span class="line"><span style="color:#FF8FBF">    int</span><span style="color:#FFFFFF"> l</span><span style="color:#C8C8C8">,</span><span style="color:#FFFFFF"> r</span><span style="color:#C8C8C8">,</span><span style="color:#FFFFFF"> id_l</span><span style="color:#C8C8C8">,</span><span style="color:#FFFFFF"> id_r</span><span style="color:#C8C8C8">;</span></span>
+<span class="line"><span style="color:#C8C8C8">};</span></span>
 <span class="line"></span></code></pre>
 <ul>
 <li>l, r：原始端点</li>
 <li>id_l, id_r：离散化后的下标</li>
 </ul>
 <hr>
-<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">long long </span><span style="color:#E8E8E8">node_w</span><span style="color:#FFFFFF">[MAXN];</span></span>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FF8FBF">long</span><span style="color:#FF8FBF"> long</span><span style="color:#E8ECFF"> node_w</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">MAXN</span><span style="color:#C8C8C8">];</span></span>
 <span class="line"></span></code></pre>
 <p>👉 点权数组</p>
 <ul>
 <li>node_w[i] 表示：选择第 i 个考察队获得的贡献</li>
 </ul>
 <hr>
-<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">vector&#x3C;pair&#x3C;int,int>> </span><span style="color:#E8E8E8">adj</span><span style="color:#FFFFFF">[MAXN];</span></span>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">vector</span><span style="color:#FF8FBF">&#x3C;</span><span style="color:#FFFFFF">pair</span><span style="color:#FF8FBF">&#x3C;int</span><span style="color:#C8C8C8">,</span><span style="color:#FF8FBF">int>></span><span style="color:#E8ECFF"> adj</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">MAXN</span><span style="color:#C8C8C8">];</span></span>
 <span class="line"></span></code></pre>
 <p>👉 邻接表（存边）</p>
 <ul>
 <li>adj[u] = {v, weight}</li>
 </ul>
 <hr>
-<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">long long base_ans;</span></span>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FF8FBF">long</span><span style="color:#FF8FBF"> long</span><span style="color:#FFFFFF"> base_ans</span><span style="color:#C8C8C8">;</span></span>
 <span class="line"></span></code></pre>
 <p>👉 必然贡献（情况4）</p>
 <hr>
 <h1>三、建模部分（最关键）</h1>
 <h2>1️⃣ 离散化</h2>
-<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">sort(</span><span style="color:#E8E8E8">xs</span><span style="color:#FFFFFF">.begin(), </span><span style="color:#E8E8E8">xs</span><span style="color:#FFFFFF">.end());</span></span>
-<span class="line"><span style="color:#E8E8E8">xs</span><span style="color:#FFFFFF">.erase(unique(</span><span style="color:#E8E8E8">xs</span><span style="color:#FFFFFF">.begin(), </span><span style="color:#E8E8E8">xs</span><span style="color:#FFFFFF">.end()), </span><span style="color:#E8E8E8">xs</span><span style="color:#FFFFFF">.end());</span></span>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFE08A">sort</span><span style="color:#C8C8C8">(</span><span style="color:#E8ECFF">xs</span><span style="color:#C8C8C8">.</span><span style="color:#FFE08A">begin</span><span style="color:#C8C8C8">(),</span><span style="color:#E8ECFF"> xs</span><span style="color:#C8C8C8">.</span><span style="color:#FFE08A">end</span><span style="color:#C8C8C8">());</span></span>
+<span class="line"><span style="color:#E8ECFF">xs</span><span style="color:#C8C8C8">.</span><span style="color:#FFE08A">erase</span><span style="color:#C8C8C8">(</span><span style="color:#FFE08A">unique</span><span style="color:#C8C8C8">(</span><span style="color:#E8ECFF">xs</span><span style="color:#C8C8C8">.</span><span style="color:#FFE08A">begin</span><span style="color:#C8C8C8">(),</span><span style="color:#E8ECFF"> xs</span><span style="color:#C8C8C8">.</span><span style="color:#FFE08A">end</span><span style="color:#C8C8C8">()),</span><span style="color:#E8ECFF"> xs</span><span style="color:#C8C8C8">.</span><span style="color:#FFE08A">end</span><span style="color:#C8C8C8">());</span></span>
 <span class="line"></span></code></pre>
 <p>👉 把所有端点压缩到连续整数</p>
 <hr>
 <h2>2️⃣ 扫描每一小段区间</h2>
-<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">for (int i = </span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">; i &#x3C; </span><span style="color:#E8E8E8">xs</span><span style="color:#FFFFFF">.size(); i++) {</span></span>
-<span class="line"><span style="color:#FFFFFF">    int len = </span><span style="color:#E8E8E8">xs</span><span style="color:#FFFFFF">[i] - </span><span style="color:#E8E8E8">xs</span><span style="color:#FFFFFF">[i-</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">];</span></span>
-<span class="line"><span style="color:#FFFFFF">}</span></span>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FF8FBF">for</span><span style="color:#C8C8C8"> (</span><span style="color:#FF8FBF">int</span><span style="color:#FFFFFF"> i </span><span style="color:#FF8FBF">=</span><span style="color:#B7F7C8"> 1</span><span style="color:#C8C8C8">;</span><span style="color:#FFFFFF"> i </span><span style="color:#FF8FBF">&#x3C;</span><span style="color:#E8ECFF"> xs</span><span style="color:#C8C8C8">.</span><span style="color:#FFE08A">size</span><span style="color:#C8C8C8">();</span><span style="color:#FFFFFF"> i</span><span style="color:#FF8FBF">++</span><span style="color:#C8C8C8">)</span><span style="color:#C8C8C8"> {</span></span>
+<span class="line"><span style="color:#FF8FBF">    int</span><span style="color:#FFFFFF"> len </span><span style="color:#FF8FBF">=</span><span style="color:#E8ECFF"> xs</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">i</span><span style="color:#C8C8C8">]</span><span style="color:#FF8FBF"> -</span><span style="color:#E8ECFF"> xs</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">i</span><span style="color:#FF8FBF">-</span><span style="color:#B7F7C8">1</span><span style="color:#C8C8C8">];</span></span>
+<span class="line"><span style="color:#C8C8C8">}</span></span>
 <span class="line"></span></code></pre>
 <p>👉 每个小段长度 = 相邻离散点差值</p>
 <hr>
 <h2>3️⃣ 判断左右端点归属（核心）</h2>
 <p>假设：</p>
-<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">int L = </span><span style="color:#E8E8E8">belong_left</span><span style="color:#FFFFFF">[i];</span></span>
-<span class="line"><span style="color:#FFFFFF">int R = </span><span style="color:#E8E8E8">belong_right</span><span style="color:#FFFFFF">[i];</span></span>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FF8FBF">int</span><span style="color:#FFFFFF"> L </span><span style="color:#FF8FBF">=</span><span style="color:#E8ECFF"> belong_left</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">i</span><span style="color:#C8C8C8">];</span></span>
+<span class="line"><span style="color:#FF8FBF">int</span><span style="color:#FFFFFF"> R </span><span style="color:#FF8FBF">=</span><span style="color:#E8ECFF"> belong_right</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">i</span><span style="color:#C8C8C8">];</span></span>
 <span class="line"></span></code></pre>
 <hr>
 <h3>情况1：同一个队</h3>
-<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">if (L == R) {</span></span>
-<span class="line"><span style="color:#E8E8E8">    node_w</span><span style="color:#FFFFFF">[L] += len;</span></span>
-<span class="line"><span style="color:#FFFFFF">}</span></span>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FF8FBF">if</span><span style="color:#C8C8C8"> (</span><span style="color:#FFFFFF">L </span><span style="color:#FF8FBF">==</span><span style="color:#FFFFFF"> R</span><span style="color:#C8C8C8">)</span><span style="color:#C8C8C8"> {</span></span>
+<span class="line"><span style="color:#E8ECFF">    node_w</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">L</span><span style="color:#C8C8C8">]</span><span style="color:#FF8FBF"> +=</span><span style="color:#FFFFFF"> len</span><span style="color:#C8C8C8">;</span></span>
+<span class="line"><span style="color:#C8C8C8">}</span></span>
 <span class="line"></span></code></pre>
 <hr>
 <h3>情况2：不同队</h3>
-<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">else {</span></span>
-<span class="line"><span style="color:#E8E8E8">    adj</span><span style="color:#FFFFFF">[L].push_back({R, len});</span></span>
-<span class="line"><span style="color:#E8E8E8">    adj</span><span style="color:#FFFFFF">[R].push_back({L, len});</span></span>
-<span class="line"><span style="color:#FFFFFF">}</span></span>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FF8FBF">else</span><span style="color:#C8C8C8"> {</span></span>
+<span class="line"><span style="color:#E8ECFF">    adj</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">L</span><span style="color:#C8C8C8">].</span><span style="color:#FFE08A">push_back</span><span style="color:#C8C8C8">(</span><span style="color:#FFFFFF">{R</span><span style="color:#C8C8C8">,</span><span style="color:#FFFFFF"> len}</span><span style="color:#C8C8C8">);</span></span>
+<span class="line"><span style="color:#E8ECFF">    adj</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">R</span><span style="color:#C8C8C8">].</span><span style="color:#FFE08A">push_back</span><span style="color:#C8C8C8">(</span><span style="color:#FFFFFF">{L</span><span style="color:#C8C8C8">,</span><span style="color:#FFFFFF"> len}</span><span style="color:#C8C8C8">);</span></span>
+<span class="line"><span style="color:#C8C8C8">}</span></span>
 <span class="line"></span></code></pre>
 <hr>
 <h3>情况3：都是起点</h3>
 <p>（代码里通常已经合并到情况1）</p>
 <hr>
 <h3>情况4：左终点右起点</h3>
-<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">base_ans += len;</span></span>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">base_ans </span><span style="color:#FF8FBF">+=</span><span style="color:#FFFFFF"> len</span><span style="color:#C8C8C8">;</span></span>
 <span class="line"></span></code></pre>
 <hr>
 <h1>四、为什么是“链”</h1>
@@ -135,7 +135,7 @@
 <hr>
 <h1>五、链上DP</h1>
 <h2>状态定义</h2>
-<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#E8E8E8">dp</span><span style="color:#FFFFFF">[i][j][</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">/</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">]</span></span>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#E8ECFF">dp</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">i</span><span style="color:#C8C8C8">][</span><span style="color:#FFFFFF">j</span><span style="color:#C8C8C8">][</span><span style="color:#B7F7C8">0</span><span style="color:#FF8FBF">/</span><span style="color:#B7F7C8">1</span><span style="color:#C8C8C8">]</span></span>
 <span class="line"></span></code></pre>
 <p>含义：</p>
 
@@ -166,20 +166,20 @@
 <table><thead><tr><th>变量</th><th>含义</th></tr></thead><tbody><tr><td>i</td><td>当前处理第 i 个点</td></tr><tr><td>j</td><td>已选 j 个点</td></tr><tr><td>0</td><td>不选当前点</td></tr><tr><td>1</td><td>选当前点</td></tr></tbody></table>
 <hr>
 <h2>初始化</h2>
-<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#E8E8E8">dp</span><span style="color:#FFFFFF">[</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">][</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">][</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">] = </span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">;</span></span>
-<span class="line"><span style="color:#E8E8E8">dp</span><span style="color:#FFFFFF">[</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">][</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">][</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">] = -INF;</span></span>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#E8ECFF">dp</span><span style="color:#C8C8C8">[</span><span style="color:#B7F7C8">0</span><span style="color:#C8C8C8">][</span><span style="color:#B7F7C8">0</span><span style="color:#C8C8C8">][</span><span style="color:#B7F7C8">0</span><span style="color:#C8C8C8">]</span><span style="color:#FF8FBF"> =</span><span style="color:#B7F7C8"> 0</span><span style="color:#C8C8C8">;</span></span>
+<span class="line"><span style="color:#E8ECFF">dp</span><span style="color:#C8C8C8">[</span><span style="color:#B7F7C8">0</span><span style="color:#C8C8C8">][</span><span style="color:#B7F7C8">0</span><span style="color:#C8C8C8">][</span><span style="color:#B7F7C8">1</span><span style="color:#C8C8C8">]</span><span style="color:#FF8FBF"> =</span><span style="color:#FF8FBF"> -</span><span style="color:#FFFFFF">INF</span><span style="color:#C8C8C8">;</span></span>
 <span class="line"></span></code></pre>
 <hr>
 <h2>转移</h2>
 <h3>不选当前点</h3>
-<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#E8E8E8">dp</span><span style="color:#FFFFFF">[i][j][</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">] = max(</span><span style="color:#E8E8E8">dp</span><span style="color:#FFFFFF">[i-</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">][j][</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">], </span><span style="color:#E8E8E8">dp</span><span style="color:#FFFFFF">[i-</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">][j][</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">]);</span></span>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#E8ECFF">dp</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">i</span><span style="color:#C8C8C8">][</span><span style="color:#FFFFFF">j</span><span style="color:#C8C8C8">][</span><span style="color:#B7F7C8">0</span><span style="color:#C8C8C8">]</span><span style="color:#FF8FBF"> =</span><span style="color:#FFE08A"> max</span><span style="color:#C8C8C8">(</span><span style="color:#E8ECFF">dp</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">i</span><span style="color:#FF8FBF">-</span><span style="color:#B7F7C8">1</span><span style="color:#C8C8C8">][</span><span style="color:#FFFFFF">j</span><span style="color:#C8C8C8">][</span><span style="color:#B7F7C8">0</span><span style="color:#C8C8C8">],</span><span style="color:#E8ECFF"> dp</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">i</span><span style="color:#FF8FBF">-</span><span style="color:#B7F7C8">1</span><span style="color:#C8C8C8">][</span><span style="color:#FFFFFF">j</span><span style="color:#C8C8C8">][</span><span style="color:#B7F7C8">1</span><span style="color:#C8C8C8">]);</span></span>
 <span class="line"></span></code></pre>
 <hr>
 <h3>选当前点</h3>
-<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#E8E8E8">dp</span><span style="color:#FFFFFF">[i][j][</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">] = max(</span></span>
-<span class="line"><span style="color:#E8E8E8">    dp</span><span style="color:#FFFFFF">[i-</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">][j-</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">][</span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">] + </span><span style="color:#E8E8E8">node_w</span><span style="color:#FFFFFF">[i],</span></span>
-<span class="line"><span style="color:#E8E8E8">    dp</span><span style="color:#FFFFFF">[i-</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">][j-</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">][</span><span style="color:#F4D9E5">1</span><span style="color:#FFFFFF">] + </span><span style="color:#E8E8E8">node_w</span><span style="color:#FFFFFF">[i] + </span><span style="color:#E8E8E8">edge_w</span><span style="color:#FFFFFF">[i]</span></span>
-<span class="line"><span style="color:#FFFFFF">);</span></span>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#E8ECFF">dp</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">i</span><span style="color:#C8C8C8">][</span><span style="color:#FFFFFF">j</span><span style="color:#C8C8C8">][</span><span style="color:#B7F7C8">1</span><span style="color:#C8C8C8">]</span><span style="color:#FF8FBF"> =</span><span style="color:#FFE08A"> max</span><span style="color:#C8C8C8">(</span></span>
+<span class="line"><span style="color:#E8ECFF">    dp</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">i</span><span style="color:#FF8FBF">-</span><span style="color:#B7F7C8">1</span><span style="color:#C8C8C8">][</span><span style="color:#FFFFFF">j</span><span style="color:#FF8FBF">-</span><span style="color:#B7F7C8">1</span><span style="color:#C8C8C8">][</span><span style="color:#B7F7C8">0</span><span style="color:#C8C8C8">]</span><span style="color:#FF8FBF"> +</span><span style="color:#E8ECFF"> node_w</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">i</span><span style="color:#C8C8C8">],</span></span>
+<span class="line"><span style="color:#E8ECFF">    dp</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">i</span><span style="color:#FF8FBF">-</span><span style="color:#B7F7C8">1</span><span style="color:#C8C8C8">][</span><span style="color:#FFFFFF">j</span><span style="color:#FF8FBF">-</span><span style="color:#B7F7C8">1</span><span style="color:#C8C8C8">][</span><span style="color:#B7F7C8">1</span><span style="color:#C8C8C8">]</span><span style="color:#FF8FBF"> +</span><span style="color:#E8ECFF"> node_w</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">i</span><span style="color:#C8C8C8">]</span><span style="color:#FF8FBF"> +</span><span style="color:#E8ECFF"> edge_w</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">i</span><span style="color:#C8C8C8">]</span></span>
+<span class="line"><span style="color:#C8C8C8">);</span></span>
 <span class="line"></span></code></pre>
 <hr>
 <h2>edge_w[i] 含义</h2>
@@ -187,21 +187,21 @@
 <hr>
 <h1>六、链结果提取</h1>
 <p>每条链算出：</p>
-<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#E8E8E8">f</span><span style="color:#FFFFFF">[x] = 选 x 个点的最大收益</span></span>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#E8ECFF">f</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">x</span><span style="color:#C8C8C8">]</span><span style="color:#FF8FBF"> =</span><span style="color:#FFFFFF"> 选 x 个点的最大收益</span></span>
 <span class="line"></span></code></pre>
 <hr>
 <h1>七、多链合并（背包）</h1>
-<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">for (每条链) {</span></span>
-<span class="line"><span style="color:#FFFFFF">    for (j = k → </span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF">) {</span></span>
-<span class="line"><span style="color:#FFFFFF">        for (x = </span><span style="color:#F4D9E5">0</span><span style="color:#FFFFFF"> → 链长度) {</span></span>
-<span class="line"><span style="color:#E8E8E8">            dp</span><span style="color:#FFFFFF">[j] = max(</span><span style="color:#E8E8E8">dp</span><span style="color:#FFFFFF">[j], </span><span style="color:#E8E8E8">dp</span><span style="color:#FFFFFF">[j-x] + </span><span style="color:#E8E8E8">f</span><span style="color:#FFFFFF">[x]);</span></span>
-<span class="line"><span style="color:#FFFFFF">        }</span></span>
-<span class="line"><span style="color:#FFFFFF">    }</span></span>
-<span class="line"><span style="color:#FFFFFF">}</span></span>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FF8FBF">for</span><span style="color:#C8C8C8"> (</span><span style="color:#FFFFFF">每条链</span><span style="color:#C8C8C8">)</span><span style="color:#C8C8C8"> {</span></span>
+<span class="line"><span style="color:#FF8FBF">    for</span><span style="color:#C8C8C8"> (</span><span style="color:#FFFFFF">j </span><span style="color:#FF8FBF">=</span><span style="color:#FFFFFF"> k → </span><span style="color:#B7F7C8">0</span><span style="color:#C8C8C8">)</span><span style="color:#C8C8C8"> {</span></span>
+<span class="line"><span style="color:#FF8FBF">        for</span><span style="color:#C8C8C8"> (</span><span style="color:#FFFFFF">x </span><span style="color:#FF8FBF">=</span><span style="color:#B7F7C8"> 0</span><span style="color:#FFFFFF"> → 链长度</span><span style="color:#C8C8C8">)</span><span style="color:#C8C8C8"> {</span></span>
+<span class="line"><span style="color:#E8ECFF">            dp</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">j</span><span style="color:#C8C8C8">]</span><span style="color:#FF8FBF"> =</span><span style="color:#FFE08A"> max</span><span style="color:#C8C8C8">(</span><span style="color:#E8ECFF">dp</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">j</span><span style="color:#C8C8C8">],</span><span style="color:#E8ECFF"> dp</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">j</span><span style="color:#FF8FBF">-</span><span style="color:#FFFFFF">x</span><span style="color:#C8C8C8">]</span><span style="color:#FF8FBF"> +</span><span style="color:#E8ECFF"> f</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">x</span><span style="color:#C8C8C8">]);</span></span>
+<span class="line"><span style="color:#C8C8C8">        }</span></span>
+<span class="line"><span style="color:#C8C8C8">    }</span></span>
+<span class="line"><span style="color:#C8C8C8">}</span></span>
 <span class="line"></span></code></pre>
 <hr>
 <h1>八、最终答案</h1>
-<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">answer = base_ans + </span><span style="color:#E8E8E8">dp</span><span style="color:#FFFFFF">[k];</span></span>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">answer </span><span style="color:#FF8FBF">=</span><span style="color:#FFFFFF"> base_ans </span><span style="color:#FF8FBF">+</span><span style="color:#E8ECFF"> dp</span><span style="color:#C8C8C8">[</span><span style="color:#FFFFFF">k</span><span style="color:#C8C8C8">];</span></span>
 <span class="line"></span></code></pre>
 <hr>
 <h1>九、容易出错的点（你之前卡的）</h1>

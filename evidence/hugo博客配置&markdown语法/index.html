@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <title>Hugo博客配置&amp;markdown语法 · 怪话怪的档案</title>
-    <script type="module" crossorigin src="/assets/index-scwqNyka.js"></script>
+    <script type="module" crossorigin src="/assets/index-D2v6_Cn6.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/index-DxfmJGB3.css">
   <meta name="description" content="hugo项目结构 my-blog/ ├── archetypes/ # 内容模板 ├── assets/ # 需要 Hugo Pipes 处理的资源 (SCSS, JS) ├── content/ # Markdown 内容 ├── layouts/ # 模板布局 (覆盖主题) " />
 <meta property="og:title" content="Hugo博客配置&amp;markdown语法 · 怪话怪的档案" />
@@ -27,8 +27,8 @@
 <h2>快速生成并推送到github网页</h2>
 <h3>1.Windows系统</h3>
 <p>编辑一个<em><strong>deploy.ps1</strong></em>文件(<code>.bat</code> 是 cmd 的脚本，而 <code>.ps1</code> 是 PowerShell 的脚本)实现自动化推送。下面示例统一使用 <code>main</code> 作为部署分支：</p>
-<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">param (</span></span>
-<span class="line"><span style="color:#FFFFFF">    [</span><span style="color:#E8E8E8">string</span><span style="color:#FFFFFF">]$msg = $(</span><span style="color:#E8E8E8">Read</span><span style="color:#FFFFFF">-</span><span style="color:#E8E8E8">Host</span><span style="color:#F4D9E5"> "请输入本次提交信息"</span><span style="color:#FFFFFF">)</span></span>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFE08A">param</span><span style="color:#C8C8C8"> (</span></span>
+<span class="line"><span style="color:#C8C8C8">    [</span><span style="color:#E8ECFF">string</span><span style="color:#C8C8C8">]</span><span style="color:#FFFFFF">$msg = $</span><span style="color:#C8C8C8">(</span><span style="color:#94D8FF">Read</span><span style="color:#FFFFFF">-</span><span style="color:#94D8FF">Host</span><span style="color:#FFD1E1"> "请输入本次提交信息"</span><span style="color:#C8C8C8">)</span></span>
 <span class="line"><span style="color:#FFFFFF">)</span></span>
 <span class="line"></span>
 <span class="line"><span style="color:#FFFFFF">$deployBranch = "main"</span></span>
@@ -48,31 +48,31 @@
 <span class="line"><span style="color:#FFFFFF">git add .</span></span>
 <span class="line"></span>
 <span class="line"><span style="color:#FFFFFF">git diff --cached --quiet</span></span>
-<span class="line"><span style="color:#FFFFFF">if ($</span><span style="color:#E8E8E8">LASTEXITCODE</span><span style="color:#FFFFFF"> -</span><span style="color:#E8E8E8">ne</span><span style="color:#FFFFFF"> 0) {</span></span>
-<span class="line"><span style="color:#FFFFFF">    git commit -m </span><span style="color:#F4D9E5">"$msg"</span></span>
-<span class="line"><span style="color:#FFFFFF">} else {</span></span>
-<span class="line"><span style="color:#FFFFFF">    Write-Host </span><span style="color:#F4D9E5">"没有可提交的构建变更"</span><span style="color:#FFFFFF"> -ForegroundColor Yellow</span></span>
+<span class="line"><span style="color:#FFFFFF">if </span><span style="color:#C8C8C8">(</span><span style="color:#FFFFFF">$</span><span style="color:#94D8FF">LASTEXITCODE</span><span style="color:#FFFFFF"> -</span><span style="color:#94D8FF">ne</span><span style="color:#FFFFFF"> 0</span><span style="color:#C8C8C8">)</span><span style="color:#C8C8C8"> {</span></span>
+<span class="line"><span style="color:#FFFFFF">    git commit </span><span style="color:#FF8FBF">-</span><span style="color:#FFFFFF">m </span><span style="color:#FFD1E1">"$msg"</span></span>
+<span class="line"><span style="color:#C8C8C8">}</span><span style="color:#FF8FBF"> else</span><span style="color:#FFFFFF"> {</span></span>
+<span class="line"><span style="color:#FFFFFF">    Write</span><span style="color:#FF8FBF">-</span><span style="color:#FFFFFF">Host </span><span style="color:#FFD1E1">"没有可提交的构建变更"</span><span style="color:#FF8FBF"> -</span><span style="color:#FFFFFF">ForegroundColor Yellow</span></span>
 <span class="line"><span style="color:#FFFFFF">}</span></span>
 <span class="line"></span>
 <span class="line"><span style="color:#FFFFFF"># 强制推送到 main 分支</span></span>
-<span class="line"><span style="color:#FFFFFF">git push -f origin $deployBranch</span></span>
+<span class="line"><span style="color:#FFFFFF">git push </span><span style="color:#FF8FBF">-</span><span style="color:#FFFFFF">f origin $deployBranch</span></span>
 <span class="line"></span>
 <span class="line"><span style="color:#FFFFFF"># 输出提示信息</span></span>
-<span class="line"><span style="color:#FFFFFF">Write-Host </span><span style="color:#F4D9E5">""</span></span>
-<span class="line"><span style="color:#FFFFFF">Write-Host </span><span style="color:#F4D9E5">"======================================"</span><span style="color:#FFFFFF"> -ForegroundColor Yellow</span></span>
-<span class="line"><span style="color:#FFFFFF">Write-Host </span><span style="color:#F4D9E5">"✅ 网站已成功部署！"</span><span style="color:#FFFFFF"> -ForegroundColor Green</span></span>
-<span class="line"><span style="color:#FFFFFF">Write-Host </span><span style="color:#F4D9E5">"🌐 访问地址: https://blog.mineguai.com/"</span><span style="color:#FFFFFF"> -ForegroundColor Cyan</span></span>
-<span class="line"><span style="color:#FFFFFF">Write-Host </span><span style="color:#F4D9E5">"🌿 部署分支: main"</span><span style="color:#FFFFFF"> -ForegroundColor Cyan</span></span>
-<span class="line"><span style="color:#FFFFFF">Write-Host </span><span style="color:#F4D9E5">"======================================"</span><span style="color:#FFFFFF"> -ForegroundColor Yellow</span></span>
+<span class="line"><span style="color:#FFFFFF">Write</span><span style="color:#FF8FBF">-</span><span style="color:#FFFFFF">Host </span><span style="color:#FFD1E1">""</span></span>
+<span class="line"><span style="color:#FFFFFF">Write</span><span style="color:#FF8FBF">-</span><span style="color:#FFFFFF">Host </span><span style="color:#FFD1E1">"======================================"</span><span style="color:#FF8FBF"> -</span><span style="color:#FFFFFF">ForegroundColor Yellow</span></span>
+<span class="line"><span style="color:#FFFFFF">Write</span><span style="color:#FF8FBF">-</span><span style="color:#FFFFFF">Host </span><span style="color:#FFD1E1">"✅ 网站已成功部署！"</span><span style="color:#FF8FBF"> -</span><span style="color:#FFFFFF">ForegroundColor Green</span></span>
+<span class="line"><span style="color:#FFFFFF">Write</span><span style="color:#FF8FBF">-</span><span style="color:#FFFFFF">Host </span><span style="color:#FFD1E1">"🌐 访问地址: https://blog.mineguai.com/"</span><span style="color:#FF8FBF"> -</span><span style="color:#FFFFFF">ForegroundColor Cyan</span></span>
+<span class="line"><span style="color:#FFFFFF">Write</span><span style="color:#FF8FBF">-</span><span style="color:#FFFFFF">Host </span><span style="color:#FFD1E1">"🌿 部署分支: main"</span><span style="color:#FF8FBF"> -</span><span style="color:#FFFFFF">ForegroundColor Cyan</span></span>
+<span class="line"><span style="color:#FFFFFF">Write</span><span style="color:#FF8FBF">-</span><span style="color:#FFFFFF">Host </span><span style="color:#FFD1E1">"======================================"</span><span style="color:#FF8FBF"> -</span><span style="color:#FFFFFF">ForegroundColor Yellow</span></span>
 <span class="line"></span>
 <span class="line"></span></code></pre>
 <h2>生成文档间链接</h2>
 <h3>1.普通文档链接</h3>
 <p>目前只用到了相对路径</p>
-<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">[</span><span style="color:#F4D9E5">关于我</span><span style="color:#FFFFFF">](/evidence/kmp/ </span><span style="color:#F4D9E5">"悬停指示（标题）"</span><span style="color:#FFFFFF">)</span></span>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#C8C8C8">[</span><span style="color:#FFD1E1">关于我</span><span style="color:#C8C8C8">](</span><span style="color:#FFFFFF">/evidence/kmp/ </span><span style="color:#FFD1E1">"悬停指示（标题）"</span><span style="color:#C8C8C8">)</span></span>
 <span class="line"></span></code></pre>
 <h3>2.利用html语法多样化链接显示</h3>
-<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#FFFFFF">&#x3C;a href=</span><span style="color:#F4D9E5">"/evidence/kmp/"</span><span style="color:#FFFFFF"> style=</span><span style="color:#F4D9E5">"color:red;"</span><span style="color:#FFFFFF"> title = </span><span style="color:#F4D9E5">"悬停指示（标题）"</span><span style="color:#FFFFFF">>关于我&#x3C;/a></span></span>
+<pre class="shiki guai-evidence" style="background-color:#030303;color:#ffffff" tabindex="0"><code><span class="line"><span style="color:#C8C8C8">&#x3C;</span><span style="color:#FFFFFF">a href</span><span style="color:#C8C8C8">=</span><span style="color:#FFD1E1">"/evidence/kmp/"</span><span style="color:#FFFFFF"> style</span><span style="color:#C8C8C8">=</span><span style="color:#FFD1E1">"color:red;"</span><span style="color:#FFFFFF"> title </span><span style="color:#C8C8C8">=</span><span style="color:#FFD1E1"> "悬停指示（标题）"</span><span style="color:#C8C8C8">></span><span style="color:#FFFFFF">关于我</span><span style="color:#C8C8C8">&#x3C;/</span><span style="color:#FFFFFF">a</span><span style="color:#C8C8C8">></span></span>
 <span class="line"></span></code></pre>
 <h2>hugo“模板覆盖”规则</h2>
 <p>Hugo 会先在我们自己的站点根目录 <code>layouts/</code> 下查找模板文件，如果存在就用它，而不用 <code>themes/PaperMod/layouts/</code> 的文件（被覆盖了）。</p>
