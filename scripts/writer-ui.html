@@ -1,0 +1,1124 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>怪话怪写作台</title>
+    <style>
+      :root {
+        --ink: #171717;
+        --ink-soft: #44413c;
+        --ink-muted: #75716a;
+        --paper: #ffffff;
+        --paper-2: #f7f7f5;
+        --paper-3: #eeeeeb;
+        --surface: rgba(255, 255, 255, 0.68);
+        --surface-strong: rgba(255, 255, 255, 0.9);
+        --line: rgba(23, 23, 23, 0.16);
+        --line-strong: rgba(23, 23, 23, 0.32);
+        --shadow: 0 18px 50px rgba(49, 44, 36, 0.1);
+        --font: "LXGW WenKai", "Microsoft YaHei", system-ui, sans-serif;
+        --mono: Consolas, "Cascadia Code", monospace;
+        color-scheme: light;
+      }
+
+      :root[data-theme="dark"] {
+        --ink: #f1eee6;
+        --ink-soft: #c8c2b7;
+        --ink-muted: #928c82;
+        --paper: #141413;
+        --paper-2: #1d1c1a;
+        --paper-3: #282620;
+        --surface: rgba(255, 255, 255, 0.045);
+        --surface-strong: rgba(255, 255, 255, 0.075);
+        --line: rgba(241, 238, 230, 0.16);
+        --line-strong: rgba(241, 238, 230, 0.32);
+        --shadow: 0 22px 64px rgba(0, 0, 0, 0.32);
+        color-scheme: dark;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        min-height: 100%;
+      }
+
+      body {
+        margin: 0;
+        overflow: hidden;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--font);
+        line-height: 1.65;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: -2;
+        pointer-events: none;
+        opacity: 0.04;
+        background-image: url("/assets/generated/ink-paper-texture.png");
+        background-size: cover;
+        background-position: center;
+        mix-blend-mode: multiply;
+      }
+
+      :root[data-theme="dark"] body::before {
+        opacity: 0.16;
+        filter: invert(1);
+        mix-blend-mode: screen;
+      }
+
+      button,
+      input,
+      textarea {
+        font: inherit;
+      }
+
+      button {
+        min-height: 2.25rem;
+        border: 1px solid var(--line);
+        background: var(--surface);
+        color: var(--ink);
+        cursor: pointer;
+        transition: border-color 160ms ease, background 160ms ease, transform 160ms ease, opacity 160ms ease;
+      }
+
+      button:hover {
+        border-color: var(--line-strong);
+        background: var(--surface-strong);
+        transform: translateY(-1px);
+      }
+
+      button:active {
+        transform: translateY(1px);
+      }
+
+      button:focus-visible,
+      input:focus-visible,
+      textarea:focus-visible {
+        outline: 2px solid var(--line-strong);
+        outline-offset: 2px;
+      }
+
+      button:disabled {
+        cursor: not-allowed;
+        opacity: 0.45;
+        transform: none;
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+        border: 1px solid var(--line);
+        background: var(--paper);
+        color: var(--ink);
+        outline: none;
+      }
+
+      input:focus,
+      textarea:focus {
+        border-color: var(--line-strong);
+      }
+
+      .shell {
+        height: 100dvh;
+        display: grid;
+        grid-template-columns: clamp(14rem, 18vw, 18rem) minmax(0, 1fr) clamp(17rem, 22vw, 23rem);
+        gap: 1px;
+        background: var(--line);
+      }
+
+      body.focus-mode .shell {
+        grid-template-columns: 0 minmax(0, 1fr) 0;
+      }
+
+      .pane {
+        min-width: 0;
+        background: color-mix(in srgb, var(--paper) 90%, transparent);
+        overflow: hidden;
+      }
+
+      .sidebar,
+      .meta {
+        display: grid;
+        grid-template-rows: auto auto minmax(0, 1fr);
+        transition: opacity 180ms ease;
+      }
+
+      body.focus-mode .sidebar,
+      body.focus-mode .meta {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .pane-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        min-height: 4rem;
+        padding: 0.8rem 0.85rem;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .brand {
+        display: grid;
+        gap: 0.1rem;
+      }
+
+      .brand span,
+      .field > span,
+      .status,
+      .post-date,
+      .source,
+      .counter,
+      .draft-note {
+        color: var(--ink-muted);
+        font-family: var(--mono);
+        font-size: 0.72rem;
+      }
+
+      .brand strong {
+        font-size: 1.1rem;
+        line-height: 1;
+      }
+
+      .toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem;
+        align-items: center;
+      }
+
+      .toolbar button,
+      .pane-head button {
+        padding: 0.38rem 0.68rem;
+        font-weight: 700;
+      }
+
+      .toolbar button.secondary {
+        color: var(--ink-soft);
+      }
+
+      .toolbar button.danger {
+        border-style: dashed;
+      }
+
+      .toolbar-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem;
+      }
+
+      .status {
+        display: inline-flex;
+        align-items: center;
+        min-height: 2.1rem;
+        padding: 0.28rem 0.62rem;
+        border: 1px solid var(--line);
+        background: var(--surface);
+      }
+
+      .status[data-tone="good"] {
+        border-style: solid;
+        color: var(--ink);
+      }
+
+      .status[data-tone="warn"] {
+        border-style: dashed;
+        color: var(--ink-soft);
+      }
+
+      .status[data-tone="bad"] {
+        border-width: 2px;
+        color: var(--ink);
+      }
+
+      body.is-busy .editor {
+        cursor: progress;
+      }
+
+      .search {
+        padding: 0.65rem 0.75rem;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .search input,
+      .field input {
+        min-height: 2.35rem;
+        padding: 0.48rem 0.68rem;
+      }
+
+      .post-list {
+        min-height: 0;
+        overflow: auto;
+        padding: 0.55rem;
+      }
+
+      .post-empty {
+        padding: 1rem 0.75rem;
+        color: var(--ink-muted);
+        font-family: var(--mono);
+        font-size: 0.76rem;
+      }
+
+      .post-item {
+        width: 100%;
+        display: grid;
+        gap: 0.2rem;
+        margin-bottom: 0.45rem;
+        padding: 0.62rem 0.65rem;
+        text-align: left;
+        border-color: var(--line);
+        background: transparent;
+        box-shadow: none;
+      }
+
+      .post-item.is-active {
+        border-color: var(--line-strong);
+        background: var(--surface);
+      }
+
+      .post-title {
+        overflow: hidden;
+        font-size: 0.96rem;
+        font-weight: 700;
+        line-height: 1.2;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .editor {
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr);
+        background: color-mix(in srgb, var(--paper) 96%, transparent);
+      }
+
+      .title-row {
+        display: grid;
+        gap: 0.7rem;
+        padding: 0.9rem 1rem 0.85rem;
+        border-bottom: 1px solid var(--line);
+      }
+
+      #title {
+        min-height: 3rem;
+        padding: 0.45rem 0;
+        border: 0;
+        border-bottom: 1px solid var(--line);
+        background: transparent;
+        font-size: clamp(2.2rem, 5vw, 4.8rem);
+        font-weight: 700;
+        line-height: 1;
+      }
+
+      #content {
+        min-height: 0;
+        resize: none;
+        padding: 1.25rem clamp(1rem, 3vw, 2rem) 7rem;
+        border: 0;
+        background: var(--paper);
+        font-family: var(--mono);
+        font-size: 1.02rem;
+        line-height: 1.86;
+      }
+
+      .meta-body {
+        min-height: 0;
+        min-width: 0;
+        overflow: auto;
+        display: grid;
+        align-content: start;
+        gap: 0.82rem;
+        padding: 0.85rem;
+      }
+
+      .meta-body > *,
+      .field,
+      .utility,
+      .preview,
+      .draft-note {
+        min-width: 0;
+        max-width: 100%;
+      }
+
+      .field {
+        display: grid;
+        gap: 0.35rem;
+      }
+
+      .check-row {
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+        padding: 0.58rem 0.7rem;
+        border: 1px solid var(--line);
+        background: var(--surface);
+      }
+
+      .check-row input {
+        width: auto;
+      }
+
+      .source {
+        word-break: break-all;
+      }
+
+      .path-stack {
+        display: grid;
+        gap: 0.25rem;
+      }
+
+      .utility {
+        border: 1px solid var(--line);
+        background: var(--surface);
+      }
+
+      .utility summary {
+        padding: 0.58rem 0.7rem;
+        color: var(--ink);
+        cursor: pointer;
+        font-weight: 700;
+      }
+
+      .utility-body {
+        display: grid;
+        gap: 0.45rem;
+        padding: 0 0.7rem 0.7rem;
+      }
+
+      .preview {
+        min-height: 12rem;
+        padding: 0.8rem;
+        border: 1px solid var(--line);
+        background: var(--surface);
+        color: var(--ink-soft);
+      }
+
+      .deploy-report {
+        display: grid;
+        gap: 0.45rem;
+      }
+
+      .deploy-report pre {
+        min-height: 4rem;
+        max-height: 11rem;
+        overflow: auto;
+        margin: 0;
+        padding: 0.75rem;
+        border: 1px solid var(--line);
+        background: var(--paper);
+        color: var(--ink-muted);
+        font-family: var(--mono);
+        font-size: 0.76rem;
+        line-height: 1.45;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+
+      .preview h1,
+      .preview h2,
+      .preview h3 {
+        color: var(--ink);
+        line-height: 1.2;
+      }
+
+      .preview code {
+        font-family: var(--mono);
+      }
+
+      .preview :not(pre) > code {
+        padding: 0.05em 0.32em;
+        border: 1px solid var(--line);
+      }
+
+      .preview pre,
+      .preview .shiki {
+        max-width: 100%;
+        min-width: 0;
+        overflow: auto;
+        margin: 0.75rem 0;
+        padding: 0.75rem;
+        border: 1px solid var(--line);
+        background: var(--paper-2) !important;
+        color: var(--ink) !important;
+      }
+
+      .preview .shiki code {
+        display: block;
+        min-width: max-content;
+        color: inherit;
+        font-family: var(--mono);
+        font-size: 0.82rem;
+        line-height: 1.65;
+      }
+
+      @media (max-width: 1080px) {
+        body {
+          overflow: auto;
+        }
+
+        .shell,
+        body.focus-mode .shell {
+          min-height: 100dvh;
+          height: auto;
+          grid-template-columns: 1fr;
+        }
+
+        .sidebar,
+        .meta,
+        body.focus-mode .sidebar,
+        body.focus-mode .meta {
+          opacity: 1;
+          pointer-events: auto;
+        }
+
+        .post-list {
+          max-height: 18rem;
+        }
+
+        #content {
+          min-height: 62vh;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          transition-duration: 0.01ms !important;
+          scroll-behavior: auto !important;
+        }
+      }
+    </style>
+    <script>
+      (() => {
+        try {
+          const theme = localStorage.getItem("guai-theme") || "light";
+          document.documentElement.dataset.theme = theme === "dark" ? "dark" : "light";
+        } catch {
+          document.documentElement.dataset.theme = "light";
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <main class="shell">
+      <aside class="pane sidebar">
+        <header class="pane-head">
+          <div class="brand">
+            <span>writer / local</span>
+            <strong>文章</strong>
+          </div>
+          <button id="newPost" type="button">新建</button>
+        </header>
+        <div class="search">
+          <input id="filter" type="search" placeholder="搜索标题、标签、文件名" />
+        </div>
+        <div id="postList" class="post-list" aria-label="文章列表"></div>
+      </aside>
+
+      <section class="pane editor">
+        <header class="title-row">
+          <input id="title" placeholder="标题" />
+          <div class="toolbar">
+            <div class="toolbar-group" aria-label="写作操作">
+              <button id="savePost" type="button" title="只保存当前 Markdown 文件">保存</button>
+              <button id="openTypora" class="secondary" type="button">Typora</button>
+              <button id="refreshPost" class="secondary" type="button">刷新</button>
+              <button id="focusMode" class="secondary" type="button">专注</button>
+              <button id="themeToggle" class="secondary" type="button">墨色</button>
+            </div>
+            <div class="toolbar-group" aria-label="构建发布">
+              <button id="buildOnly" class="secondary" type="button" title="自动保存后执行 npm run build">构建</button>
+              <button id="buildSite" type="button" title="自动保存、构建后打开最终文章页">预览</button>
+              <button id="deploySite" class="danger" type="button" title="自动保存、构建并推送到 GitHub Pages">发布</button>
+            </div>
+            <span id="status" class="status"></span>
+          </div>
+        </header>
+        <textarea id="content" spellcheck="false" placeholder="在这里写 Markdown"></textarea>
+      </section>
+
+      <aside class="pane meta">
+        <header class="pane-head">
+          <div class="brand">
+            <span>front matter</span>
+            <strong>信息</strong>
+          </div>
+          <span id="counter" class="counter"></span>
+        </header>
+        <div class="meta-body">
+          <label class="field">
+            <span>日期</span>
+            <input id="date" type="datetime-local" />
+          </label>
+          <label class="field">
+            <span>标签，用逗号分隔</span>
+            <input id="tags" placeholder="算法, luogu" />
+          </label>
+          <label class="field">
+            <span>分类，用逗号分隔</span>
+            <input id="categories" placeholder="blog" />
+          </label>
+          <label class="check-row">
+            <input id="draft" type="checkbox" />
+            <span>保存为草稿</span>
+          </label>
+          <div class="draft-note" id="draftNote">本地备份会在输入时自动更新，正式保存仍写入 Markdown。</div>
+          <details class="utility">
+            <summary>路径</summary>
+            <div class="utility-body path-stack">
+              <div class="source" id="sourcePath">未保存</div>
+              <div class="source" id="previewPath"></div>
+            </div>
+          </details>
+          <details class="utility deploy-report">
+            <summary>构建 / 发布日志</summary>
+            <div class="utility-body">
+              <pre id="deployLog">还没有执行构建或发布。</pre>
+            </div>
+          </details>
+          <section class="preview" id="preview" aria-label="Markdown 预览"></section>
+        </div>
+      </aside>
+    </main>
+
+    <script>
+      const state = {
+        posts: [],
+        activePath: "",
+        previewPath: "",
+        mtimeMs: 0,
+        dirty: false,
+        previewTimer: 0,
+        renderToken: 0,
+        diskChangeNotice: false
+      };
+
+      const el = (id) => document.getElementById(id);
+      const fields = {
+        title: el("title"),
+        content: el("content"),
+        date: el("date"),
+        tags: el("tags"),
+        categories: el("categories"),
+        draft: el("draft"),
+        sourcePath: el("sourcePath"),
+        previewPath: el("previewPath"),
+        deployLog: el("deployLog"),
+        status: el("status"),
+        counter: el("counter"),
+        preview: el("preview"),
+        filter: el("filter"),
+        postList: el("postList"),
+        draftNote: el("draftNote"),
+        savePost: el("savePost"),
+        openTypora: el("openTypora"),
+        refreshPost: el("refreshPost"),
+        focusMode: el("focusMode"),
+        themeToggle: el("themeToggle"),
+        buildOnly: el("buildOnly"),
+        buildSite: el("buildSite"),
+        deploySite: el("deploySite")
+      };
+
+      const deployDetails = fields.deployLog.closest("details");
+      const draftPrefix = "guai-writer-draft:";
+      const themeKey = "guai-theme";
+      const focusKey = "guai-writer-focus";
+
+      const escapeHtml = (value) =>
+        value.replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" })[char]);
+
+      const splitList = (value) =>
+        value
+          .split(/[，,]/)
+          .map((item) => item.trim())
+          .filter(Boolean);
+
+      const toInputDate = (value) => {
+        const date = value ? new Date(value) : new Date();
+        const local = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+        return local.toISOString().slice(0, 16);
+      };
+
+      const fromInputDate = (value) => {
+        if (!value) return new Date().toISOString();
+        return new Date(value).toISOString();
+      };
+
+      const draftKey = (sourcePath = state.activePath) => `${draftPrefix}${sourcePath || "__new__"}`;
+
+      const statusTone = (message) => {
+        if (/失败|错误|不能为空|没有找到|过大/.test(message)) return "bad";
+        if (/未保存|变化|正在|刷新|构建|发布|打开|备份/.test(message)) return "warn";
+        if (/已|完成|成功|同步/.test(message)) return "good";
+        return "";
+      };
+
+      const setStatus = (message) => {
+        fields.status.textContent = message;
+        fields.status.dataset.tone = statusTone(message);
+      };
+
+      const setDraftNote = (message) => {
+        fields.draftNote.textContent = message;
+      };
+
+      const setDeployLog = (message) => {
+        fields.deployLog.textContent = message;
+        if (deployDetails && !/^还没有/.test(message)) deployDetails.open = true;
+      };
+
+      const formatDeployReport = (data) => {
+        const lines = [
+          `结果：${data.createdCommit ? "已创建新提交" : "没有新的构建提交"}`,
+          `提交信息：${data.message || ""}`,
+          `发布仓库最新提交：${data.latestCommit || data.afterHead || "未知"}`,
+          `发布前 HEAD：${data.beforeHead || "未知"}`,
+          `发布后 HEAD：${data.afterHead || "未知"}`,
+          `发布仓库状态：${data.publishStatus || "未知"}`,
+          `线上地址：${data.url || "https://blog.mineguai.com/"}`,
+          "",
+          "deploy.ps1 输出：",
+          data.log || "没有日志输出。"
+        ];
+        return lines.join("\n");
+      };
+
+      const formatBuildReport = (data, title = "构建") => {
+        const lines = [
+          `结果：${title}成功`,
+          `产物目录：${data.dist || "dist"}`,
+          "",
+          "npm run build 输出：",
+          data.log || "没有日志输出。"
+        ];
+        return lines.join("\n");
+      };
+
+      const applyTheme = (theme) => {
+        const next = theme === "dark" ? "dark" : "light";
+        document.documentElement.dataset.theme = next;
+        fields.themeToggle.textContent = next === "dark" ? "纸面" : "墨色";
+        try {
+          localStorage.setItem(themeKey, next);
+        } catch {}
+      };
+
+      const toggleTheme = () => {
+        applyTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark");
+      };
+
+      const setFocusMode = (enabled) => {
+        document.body.classList.toggle("focus-mode", enabled);
+        fields.focusMode.textContent = enabled ? "展开" : "专注";
+        try {
+          localStorage.setItem(focusKey, enabled ? "1" : "0");
+        } catch {}
+      };
+
+      const setActionBusy = (busy) => {
+        document.body.classList.toggle("is-busy", busy);
+        fields.savePost.disabled = busy;
+        fields.openTypora.disabled = busy;
+        fields.refreshPost.disabled = busy;
+        fields.buildOnly.disabled = busy;
+        fields.buildSite.disabled = busy;
+        fields.deploySite.disabled = busy;
+      };
+
+      const currentPayload = () => ({
+        sourcePath: state.activePath || undefined,
+        title: fields.title.value.trim(),
+        date: fromInputDate(fields.date.value),
+        draft: fields.draft.checked,
+        tags: splitList(fields.tags.value),
+        categories: splitList(fields.categories.value),
+        content: fields.content.value
+      });
+
+      const writeLocalDraft = () => {
+        try {
+          localStorage.setItem(draftKey(), JSON.stringify({ ...currentPayload(), savedAt: new Date().toISOString() }));
+          setDraftNote("本地备份已更新，正式保存仍写入 Markdown。");
+        } catch {
+          setDraftNote("本地备份失败，浏览器存储可能已满。");
+        }
+      };
+
+      const clearLocalDraft = (sourcePath = state.activePath) => {
+        try {
+          localStorage.removeItem(draftKey(sourcePath));
+        } catch {}
+        setDraftNote("本地备份会在输入时自动更新，正式保存仍写入 Markdown。");
+      };
+
+      const restoreLocalDraft = (sourcePath = state.activePath) => {
+        try {
+          const raw = localStorage.getItem(draftKey(sourcePath));
+          if (!raw) return false;
+          const draft = JSON.parse(raw);
+          if (!draft || typeof draft !== "object") return false;
+          fields.title.value = draft.title || fields.title.value;
+          fields.content.value = draft.content || fields.content.value;
+          fields.date.value = draft.date ? toInputDate(draft.date) : fields.date.value;
+          fields.tags.value = (draft.tags || []).join(", ");
+          fields.categories.value = (draft.categories || []).join(", ");
+          fields.draft.checked = Boolean(draft.draft);
+          state.dirty = true;
+          setStatus("已恢复本地备份");
+          setDraftNote(`已恢复 ${draft.savedAt ? new Date(draft.savedAt).toLocaleString("zh-CN") : "最近"} 的本地备份。`);
+          schedulePreview();
+          return true;
+        } catch {
+          return false;
+        }
+      };
+
+      const markDirty = () => {
+        state.dirty = true;
+        state.diskChangeNotice = false;
+        setStatus("未保存，已本地备份");
+        writeLocalDraft();
+        schedulePreview();
+      };
+
+      const renderPreview = async () => {
+        const markdown = fields.content.value;
+        fields.counter.textContent = `${markdown.length} 字符`;
+        if (!markdown.trim()) {
+          fields.preview.textContent = "预览会显示在这里";
+          return;
+        }
+        const token = ++state.renderToken;
+        try {
+          const response = await fetch("/api/render", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ content: markdown })
+          });
+          const result = await response.json();
+          if (token !== state.renderToken) return;
+          fields.preview.innerHTML = response.ok ? result.html : escapeHtml(result.error || "预览失败");
+        } catch (error) {
+          if (token !== state.renderToken) return;
+          fields.preview.textContent = error.message || String(error);
+        }
+      };
+
+      const schedulePreview = () => {
+        window.clearTimeout(state.previewTimer);
+        state.previewTimer = window.setTimeout(renderPreview, 180);
+      };
+
+      const renderList = () => {
+        const needle = fields.filter.value.trim().toLowerCase();
+        const posts = state.posts.filter((post) =>
+          [post.title, post.sourcePath, ...(post.tags || []), ...(post.categories || [])].join(" ").toLowerCase().includes(needle)
+        );
+        fields.postList.innerHTML = "";
+        if (!posts.length) {
+          const empty = document.createElement("div");
+          empty.className = "post-empty";
+          empty.textContent = needle ? "没有匹配的文章" : "还没有文章";
+          fields.postList.appendChild(empty);
+          return;
+        }
+        posts.forEach((post) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = `post-item${post.sourcePath === state.activePath ? " is-active" : ""}`;
+          button.innerHTML = `
+            <span class="post-title">${escapeHtml(post.title)}</span>
+            <span class="post-date">${escapeHtml(new Date(post.date).toLocaleDateString("zh-CN"))}${post.draft ? " · 草稿" : ""}</span>
+          `;
+          button.addEventListener("click", () => loadPost(post.sourcePath));
+          fields.postList.appendChild(button);
+        });
+      };
+
+      const fillPost = (post, { restoreDraft = true } = {}) => {
+        state.activePath = post.sourcePath || "";
+        state.previewPath = post.previewPath || "";
+        state.mtimeMs = post.mtimeMs || 0;
+        state.dirty = false;
+        state.diskChangeNotice = false;
+        fields.title.value = post.title || "";
+        fields.content.value = post.content || "";
+        fields.date.value = toInputDate(post.date);
+        fields.tags.value = (post.tags || []).join(", ");
+        fields.categories.value = (post.categories || []).join(", ");
+        fields.draft.checked = Boolean(post.draft);
+        fields.sourcePath.textContent = state.activePath || "未保存";
+        fields.previewPath.textContent = state.previewPath ? `预览路径 ${state.previewPath}` : "";
+        setStatus(state.activePath ? "已加载" : "新文章");
+        setDraftNote("本地备份会在输入时自动更新，正式保存仍写入 Markdown。");
+        if (restoreDraft) restoreLocalDraft(state.activePath);
+        schedulePreview();
+        renderList();
+      };
+
+      const loadPosts = async () => {
+        const response = await fetch("/api/posts");
+        state.posts = await response.json();
+        renderList();
+        const requestedPath = new URLSearchParams(window.location.search).get("path");
+        if (!state.activePath && requestedPath) {
+          const target = state.posts.find((post) => post.sourcePath === requestedPath);
+          if (target) {
+            await loadPost(target.sourcePath);
+            return;
+          }
+          setStatus("没有找到要编辑的文章");
+        }
+        if (!state.activePath && state.posts.length) fillPost(state.posts[0]);
+      };
+
+      const loadPost = async (sourcePath) => {
+        if (state.dirty && !confirm("当前文章还没保存，要切换吗？")) return;
+        const response = await fetch(`/api/post?path=${encodeURIComponent(sourcePath)}`);
+        const post = await response.json();
+        if (!response.ok) throw new Error(post.error || "加载失败");
+        fillPost(post);
+      };
+
+      const newPost = () => {
+        if (state.dirty && !confirm("当前文章还没保存，要新建吗？")) return;
+        fillPost({
+          sourcePath: "",
+          title: "",
+          date: new Date().toISOString(),
+          draft: true,
+          tags: [],
+          categories: [],
+          content: ""
+        });
+      };
+
+      const savePost = async () => {
+        const payload = currentPayload();
+        const previousPath = state.activePath;
+        if (!payload.title) {
+          setStatus("标题不能为空");
+          fields.title.focus();
+          return null;
+        }
+        setStatus("保存中");
+        const response = await fetch("/api/post", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        const result = await response.json();
+        if (!response.ok) {
+          setStatus(result.error || "保存失败");
+          return null;
+        }
+        clearLocalDraft(previousPath);
+        clearLocalDraft(result.sourcePath || state.activePath);
+        await loadPosts();
+        fillPost(result, { restoreDraft: false });
+        setStatus("已保存");
+        return result;
+      };
+
+      const refreshFromDisk = async ({ force = false } = {}) => {
+        if (!state.activePath) {
+          setStatus("当前文章还没有保存到磁盘");
+          return null;
+        }
+        if (state.dirty && !force && !confirm("网页里有未保存内容，要用磁盘文件覆盖吗？")) return null;
+        const response = await fetch(`/api/post?path=${encodeURIComponent(state.activePath)}`);
+        const post = await response.json();
+        if (!response.ok) {
+          setStatus(post.error || "刷新失败");
+          return null;
+        }
+        clearLocalDraft(state.activePath);
+        fillPost(post, { restoreDraft: false });
+        setStatus("已从磁盘刷新");
+        return post;
+      };
+
+      const openInTypora = async () => {
+        const post = state.activePath && !state.dirty ? { sourcePath: state.activePath } : await savePost();
+        if (!post?.sourcePath) return;
+        setStatus("正在打开 Typora");
+        const response = await fetch("/api/open-typora", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ sourcePath: post.sourcePath })
+        });
+        const data = await response.json();
+        setStatus(response.ok && data.ok ? "已交给 Typora" : data.error || "Typora 打开失败");
+      };
+
+      const saveAndPreview = async () => {
+        setActionBusy(true);
+        try {
+          setStatus("正在准备预览");
+          const result = await savePost();
+          if (!result) return;
+          setStatus("正在构建并打开最终文章页");
+          setDeployLog("已保存。正在执行 npm run build，然后打开本地最终预览。");
+          const response = await fetch("/api/open-preview", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ previewPath: result.previewPath })
+          });
+          const data = await response.json();
+          if (response.ok && data.ok) {
+            setDeployLog(formatBuildReport(data, "最终预览"));
+            setStatus("已打开最终文章页");
+            return;
+          }
+          setDeployLog(data.log || data.error || "预览启动失败，但没有返回构建日志。");
+          setStatus(data.error || "预览启动失败");
+        } catch (error) {
+          setDeployLog(error.message || String(error));
+          setStatus(error.message || String(error));
+        } finally {
+          setActionBusy(false);
+        }
+      };
+
+      const saveAndBuild = async () => {
+        setActionBusy(true);
+        try {
+          setStatus("正在构建");
+          const result = await savePost();
+          if (!result) return;
+          setStatus("正在构建 dist");
+          setDeployLog("已保存。正在执行 npm run build。");
+          const response = await fetch("/api/build", { method: "POST" });
+          const data = await response.json();
+          if (response.ok && data.ok) {
+            setDeployLog(formatBuildReport(data));
+            setStatus("构建完成，产物已写入 dist");
+            return;
+          }
+          setDeployLog(data.log || data.error || "构建失败，但没有返回构建日志。");
+          setStatus(data.error || "构建失败");
+        } catch (error) {
+          setDeployLog(error.message || String(error));
+          setStatus(error.message || String(error));
+        } finally {
+          setActionBusy(false);
+        }
+      };
+
+      const saveAndDeploy = async () => {
+        const title = fields.title.value.trim() || "博客";
+        const message = prompt("这会自动保存、构建并推送到 GitHub Pages。请输入发布提交信息：", `发布 ${title}`);
+        if (message === null) return;
+        if (!confirm("确认保存、构建并发布到 GitHub？这会更新线上博客。")) return;
+        setActionBusy(true);
+        try {
+          setStatus("正在发布");
+          const result = await savePost();
+          if (!result) return;
+          setStatus("正在发布到 GitHub");
+          setDeployLog("已保存。正在执行 deploy.ps1；脚本会重新构建并推送 public。");
+          const response = await fetch("/api/deploy", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message })
+          });
+          const data = await response.json();
+          if (response.ok && data.ok) {
+            setDeployLog(formatDeployReport(data));
+            setStatus(data.createdCommit ? `发布完成：${data.latestCommit}` : "发布完成，但构建产物没有新提交");
+            return;
+          }
+          setDeployLog(data.log || data.error || "发布失败，但没有返回日志。");
+          setStatus(data.error || "发布失败");
+        } catch (error) {
+          setDeployLog(error.message || String(error));
+          setStatus(error.message || String(error));
+        } finally {
+          setActionBusy(false);
+        }
+      };
+
+      const pollDisk = async () => {
+        if (!state.activePath) return;
+        try {
+          const response = await fetch(`/api/post?path=${encodeURIComponent(state.activePath)}`);
+          const post = await response.json();
+          if (!response.ok || !post.mtimeMs || post.mtimeMs === state.mtimeMs) return;
+          if (state.dirty) {
+            if (!state.diskChangeNotice) setStatus("磁盘文件已变化，点击“刷新”同步");
+            state.diskChangeNotice = true;
+            return;
+          }
+          fillPost(post, { restoreDraft: false });
+          setStatus("已同步 Typora 保存");
+        } catch {
+          // 写作台是本地工具，轮询失败时保持当前编辑内容。
+        }
+      };
+
+      [fields.title, fields.content, fields.date, fields.tags, fields.categories].forEach((input) => {
+        input.addEventListener("input", markDirty);
+      });
+      fields.draft.addEventListener("change", markDirty);
+      fields.filter.addEventListener("input", renderList);
+      el("newPost").addEventListener("click", newPost);
+      fields.savePost.addEventListener("click", savePost);
+      fields.openTypora.addEventListener("click", openInTypora);
+      fields.refreshPost.addEventListener("click", () => refreshFromDisk());
+      fields.focusMode.addEventListener("click", () => setFocusMode(!document.body.classList.contains("focus-mode")));
+      fields.themeToggle.addEventListener("click", toggleTheme);
+      fields.buildOnly.addEventListener("click", saveAndBuild);
+      fields.buildSite.addEventListener("click", saveAndPreview);
+      fields.deploySite.addEventListener("click", saveAndDeploy);
+      window.addEventListener("storage", (event) => {
+        if (event.key === themeKey) applyTheme(event.newValue || "light");
+      });
+      window.addEventListener("keydown", (event) => {
+        if (!(event.ctrlKey || event.metaKey)) return;
+        if (event.key.toLowerCase() === "s") {
+          event.preventDefault();
+          savePost();
+        }
+        if (event.key.toLowerCase() === "j") {
+          event.preventDefault();
+          setFocusMode(!document.body.classList.contains("focus-mode"));
+        }
+        if (event.key === "Enter") {
+          event.preventDefault();
+          saveAndPreview();
+        }
+      });
+      window.setInterval(pollDisk, 2500);
+
+      window.addEventListener("beforeunload", (event) => {
+        if (!state.dirty) return;
+        event.preventDefault();
+        event.returnValue = "";
+      });
+
+      try {
+        applyTheme(localStorage.getItem(themeKey) || "light");
+        setFocusMode(localStorage.getItem(focusKey) === "1");
+      } catch {
+        applyTheme("light");
+      }
+
+      loadPosts().catch((error) => {
+        setStatus(error.message || String(error));
+      });
+    </script>
+  </body>
+</html>

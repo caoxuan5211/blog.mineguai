@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.ssg/
+.vite/
+.playwright-cli/
+output/
+npm-debug.log*
+*.tsbuildinfo
+.preview*.log
+.writer*.log
+*-ink*.png
+NUL
+*.lnk
