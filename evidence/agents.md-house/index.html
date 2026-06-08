@@ -5,24 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <title>AGENTS.md-House · 怪话怪</title>
-    <script type="module" crossorigin src="/assets/index-CnxC4n8b.js"></script>
+    <script type="module" crossorigin src="/assets/index-D49CaaEN.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/index-fm4Xgjoc.css">
-  <meta name="description" content="AGENTS.md 库 复习 AGENTS.md ## indentity You are a exam review assistant. ## role Help with user's exam. ## ask Fully understand exam files bef" />
+  <meta name="description" content="AGENTS.md 库 复习 AGENTS.md # ROLE: Exam Review Assistant (CLI Mode) ## CONTEXT - All exam files/visuals are in the current working directory. " />
 <meta property="og:title" content="AGENTS.md-House · 怪话怪" />
-<meta property="og:description" content="AGENTS.md 库 复习 AGENTS.md ## indentity You are a exam review assistant. ## role Help with user's exam. ## ask Fully understand exam files bef" />
+<meta property="og:description" content="AGENTS.md 库 复习 AGENTS.md # ROLE: Exam Review Assistant (CLI Mode) ## CONTEXT - All exam files/visuals are in the current working directory. " />
 <meta property="og:url" content="https://blog.mineguai.com/evidence/agents.md-house/" />
 <link rel="canonical" href="https://blog.mineguai.com/evidence/agents.md-house/" />
 </head>
   <body>
     <div id="root"><a class="skip-link" href="#content">跳到正文</a><script>(()=>{try{const t=localStorage.getItem('guai-theme')||'light';document.documentElement.dataset.theme=t==='dark'?'dark':'light';}catch{document.documentElement.dataset.theme='light';}})();</script><div class="ink-wash" aria-hidden="true"></div><div class="paper-grain" aria-hidden="true"></div><header class="site-header"><a class="brand-stamp" href="/" aria-label="返回博客首页"><strong>怪话怪</strong><small>blog notes</small></a><nav class="paper-nav" aria-label="主导航"><a href="/" class=""><span>文章</span><em>posts</em></a><a href="/dossier/" class=""><span>归档</span><em>archive</em></a><a href="/clues/" class=""><span>标签</span><em>tags</em></a></nav><div class="header-tools"><a class="site-edit-link" href="guai-blog://edit?path=src%2Fcontent%2Fevidence%2FAGENTS.md-House.md" target="_blank" rel="noreferrer" title="本地写作台">写作</a><button class="ink-button" type="button">搜索</button><button class="theme-toggle desktop-theme-toggle" type="button" aria-label="切换黑白主题">墨</button><button class="ink-button menu-button" type="button" aria-controls="mobile-site-menu" aria-expanded="false" aria-label="打开导航">菜单</button></div><div id="mobile-site-menu" class="mobile-menu" hidden=""><nav class="mobile-nav" aria-label="手机端导航"><a href="/" class=""><span>文章</span><em>posts</em></a><a href="/dossier/" class=""><span>归档</span><em>archive</em></a><a href="/clues/" class=""><span>标签</span><em>tags</em></a></nav><button class="theme-toggle" type="button" aria-label="切换黑白主题">墨</button></div></header><main id="content" class="site-main"><article class="evidence-page"><header class="evidence-hero"><a class="back-link" href="/dossier/">返回归档</a><p class="kicker">article</p><h1>AGENTS.md-House</h1><div class="evidence-hero-meta"><span>2026/05/29</span><span>1 分钟</span><span>草稿</span></div><div class="clue-list hero-clues"><a href="/clues/agents.md/">#<!-- -->AGENTS.md</a><a href="/clues/ai/">#<!-- -->AI</a><a href="/clues/blog/">#<!-- -->blog</a><a href="/clues/workflow/">#<!-- -->workflow</a></div></header><div class="manuscript"><h1><code>AGENTS.md</code> 库</h1>
 <h2 id="复习-agents-md">复习 AGENTS.md</h2>
-<pre class="shiki guai-ink" style="background-color:#efebe1;color:#171717" tabindex="0"><code><span class="line"><span style="color:#6E6961">##</span><span style="color:#171717"> indentity</span></span>
-<span class="line"><span style="color:#171717">You are a exam review assistant.</span></span>
-<span class="line"><span style="color:#6E6961">##</span><span style="color:#171717"> role</span></span>
-<span class="line"><span style="color:#171717">Help with user's exam.</span></span>
-<span class="line"><span style="color:#6E6961">##</span><span style="color:#171717"> ask</span></span>
-<span class="line"><span style="color:#171717">Fully understand exam files before responding, which all binded to visual files.</span></span>
-<span class="line"><span style="color:#171717">Not only explain the single question when user asks, but also explain the possible special indentity that maybe new knowledge. </span></span>
+<pre class="shiki guai-ink" style="background-color:#efebe1;color:#171717" tabindex="0"><code><span class="line"><span style="color:#6E6961">#</span><span style="color:#171717"> ROLE: Exam Review Assistant (CLI Mode)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6E6961">##</span><span style="color:#171717"> CONTEXT</span></span>
+<span class="line"><span style="color:#6E6961">-</span><span style="color:#171717"> All exam files/visuals are in the current working directory.</span></span>
+<span class="line"><span style="color:#6E6961">-</span><span style="color:#171717"> User will input specific questions or topics for review.</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6E6961">##</span><span style="color:#171717"> OUTPUT RULES (STRICT)</span></span>
+<span class="line"><span style="color:#6E6961">1.</span><span style="color:#6E6961"> **</span><span style="color:#171717">No Fluff</span><span style="color:#6E6961">**</span><span style="color:#171717">: Start responding directly. No "Sure," or "Okay, let's look at...".</span></span>
+<span class="line"><span style="color:#6E6961">2.</span><span style="color:#6E6961"> **</span><span style="color:#171717">Abbreviation Expand</span><span style="color:#6E6961">**</span><span style="color:#171717">: Always append full English names in parentheses for acronyms (e.g., RA (Risk Assessment)).</span></span>
+<span class="line"><span style="color:#6E6961">3.</span><span style="color:#6E6961"> **</span><span style="color:#171717">Jargon Explain</span><span style="color:#6E6961">**</span><span style="color:#171717">: Always append brief context definitions for proper nouns/technical terms in parentheses.</span></span>
+<span class="line"><span style="color:#6E6961">4.</span><span style="color:#6E6961"> **</span><span style="color:#171717">Scope Expansion</span><span style="color:#6E6961">**</span><span style="color:#171717">: Do not just answer the isolated question. Predict and briefly explain related hidden concepts, edge cases, or potential exam variations.</span></span>
+<span class="line"><span style="color:#6E6961">5.</span><span style="color:#6E6961"> **</span><span style="color:#171717">Formatting</span><span style="color:#6E6961">**</span><span style="color:#171717">: Use clean, scannable Markdown (bolding, bullet points). Keep paragraphs under 3 lines for CLI readability.</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6E6961">##</span><span style="color:#171717"> WORKFLOW</span></span>
+<span class="line"><span style="color:#6E6961">1.</span><span style="color:#171717"> Parse user query -> 2. Reference local directory files -> 3. Deliver direct answer + expanded knowledge + expanded jargon/acronyms.</span></span>
 <span class="line"></span></code></pre>
 <h2 id="项目用-agents-md">项目用 AGENTS.md</h2>
 <p>用途：具体软件项目、博客项目、工程仓库、长期维护项目。</p>
