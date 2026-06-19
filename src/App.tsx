@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type CSSProperties } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { cluePath, evidencePath, findRoute, routePath, siteTitle } from "./routes";
 import { byNewest, estimateReadLabel, formatDate, shortTitle } from "./content-utils";
 import type { EvidenceDocument, RouteData, SiteData } from "./types";
@@ -313,6 +313,7 @@ function HomeBlogCard({ evidence, index }: { evidence: EvidenceDocument; index: 
 }
 
 function NavigationWheel() {
+  const wheelRef = useRef<HTMLElement>(null);
   const [rotation, setRotation] = useState(0);
   const rotateWheel = (delta: number) => setRotation((current) => current + delta);
   const wheelStyle = {
@@ -322,14 +323,39 @@ function NavigationWheel() {
   const segmentStep = 26;
   const startAngle = -52;
 
+  useEffect(() => {
+    const handleWheel = (event: WheelEvent) => {
+      const wheel = wheelRef.current;
+      if (!wheel || window.matchMedia("(max-width: 1180px)").matches) return;
+
+      const target = event.target;
+      if (
+        target instanceof Element &&
+        target.closest(".recent-panel, .floating-crystal-card, .home-topline, .site-header, .command-layer")
+      ) {
+        return;
+      }
+
+      const rect = wheel.getBoundingClientRect();
+      const inHorizontalWheelArea = event.clientX >= rect.left && event.clientX <= rect.right;
+      const wheelBandTop = Math.max(rect.top + rect.height * 0.48, window.innerHeight * 0.58);
+      const inVisibleWheelBand = event.clientY >= wheelBandTop && event.clientY <= window.innerHeight;
+
+      if (!inHorizontalWheelArea || !inVisibleWheelBand) return;
+
+      event.preventDefault();
+      rotateWheel(event.deltaY > 0 ? -segmentStep : segmentStep);
+    };
+
+    document.addEventListener("wheel", handleWheel, { passive: false });
+    return () => document.removeEventListener("wheel", handleWheel);
+  }, []);
+
   return (
     <nav
+      ref={wheelRef}
       className="wheel-shell"
       aria-label="博客导航"
-      onWheel={(event) => {
-        event.preventDefault();
-        rotateWheel(event.deltaY > 0 ? -segmentStep : segmentStep);
-      }}
     >
       <button className="wheel-arrow wheel-arrow-left" type="button" aria-label="向左旋转导航" onClick={() => rotateWheel(segmentStep)}>
         <Icon name="chevronLeft" />

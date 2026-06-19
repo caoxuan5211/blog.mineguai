@@ -620,8 +620,8 @@ svg {
   align-items: center;
   justify-content: center;
   gap: clamp(1.2rem, 3vw, 3.4rem);
-  min-height: clamp(24rem, 43vh, 30rem);
-  margin-top: clamp(0.2rem, 1.3vw, 1rem);
+  min-height: clamp(22rem, 39vh, 27rem);
+  margin-top: clamp(0rem, 1vw, 0.75rem);
 }
 
 .glass-surface,
@@ -644,7 +644,7 @@ svg {
 
 .recent-panel {
   position: relative;
-  padding: 2.1rem 2.35rem 1.55rem;
+  padding: 1.85rem 2.2rem 1.32rem;
   border-radius: var(--radius-panel);
 }
 
@@ -680,7 +680,7 @@ svg {
   grid-template-columns: 6.35rem minmax(0, 1fr) auto;
   align-items: center;
   gap: 1.05rem;
-  min-height: 6.2rem;
+  min-height: 5.85rem;
   padding: 0.82rem;
   border-color: rgba(160, 179, 219, 0.22);
   border-radius: 0;
@@ -709,8 +709,8 @@ svg {
 
 .post-thumb {
   position: relative;
-  width: 5.9rem;
-  height: 4.15rem;
+  width: 5.55rem;
+  height: 3.9rem;
   overflow: hidden;
   border-radius: var(--radius-card);
   background:
@@ -912,7 +912,7 @@ svg {
 .wheel-shell {
   position: absolute;
   left: 50%;
-  bottom: clamp(-62rem, -54vw, -42rem);
+  bottom: clamp(-76rem, -61vw, -49rem);
   z-index: 2;
   width: min(92vw, 94rem);
   aspect-ratio: 1;
@@ -922,7 +922,7 @@ svg {
 }
 
 .nav-wheel {
-  --wheel-radius: clamp(19rem, 24vw, 27.5rem);
+  --wheel-radius: clamp(22rem, 30vw, 34rem);
   position: absolute;
   inset: 0;
   border: 1px solid rgba(255, 255, 255, 0.58);
@@ -1028,7 +1028,7 @@ svg {
 .wheel-instruction {
   position: absolute;
   left: 50%;
-  top: clamp(18rem, 22vw, 23.5rem);
+  top: clamp(19rem, 23vw, 25rem);
   z-index: 2;
   display: flex;
   align-items: center;
