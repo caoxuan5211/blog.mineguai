@@ -353,7 +353,7 @@ svg {
   position: relative;
   min-height: calc(100dvh - 72px);
   overflow: hidden;
-  padding: clamp(1rem, 2vw, 1.35rem) 0 0;
+  padding: clamp(1rem, 2vw, 1.35rem) 0 0.75rem;
   isolation: isolate;
 }
 
@@ -910,21 +910,22 @@ svg {
 }
 
 .wheel-shell {
-  position: absolute;
-  left: 50%;
-  bottom: clamp(-76rem, -61vw, -49rem);
-  z-index: 2;
-  width: min(92vw, 94rem);
-  aspect-ratio: 1;
-  margin: 0;
+  position: relative;
+  z-index: 5;
+  width: min(100%, 66rem);
+  height: clamp(11.25rem, 19vh, 14rem);
+  margin: clamp(0.85rem, 1.8vh, 1.35rem) auto 0;
+  overflow: hidden;
   pointer-events: auto;
-  transform: translateX(-50%);
 }
 
 .nav-wheel {
-  --wheel-radius: clamp(22rem, 30vw, 34rem);
+  --wheel-radius: clamp(21rem, 24vw, 27rem);
   position: absolute;
-  inset: 0;
+  left: 50%;
+  top: 0;
+  width: min(82vw, 58rem);
+  aspect-ratio: 1;
   border: 1px solid rgba(255, 255, 255, 0.58);
   border-radius: 50%;
   background:
@@ -935,7 +936,7 @@ svg {
     0 -26px 90px rgba(172, 197, 255, 0.26),
     inset 0 2px 0 rgba(255, 255, 255, 0.72),
     inset 0 0 90px rgba(255, 255, 255, 0.42);
-  transform: rotate(var(--wheel-rotation, 0deg));
+  transform: translateX(-50%) rotate(var(--wheel-rotation, 0deg));
   transition: transform 620ms cubic-bezier(0.2, 0.8, 0.2, 1);
   will-change: transform;
 }
@@ -1028,7 +1029,7 @@ svg {
 .wheel-instruction {
   position: absolute;
   left: 50%;
-  top: clamp(19rem, 23vw, 25rem);
+  bottom: 0.6rem;
   z-index: 2;
   display: flex;
   align-items: center;
@@ -1045,7 +1046,7 @@ svg {
 
 .wheel-arrow {
   position: absolute;
-  top: clamp(7rem, 12vw, 12rem);
+  top: clamp(4.2rem, 7vh, 5.2rem);
   z-index: 4;
   width: clamp(3.2rem, 4vw, 4.2rem);
   aspect-ratio: 1;
@@ -1071,11 +1072,11 @@ svg {
 }
 
 .wheel-arrow-left {
-  left: clamp(4rem, 9vw, 9rem);
+  left: clamp(3.5rem, 10vw, 11rem);
 }
 
 .wheel-arrow-right {
-  right: clamp(4rem, 9vw, 9rem);
+  right: clamp(3.5rem, 10vw, 11rem);
 }
 
 .evidence-section,

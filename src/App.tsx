@@ -338,8 +338,7 @@ function NavigationWheel() {
 
       const rect = wheel.getBoundingClientRect();
       const inHorizontalWheelArea = event.clientX >= rect.left && event.clientX <= rect.right;
-      const wheelBandTop = Math.max(rect.top + rect.height * 0.48, window.innerHeight * 0.58);
-      const inVisibleWheelBand = event.clientY >= wheelBandTop && event.clientY <= window.innerHeight;
+      const inVisibleWheelBand = event.clientY >= rect.top && event.clientY <= rect.bottom;
 
       if (!inHorizontalWheelArea || !inVisibleWheelBand) return;
 
