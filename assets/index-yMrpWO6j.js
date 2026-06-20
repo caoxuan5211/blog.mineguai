@@ -26,7 +26,7 @@ Error generating stack: `+a.message+`
 
 
 
-<table><thead><tr><th>英格雷士</th><th>全称</th><th>说明</th></tr></thead><tbody><tr><td>DBMS</td><td>Database Management Syste</td><td>数据库管理系统</td></tr><tr><td>SQL</td><td>Structured Query Language</td><td>结构化查询语言</td></tr></tbody></table>`,plainText:"英格雷士 全称 说明 DBMS Database Management Syste 数据库管理系统 SQL Structured Query Language 结构化查询语言"},{meta:{title:"WIN",date:"2026-06-20T07:11:17.000Z",updated:"2026-06-20T07:11:24.890Z",draft:!0,tags:[],categories:[],clues:[],slug:"win",sourcePath:"src/content/evidence/WIN.md",readingTime:1},html:"",plainText:""},{meta:{title:"HTML",date:"2026-06-20T07:10:14.000Z",updated:"2026-06-20T09:29:08.122Z",draft:!0,tags:[],categories:[],clues:[],slug:"html",sourcePath:"src/content/evidence/HTML.md",readingTime:1},html:`
+<table><thead><tr><th>英格雷士</th><th>全称</th><th>说明</th></tr></thead><tbody><tr><td>DBMS</td><td>Database Management Syste</td><td>数据库管理系统</td></tr><tr><td>SQL</td><td>Structured Query Language</td><td>结构化查询语言</td></tr></tbody></table>`,plainText:"英格雷士 全称 说明 DBMS Database Management Syste 数据库管理系统 SQL Structured Query Language 结构化查询语言"},{meta:{title:"WIN",date:"2026-06-20T07:11:17.000Z",updated:"2026-06-20T07:11:24.890Z",draft:!0,tags:[],categories:[],clues:[],slug:"win",sourcePath:"src/content/evidence/WIN.md",readingTime:1},html:"",plainText:""},{meta:{title:"HTML",date:"2026-06-20T07:10:14.000Z",updated:"2026-06-20T10:44:22.771Z",draft:!0,tags:[],categories:[],clues:[],slug:"html",sourcePath:"src/content/evidence/HTML.md",readingTime:1},html:`
 
 
 
