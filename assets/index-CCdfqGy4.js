@@ -21,7 +21,12 @@ Error generating stack: `+a.message+`
 
 
 
-<table><thead><tr><th>英格雷士</th><th>全称</th><th>说明</th></tr></thead><tbody><tr><td>DBMS</td><td>Database Management Syste</td><td>数据库管理系统</td></tr></tbody></table>`,plainText:"英格雷士 全称 说明 DBMS Database Management Syste 数据库管理系统"},{meta:{title:"WIN",date:"2026-06-20T07:11:17.000Z",draft:!0,tags:[],categories:[],clues:[],slug:"win",sourcePath:"src/content/evidence/WIN.md",readingTime:1},html:"",plainText:""},{meta:{title:"HTML",date:"2026-06-20T07:10:14.000Z",draft:!0,tags:[],categories:[],clues:[],slug:"html",sourcePath:"src/content/evidence/HTML.md",readingTime:1},html:`
+
+
+
+
+
+<table><thead><tr><th>英格雷士</th><th>全称</th><th>说明</th></tr></thead><tbody><tr><td>DBMS</td><td>Database Management Syste</td><td>数据库管理系统</td></tr><tr><td>SQL</td><td>Structured Query Language</td><td>结构化查询语言</td></tr></tbody></table>`,plainText:"英格雷士 全称 说明 DBMS Database Management Syste 数据库管理系统 SQL Structured Query Language 结构化查询语言"},{meta:{title:"WIN",date:"2026-06-20T07:11:17.000Z",draft:!0,tags:[],categories:[],clues:[],slug:"win",sourcePath:"src/content/evidence/WIN.md",readingTime:1},html:"",plainText:""},{meta:{title:"HTML",date:"2026-06-20T07:10:14.000Z",draft:!0,tags:[],categories:[],clues:[],slug:"html",sourcePath:"src/content/evidence/HTML.md",readingTime:1},html:`
 
 
 
@@ -54,7 +59,10 @@ Error generating stack: `+a.message+`
 
 
 
-<table><thead><tr><th>属性</th><th>说明</th></tr></thead><tbody><tr><td>border-radius</td><td>边框圆角</td></tr><tr><td>margin</td><td>外边距</td></tr><tr><td>padding</td><td>内边距</td></tr><tr><td>box-shadow</td><td>盒子阴影</td></tr><tr><td>span</td><td>行内元素</td></tr><tr><td>division</td><td>块级元素</td></tr></tbody></table>`,plainText:"属性 说明 border-radius 边框圆角 margin 外边距 padding 内边距 box-shadow 盒子阴影 span 行内元素 division 块级元素"},{meta:{title:"英格雷士",date:"2026-06-18T13:40:09.000Z",draft:!0,tags:["English"],categories:["Study"],clues:["English","Study"],slug:"%E8%8B%B1%E6%A0%BC%E9%9B%B7%E5%A3%AB",sourcePath:"src/content/evidence/英格雷士.md",readingTime:1},html:`<ul>
+<table><thead><tr><th>属性</th><th>说明</th></tr></thead><tbody><tr><td>border-radius</td><td>边框圆角</td></tr><tr><td>margin</td><td>外边距</td></tr><tr><td>padding</td><td>内边距</td></tr><tr><td>box-shadow</td><td>盒子阴影</td></tr><tr><td>span</td><td>行内元素</td></tr><tr><td>division</td><td>块级元素</td></tr></tbody></table>
+<p>| text-aligh | 居中对齐 |\r
+| display: inline-block | 横向排列 |\r
+| text-decoration | 去掉下划线 |</p>`,plainText:"属性 说明 border-radius 边框圆角 margin 外边距 padding 内边距 box-shadow 盒子阴影 span 行内元素 division 块级元素 | text-aligh | 居中对齐 | | display: inline-block | 横向排列 | | text-decoration | 去掉下划线 |"},{meta:{title:"英格雷士",date:"2026-06-18T13:40:09.000Z",draft:!0,tags:["English"],categories:["Study"],clues:["English","Study"],slug:"%E8%8B%B1%E6%A0%BC%E9%9B%B7%E5%A3%AB",sourcePath:"src/content/evidence/英格雷士.md",readingTime:1},html:`<ul>
 <li><a href="HTML.md">HTML</a></li>
 <li><a href="WIN.md">WIN</a></li>
 <li><a href="DATABASE.md">DATABASE</a></li>
