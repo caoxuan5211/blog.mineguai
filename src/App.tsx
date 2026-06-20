@@ -16,7 +16,11 @@ const navItems = [
   { label: "标签", hint: "tags", href: "/clues/" }
 ];
 
-const topicItems = ["#wrogu", "#Algorithm", "#AI", "#pictures", "#Deep_Learning", "#workflow"];
+const topicItems = [
+  { name: "Systems", meta: "runtime / tools" },
+  { name: "Algorithms", meta: "graphs / dp" },
+  { name: "AI Notes", meta: "models / workflow" }
+];
 const navWheelItems = [
   { title: "Articles", subtitle: "文章归档", icon: "article", href: "/dossier/" },
   { title: "Categories", subtitle: "分类目录", icon: "grid", href: "/clues/" },
@@ -178,7 +182,6 @@ function HomePage({ site }: { site: SiteData }) {
 
   return (
     <section className="home-stage crystal-home" aria-labelledby="home-title">
-      <CrystalField />
       <div className="home-topline" aria-label="核心信息">
         <TopicConstellation />
         <HeroIdentity focus={focus} lead={lead} />
@@ -197,24 +200,19 @@ function HomePage({ site }: { site: SiteData }) {
   );
 }
 
-function CrystalField() {
-  return (
-    <div className="crystal-field" aria-hidden="true">
-      {Array.from({ length: 14 }, (_, index) => (
-        <span key={index} className={`crystal-particle p${index + 1}`} />
-      ))}
-    </div>
-  );
-}
-
 function TopicConstellation() {
   return (
     <aside className="topic-constellation" aria-label="核心主题">
+      <span className="topic-kicker">Core Topics</span>
+      <strong>技术笔记</strong>
       <div className="topic-tags">
-        {topicItems.map((topic) => <span key={topic}>{topic}</span>)}
+        {topicItems.map((topic) => (
+          <a key={topic.name} href="/clues/">
+            <span>{topic.name}</span>
+            <em>{topic.meta}</em>
+          </a>
+        ))}
       </div>
-      <strong>算法</strong>
-      <em>Core Topics</em>
     </aside>
   );
 }
@@ -299,7 +297,6 @@ function HomeBlogCard({ evidence, index }: { evidence: EvidenceDocument; index: 
   return (
     <article className="home-blog-card">
       <a className="post-thumb" data-variant={(index % 3) + 1} href={evidencePath(evidence)} aria-label={`查看 ${evidence.meta.title}`}>
-        <i className="thumb-crystal" aria-hidden="true" />
         <span>{String(index + 1).padStart(2, "0")}</span>
       </a>
       <div className="home-post-copy">
@@ -314,14 +311,10 @@ function HomeBlogCard({ evidence, index }: { evidence: EvidenceDocument; index: 
 
 function NavigationWheel() {
   const wheelRef = useRef<HTMLElement>(null);
-  const [rotation, setRotation] = useState(0);
-  const rotateWheel = (delta: number) => setRotation((current) => current + delta);
-  const wheelStyle = {
-    "--wheel-rotation": `${rotation}deg`,
-    "--wheel-counter-rotation": `${rotation * -1}deg`
-  } as CSSProperties;
-  const segmentStep = 26;
-  const startAngle = -52;
+  const [activeIndex, setActiveIndex] = useState(2);
+  const rotateWheel = (direction: number) => {
+    setActiveIndex((current) => (current + direction + navWheelItems.length) % navWheelItems.length);
+  };
 
   useEffect(() => {
     const handleWheel = (event: WheelEvent) => {
@@ -343,7 +336,7 @@ function NavigationWheel() {
       if (!inHorizontalWheelArea || !inVisibleWheelBand) return;
 
       event.preventDefault();
-      rotateWheel(event.deltaY > 0 ? -segmentStep : segmentStep);
+      rotateWheel(event.deltaY > 0 ? 1 : -1);
     };
 
     document.addEventListener("wheel", handleWheel, { passive: false });
@@ -356,32 +349,46 @@ function NavigationWheel() {
       className="wheel-shell"
       aria-label="博客导航"
     >
-      <button className="wheel-arrow wheel-arrow-left" type="button" aria-label="向左旋转导航" onClick={() => rotateWheel(segmentStep)}>
+      <button className="wheel-arrow wheel-arrow-left" type="button" aria-label="向左旋转导航" onClick={() => rotateWheel(-1)}>
         <Icon name="chevronLeft" />
       </button>
-      <div className="nav-wheel" style={wheelStyle}>
+      <div className="nav-wheel">
         {navWheelItems.map((item, index) => (
-          <a
-            key={item.title}
-            className="nav-segment"
-            href={item.href}
-            style={{
-              "--segment-angle": `${startAngle + index * segmentStep}deg`,
-              "--segment-counter-angle": `${(startAngle + index * segmentStep) * -1}deg`
-            } as CSSProperties}
-          >
+          <a key={item.title} className={navSegmentClass(index, activeIndex)} href={item.href} style={navSegmentStyle(index, activeIndex)}>
             <span className="segment-icon"><Icon name={item.icon} /></span>
             <strong>{item.title}</strong>
             <em>{item.subtitle}</em>
           </a>
         ))}
       </div>
-      <button className="wheel-arrow wheel-arrow-right" type="button" aria-label="向右旋转导航" onClick={() => rotateWheel(-segmentStep)}>
+      <button className="wheel-arrow wheel-arrow-right" type="button" aria-label="向右旋转导航" onClick={() => rotateWheel(1)}>
         <Icon name="chevronRight" />
       </button>
       <p className="wheel-instruction"><Icon name="mouse" />滚动鼠标滚轮以探索更多</p>
     </nav>
   );
+}
+
+function navSegmentClass(index: number, activeIndex: number) {
+  const distance = wheelDistance(index, activeIndex);
+  return `nav-segment${Math.abs(distance) <= 2 ? " is-visible" : " is-hidden"}${distance === 0 ? " is-active" : ""}`;
+}
+
+function navSegmentStyle(index: number, activeIndex: number) {
+  const distance = wheelDistance(index, activeIndex);
+  return {
+    "--slot": distance,
+    "--slot-x": `${distance * 10.25}rem`,
+    "--slot-y": `${Math.abs(distance) * 1.12}rem`
+  } as CSSProperties;
+}
+
+function wheelDistance(index: number, activeIndex: number) {
+  let distance = index - activeIndex;
+  const half = navWheelItems.length / 2;
+  if (distance > half) distance -= navWheelItems.length;
+  if (distance < -half) distance += navWheelItems.length;
+  return distance;
 }
 
 function Icon({ name }: { name: string }) {
