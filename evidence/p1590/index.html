@@ -3,11 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f3f4ee" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <title>洛谷 P1590 · 怪话怪</title>
-    <script type="module" crossorigin src="/assets/index-YJnp1mie.js"></script>
+    <script type="module" crossorigin src="/assets/index-2-b_6UGu.js"></script>
     <link rel="modulepreload" crossorigin href="/assets/react-vendor-D1xwAsmG.js">
-    <link rel="stylesheet" crossorigin href="/assets/index-CbNab-Tm.css">
+    <link rel="stylesheet" crossorigin href="/assets/index-cgpeWrjX.css">
   <meta name="description" content="失踪的7 直接找pascal的n以内的最大值 由于需要删除7（单位大于7就减，小于7直接用）,所以可以把十进制转换为去除7的模拟九进制。 #include &amp;#x3C;bits/stdc++.h&gt; using namespace std ; #define ll long lon" />
 <meta property="og:title" content="洛谷 P1590 · 怪话怪" />
 <meta property="og:description" content="失踪的7 直接找pascal的n以内的最大值 由于需要删除7（单位大于7就减，小于7直接用）,所以可以把十进制转换为去除7的模拟九进制。 #include &amp;#x3C;bits/stdc++.h&gt; using namespace std ; #define ll long lon" />
@@ -15,7 +16,7 @@
 <link rel="canonical" href="https://blog.mineguai.com/evidence/p1590/" />
 </head>
   <body>
-    <div id="root"><a class="skip-link" href="#content">跳到正文</a><script>(()=>{try{const t=localStorage.getItem('guai-theme')||'light';document.documentElement.dataset.theme=t==='dark'?'dark':'light';}catch{document.documentElement.dataset.theme='light';}})();</script><div class="ink-wash" aria-hidden="true"></div><div class="paper-grain" aria-hidden="true"></div><header class="site-header"><a class="brand-stamp" href="/" aria-label="返回博客首页"><strong>怪话怪</strong><small>blog notes</small></a><nav class="paper-nav" aria-label="主导航"><a href="/" class=""><span>文章</span><em>posts</em></a><a href="/dossier/" class=""><span>归档</span><em>archive</em></a><a href="/clues/" class=""><span>标签</span><em>tags</em></a></nav><div class="header-tools"><a class="site-edit-link" href="guai-blog://edit?path=src%2Fcontent%2Fevidence%2FP1590.md" target="_blank" rel="noreferrer" title="本地写作台">写作</a><button class="ink-button" type="button">搜索</button><button class="theme-toggle desktop-theme-toggle" type="button" aria-label="切换黑白主题">墨</button><button class="ink-button menu-button" type="button" aria-controls="mobile-site-menu" aria-expanded="false" aria-label="打开导航">菜单</button></div><div id="mobile-site-menu" class="mobile-menu" hidden=""><nav class="mobile-nav" aria-label="手机端导航"><a href="/" class=""><span>文章</span><em>posts</em></a><a href="/dossier/" class=""><span>归档</span><em>archive</em></a><a href="/clues/" class=""><span>标签</span><em>tags</em></a></nav><button class="theme-toggle" type="button" aria-label="切换黑白主题">墨</button></div></header><main id="content" class="site-main"><article class="evidence-page"><header class="evidence-hero"><a class="back-link" href="/dossier/">返回归档</a><p class="kicker">article</p><h1>洛谷 P1590</h1><div class="evidence-hero-meta"><span>2025/10/25</span><span>1 分钟</span></div><div class="clue-list hero-clues"><a href="/clues/luogu/">#<!-- -->luogu</a></div></header><div class="manuscript"><h2 id="失踪的7"><a href="https://www.luogu.com.cn/problem/P1590">失踪的7</a></h2>
+    <div id="root"><script>document.documentElement.dataset.theme='light';</script><a class="skip-link" href="#content">跳到正文</a><div class="scene-sky" aria-hidden="true"></div><div class="scene-grid" aria-hidden="true"></div><div class="scene-grain" aria-hidden="true"></div><div class="scroll-progress" aria-hidden="true"></div><header class="site-header shell"><a class="brand-lockup brand-lockup--header" href="/" aria-label="返回首页"><strong>怪话怪</strong><span>Computing Base</span></a><nav class="site-nav" aria-label="主导航"><a href="/" class=""><strong>首页</strong><span>Home</span></a><a href="/dossier/" class=""><strong>归档</strong><span>Archive</span></a><a href="/clues/" class=""><strong>标签</strong><span>Tags</span></a></nav><div class="site-header-tools"><button class="ghost-button" type="button">搜索 <kbd>/</kbd></button><a class="ghost-button" href="guai-blog://edit?path=src%2Fcontent%2Fevidence%2FP1590.md">写作</a><button class="ghost-button ghost-button--icon" type="button" aria-expanded="false" aria-controls="mobile-nav"><svg viewBox="0 0 24 24"><path d="M5 7h14M5 12h14M5 17h14"></path></svg><span class="sr-only">切换导航</span></button></div><div id="mobile-nav" class="mobile-nav-panel" hidden=""><a href="/" class=""><strong>首页</strong><span>Home</span></a><a href="/dossier/" class=""><strong>归档</strong><span>Archive</span></a><a href="/clues/" class=""><strong>标签</strong><span>Tags</span></a></div></header><main id="content" class="site-main"><article class="entry-shell shell"><header class="entry-hero" data-reveal="true"><a class="entry-back" href="/dossier/">返回归档</a><p>Article</p><h1>洛谷 P1590</h1><div class="entry-hero__meta"><span>2025/11/07</span><span>1 分钟</span></div><div class="entry-hero__tags"><a href="/clues/luogu/">#<!-- -->luogu</a></div></header><div class="entry-body"><div class="entry-paper"><div class="manuscript"><h2 id="失踪的7"><a href="https://www.luogu.com.cn/problem/P1590">失踪的7</a></h2>
 <p>直接找pascal的n以内的最大值</p>
 <p>由于需要删除7（单位大于7就减，小于7直接用）,所以可以把十进制转换为去除7的模拟九进制。</p>
 <pre class="shiki guai-ink" style="background-color:#efebe1;color:#171717" tabindex="0"><code><span class="line"><span style="color:#5F5A52;font-weight:bold">#include</span><span style="color:#5A554E"> &#x3C;bits/stdc++.h></span></span>
@@ -43,6 +44,7 @@
 <span class="line"><span style="color:#171717;font-weight:bold">    return</span><span style="color:#3D3A35"> 0</span><span style="color:#6E6961">;</span></span>
 <span class="line"><span style="color:#6E6961">}</span></span>
 <span class="line"></span>
-<span class="line"></span></code></pre></div></article></main><footer class="site-footer"><span>39<!-- --> 篇文章 / <!-- -->15<!-- --> 个标签</span><a href="/rss.xml">RSS</a></footer></div>
+<span class="line"></span></code></pre></div></div></div></article></main><footer class="site-footer shell"><div><strong>怪话怪</strong><span>39<!-- --> 篇文章 / <!-- -->15<!-- --> 个标签</span></div><nav aria-label="页脚导航"><a href="/rss.xml">RSS</a><a href="/dossier/">归档</a><a href="/clues/">标签</a></nav></footer></div>
   </body>
 </html>
+
