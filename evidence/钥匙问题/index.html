@@ -3,14 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#f3f4ee" />
+    <meta name="theme-color" content="#f5f1e8" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="alternate" type="application/rss+xml" title="怪话怪 RSS" href="/rss.xml" />
     <link rel="preload" href="/assets/fonts/LXGWWenKai-Regular-subset.woff2" as="font" type="font/woff2" crossorigin />
     <title>钥匙问题 · 怪话怪</title>
-    <script type="module" crossorigin src="/assets/index-DX7PCEfp.js"></script>
+    <script type="module" crossorigin src="/assets/index-BYFvu-pR.js"></script>
     <link rel="modulepreload" crossorigin href="/assets/react-vendor-D1xwAsmG.js">
-    <link rel="stylesheet" crossorigin href="/assets/index-BVB4P8tC.css">
+    <link rel="stylesheet" crossorigin href="/assets/index-CAgX5I2p.css">
   <meta name="description" content="P4890 解题代码详解（链式DP + 建模全过程） P4890 Never·island - 洛谷 一、整体思路（先建立全局认知） 本题流程分三步： 离散化 + 扫描线建模 把区间拆成若干小段 转换成「点权 + 边权 + 固定贡献」 构建链式图 每个考察队是一个点 区间贡献变成" />
 <meta name="robots" content="index,follow,max-image-preview:large" />
 <meta property="og:type" content="article" />
@@ -257,4 +257,3 @@
 <hr></div></div><aside class="entry-toc"><button class="entry-toc__tab" type="button" aria-expanded="false">目录</button><nav class="entry-toc__panel" aria-label="文章目录"><strong>本页目录</strong><ol><li class="toc-level-2"><a href="#p4890-解题代码详解-链式dp-建模全过程">P4890 解题代码详解（链式DP + 建模全过程）</a></li><li class="toc-level-2"><a href="#一-整体思路-先建立全局认知">一、整体思路（先建立全局认知）</a></li><li class="toc-level-2"><a href="#二-变量说明-代码核心变量">二、变量说明（代码核心变量）</a></li><li class="toc-level-2"><a href="#三-建模部分-最关键">三、建模部分（最关键）</a></li><li class="toc-level-2"><a href="#1-离散化">1️⃣ 离散化</a></li><li class="toc-level-2"><a href="#2-扫描每一小段区间">2️⃣ 扫描每一小段区间</a></li><li class="toc-level-2"><a href="#3-判断左右端点归属-核心">3️⃣ 判断左右端点归属（核心）</a></li><li class="toc-level-3"><a href="#情况1-同一个队">情况1：同一个队</a></li><li class="toc-level-3"><a href="#情况2-不同队">情况2：不同队</a></li><li class="toc-level-3"><a href="#情况3-都是起点">情况3：都是起点</a></li><li class="toc-level-3"><a href="#情况4-左终点右起点">情况4：左终点右起点</a></li><li class="toc-level-2"><a href="#四-为什么是链">四、为什么是“链”</a></li><li class="toc-level-2"><a href="#五-链上dp">五、链上DP</a></li><li class="toc-level-2"><a href="#状态定义">状态定义</a></li><li class="toc-level-2"><a href="#初始化">初始化</a></li><li class="toc-level-2"><a href="#转移">转移</a></li><li class="toc-level-3"><a href="#不选当前点">不选当前点</a></li><li class="toc-level-3"><a href="#选当前点">选当前点</a></li><li class="toc-level-2"><a href="#edge-w-i-含义">edge_w[i] 含义</a></li><li class="toc-level-2"><a href="#六-链结果提取">六、链结果提取</a></li><li class="toc-level-2"><a href="#七-多链合并-背包">七、多链合并（背包）</a></li><li class="toc-level-2"><a href="#八-最终答案">八、最终答案</a></li><li class="toc-level-2"><a href="#九-容易出错的点-你之前卡的">九、容易出错的点（你之前卡的）</a></li><li class="toc-level-2"><a href="#1-dp没初始化为-inf">❌ 1. dp没初始化为 -INF</a></li><li class="toc-level-2"><a href="#2-边权只在两个点都选时加">❌ 2. 边权只在“两个点都选”时加</a></li><li class="toc-level-2"><a href="#3-没拆链直接dp">❌ 3. 没拆链直接DP</a></li><li class="toc-level-2"><a href="#4-忘了-base-ans">❌ 4. 忘了 base_ans</a></li><li class="toc-level-2"><a href="#十-复杂度">十、复杂度</a></li><li class="toc-level-2"><a href="#十一-一句话理解">十一、一句话理解</a></li><li class="toc-level-2"><a href="#十二-如果你还想更深入">十二、如果你还想更深入</a></li></ol></nav></aside></article></main><footer class="site-footer"><div class="shell site-footer__row"><div class="site-footer__brand"><strong>怪话怪<span class="brand__cursor" aria-hidden="true"></span></strong><p>用好奇心驱动 · 没有追踪器 · 只有手稿</p></div><nav aria-label="页脚导航"><a href="/rss.xml">RSS</a><a href="/dossier/">归档</a><a href="/clues/">标签</a><a href="guai-blog://edit">写作</a></nav><p class="site-footer__colophon">© 2026 mineguai · <!-- -->22<!-- --> posts · <!-- -->9<!-- --> tags · React + Vite SSG</p></div></footer></div>
   </body>
 </html>
-
