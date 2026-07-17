@@ -1,52 +1,57 @@
-import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { cluePath, evidencePath, findRoute, routePath, siteTitle } from "./routes";
-import { byNewest, estimateReadLabel, formatDate, shortTitle } from "./content-utils";
+import { byNewest, byUpdated, estimateReadLabel, formatDate, normalizeClueSlug, shortTitle } from "./content-utils";
 import type { EvidenceDocument, RouteData, SiteData } from "./types";
 
 type AppProps = {
   route: RouteData;
 };
 
-type Theme = "light" | "dark";
+const writerProtocol = "guai-blog://edit";
 
-const themeKey = "guai-theme";
 const navItems = [
-  { label: "文章", hint: "posts", href: "/" },
-  { label: "归档", hint: "archive", href: "/dossier/" },
-  { label: "标签", hint: "tags", href: "/clues/" }
-];
-
-const topicItems = [
-  { name: "Systems", meta: "runtime / tools" },
-  { name: "Algorithms", meta: "graphs / dp" },
-  { name: "AI Notes", meta: "models / workflow" }
-];
-const navWheelItems = [
-  { title: "Articles", subtitle: "文章归档", icon: "article", href: "/dossier/" },
-  { title: "Categories", subtitle: "分类目录", icon: "grid", href: "/clues/" },
-  { title: "Explore More", subtitle: "探索更多", icon: "more", href: "/" },
-  { title: "Tags", subtitle: "标签集合", icon: "tag", href: "/clues/" },
-  { title: "Timeline", subtitle: "时间线", icon: "clock", href: "/dossier/" },
-  { title: "Projects", subtitle: "项目记录", icon: "folder", href: "/clues/workflow/" },
-  { title: "About", subtitle: "个人节点", icon: "person", href: "/evidence/kmp/" },
-  { title: "Friends", subtitle: "友情链接", icon: "link", href: "/clues/pictures/" },
-  { title: "More...", subtitle: "更多入口", icon: "more", href: "/clues/" }
+  { label: "首页", hint: "~/", href: "/" },
+  { label: "归档", hint: "dossier/", href: "/dossier/" },
+  { label: "标签", hint: "tags/", href: "/clues/" }
 ];
 
 export function App({ route }: AppProps) {
   const [commandOpen, setCommandOpen] = useState(false);
+  const searchTrigger = useRef<HTMLElement | null>(null);
+  const isHome = route.kind === "home";
+  const openCommand = () => {
+    searchTrigger.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    setCommandOpen(true);
+  };
+  const closeCommand = () => {
+    setCommandOpen(false);
+    window.requestAnimationFrame(() => searchTrigger.current?.focus());
+  };
+
+  useEffect(() => {
+    const openSearch = (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement | null;
+      const typing = target?.tagName === "INPUT" || target?.tagName === "TEXTAREA" || target?.isContentEditable;
+      if (!typing && (event.key === "/" || ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k"))) {
+        event.preventDefault();
+        openCommand();
+      }
+    };
+    window.addEventListener("keydown", openSearch);
+    return () => window.removeEventListener("keydown", openSearch);
+  }, []);
 
   return (
     <>
       <a className="skip-link" href="#content">跳到正文</a>
-      <ThemeBoot />
-      <InkBackground />
-      <Header route={route} onSearch={() => setCommandOpen(true)} />
-      <main id="content" className="site-main">
-        <RouteSwitch route={route} />
+      <div className="bg-noise" aria-hidden="true" />
+      <div className="scroll-progress" aria-hidden="true" />
+      <SiteHeader route={route} onSearch={openCommand} />
+      <main id="content" className={`site-main${isHome ? " site-main--home" : ""}`}>
+        <RouteSwitch route={route} onSearch={openCommand} />
       </main>
       <SiteFooter site={route.site} />
-      <CommandPanel site={route.site} open={commandOpen} onClose={() => setCommandOpen(false)} />
+      <CommandPanel site={route.site} open={commandOpen} onClose={closeCommand} />
     </>
   );
 }
@@ -55,434 +60,242 @@ export function AppForPath({ path, site }: { path: string; site: SiteData }) {
   return <App route={findRoute(path, site)} />;
 }
 
-function ThemeBoot() {
-  return (
-    <script
-      suppressHydrationWarning
-      dangerouslySetInnerHTML={{
-        __html:
-          "(()=>{try{const t=localStorage.getItem('guai-theme')||'light';document.documentElement.dataset.theme=t==='dark'?'dark':'light';}catch{document.documentElement.dataset.theme='light';}})();"
-      }}
-    />
-  );
-}
-
-function InkBackground() {
-  return (
-    <>
-      <div className="ink-wash" aria-hidden="true" />
-      <div className="paper-grain" aria-hidden="true" />
-    </>
-  );
-}
-
-function Header({ route, onSearch }: { route: RouteData; onSearch: () => void }) {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [theme, setTheme] = useState<Theme>("light");
+function SiteHeader({ route, onSearch }: { route: RouteData; onSearch: () => void }) {
+  const [menuOpen, setMenuOpen] = useState(false);
   const currentPath = routePath(route);
-  const writerHref = getWriterHref(route);
   const isActive = (href: string) => href === "/" ? route.kind === "home" : currentPath.startsWith(href);
+  const writerHref = route.kind === "evidence"
+    ? `${writerProtocol}?path=${encodeURIComponent(route.evidence.meta.sourcePath)}`
+    : writerProtocol;
+  const latest = byUpdated(route.site.evidences)[0];
 
-  const setNextTheme = () => {
-    const next = readTheme() === "dark" ? "light" : "dark";
-    setTheme(next);
-    document.documentElement.dataset.theme = next;
-    localStorage.setItem(themeKey, next);
-  };
-
-  useEffect(() => setTheme(readTheme()), []);
   useEffect(() => {
-    if (!mobileMenuOpen) return;
-    const closeOnEscape = (event: KeyboardEvent) => event.key === "Escape" && setMobileMenuOpen(false);
-    window.addEventListener("keydown", closeOnEscape);
-    return () => window.removeEventListener("keydown", closeOnEscape);
-  }, [mobileMenuOpen]);
+    if (!menuOpen) return;
+    const close = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMenuOpen(false);
+    };
+    window.addEventListener("keydown", close);
+    return () => window.removeEventListener("keydown", close);
+  }, [menuOpen]);
 
   return (
     <header className="site-header">
-      <a className="brand-stamp" href="/" aria-label="返回博客首页">
-        <strong>怪话怪</strong>
-        <small>blog notes</small>
-      </a>
-      <nav className="paper-nav" aria-label="主导航">
-        <NavLinks isActive={isActive} />
-      </nav>
-      <div className="header-tools">
-        <a className="site-edit-link" href={writerHref} target="_blank" rel="noreferrer" title="本地写作台">
-          写作
-        </a>
-        <button className="ink-button" type="button" onClick={() => { setMobileMenuOpen(false); onSearch(); }}>
-          搜索
-        </button>
-        <ThemeToggle theme={theme} onToggle={setNextTheme} className="desktop-theme-toggle" />
-        <button
-          className="ink-button menu-button"
-          type="button"
-          aria-controls="mobile-site-menu"
-          aria-expanded={mobileMenuOpen}
-          aria-label={mobileMenuOpen ? "关闭导航" : "打开导航"}
-          onClick={() => setMobileMenuOpen((open) => !open)}
-        >
-          菜单
-        </button>
+      <div className="statusbar" aria-hidden="true">
+        <div className="shell statusbar__row">
+          <span className="statusbar__path">mineguai@blog:<em>~</em>$</span>
+          <span className="statusbar__stats">
+            {route.site.evidences.length} posts · {route.site.clues.length} tags
+            {latest ? ` · last edit ${formatDate(latest.meta.updated || latest.meta.date)}` : ""}
+          </span>
+        </div>
       </div>
-      <div id="mobile-site-menu" className="mobile-menu" hidden={!mobileMenuOpen}>
-        <nav className="mobile-nav" aria-label="手机端导航">
-          <NavLinks isActive={isActive} onNavigate={() => setMobileMenuOpen(false)} />
+      <div className="shell site-header__row">
+        <a className="brand" href="/" aria-label="返回首页">
+          <span className="brand__mark">{siteTitle}</span>
+          <span className="brand__cursor" aria-hidden="true" />
+        </a>
+        <nav className="site-nav" aria-label="主导航">
+          <NavLinks isActive={isActive} />
         </nav>
-        <ThemeToggle theme={theme} onToggle={() => { setNextTheme(); setMobileMenuOpen(false); }} />
+        <div className="site-header__tools">
+          <button className="tool-button" type="button" onClick={onSearch}>
+            <span>搜索</span><kbd>⌘K</kbd>
+          </button>
+          <a className="tool-button tool-button--write" href={writerHref}>
+            <span>写作</span><i aria-hidden="true">✎</i>
+          </a>
+          <button
+            className="tool-button tool-button--icon"
+            type="button"
+            aria-expanded={menuOpen}
+            aria-controls="mobile-nav"
+            onClick={() => setMenuOpen((value) => !value)}
+          >
+            <Icon name="menu" />
+            <span className="sr-only">切换导航</span>
+          </button>
+        </div>
+      </div>
+      <div id="mobile-nav" className="mobile-nav-panel" hidden={!menuOpen}>
+        <NavLinks isActive={isActive} onNavigate={() => setMenuOpen(false)} />
       </div>
     </header>
   );
-}
-
-function getWriterHref(route: RouteData) {
-  if (route.kind !== "evidence") return "guai-blog://edit";
-  return `guai-blog://edit?path=${encodeURIComponent(route.evidence.meta.sourcePath)}`;
 }
 
 function NavLinks({ isActive, onNavigate }: { isActive: (href: string) => boolean; onNavigate?: () => void }) {
   return navItems.map((item) => (
-    <a key={item.href} href={item.href} className={isActive(item.href) ? "is-active" : ""} onClick={onNavigate}>
-      <span>{item.label}</span>
-      <em>{item.hint}</em>
+    <a
+      key={item.href}
+      href={item.href}
+      className={isActive(item.href) ? "is-active" : ""}
+      aria-current={isActive(item.href) ? "page" : undefined}
+      onClick={onNavigate}
+    >
+      <strong>{item.label}</strong>
+      <span>{item.hint}</span>
     </a>
   ));
 }
 
-function ThemeToggle({ theme, onToggle, className = "" }: { theme: Theme; onToggle: () => void; className?: string }) {
-  return (
-    <button className={`theme-toggle ${className}`.trim()} type="button" onClick={onToggle} aria-label="切换黑白主题">
-      {theme === "dark" ? "白" : "墨"}
-    </button>
-  );
-}
-
-function readTheme(): Theme {
-  if (typeof document === "undefined") return "light";
-  return document.documentElement.dataset.theme === "dark" ? "dark" : "light";
-}
-
-function RouteSwitch({ route }: { route: RouteData }) {
-  if (route.kind === "home") return <HomePage site={route.site} />;
+function RouteSwitch({ route, onSearch }: { route: RouteData; onSearch: () => void }) {
+  if (route.kind === "home") return <HomePage site={route.site} onSearch={onSearch} />;
   if (route.kind === "dossier") return <DossierPage site={route.site} />;
   if (route.kind === "clues") return <CluesPage site={route.site} />;
   if (route.kind === "clue") return <CluePage site={route.site} clue={route.clue} />;
-  if (route.kind === "evidence") return <EvidencePage evidence={route.evidence} site={route.site} />;
+  if (route.kind === "evidence") return <EvidencePage evidence={route.evidence} />;
   return <NotFoundPage site={route.site} />;
 }
 
-function HomePage({ site }: { site: SiteData }) {
-  const newest = byNewest(site.evidences);
-  const lead = newest[0];
-  const focus = newest.find((evidence) => !evidence.meta.draft) || lead;
-  const recent = newest.filter((evidence) => !evidence.meta.draft).slice(0, 3);
-  const leftFeature = newest[2] || focus || lead;
-  const rightFeature = newest.find((evidence) => evidence.meta.clues.some((clue) => clue.toLowerCase().includes("note"))) || newest[1] || focus || lead;
+/* ---------------------------------- home ---------------------------------- */
+
+function HomePage({ site, onSearch }: { site: SiteData; onSearch: () => void }) {
+  const newest = byUpdated(site.evidences);
+  const featured = newest[0];
+  const recent = newest.slice(0, 6);
+  const firstPostHref = featured ? evidencePath(featured) : "/dossier/";
 
   return (
-    <section className="home-stage crystal-home" aria-labelledby="home-title">
-      <div className="home-topline" aria-label="核心信息">
-        <TopicConstellation />
-        <HeroIdentity focus={focus} lead={lead} />
-        <StatusNode focus={newest[1] || focus} />
-        <ObserverCard />
-      </div>
+    <div className="home-page">
+      <section className="hero shell" aria-labelledby="home-title">
+        <div className="hero__copy" data-reveal>
+          <p className="hero__prompt" aria-hidden="true">
+            <span className="hero__dollar">$</span> whoami --verbose
+          </p>
+          <h1 id="home-title">
+            写代码，<br />
+            也写<em className="hero__kai">怪话</em><span className="hero__cursor" aria-hidden="true" />
+          </h1>
+          <p className="hero__lead">
+            我是 <strong>mineguai</strong>。这里是我的技术手稿 —— 算法笔记、工程记录、踩坑现场，
+            以及偶尔不合时宜的怪话。不追热点，只留判断。
+          </p>
+          <div className="hero__actions">
+            <a className="btn btn--solid" href={firstPostHref}>
+              <span>读最新一篇</span><i aria-hidden="true">→</i>
+            </a>
+            <button className="btn btn--ghost" type="button" onClick={onSearch}>
+              <span>搜索全站</span><kbd>/</kbd>
+            </button>
+          </div>
+          <p className="hero__meta">
+            <span>{site.evidences.length} 篇文章</span>
+            <span>{site.clues.length} 个标签</span>
+            {featured ? <span>最近更新 {formatDate(featured.meta.updated || featured.meta.date)}</span> : null}
+          </p>
+        </div>
 
-      <div className="home-showcase">
-        {leftFeature ? <FloatingCrystalCard evidence={leftFeature} side="left" icon="github" fallbackTitle="Hugo & GitHub" /> : null}
-        <RecentPostsPanel evidences={recent.length ? recent : newest.slice(0, 3)} />
-        {rightFeature ? <FloatingCrystalCard evidence={rightFeature} side="right" icon="key" fallbackTitle="Keys Issue" /> : null}
-      </div>
+        <div className="hero__side" data-reveal>
+          <figure className="portrait">
+            <span className="portrait__tape" aria-hidden="true" />
+            <img src="/assets/images/wanzi1.jpg" alt="mineguai 的头像" />
+            <figcaption>
+              <span className="portrait__note">正在调试人生…</span>
+              <span className="portrait__id">mineguai · builder / learner / writer</span>
+            </figcaption>
+          </figure>
+          {featured ? (
+            <a className="latest-card" href={evidencePath(featured)}>
+              <span className="latest-card__label">LATEST.LOG</span>
+              <strong>{shortTitle(featured.meta.title, 30)}</strong>
+              <span className="latest-card__meta">
+                {formatDate(featured.meta.updated || featured.meta.date)} · {estimateReadLabel(featured.meta.readingTime)}
+              </span>
+            </a>
+          ) : null}
+        </div>
+      </section>
 
-      <NavigationWheel />
-    </section>
-  );
-}
+      <Ticker posts={newest.slice(0, 8)} />
 
-function TopicConstellation() {
-  return (
-    <aside className="topic-constellation" aria-label="核心主题">
-      <span className="topic-kicker">Core Topics</span>
-      <strong>技术笔记</strong>
-      <div className="topic-tags">
-        {topicItems.map((topic) => (
-          <a key={topic.name} href="/clues/">
-            <span>{topic.name}</span>
-            <em>{topic.meta}</em>
+      <section className="section shell" aria-labelledby="recent-title">
+        <header className="section-head" data-reveal>
+          <div>
+            <p className="section-head__path">~/dossier $ ls -lt | head</p>
+            <h2 id="recent-title">最近更新</h2>
+          </div>
+          <a className="section-head__more" href="/dossier/">
+            全部 {site.evidences.length} 篇 <i aria-hidden="true">→</i>
           </a>
+        </header>
+        <PostRows posts={recent} />
+      </section>
+
+      <section className="manifest" aria-labelledby="manifest-title">
+        <div className="shell manifest__row" data-reveal>
+          <div className="manifest__copy">
+            <p className="manifest__comment" aria-hidden="true">// knowledge, indexed</p>
+            <h2 id="manifest-title">不是为了追赶热点，<br />而是为了<em>留下判断</em>。</h2>
+            <p>把零散的经验，变成可以搜索、复用、持续更新的个人知识基础设施。</p>
+          </div>
+          <nav className="manifest__tags" aria-label="热门标签">
+            {site.clues.slice(0, 6).map((clue) => (
+              <a key={clue.slug} href={cluePath(clue.slug)}>
+                <strong>#{clue.name}</strong>
+                <span>{clue.count}</span>
+              </a>
+            ))}
+            <a className="manifest__tags-all" href="/clues/">
+              <strong>全部标签</strong>
+              <span>→</span>
+            </a>
+          </nav>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function Ticker({ posts }: { posts: EvidenceDocument[] }) {
+  if (!posts.length) return null;
+  const loop = [...posts, ...posts];
+  return (
+    <div className="ticker" aria-hidden="true">
+      <div className="ticker__track">
+        {loop.map((post, index) => (
+          <span key={`${post.meta.slug}-${index}`} className="ticker__item">
+            <i>▸</i>{shortTitle(post.meta.title, 24)}
+          </span>
         ))}
       </div>
-    </aside>
+    </div>
   );
 }
 
-function HeroIdentity({ focus, lead }: { focus?: EvidenceDocument; lead?: EvidenceDocument }) {
+function PostRows({ posts, offset = 0 }: { posts: EvidenceDocument[]; offset?: number }) {
   return (
-    <header className="hero-identity">
-      <CrystalLogo />
-      <div className="hero-title-row">
-        <h1 id="home-title">{siteTitle}</h1>
-        <span>Computing Base</span>
-      </div>
-      <p>
-        {focus ? shortTitle(focus.meta.title, 18) : "Personal technical notes"}
-        {lead ? ` · 最近更新 ${formatDate(lead.meta.date)}` : ""}
-      </p>
-    </header>
-  );
-}
-
-function CrystalLogo() {
-  return (
-    <span className="crystal-logo" aria-hidden="true">
-      <span />
-      <i />
-    </span>
-  );
-}
-
-function StatusNode({ focus }: { focus?: EvidenceDocument }) {
-  if (!focus) return null;
-  return (
-    <a className="status-node" href={evidencePath(focus)} aria-label={`查看 ${focus.meta.title}`}>
-      <span className="status-node-icon"><Icon name="lock" /></span>
-      <strong>{shortTitle(focus.meta.title, 10)}</strong>
-      <em>{formatDate(focus.meta.date)} · {estimateReadLabel(focus.meta.readingTime)}</em>
-    </a>
-  );
-}
-
-function ObserverCard() {
-  return (
-    <aside className="observer-card" aria-label="观察者节点">
-      <span className="observer-arc">Observer Node</span>
-      <a className="observer-avatar" href="/evidence/kmp/" aria-label="关于 mineguai">
-        <img src="/assets/images/wanzi1.jpg" alt="mineguai avatar" />
-      </a>
-      <strong>mineguai</strong>
-      <a href="/evidence/kmp/">About Me / 个人</a>
-    </aside>
-  );
-}
-
-function RecentPostsPanel({ evidences }: { evidences: EvidenceDocument[] }) {
-  return (
-    <section className="recent-panel glass-surface" aria-labelledby="recent-title">
-      <div className="panel-head">
-        <h2 id="recent-title">Recent Posts</h2>
-      </div>
-      <div className="recent-list">
-        {evidences.map((evidence, index) => (
-          <HomeBlogCard key={evidence.meta.slug} evidence={evidence} index={index} />
-        ))}
-      </div>
-      <a className="view-posts-link" href="/dossier/">View all posts <span aria-hidden="true">→</span></a>
-    </section>
-  );
-}
-
-function FloatingCrystalCard({ evidence, side, icon, fallbackTitle }: { evidence: EvidenceDocument; side: "left" | "right"; icon: string; fallbackTitle: string }) {
-  return (
-    <a className={`floating-crystal-card ${side}`} href={evidencePath(evidence)} aria-label={`查看 ${evidence.meta.title}`}>
-      <span className="crystal-card-icon"><Icon name={icon} /></span>
-      <strong>{fallbackTitle}</strong>
-      <em>{formatDate(evidence.meta.date)}</em>
-    </a>
-  );
-}
-
-function HomeBlogCard({ evidence, index }: { evidence: EvidenceDocument; index: number }) {
-  const firstTag = evidence.meta.clues[0] || "Notes";
-  return (
-    <article className="home-blog-card">
-      <a className="post-thumb" data-variant={(index % 3) + 1} href={evidencePath(evidence)} aria-label={`查看 ${evidence.meta.title}`}>
-        <span>{String(index + 1).padStart(2, "0")}</span>
-      </a>
-      <div className="home-post-copy">
-        <span className="mini-tag">#{firstTag}</span>
-        <h3><a href={evidencePath(evidence)}>{shortTitle(evidence.meta.title, 24)}</a></h3>
-        <p>{postDescription(evidence)}</p>
-      </div>
-      <time dateTime={evidence.meta.date}>{formatDate(evidence.meta.date)}</time>
-    </article>
-  );
-}
-
-function NavigationWheel() {
-  const wheelRef = useRef<HTMLElement>(null);
-  const [activeIndex, setActiveIndex] = useState(2);
-  const rotateWheel = (direction: number) => {
-    setActiveIndex((current) => (current + direction + navWheelItems.length) % navWheelItems.length);
-  };
-
-  useEffect(() => {
-    const handleWheel = (event: WheelEvent) => {
-      const wheel = wheelRef.current;
-      if (!wheel || window.matchMedia("(max-width: 1180px)").matches) return;
-
-      const target = event.target;
-      if (
-        target instanceof Element &&
-        target.closest(".recent-panel, .floating-crystal-card, .home-topline, .site-header, .command-layer")
-      ) {
-        return;
-      }
-
-      const rect = wheel.getBoundingClientRect();
-      const inHorizontalWheelArea = event.clientX >= rect.left && event.clientX <= rect.right;
-      const inVisibleWheelBand = event.clientY >= rect.top && event.clientY <= rect.bottom;
-
-      if (!inHorizontalWheelArea || !inVisibleWheelBand) return;
-
-      event.preventDefault();
-      rotateWheel(event.deltaY > 0 ? 1 : -1);
-    };
-
-    document.addEventListener("wheel", handleWheel, { passive: false });
-    return () => document.removeEventListener("wheel", handleWheel);
-  }, []);
-
-  return (
-    <nav
-      ref={wheelRef}
-      className="wheel-shell"
-      aria-label="博客导航"
-    >
-      <button className="wheel-arrow wheel-arrow-left" type="button" aria-label="向左旋转导航" onClick={() => rotateWheel(-1)}>
-        <Icon name="chevronLeft" />
-      </button>
-      <div className="nav-wheel">
-        {navWheelItems.map((item, index) => (
-          <a key={item.title} className={navSegmentClass(index, activeIndex)} href={item.href} style={navSegmentStyle(index, activeIndex)}>
-            <span className="segment-icon"><Icon name={item.icon} /></span>
-            <strong>{item.title}</strong>
-            <em>{item.subtitle}</em>
+    <ol className="post-rows" data-reveal>
+      {posts.map((post, index) => (
+        <li key={post.meta.slug}>
+          <a className="post-row" href={evidencePath(post)}>
+            <span className="post-row__no">{String(offset + index + 1).padStart(2, "0")}</span>
+            <span className="post-row__title">
+              <strong>{shortTitle(post.meta.title, 40)}</strong>
+              {post.meta.draft ? <i className="stamp">草稿</i> : null}
+            </span>
+            <span className="post-row__meta">
+              <time dateTime={post.meta.updated || post.meta.date}>{formatDate(post.meta.updated || post.meta.date)}</time>
+              <em>{estimateReadLabel(post.meta.readingTime)}</em>
+            </span>
+            <span className="post-row__arrow" aria-hidden="true">↗</span>
           </a>
-        ))}
-      </div>
-      <button className="wheel-arrow wheel-arrow-right" type="button" aria-label="向右旋转导航" onClick={() => rotateWheel(1)}>
-        <Icon name="chevronRight" />
-      </button>
-      <p className="wheel-instruction"><Icon name="mouse" />滚动鼠标滚轮以探索更多</p>
-    </nav>
+        </li>
+      ))}
+    </ol>
   );
 }
 
-function navSegmentClass(index: number, activeIndex: number) {
-  const distance = wheelDistance(index, activeIndex);
-  return `nav-segment${Math.abs(distance) <= 2 ? " is-visible" : " is-hidden"}${distance === 0 ? " is-active" : ""}`;
-}
+/* ------------------------------- inner pages ------------------------------ */
 
-function navSegmentStyle(index: number, activeIndex: number) {
-  const distance = wheelDistance(index, activeIndex);
-  return {
-    "--slot": distance,
-    "--slot-x": `${distance * 10.25}rem`,
-    "--slot-y": `${Math.abs(distance) * 1.12}rem`
-  } as CSSProperties;
-}
-
-function wheelDistance(index: number, activeIndex: number) {
-  let distance = index - activeIndex;
-  const half = navWheelItems.length / 2;
-  if (distance > half) distance -= navWheelItems.length;
-  if (distance < -half) distance += navWheelItems.length;
-  return distance;
-}
-
-function Icon({ name }: { name: string }) {
-  if (name === "article") {
-    return <svg viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z" /><path d="M14 3v5h5M9 12h6M9 16h6" /></svg>;
-  }
-  if (name === "grid") {
-    return <svg viewBox="0 0 24 24"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z" /></svg>;
-  }
-  if (name === "tag") {
-    return <svg viewBox="0 0 24 24"><path d="M4 12V5h7l9 9-6 6z" /><path d="M8.5 8.5h.01" /></svg>;
-  }
-  if (name === "clock") {
-    return <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" /><path d="M12 7v5l3 2" /></svg>;
-  }
-  if (name === "folder") {
-    return <svg viewBox="0 0 24 24"><path d="M3 7h7l2 3h9v9H3z" /></svg>;
-  }
-  if (name === "person") {
-    return <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" /><path d="M5 21c1.6-4 12.4-4 14 0" /></svg>;
-  }
-  if (name === "link") {
-    return <svg viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 1 0-6l2-2a4 4 0 1 1 6 6l-1 1" /><path d="M14 10a4 4 0 0 1 0 6l-2 2a4 4 0 1 1-6-6l1-1" /></svg>;
-  }
-  if (name === "more") {
-    return <svg viewBox="0 0 24 24"><path d="M5 12h.01M12 12h.01M19 12h.01" /></svg>;
-  }
-  if (name === "crystal") {
-    return <svg viewBox="0 0 24 24"><path d="M12 2l5 7-5 13L7 9z" /><path d="M7 9h10M12 2v20" /></svg>;
-  }
-  if (name === "github") {
-    return <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.9c0-1 .1-1.4-.5-2 2-.2 4.1-1 4.1-4.6 0-1-.4-1.9-1-2.6.1-.3.4-1.3-.1-2.6 0 0-.8-.3-2.7 1a9.4 9.4 0 0 0-4.9 0c-1.9-1.3-2.7-1-2.7-1-.5 1.3-.2 2.3-.1 2.6-.6.7-1 1.6-1 2.6 0 3.6 2.1 4.4 4.1 4.6-.3.3-.5.8-.5 1.6V22" /></svg>;
-  }
-  if (name === "key") {
-    return <svg viewBox="0 0 24 24"><circle cx="7" cy="12" r="3" /><path d="M10 12h10M16 12v3M19 12v3" /></svg>;
-  }
-  if (name === "lock") {
-    return <svg viewBox="0 0 24 24"><rect x="6" y="10" width="12" height="10" rx="2" /><path d="M9 10V7a3 3 0 0 1 6 0v3" /></svg>;
-  }
-  if (name === "mouse") {
-    return <svg viewBox="0 0 24 24"><rect x="8" y="3" width="8" height="16" rx="4" /><path d="M12 7v3" /></svg>;
-  }
-  if (name === "chevronLeft") {
-    return <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" /></svg>;
-  }
-  return <svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg>;
-}
-
-function postDescription(evidence: EvidenceDocument) {
-  const text = evidence.plainText.replace(/\s+/g, " ").trim();
-  if (!text) return "记录一段工程、算法或系统学习过程。";
-  return shortTitle(text, 34);
-}
-
-function EvidenceRail({ evidences, title, action = "归档" }: { evidences: EvidenceDocument[]; title: string; action?: string }) {
+function PageShell({ path, title, text, children }: { path: string; title: string; text: string; children: React.ReactNode }) {
   return (
-    <section className="evidence-section">
-      <div className="section-head">
-        <h2>{title}</h2>
-        <a href="/dossier/">{action}</a>
-      </div>
-      <div className="evidence-grid">
-        {evidences.map((evidence) => <EvidenceCard key={evidence.meta.slug} evidence={evidence} />)}
-      </div>
-    </section>
-  );
-}
-
-function EvidenceCard({ evidence }: { evidence: EvidenceDocument }) {
-  return (
-    <a className="evidence-card" href={evidencePath(evidence)}>
-      <span className="card-corner" aria-hidden="true" />
-      <span className="evidence-meta">{formatDate(evidence.meta.date)} · {estimateReadLabel(evidence.meta.readingTime)}</span>
-      <strong>{shortTitle(evidence.meta.title, 28)}</strong>
-      <span className="clue-list">
-        {evidence.meta.draft ? <em>草稿</em> : null}
-        {evidence.meta.clues.slice(0, 3).map((clue) => <em key={clue}>#{clue}</em>)}
-      </span>
-    </a>
-  );
-}
-
-function ClueStrip({ site }: { site: SiteData }) {
-  return (
-    <section className="clue-strip" aria-label="标签">
-      <div className="section-head">
-        <h2>标签</h2>
-        <a href="/clues/">全部标签</a>
-      </div>
-      <div className="clue-row">
-        {site.clues.slice(0, 18).map((clue) => (
-          <a key={clue.slug} href={cluePath(clue.slug)}>#{clue.name}<span>{clue.count}</span></a>
-        ))}
-      </div>
+    <section className="page-shell shell">
+      <header className="page-intro" data-reveal>
+        <p className="page-intro__path" aria-hidden="true">{path}</p>
+        <h1>{title}</h1>
+        <p className="page-intro__text">{text}</p>
+      </header>
+      {children}
     </section>
   );
 }
@@ -497,70 +310,79 @@ function DossierPage({ site }: { site: SiteData }) {
     return Array.from(map.entries());
   }, [site.evidences]);
 
+  let offset = 0;
   return (
-    <section className="page-shell">
-      <PageHeader eyebrow="archive" title="归档" text="按时间查看全部文章，草稿会保留标记。" />
-      <div className="timeline">
-        {grouped.map(([year, evidences]) => (
-          <section key={year} className="year-stack">
-            <h2>{year}</h2>
-            <div className="evidence-list">
-              {evidences.map((evidence) => <EvidenceCard key={evidence.meta.slug} evidence={evidence} />)}
-            </div>
-          </section>
-        ))}
+    <PageShell path="~/dossier $ ls -la" title="归档" text="按时间线查看全部文章与草稿。">
+      <div className="archive-stack">
+        {grouped.map(([year, posts]) => {
+          const start = offset;
+          offset += posts.length;
+          return (
+            <section key={year} className="archive-year" data-reveal>
+              <div className="archive-year__label">
+                <strong>{year}</strong>
+                <span>{posts.length} 篇</span>
+              </div>
+              <PostRows posts={posts} offset={start} />
+            </section>
+          );
+        })}
       </div>
-    </section>
+    </PageShell>
   );
 }
 
 function CluesPage({ site }: { site: SiteData }) {
+  const clues = [...site.clues].sort((left, right) => right.count - left.count);
   return (
-    <section className="page-shell">
-      <PageHeader eyebrow="tags" title="标签" text="标签和分类合并显示，点击后查看相关文章。" />
-      <div className="clue-wall">
-        {site.clues.map((clue) => <a key={clue.slug} href={cluePath(clue.slug)}><span>#{clue.name}</span><em>{clue.count} 篇</em></a>)}
+    <PageShell path="~/tags $ ls -la" title="标签" text="按主题聚合文章，方便继续追踪一条线索。">
+      <div className="tag-cloud" data-reveal>
+        {clues.map((clue) => (
+          <a key={clue.slug} href={cluePath(clue.slug)}>
+            <strong>#{clue.name}</strong>
+            <span>{clue.count} 篇</span>
+          </a>
+        ))}
       </div>
-    </section>
+    </PageShell>
   );
 }
 
 function CluePage({ site, clue }: { site: SiteData; clue: string }) {
   const target = site.clues.find((item) => item.slug === clue);
-  const evidences = byNewest(site.evidences).filter((evidence) =>
-    evidence.meta.clues.some((item) => encodeURIComponent(item.toLowerCase().replace(/\s+/g, "-")) === clue)
+  const posts = byNewest(site.evidences).filter((evidence) =>
+    evidence.meta.clues.some((item) => normalizeClueSlug(item) === clue)
   );
 
   return (
-    <section className="page-shell">
-      <PageHeader eyebrow="tag" title={`#${target?.name || clue}`} text="当前标签下的相关文章。" />
-      <div className="evidence-grid">
-        {evidences.map((evidence) => <EvidenceCard key={evidence.meta.slug} evidence={evidence} />)}
-      </div>
-    </section>
+    <PageShell path={`~/tags $ grep -r "${target?.name || clue}"`} title={`#${target?.name || clue}`} text="当前标签下的全部相关文章。">
+      <PostRows posts={posts} />
+    </PageShell>
   );
 }
 
-function EvidencePage({ evidence }: { evidence: EvidenceDocument; site: SiteData }) {
+function EvidencePage({ evidence }: { evidence: EvidenceDocument }) {
   const headingView = useMemo(() => buildHeadingView(evidence.html), [evidence.html]);
   return (
-    <article className="evidence-page">
-      <header className="evidence-hero">
-        <a className="back-link" href="/dossier/">返回归档</a>
-        <p className="kicker">article</p>
-        <h1>{evidence.meta.title}</h1>
-        <div className="evidence-hero-meta">
-          <span>{formatDate(evidence.meta.date)}</span>
-          <span>{estimateReadLabel(evidence.meta.readingTime)}</span>
-          {evidence.meta.draft ? <span>草稿</span> : null}
+    <article className="entry-shell shell">
+      <header className="entry-hero" data-reveal>
+        <div className="entry-hero__topline">
+          <p className="entry-hero__path" aria-hidden="true">// evidence/{evidence.meta.slug}.md</p>
+          <a className="entry-back" href="/dossier/">← 返回归档</a>
         </div>
-        <div className="clue-list hero-clues">
+        <h1>{evidence.meta.title}</h1>
+        <div className="entry-hero__meta">
+          <span>{formatDate(evidence.meta.updated || evidence.meta.date)}</span>
+          <span>{estimateReadLabel(evidence.meta.readingTime)}</span>
+          {evidence.meta.draft ? <span className="stamp">草稿</span> : null}
           {evidence.meta.clues.map((clue) => (
-            <a key={clue} href={cluePath(encodeURIComponent(clue.toLowerCase().replace(/\s+/g, "-")))}>#{clue}</a>
+            <a key={clue} href={cluePath(normalizeClueSlug(clue))}>#{clue}</a>
           ))}
         </div>
       </header>
-      <div className="manuscript" dangerouslySetInnerHTML={{ __html: headingView.html }} />
+      <div className="entry-body">
+        <div className="manuscript" dangerouslySetInnerHTML={{ __html: headingView.html }} />
+      </div>
       <EvidenceToc headings={headingView.headings} />
     </article>
   );
@@ -570,18 +392,20 @@ type TocHeading = { id: string; level: number; text: string };
 
 function EvidenceToc({ headings }: { headings: TocHeading[] }) {
   const [open, setOpen] = useState(false);
-  if (headings.length < 3) return null;
+  if (headings.length < 2) return null;
 
   return (
-    <aside className={`evidence-toc${open ? " is-open" : ""}`} onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
-      <button className="toc-tab" type="button" aria-label="展开文章目录" aria-expanded={open} onClick={() => setOpen((value) => !value)}>
-        目
+    <aside className={`entry-toc${open ? " is-open" : ""}`} onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
+      <button className="entry-toc__tab" type="button" aria-expanded={open} onClick={() => setOpen((value) => !value)}>
+        目录
       </button>
-      <nav className="toc-panel" aria-label="文章目录">
-        <strong>目录</strong>
+      <nav className="entry-toc__panel" aria-label="文章目录">
+        <strong>本页目录</strong>
         <ol>
           {headings.map((heading) => (
-            <li key={heading.id} className={`toc-level-${heading.level}`}><a href={`#${heading.id}`}>{heading.text}</a></li>
+            <li key={heading.id} className={`toc-level-${heading.level}`}>
+              <a href={`#${heading.id}`}>{heading.text}</a>
+            </li>
           ))}
         </ol>
       </nav>
@@ -589,13 +413,185 @@ function EvidenceToc({ headings }: { headings: TocHeading[] }) {
   );
 }
 
+function NotFoundPage({ site }: { site: SiteData }) {
+  return (
+    <PageShell path="~ $ cd /nowhere" title="404" text="这个路径没有对应内容，可以回到归档继续查看。">
+      <PostRows posts={byNewest(site.evidences).slice(0, 4)} />
+    </PageShell>
+  );
+}
+
+/* --------------------------------- search --------------------------------- */
+
+function CommandPanel({ site, open, onClose }: { site: SiteData; open: boolean; onClose: () => void }) {
+  const [query, setQuery] = useState("");
+  const [activeIndex, setActiveIndex] = useState(0);
+  const searchSource = useMemo(() => byUpdated(site.evidences).map((evidence) => ({
+    evidence,
+    title: normalizeSearchText(evidence.meta.title),
+    clues: normalizeSearchText(evidence.meta.clues.join(" ")),
+    body: normalizeSearchText(evidence.plainText.slice(0, 4000))
+  })), [site.evidences]);
+  const results = useMemo(() => {
+    const terms = normalizeSearchText(query).split(" ").filter(Boolean);
+    if (!terms.length) return searchSource.slice(0, 8).map((item) => item.evidence);
+    return searchSource
+      .map((item) => ({
+        evidence: item.evidence,
+        score: terms.reduce((total, term) => total
+          + (item.title.includes(term) ? 12 : 0)
+          + (item.clues.includes(term) ? 7 : 0)
+          + (item.body.includes(term) ? 2 : 0), 0)
+      }))
+      .filter((item) => item.score > 0)
+      .sort((left, right) => right.score - left.score)
+      .slice(0, 12)
+      .map((item) => item.evidence);
+  }, [query, searchSource]);
+
+  useEffect(() => setActiveIndex(0), [query, results.length]);
+  useEffect(() => {
+    if (!open) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = previousOverflow; };
+  }, [open]);
+  if (!open) return null;
+
+  const openActiveResult = () => {
+    const target = results[activeIndex];
+    if (!target) return;
+    window.location.href = evidencePath(target);
+    onClose();
+  };
+
+  const handleKeys = (event: React.KeyboardEvent) => {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      onClose();
+      return;
+    }
+    if (event.key === "Tab") {
+      const focusable = Array.from(event.currentTarget.querySelectorAll<HTMLElement>(
+        'input, button:not([disabled]), a[href]'
+      ));
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last?.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first?.focus();
+      }
+      return;
+    }
+    if ((event.target as HTMLElement).getAttribute("role") !== "combobox") return;
+    if (!results.length) return;
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      setActiveIndex((current) => (current + 1) % results.length);
+    }
+    if (event.key === "ArrowUp") {
+      event.preventDefault();
+      setActiveIndex((current) => (current - 1 + results.length) % results.length);
+    }
+    if (event.key === "Enter") {
+      event.preventDefault();
+      openActiveResult();
+    }
+  };
+
+  return (
+    <div className="command-layer" role="dialog" aria-modal="true" aria-label="搜索文章">
+      <button className="command-layer__backdrop" type="button" onClick={onClose} aria-label="关闭搜索" />
+      <section className="command-panel" onKeyDown={handleKeys}>
+        <div className="command-panel__head">
+          <span className="command-panel__dots" aria-hidden="true"><i /><i /><i /></span>
+          <strong>search — zsh</strong>
+          <span>{results.length} 条结果</span>
+          <button type="button" onClick={onClose}>esc</button>
+        </div>
+        <div className="command-panel__input">
+          <span aria-hidden="true">&gt;</span>
+          <input
+            autoFocus
+            aria-label="搜索文章"
+            aria-controls="search-results"
+            aria-expanded="true"
+            aria-activedescendant={results[activeIndex] ? `search-result-${activeIndex}` : undefined}
+            role="combobox"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="输入标题、标签或正文片段"
+          />
+        </div>
+        <div id="search-results" className="command-panel__results" role="listbox" aria-label="搜索结果">
+          {results.map((evidence, index) => (
+            <a
+              key={evidence.meta.slug}
+              id={`search-result-${index}`}
+              href={evidencePath(evidence)}
+              className={index === activeIndex ? "is-active" : ""}
+              role="option"
+              aria-selected={index === activeIndex}
+              onMouseEnter={() => setActiveIndex(index)}
+              onClick={onClose}
+            >
+              <span>{formatDate(evidence.meta.updated || evidence.meta.date)}</span>
+              <strong>{shortTitle(evidence.meta.title, 34)}</strong>
+              <em>{commandMeta(evidence)}</em>
+            </a>
+          ))}
+          {!results.length ? <p className="command-panel__empty">没有找到匹配内容，试试更短的关键词或标签名。</p> : null}
+        </div>
+      </section>
+    </div>
+  );
+}
+
+/* --------------------------------- footer --------------------------------- */
+
+function SiteFooter({ site }: { site: SiteData }) {
+  return (
+    <footer className="site-footer">
+      <div className="shell site-footer__row">
+        <div className="site-footer__brand">
+          <strong>{siteTitle}<span className="brand__cursor" aria-hidden="true" /></strong>
+          <p>用好奇心驱动 · 没有追踪器 · 只有手稿</p>
+        </div>
+        <nav aria-label="页脚导航">
+          <a href="/rss.xml">RSS</a>
+          <a href="/dossier/">归档</a>
+          <a href="/clues/">标签</a>
+          <a href={writerProtocol}>写作</a>
+        </nav>
+        <p className="site-footer__colophon">
+          © 2026 mineguai · {site.evidences.length} posts · {site.clues.length} tags · React + Vite SSG
+        </p>
+      </div>
+    </footer>
+  );
+}
+
+/* --------------------------------- helpers -------------------------------- */
+
+function commandMeta(evidence: EvidenceDocument) {
+  const clues = evidence.meta.clues.slice(0, 2).join(" / ");
+  return clues ? `${estimateReadLabel(evidence.meta.readingTime)} · ${clues}` : estimateReadLabel(evidence.meta.readingTime);
+}
+
 function buildHeadingView(html: string): { html: string; headings: TocHeading[] } {
   const used = new Map<string, number>();
   const headings: TocHeading[] = [];
   const withIds = html.replace(/<h([2-3])([^>]*)>([\s\S]*?)<\/h\1>/g, (full, levelText: string, attrs: string, inner: string) => {
-    if (/\sid=("|')[^"']+\1/.test(attrs)) return full;
     const text = decodeHtml(stripTags(inner)).trim();
     if (!text) return full;
+    const existingId = attrs.match(/\sid=("|')([^"']+)\1/)?.[2];
+    if (existingId) {
+      headings.push({ id: existingId, level: Number(levelText), text });
+      return full;
+    }
     const base = slugHeading(text);
     const count = used.get(base) || 0;
     used.set(base, count + 1);
@@ -604,6 +600,14 @@ function buildHeadingView(html: string): { html: string; headings: TocHeading[] 
     return `<h${levelText}${attrs} id="${id}">${inner}</h${levelText}>`;
   });
   return { html: withIds, headings };
+}
+
+function normalizeSearchText(value: string) {
+  return value
+    .normalize("NFKC")
+    .toLocaleLowerCase("zh-CN")
+    .replace(/[^\p{L}\p{N}]+/gu, " ")
+    .trim();
 }
 
 function stripTags(value: string) {
@@ -625,87 +629,9 @@ function slugHeading(value: string) {
   return value.toLowerCase().replace(/[`"'“”‘’]/g, "").replace(/[^\p{L}\p{N}]+/gu, "-").replace(/^-+|-+$/g, "") || "section";
 }
 
-function NotFoundPage({ site }: { site: SiteData }) {
-  return (
-    <section className="page-shell not-found">
-      <PageHeader eyebrow="404" title="页面不存在" text="路径不存在。可以回到归档，或者打开搜索面板。" />
-      <EvidenceRail evidences={byNewest(site.evidences).slice(0, 4)} title="最近文章" />
-    </section>
-  );
-}
-
-function PageHeader({ eyebrow, title, text }: { eyebrow: string; title: string; text: string }) {
-  return (
-    <header className="page-header">
-      <p className="kicker">{eyebrow}</p>
-      <h1>{title}</h1>
-      <p>{text}</p>
-    </header>
-  );
-}
-
-function CommandPanel({ site, open, onClose }: { site: SiteData; open: boolean; onClose: () => void }) {
-  const [query, setQuery] = useState("");
-  const [activeIndex, setActiveIndex] = useState(0);
-  const results = useMemo(() => {
-    const needle = query.trim().toLowerCase();
-    const source = byNewest(site.evidences);
-    if (!needle) return source.slice(0, 8);
-    return source.filter((evidence) => [evidence.meta.title, evidence.meta.clues.join(" "), evidence.plainText.slice(0, 1200)].join(" ").toLowerCase().includes(needle)).slice(0, 12);
-  }, [query, site.evidences]);
-
-  useEffect(() => setActiveIndex(0), [query, results.length]);
-  if (!open) return null;
-
-  const openActiveResult = () => {
-    const target = results[activeIndex];
-    if (!target) return;
-    window.location.href = evidencePath(target);
-    onClose();
-  };
-  const handleCommandKeys = (event: React.KeyboardEvent) => {
-    if (event.key === "Escape") { event.preventDefault(); onClose(); }
-    if (!results.length) return;
-    if (event.key === "ArrowDown") { event.preventDefault(); setActiveIndex((current) => (current + 1) % results.length); }
-    if (event.key === "ArrowUp") { event.preventDefault(); setActiveIndex((current) => (current - 1 + results.length) % results.length); }
-    if (event.key === "Enter") { event.preventDefault(); openActiveResult(); }
-  };
-
-  return (
-    <div className="command-layer" role="dialog" aria-modal="true" aria-label="搜索文章">
-      <button className="command-backdrop" type="button" onClick={onClose} aria-label="关闭搜索" />
-      <section className="command-panel" onKeyDown={handleCommandKeys}>
-        <div className="command-head">
-          <span>搜索文章</span>
-          <em>{results.length} result</em>
-          <button type="button" onClick={onClose}>关闭</button>
-        </div>
-        <input autoFocus value={query} onChange={(event) => setQuery(event.target.value)} placeholder="输入标题、标签或正文片段" />
-        <div className="command-results" role="listbox" aria-label="搜索结果">
-          {results.map((evidence, index) => (
-            <a key={evidence.meta.slug} href={evidencePath(evidence)} className={index === activeIndex ? "is-active" : ""} role="option" aria-selected={index === activeIndex} onMouseEnter={() => setActiveIndex(index)} onClick={onClose}>
-              <span>{formatDate(evidence.meta.date)}</span>
-              <strong>{shortTitle(evidence.meta.title, 30)}</strong>
-              <em>{commandMeta(evidence)}</em>
-            </a>
-          ))}
-          {!results.length ? <p className="command-empty">没有命中文章</p> : null}
-        </div>
-      </section>
-    </div>
-  );
-}
-
-function commandMeta(evidence: EvidenceDocument) {
-  const clues = evidence.meta.clues.slice(0, 2).join(" / ");
-  return clues ? `${estimateReadLabel(evidence.meta.readingTime)} · ${clues}` : estimateReadLabel(evidence.meta.readingTime);
-}
-
-function SiteFooter({ site }: { site: SiteData }) {
-  return (
-    <footer className="site-footer">
-      <span>{site.evidences.length} 篇文章 / {site.clues.length} 个标签</span>
-      <a href="/rss.xml">RSS</a>
-    </footer>
-  );
+function Icon({ name }: { name: string }) {
+  if (name === "menu") {
+    return <svg viewBox="0 0 24 24"><path d="M5 7h14M5 12h14M5 17h14" /></svg>;
+  }
+  return <svg viewBox="0 0 24 24"><path d="M6 12h12" /></svg>;
 }
