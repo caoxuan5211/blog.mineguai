@@ -178,11 +178,6 @@ function HomePage({ site, onSearch }: { site: SiteData; onSearch: () => void }) 
               <span>搜索全站</span><kbd>/</kbd>
             </button>
           </div>
-          <p className="hero__meta">
-            <span>{site.evidences.length} 篇文章</span>
-            <span>{site.clues.length} 个标签</span>
-            {featured ? <span>最近更新 {formatDate(featured.meta.updated || featured.meta.date)}</span> : null}
-          </p>
         </div>
 
         <div className="hero__side" data-reveal>
@@ -206,7 +201,7 @@ function HomePage({ site, onSearch }: { site: SiteData; onSearch: () => void }) 
         </div>
       </section>
 
-      <Ticker posts={newest.slice(0, 8)} />
+      <Ticker posts={newest} />
 
       <section className="section shell" aria-labelledby="recent-title">
         <header className="section-head" data-reveal>
@@ -226,7 +221,6 @@ function HomePage({ site, onSearch }: { site: SiteData; onSearch: () => void }) 
           <div className="manifest__copy">
             <p className="manifest__comment" aria-hidden="true">// knowledge, indexed</p>
             <h2 id="manifest-title">不是为了追赶热点，<br />而是为了<em>留下判断</em>。</h2>
-            <p>把零散的经验，变成可以搜索、复用、持续更新的个人知识基础设施。</p>
           </div>
           <nav className="manifest__tags" aria-label="热门标签">
             {site.clues.slice(0, 6).map((clue) => (
@@ -250,13 +244,22 @@ function Ticker({ posts }: { posts: EvidenceDocument[] }) {
   if (!posts.length) return null;
   const loop = [...posts, ...posts];
   return (
-    <div className="ticker" aria-hidden="true">
+    <div className="ticker">
       <div className="ticker__track">
-        {loop.map((post, index) => (
-          <span key={`${post.meta.slug}-${index}`} className="ticker__item">
-            <i>▸</i>{shortTitle(post.meta.title, 24)}
-          </span>
-        ))}
+        {loop.map((post, index) => {
+          const duplicate = index >= posts.length;
+          return (
+            <a
+              key={`${post.meta.slug}-${index}`}
+              className="ticker__item"
+              href={evidencePath(post)}
+              aria-hidden={duplicate ? "true" : undefined}
+              tabIndex={duplicate ? -1 : undefined}
+            >
+              <i aria-hidden="true">▸</i>{shortTitle(post.meta.title, 24)}
+            </a>
+          );
+        })}
       </div>
     </div>
   );
