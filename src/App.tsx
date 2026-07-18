@@ -98,11 +98,14 @@ function SiteHeader({ route, onSearch }: { route: RouteData; onSearch: () => voi
           <NavLinks isActive={isActive} />
         </nav>
         <div className="site-header__tools">
-          <button className="tool-button" type="button" onClick={onSearch}>
-            <span>搜索</span><kbd>⌘K</kbd>
+          <button className="tool-button tool-button--search" type="button" onClick={onSearch}>
+            <Icon name="search" />
+            <span>搜索</span>
+            <kbd>/</kbd>
           </button>
           <a className="tool-button tool-button--write" href={writerHref}>
-            <span>写作</span><i aria-hidden="true">✎</i>
+            <Icon name="pen" />
+            <span>写作</span>
           </a>
           <button
             className="tool-button tool-button--icon"
@@ -633,6 +636,12 @@ function slugHeading(value: string) {
 }
 
 function Icon({ name }: { name: string }) {
+  if (name === "search") {
+    return <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.6-3.6" /></svg>;
+  }
+  if (name === "pen") {
+    return <svg viewBox="0 0 24 24"><path d="M12 20h9" /><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" /></svg>;
+  }
   if (name === "menu") {
     return <svg viewBox="0 0 24 24"><path d="M5 7h14M5 12h14M5 17h14" /></svg>;
   }
