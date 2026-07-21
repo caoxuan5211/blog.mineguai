@@ -543,6 +543,23 @@ svg {
   line-height: 1;
 }
 
+.switch-left svg,
+.switch-right svg {
+  width: 1.35em;
+  height: 1.35em;
+  display: block;
+  flex: 0 0 auto;
+}
+
+.switch-left svg {
+  fill: currentColor;
+}
+
+.switch-right svg {
+  fill: none;
+  stroke: currentColor;
+}
+
 .switch-left {
   height: 2.4em;
   width: 2.75em;

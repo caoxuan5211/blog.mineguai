@@ -170,8 +170,12 @@ function ThemeRocker({ theme, onToggle }: { theme: Theme; onToggle: () => void }
         onChange={onToggle}
         aria-label={isDark ? "当前深色，点击切换到浅色" : "当前浅色，点击切换到深色"}
       />
-      <span className="switch-left">暗</span>
-      <span className="switch-right">亮</span>
+      <span className="switch-left" aria-hidden="true">
+        <Icon name="moon" />
+      </span>
+      <span className="switch-right" aria-hidden="true">
+        <Icon name="sun" />
+      </span>
     </label>
   );
 }
@@ -689,6 +693,21 @@ function Icon({ name }: { name: string }) {
   }
   if (name === "close") {
     return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" /></svg>;
+  }
+  if (name === "sun") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+        <circle cx="12" cy="12" r="4" />
+        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+      </svg>
+    );
+  }
+  if (name === "moon") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+        <path d="M20.5 14.2A8.2 8.2 0 0 1 9.8 3.5 8.5 8.5 0 1 0 20.5 14.2Z" />
+      </svg>
+    );
   }
   return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12" /></svg>;
 }
