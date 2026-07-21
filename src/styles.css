@@ -849,64 +849,82 @@ svg {
 
 .manifest {
   margin-top: 1rem;
-  padding-block: clamp(2.4rem, 5vw, 3.6rem);
+  padding-block: clamp(1.6rem, 3.5vw, 2.4rem);
   background:
     radial-gradient(circle at 85% 20%, rgba(255, 77, 0, 0.14), transparent 28%),
     linear-gradient(180deg, color-mix(in srgb, var(--ink) 96%, #000), #14130f);
   color: #f3eee3;
 }
 
-.manifest__row {
-  display: grid;
-  gap: 1.2rem;
-}
-
-.manifest__row > h2 {
-  margin: 0;
-  font-size: clamp(1.5rem, 3vw, 1.9rem);
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-}
-
-.manifest__tags {
-  display: grid;
-  gap: 0;
-  max-width: 36rem;
-}
-
-.manifest__tags a {
+.manifest__head {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   gap: 1rem;
-  min-height: 3.1rem;
-  padding: 0.75rem 0;
-  border-top: 1px solid color-mix(in srgb, #f3eee3 16%, transparent);
-  transition: padding 0.18s var(--ease-out), color 0.18s;
+  margin-bottom: 1rem;
 }
 
-.manifest__tags a:last-child {
-  border-bottom: 1px solid color-mix(in srgb, #f3eee3 16%, transparent);
+.manifest__head h2 {
+  margin: 0;
+  font-size: clamp(1.35rem, 2.5vw, 1.65rem);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.manifest__more {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: color-mix(in srgb, #f3eee3 72%, transparent);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  white-space: nowrap;
+  transition: color 0.16s;
+}
+
+.manifest__more:hover {
+  color: var(--accent);
+}
+
+.manifest__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem 0.6rem;
+}
+
+.manifest__tags a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 2.35rem;
+  padding: 0.4rem 0.85rem;
+  border: 1px solid color-mix(in srgb, #f3eee3 16%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, #fff 4%, transparent);
+  transition: transform 0.16s var(--ease-out), border-color 0.16s, background 0.16s, color 0.16s;
 }
 
 .manifest__tags a:hover {
-  padding-left: 0.55rem;
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
   color: var(--accent);
 }
 
 .manifest__tags strong {
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 650;
+  letter-spacing: -0.01em;
 }
 
 .manifest__tags span {
   color: color-mix(in srgb, #f3eee3 50%, transparent);
   font-family: var(--font-mono);
-  font-size: 0.74rem;
+  font-size: 0.72rem;
 }
 
-.manifest__tags-all strong {
-  color: var(--accent);
+.manifest__tags a:hover span {
+  color: color-mix(in srgb, var(--accent) 80%, #fff);
 }
 
 /* ------------------------------ inner pages ------------------------------- */

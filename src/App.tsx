@@ -193,19 +193,20 @@ function HomePage({ site, onSearch }: { site: SiteData; onSearch: () => void }) 
       </section>
 
       <section className="manifest" aria-labelledby="manifest-title">
-        <div className="shell manifest__row" data-reveal>
-          <h2 id="manifest-title">标签</h2>
+        <div className="shell" data-reveal>
+          <header className="manifest__head">
+            <h2 id="manifest-title">标签</h2>
+            <a className="manifest__more" href="/clues/">
+              全部标签 <i aria-hidden="true">→</i>
+            </a>
+          </header>
           <nav className="manifest__tags" aria-label="热门标签">
-            {site.clues.slice(0, 6).map((clue) => (
+            {site.clues.slice(0, 12).map((clue) => (
               <a key={clue.slug} href={cluePath(clue.slug)}>
                 <strong>#{clue.name}</strong>
                 <span>{clue.count}</span>
               </a>
             ))}
-            <a className="manifest__tags-all" href="/clues/">
-              <strong>全部标签</strong>
-              <span>→</span>
-            </a>
           </nav>
         </div>
       </section>
