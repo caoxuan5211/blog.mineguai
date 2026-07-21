@@ -217,23 +217,34 @@ function HomePage({ site, onSearch }: { site: SiteData; onSearch: () => void }) 
 function Ticker({ posts }: { posts: EvidenceDocument[] }) {
   if (!posts.length) return null;
   const loop = [...posts, ...posts];
+  const duration = Math.max(28, Math.min(72, posts.length * 3.4));
   return (
-    <div className="ticker">
-      <div className="ticker__track">
-        {loop.map((post, index) => {
-          const duplicate = index >= posts.length;
-          return (
-            <a
-              key={`${post.meta.slug}-${index}`}
-              className="ticker__item"
-              href={evidencePath(post)}
-              aria-hidden={duplicate ? "true" : undefined}
-              tabIndex={duplicate ? -1 : undefined}
-            >
-              <i aria-hidden="true">▸</i>{shortTitle(post.meta.title, 24)}
-            </a>
-          );
-        })}
+    <div className="ticker" aria-label="最新文章滚动">
+      <div className="ticker__glow" aria-hidden="true" />
+      <div className="ticker__viewport">
+        <div
+          className="ticker__track"
+          style={{ ["--ticker-duration" as string]: `${duration}s` }}
+        >
+          {loop.map((post, index) => {
+            const duplicate = index >= posts.length;
+            return (
+              <a
+                key={`${post.meta.slug}-${index}`}
+                className="ticker__item"
+                href={evidencePath(post)}
+                aria-hidden={duplicate ? "true" : undefined}
+                tabIndex={duplicate ? -1 : undefined}
+              >
+                <span className="ticker__dot" aria-hidden="true" />
+                <span className="ticker__label">{shortTitle(post.meta.title, 24)}</span>
+                <span className="ticker__meta" aria-hidden="true">
+                  {formatDate(post.meta.updated || post.meta.date)}
+                </span>
+              </a>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
