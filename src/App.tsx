@@ -62,7 +62,6 @@ function SiteHeader({ route, onSearch }: { route: RouteData; onSearch: () => voi
   const [menuOpen, setMenuOpen] = useState(false);
   const currentPath = routePath(route);
   const isActive = (href: string) => href === "/" ? route.kind === "home" : currentPath.startsWith(href);
-  const latest = byUpdated(route.site.evidences)[0];
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -75,15 +74,6 @@ function SiteHeader({ route, onSearch }: { route: RouteData; onSearch: () => voi
 
   return (
     <header className="site-header">
-      <div className="statusbar" aria-hidden="true">
-        <div className="shell statusbar__row">
-          <span className="statusbar__path">mineguai@blog:<em>~</em>$</span>
-          <span className="statusbar__stats">
-            {route.site.evidences.length} posts · {route.site.clues.length} tags
-            {latest ? ` · last edit ${formatDate(latest.meta.updated || latest.meta.date)}` : ""}
-          </span>
-        </div>
-      </div>
       <div className="shell site-header__row">
         <a className="brand" href="/" aria-label="返回首页">
           <span className="brand__mark">{siteTitle}</span>
@@ -158,9 +148,6 @@ function HomePage({ site, onSearch }: { site: SiteData; onSearch: () => void }) 
     <div className="home-page">
       <section className="hero shell" aria-labelledby="home-title">
         <div className="hero__copy" data-reveal>
-          <p className="hero__prompt" aria-hidden="true">
-            <span className="hero__dollar">$</span> whoami --verbose
-          </p>
           <h1 id="home-title">
             <em className="hero__kai">怪话</em><span className="hero__cursor" aria-hidden="true" />
           </h1>
@@ -178,14 +165,10 @@ function HomePage({ site, onSearch }: { site: SiteData; onSearch: () => void }) 
           <figure className="portrait">
             <span className="portrait__tape" aria-hidden="true" />
             <img src="/assets/images/wanzi1.jpg" alt="mineguai 的头像" />
-            <figcaption>
-              <span className="portrait__note">正在调试人生…</span>
-              <span className="portrait__id">mineguai · builder / learner / writer</span>
-            </figcaption>
           </figure>
           {featured ? (
             <a className="latest-card" href={evidencePath(featured)}>
-              <span className="latest-card__label">LATEST.LOG</span>
+              <span className="latest-card__label">最新</span>
               <strong>{shortTitle(featured.meta.title, 30)}</strong>
               <span className="latest-card__meta">
                 {formatDate(featured.meta.updated || featured.meta.date)} · {estimateReadLabel(featured.meta.readingTime)}
@@ -200,7 +183,6 @@ function HomePage({ site, onSearch }: { site: SiteData; onSearch: () => void }) 
       <section className="section shell" aria-labelledby="recent-title">
         <header className="section-head" data-reveal>
           <div>
-            <p className="section-head__path">~/dossier $ ls -lt | head</p>
             <h2 id="recent-title">最近更新</h2>
           </div>
           <a className="section-head__more" href="/dossier/">
@@ -212,10 +194,7 @@ function HomePage({ site, onSearch }: { site: SiteData; onSearch: () => void }) 
 
       <section className="manifest" aria-labelledby="manifest-title">
         <div className="shell manifest__row" data-reveal>
-          <div className="manifest__copy">
-            <p className="manifest__comment" aria-hidden="true">// knowledge, indexed</p>
-            <h2 id="manifest-title">不是为了追赶热点，<br />而是为了<em>留下判断</em>。</h2>
-          </div>
+          <h2 id="manifest-title">标签</h2>
           <nav className="manifest__tags" aria-label="热门标签">
             {site.clues.slice(0, 6).map((clue) => (
               <a key={clue.slug} href={cluePath(clue.slug)}>
@@ -284,13 +263,11 @@ function PostRows({ posts, offset = 0 }: { posts: EvidenceDocument[]; offset?: n
 
 /* ------------------------------- inner pages ------------------------------ */
 
-function PageShell({ path, title, text, children }: { path: string; title: string; text: string; children: React.ReactNode }) {
+function PageShell({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="page-shell shell">
       <header className="page-intro" data-reveal>
-        <p className="page-intro__path" aria-hidden="true">{path}</p>
         <h1>{title}</h1>
-        <p className="page-intro__text">{text}</p>
       </header>
       {children}
     </section>
@@ -309,7 +286,7 @@ function DossierPage({ site }: { site: SiteData }) {
 
   let offset = 0;
   return (
-    <PageShell path="~/dossier $ ls -la" title="归档" text="按时间线查看全部文章与草稿。">
+    <PageShell title="归档">
       <div className="archive-stack">
         {grouped.map(([year, posts]) => {
           const start = offset;
@@ -332,7 +309,7 @@ function DossierPage({ site }: { site: SiteData }) {
 function CluesPage({ site }: { site: SiteData }) {
   const clues = [...site.clues].sort((left, right) => right.count - left.count);
   return (
-    <PageShell path="~/tags $ ls -la" title="标签" text="按主题聚合文章，方便继续追踪一条线索。">
+    <PageShell title="标签">
       <div className="tag-cloud" data-reveal>
         {clues.map((clue) => (
           <a key={clue.slug} href={cluePath(clue.slug)}>
@@ -352,7 +329,7 @@ function CluePage({ site, clue }: { site: SiteData; clue: string }) {
   );
 
   return (
-    <PageShell path={`~/tags $ grep -r "${target?.name || clue}"`} title={`#${target?.name || clue}`} text="当前标签下的全部相关文章。">
+    <PageShell title={`#${target?.name || clue}`}>
       <PostRows posts={posts} />
     </PageShell>
   );
@@ -364,7 +341,6 @@ function EvidencePage({ evidence }: { evidence: EvidenceDocument }) {
     <article className="entry-shell shell">
       <header className="entry-hero" data-reveal>
         <div className="entry-hero__topline">
-          <p className="entry-hero__path" aria-hidden="true">// evidence/{evidence.meta.slug}.md</p>
           <a className="entry-back" href="/dossier/">← 返回归档</a>
         </div>
         <h1>{evidence.meta.title}</h1>
@@ -412,7 +388,7 @@ function EvidenceToc({ headings }: { headings: TocHeading[] }) {
 
 function NotFoundPage({ site }: { site: SiteData }) {
   return (
-    <PageShell path="~ $ cd /nowhere" title="404" text="这个路径没有对应内容，可以回到归档继续查看。">
+    <PageShell title="404">
       <PostRows posts={byNewest(site.evidences).slice(0, 4)} />
     </PageShell>
   );
@@ -504,13 +480,11 @@ function CommandPanel({ site, open, onClose }: { site: SiteData; open: boolean; 
       <button className="command-layer__backdrop" type="button" onClick={onClose} aria-label="关闭搜索" />
       <section className="command-panel" onKeyDown={handleKeys}>
         <div className="command-panel__head">
-          <span className="command-panel__dots" aria-hidden="true"><i /><i /><i /></span>
-          <strong>search — zsh</strong>
+          <strong>搜索</strong>
           <span>{results.length} 条结果</span>
-          <button type="button" onClick={onClose}>esc</button>
+          <button type="button" onClick={onClose}>关闭</button>
         </div>
         <div className="command-panel__input">
-          <span aria-hidden="true">&gt;</span>
           <input
             autoFocus
             aria-label="搜索文章"
@@ -520,7 +494,7 @@ function CommandPanel({ site, open, onClose }: { site: SiteData; open: boolean; 
             role="combobox"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="输入标题、标签或正文片段"
+            placeholder="标题、标签或正文"
           />
         </div>
         <div id="search-results" className="command-panel__results" role="listbox" aria-label="搜索结果">
@@ -555,7 +529,6 @@ function SiteFooter({ site }: { site: SiteData }) {
       <div className="shell site-footer__row">
         <div className="site-footer__brand">
           <strong>{siteTitle}<span className="brand__cursor" aria-hidden="true" /></strong>
-          <p>用好奇心驱动 · 没有追踪器 · 只有手稿</p>
         </div>
         <nav aria-label="页脚导航">
           <a href="/rss.xml">RSS</a>
@@ -563,7 +536,7 @@ function SiteFooter({ site }: { site: SiteData }) {
           <a href="/clues/">标签</a>
         </nav>
         <p className="site-footer__colophon">
-          © 2026 mineguai · {site.evidences.length} posts · {site.clues.length} tags · React + Vite SSG
+          © 2026 mineguai · {site.evidences.length} 篇 · {site.clues.length} 标签
         </p>
       </div>
     </footer>
