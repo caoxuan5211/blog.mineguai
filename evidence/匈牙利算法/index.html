@@ -8,9 +8,9 @@
     <link rel="alternate" type="application/rss+xml" title="怪话怪 RSS" href="/rss.xml" />
     <link rel="preload" href="/assets/fonts/LXGWWenKai-Regular-subset.woff2" as="font" type="font/woff2" crossorigin />
     <title>匈牙利算法 · 怪话怪</title>
-    <script type="module" crossorigin src="/assets/index-Dwk4q4HM.js"></script>
+    <script type="module" crossorigin src="/assets/index-DOEVbyKh.js"></script>
     <link rel="modulepreload" crossorigin href="/assets/react-vendor-D1xwAsmG.js">
-    <link rel="stylesheet" crossorigin href="/assets/index-DmVY0P6b.css">
+    <link rel="stylesheet" crossorigin href="/assets/index-Di_pJQ2Z.css">
   <meta name="description" content="前提算法 二分图染色得到L，R数组 （以下是利用染色得到二分图的代码） #include &amp;#x3C;bits/stdc++.h&gt; using namespace std ; const int MAXN = 100 ; //假如最大100个结点的图 int graph [ MA" />
 <meta name="robots" content="index,follow,max-image-preview:large" />
 <meta property="og:type" content="article" />
@@ -31,7 +31,7 @@
 </head>
   <body>
     <div id="root"><a class="skip-link" href="#content">跳到正文</a><div class="bg-noise" aria-hidden="true"></div><div class="scroll-progress" aria-hidden="true"></div><header class="site-header"><div class="shell site-header__row"><a class="brand" href="/" aria-label="返回首页"><span class="brand__mark">怪话怪</span><span class="brand__cursor" aria-hidden="true"></span></a><nav class="site-nav" aria-label="主导航"><a href="/"><strong>首页</strong></a><a href="/dossier/"><strong>归档</strong></a><a href="/clues/"><strong>标签</strong></a></nav><div class="site-header__tools"><button class="tool-button tool-button--search" type="button" aria-label="搜索"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.6-3.6"></path></svg><span>搜索</span></button><button class="tool-button tool-button--icon" type="button" aria-expanded="false" aria-controls="mobile-nav"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M5 12h14M5 17h14"></path></svg><span class="sr-only">切换导航</span></button></div></div><div id="mobile-nav" class="mobile-nav-panel" hidden=""><a href="/"><strong>首页</strong></a><a href="/dossier/"><strong>归档</strong></a><a href="/clues/"><strong>标签</strong></a></div></header><main id="content" class="site-main"><article class="entry-shell shell"><header class="entry-hero" data-reveal="true"><div class="entry-hero__topline"><a class="entry-back" href="/dossier/">← 返回归档</a></div><h1>匈牙利算法</h1><div class="entry-hero__meta"><span>2025/11/06</span><span>3 分钟</span><a href="/clues/%E7%AE%97%E6%B3%95/">#<!-- -->算法</a></div></header><div class="entry-body"><div class="manuscript"><h2 id="前提算法">前提算法</h2>
-<h2 id="二分图染色得到l-r数组">二分图染色得到L，R数组</h2>
+<h3 id="二分图染色得到l-r数组">二分图染色得到L，R数组</h3>
 <p>（以下是利用染色得到二分图的代码）</p>
 <pre class="shiki guai-ink" style="background-color:#171b12;color:#f4f5ec" tabindex="0"><code><span class="line"><span style="color:#E4A7B6;font-weight:bold">#include</span><span style="color:#D3E69A">&#x3C;bits/stdc++.h></span></span>
 <span class="line"><span style="color:#B8EF58;font-weight:bold">using</span><span style="color:#B8EF58;font-weight:bold"> namespace</span><span style="color:#F4F5EC"> std</span><span style="color:#BAC1AD">;</span></span>
@@ -83,11 +83,11 @@
 <span class="line"></span></code></pre>
 <p>染色后，可以用来得到最大匹配，最大匹配又可以用来得到最小点覆盖，最小点覆盖又可以用来实现匈牙利算法，匈牙利算法用可以用来解决指派问题。顺了，都理顺了:)。</p>
 <h2 id="最大匹配">最大匹配</h2>
-<h3 id="面向问题">面向问题</h3>
+<h4 id="面向问题">面向问题</h4>
 <p>求解一个二分图中的最大匹配问题。</p>
-<h3 id="总体思路">总体思路</h3>
+<h4 id="总体思路">总体思路</h4>
 <p>从任意一个顶点出发，</p>
-<h3 id="写代码">写代码</h3>
+<h4 id="写代码">写代码</h4>
 <p><strong>1.</strong> 起步：初始化所用变量与内存。</p>
 <pre class="shiki guai-ink" style="background-color:#171b12;color:#f4f5ec" tabindex="0"><code><span class="line"><span>const int MAXN : 根据题目调整</span></span>
 <span class="line"><span>int n : 两边的顶点总数</span></span>
@@ -162,9 +162,9 @@
 <span class="line"><span style="color:#B8EF58;font-weight:bold">    return</span><span style="color:#F0BF6A"> 0</span><span style="color:#BAC1AD">;</span></span>
 <span class="line"><span style="color:#BAC1AD">}</span></span>
 <span class="line"></span></code></pre>
-<h3 id="联系">联系</h3>
+<h4 id="联系">联系</h4>
 <p>再加一点步骤就可以实现<a href="/evidence/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95_%E6%8C%87%E6%B4%BE%E9%97%AE%E9%A2%98/">匈牙利指派算法</a>问题。</p>
-<h3 id="参考">参考</h3>
+<h4 id="参考">参考</h4>
 <p><a href="https://www.zhihu.com/question/313845998/answer/2268260397">Hungarian algorithm(匈牙利算法)的实现原理是什么？ - 鱼鲲的回答 - 知乎</a></p>
 <h2 id="性质">性质</h2>
 <p>最大匹配（边）数量等于最小覆盖数量（点）(<a href="https://baike.baidu.com/item/%E6%9F%AF%E5%B0%BC%E5%B8%8C%E5%AE%9A%E7%90%86/19584092">柯尼希定理</a>)</p>
@@ -172,10 +172,10 @@
 <p>现在总结一下，大致思路是</p>
 <p>二分图嘛，就是左边一半，右边一半。</p>
 <h2 id="最小覆盖">最小覆盖</h2>
-<h3 id="面向问题-2">面向问题</h3>
+<h4 id="面向问题-2">面向问题</h4>
 <p>求解一个二分图中的最小覆盖问题。</p>
-<h3 id="总体思路-2">总体思路</h3>
+<h4 id="总体思路-2">总体思路</h4>
 <p>先求得最大匹配</p>
-<h3 id="写代码-2">写代码</h3></div></div><aside class="entry-toc"><button class="entry-toc__tab" type="button" aria-expanded="false">目录</button><nav class="entry-toc__panel" aria-label="文章目录"><strong>本页目录</strong><ol><li class="toc-level-2"><a href="#前提算法">前提算法</a></li><li class="toc-level-2"><a href="#二分图染色得到l-r数组">二分图染色得到L，R数组</a></li><li class="toc-level-2"><a href="#最大匹配">最大匹配</a></li><li class="toc-level-3"><a href="#面向问题">面向问题</a></li><li class="toc-level-3"><a href="#总体思路">总体思路</a></li><li class="toc-level-3"><a href="#写代码">写代码</a></li><li class="toc-level-3"><a href="#联系">联系</a></li><li class="toc-level-3"><a href="#参考">参考</a></li><li class="toc-level-2"><a href="#性质">性质</a></li><li class="toc-level-2"><a href="#最小覆盖">最小覆盖</a></li><li class="toc-level-3"><a href="#面向问题-2">面向问题</a></li><li class="toc-level-3"><a href="#总体思路-2">总体思路</a></li><li class="toc-level-3"><a href="#写代码-2">写代码</a></li></ol></nav></aside></article></main><footer class="site-footer"><div class="shell site-footer__row"><div class="site-footer__brand"><strong>怪话怪<span class="brand__cursor" aria-hidden="true"></span></strong></div><nav aria-label="页脚导航"><a href="/rss.xml">RSS</a><a href="/dossier/">归档</a><a href="/clues/">标签</a></nav><p class="site-footer__colophon">© 2026 mineguai · <!-- -->22<!-- --> 篇 · <!-- -->9<!-- --> 标签</p></div></footer></div>
+<h4 id="写代码-2">写代码</h4></div></div><aside class="entry-toc"><button class="entry-toc__tab" type="button" aria-expanded="false">目录</button><nav class="entry-toc__panel" aria-label="文章目录"><strong>本页目录</strong><ol><li class="toc-level-2"><a href="#前提算法">前提算法</a></li><li class="toc-level-3"><a href="#二分图染色得到l-r数组">二分图染色得到L，R数组</a></li><li class="toc-level-2"><a href="#最大匹配">最大匹配</a></li><li class="toc-level-4"><a href="#面向问题">面向问题</a></li><li class="toc-level-4"><a href="#总体思路">总体思路</a></li><li class="toc-level-4"><a href="#写代码">写代码</a></li><li class="toc-level-4"><a href="#联系">联系</a></li><li class="toc-level-4"><a href="#参考">参考</a></li><li class="toc-level-2"><a href="#性质">性质</a></li><li class="toc-level-2"><a href="#最小覆盖">最小覆盖</a></li><li class="toc-level-4"><a href="#面向问题-2">面向问题</a></li><li class="toc-level-4"><a href="#总体思路-2">总体思路</a></li><li class="toc-level-4"><a href="#写代码-2">写代码</a></li></ol></nav></aside></article></main><footer class="site-footer"><div class="shell site-footer__row"><div class="site-footer__brand"><strong>怪话怪<span class="brand__cursor" aria-hidden="true"></span></strong></div><nav aria-label="页脚导航"><a href="/rss.xml">RSS</a><a href="/dossier/">归档</a><a href="/clues/">标签</a></nav><p class="site-footer__colophon">© 2026 mineguai · <!-- -->22<!-- --> 篇 · <!-- -->9<!-- --> 标签</p></div></footer></div>
   </body>
 </html>
