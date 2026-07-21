@@ -96,7 +96,6 @@ function SiteHeader({ route, onSearch }: { route: RouteData; onSearch: () => voi
           <button className="tool-button tool-button--search" type="button" onClick={onSearch} aria-label="搜索">
             <Icon name="search" />
             <span>搜索</span>
-            <kbd>/</kbd>
           </button>
           <button
             className="tool-button tool-button--icon"
@@ -170,7 +169,7 @@ function HomePage({ site, onSearch }: { site: SiteData; onSearch: () => void }) 
               <span>读最新一篇</span><i aria-hidden="true">→</i>
             </a>
             <button className="btn btn--ghost" type="button" onClick={onSearch}>
-              <span>搜索全站</span><kbd>/</kbd>
+              <span>搜索全站</span>
             </button>
           </div>
         </div>
