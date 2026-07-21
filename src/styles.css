@@ -34,7 +34,7 @@ html[data-theme="light"] {
   --radius-lg: 18px;
   --content-width: 1120px;
   --reading-width: 68ch;
-  --header-offset: 4.1rem;
+  --header-offset: 4.35rem;
   --font-sans: "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei UI", "Noto Sans SC", system-ui, sans-serif;
   --font-serif: "LXGW WenKai", "STKaiti", "Kaiti SC", "KaiTi", "Songti SC", "Noto Serif SC", serif;
   --font-mono: "Consolas Local", "Cascadia Code", "Sarasa Mono SC", Consolas, "Courier New", monospace;
@@ -288,7 +288,7 @@ svg {
   grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 1.1rem;
-  min-height: 3.85rem;
+  min-height: 4.15rem;
 }
 
 .brand {
@@ -310,7 +310,7 @@ svg {
 
 .brand__mark {
   font-family: var(--font-serif);
-  font-size: 1.62rem;
+  font-size: 1.55rem;
   font-weight: 700;
   letter-spacing: 0.04em;
   line-height: 1;
@@ -318,8 +318,8 @@ svg {
 
 .brand__cursor {
   display: inline-block;
-  width: 0.5rem;
-  height: 1.1rem;
+  width: 0.48rem;
+  height: 1.05rem;
   margin-left: 0.08rem;
   border-radius: 1px;
   background: var(--accent);
@@ -333,8 +333,8 @@ svg {
   justify-self: center;
   justify-content: center;
   align-items: center;
-  gap: 0.2rem;
-  padding: 0.28rem;
+  gap: 0.18rem;
+  padding: 0.3rem;
   border: 1px solid color-mix(in srgb, var(--line-strong) 70%, transparent);
   border-radius: 999px;
   background:
@@ -351,9 +351,9 @@ svg {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 2.45rem;
-  min-width: 4.6rem;
-  padding: 0.42rem 1.05rem;
+  min-height: 2.55rem;
+  min-width: 4.75rem;
+  padding: 0.45rem 1.1rem;
   border-radius: 999px;
   color: var(--ink-soft);
   text-align: center;
@@ -366,7 +366,7 @@ svg {
 
 .site-nav a strong,
 .mobile-nav-panel a strong {
-  font-size: 0.9rem;
+  font-size: 0.92rem;
   font-weight: 650;
   letter-spacing: 0.02em;
   line-height: 1;
@@ -409,20 +409,23 @@ svg {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 0.35rem;
+  gap: 0.55rem;
 }
 
 .tool-button {
   display: inline-flex;
   align-items: center;
-  gap: 0.42rem;
-  min-height: 42px;
-  padding: 0.42rem 0.85rem;
-  border: 1px solid var(--line);
+  gap: 0.45rem;
+  min-height: 2.55rem;
+  padding: 0.45rem 1.05rem;
+  border: 1px solid color-mix(in srgb, var(--line-strong) 70%, transparent);
   border-radius: 999px;
-  background: color-mix(in srgb, var(--paper) 90%, transparent);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--paper) 88%, #fff), color-mix(in srgb, var(--paper-soft) 70%, transparent));
   color: var(--ink-soft);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, #fff 55%, transparent),
+    var(--shadow-nav);
   transition:
     border-color 0.2s var(--ease-out),
     transform 0.16s var(--ease-out),
@@ -444,8 +447,8 @@ svg {
 }
 
 .tool-button > svg {
-  width: 1.02rem;
-  height: 1.02rem;
+  width: 1.05rem;
+  height: 1.05rem;
   flex: 0 0 auto;
 }
 
@@ -466,14 +469,16 @@ svg {
 }
 
 .tool-button--search span {
-  font-size: 0.9rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
+  font-size: 0.92rem;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  line-height: 1;
 }
 
 .tool-button--icon {
   display: none;
-  width: 42px;
+  width: 2.55rem;
+  min-height: 2.55rem;
   padding: 0;
   justify-content: center;
 }
@@ -499,12 +504,14 @@ svg {
   border-bottom: 0.5em solid color-mix(in srgb, var(--paper) 70%, var(--bg-deep));
   flex: 0 0 auto;
   user-select: none;
+  vertical-align: middle;
 }
 
+/* ~42px tall, matches nav pills / search */
 .rocker-small {
-  font-size: 0.55rem;
-  margin: 0 0.15rem 0 0;
-  vertical-align: middle;
+  font-size: 0.64rem;
+  margin: 0;
+  line-height: 0;
 }
 
 .rocker::before {
@@ -545,8 +552,8 @@ svg {
 
 .switch-left svg,
 .switch-right svg {
-  width: 1.35em;
-  height: 1.35em;
+  width: 1.55em;
+  height: 1.55em;
   display: block;
   flex: 0 0 auto;
 }
@@ -2096,9 +2103,14 @@ svg {
   }
 
   .tool-button--search {
-    width: 42px;
+    width: 2.55rem;
+    min-height: 2.55rem;
     padding: 0;
     justify-content: center;
+  }
+
+  .rocker-small {
+    font-size: 0.58rem;
   }
 
   .entry-toc {

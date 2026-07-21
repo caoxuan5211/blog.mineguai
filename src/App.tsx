@@ -135,11 +135,11 @@ function SiteHeader({
           <NavLinks isActive={isActive} />
         </nav>
         <div className="site-header__tools">
-          <ThemeRocker theme={theme} onToggle={onToggleTheme} />
           <button className="tool-button tool-button--search" type="button" onClick={onSearch} aria-label="搜索">
             <Icon name="search" />
             <span>搜索</span>
           </button>
+          <ThemeRocker theme={theme} onToggle={onToggleTheme} />
           <button
             className="tool-button tool-button--icon"
             type="button"
