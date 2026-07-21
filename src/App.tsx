@@ -485,6 +485,7 @@ function NotFoundPage({ site }: { site: SiteData }) {
 function CommandPanel({ site, open, onClose }: { site: SiteData; open: boolean; onClose: () => void }) {
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
+  const listRef = useRef<HTMLDivElement | null>(null);
   const searchSource = useMemo(() => byUpdated(site.evidences).map((evidence) => ({
     evidence,
     title: normalizeSearchText(evidence.meta.title),
@@ -509,6 +510,16 @@ function CommandPanel({ site, open, onClose }: { site: SiteData; open: boolean; 
   }, [query, searchSource]);
 
   useEffect(() => setActiveIndex(0), [query, results.length]);
+
+  useEffect(() => {
+    if (!open || !results.length) return;
+    const list = listRef.current;
+    if (!list) return;
+    const active = list.querySelector<HTMLElement>(`#search-result-${activeIndex}`);
+    if (!active) return;
+    active.scrollIntoView({ block: "nearest", inline: "nearest" });
+  }, [activeIndex, open, results.length]);
+
   useEffect(() => {
     if (!open) return;
     const previousOverflow = document.body.style.overflow;
@@ -598,7 +609,7 @@ function CommandPanel({ site, open, onClose }: { site: SiteData; open: boolean; 
           <span>{query ? `${results.length} 条结果` : `最近 ${Math.min(results.length, 12)} 篇`}</span>
           <span className="command-panel__hint">↑↓ 选择 · Enter 打开</span>
         </div>
-        <div id="search-results" className="command-panel__results" role="listbox" aria-label="搜索结果">
+        <div id="search-results" ref={listRef} className="command-panel__results" role="listbox" aria-label="搜索结果">
           {results.map((evidence, index) => (
             <a
               key={evidence.meta.slug}
