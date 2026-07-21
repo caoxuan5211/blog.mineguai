@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { cluePath, evidencePath, findRoute, routePath, siteTitle } from "./routes";
 import { byNewest, byUpdated, estimateReadLabel, formatDate, normalizeClueSlug, shortTitle } from "./content-utils";
-import type { EvidenceDocument, RouteData, SiteData } from "./types";
+import type { EvidenceDocument, RouteData, SiteData, Theme } from "./types";
 
 type AppProps = {
   route: RouteData;
@@ -13,8 +13,36 @@ const navItems = [
   { label: "标签", href: "/clues/" }
 ];
 
+const THEME_KEY = "guai-theme";
+
+function readStoredTheme(): Theme {
+  if (typeof document === "undefined") return "light";
+  const attr = document.documentElement.getAttribute("data-theme");
+  if (attr === "dark" || attr === "light") return attr;
+  try {
+    const stored = window.localStorage.getItem(THEME_KEY);
+    if (stored === "dark" || stored === "light") return stored;
+  } catch {
+    /* ignore private-mode storage failures */
+  }
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+}
+
+function applyTheme(theme: Theme) {
+  document.documentElement.setAttribute("data-theme", theme);
+  document.documentElement.style.colorScheme = theme;
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute("content", theme === "dark" ? "#14120f" : "#f5f1e8");
+  try {
+    window.localStorage.setItem(THEME_KEY, theme);
+  } catch {
+    /* ignore */
+  }
+}
+
 export function App({ route }: AppProps) {
   const [commandOpen, setCommandOpen] = useState(false);
+  const [theme, setTheme] = useState<Theme>("light");
   const searchTrigger = useRef<HTMLElement | null>(null);
   const isHome = route.kind === "home";
   const openCommand = () => {
@@ -25,6 +53,12 @@ export function App({ route }: AppProps) {
     setCommandOpen(false);
     window.requestAnimationFrame(() => searchTrigger.current?.focus());
   };
+
+  useEffect(() => {
+    const initial = readStoredTheme();
+    setTheme(initial);
+    applyTheme(initial);
+  }, []);
 
   useEffect(() => {
     const openSearch = (event: KeyboardEvent) => {
@@ -39,12 +73,20 @@ export function App({ route }: AppProps) {
     return () => window.removeEventListener("keydown", openSearch);
   }, []);
 
+  const toggleTheme = () => {
+    setTheme((current) => {
+      const next: Theme = current === "dark" ? "light" : "dark";
+      applyTheme(next);
+      return next;
+    });
+  };
+
   return (
     <>
       <a className="skip-link" href="#content">跳到正文</a>
       <div className="bg-noise" aria-hidden="true" />
       <div className="scroll-progress" aria-hidden="true" />
-      <SiteHeader route={route} onSearch={openCommand} />
+      <SiteHeader route={route} onSearch={openCommand} theme={theme} onToggleTheme={toggleTheme} />
       <main id="content" className={`site-main${isHome ? " site-main--home" : ""}`}>
         <RouteSwitch route={route} onSearch={openCommand} />
       </main>
@@ -58,7 +100,17 @@ export function AppForPath({ path, site }: { path: string; site: SiteData }) {
   return <App route={findRoute(path, site)} />;
 }
 
-function SiteHeader({ route, onSearch }: { route: RouteData; onSearch: () => void }) {
+function SiteHeader({
+  route,
+  onSearch,
+  theme,
+  onToggleTheme
+}: {
+  route: RouteData;
+  onSearch: () => void;
+  theme: Theme;
+  onToggleTheme: () => void;
+}) {
   const [menuOpen, setMenuOpen] = useState(false);
   const currentPath = routePath(route);
   const isActive = (href: string) => href === "/" ? route.kind === "home" : currentPath.startsWith(href);
@@ -83,6 +135,7 @@ function SiteHeader({ route, onSearch }: { route: RouteData; onSearch: () => voi
           <NavLinks isActive={isActive} />
         </nav>
         <div className="site-header__tools">
+          <ThemeRocker theme={theme} onToggle={onToggleTheme} />
           <button className="tool-button tool-button--search" type="button" onClick={onSearch} aria-label="搜索">
             <Icon name="search" />
             <span>搜索</span>
@@ -103,6 +156,23 @@ function SiteHeader({ route, onSearch }: { route: RouteData; onSearch: () => voi
         <NavLinks isActive={isActive} onNavigate={() => setMenuOpen(false)} />
       </div>
     </header>
+  );
+}
+
+function ThemeRocker({ theme, onToggle }: { theme: Theme; onToggle: () => void }) {
+  const isDark = theme === "dark";
+  return (
+    <label className="rocker rocker-small" title={isDark ? "切换到浅色" : "切换到深色"}>
+      <span className="sr-only">切换明暗主题</span>
+      <input
+        type="checkbox"
+        checked={isDark}
+        onChange={onToggle}
+        aria-label={isDark ? "当前深色，点击切换到浅色" : "当前浅色，点击切换到深色"}
+      />
+      <span className="switch-left">暗</span>
+      <span className="switch-right">亮</span>
+    </label>
   );
 }
 

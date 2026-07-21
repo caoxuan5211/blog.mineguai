@@ -7,6 +7,21 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="alternate" type="application/rss+xml" title="怪话怪 RSS" href="/rss.xml" />
     <link rel="preload" href="/assets/fonts/LXGWWenKai-Regular-subset.woff2" as="font" type="font/woff2" crossorigin />
+    <script>
+      (function () {
+        try {
+          var key = "guai-theme";
+          var stored = localStorage.getItem(key);
+          var theme = stored === "dark" || stored === "light"
+            ? stored
+            : (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+          document.documentElement.setAttribute("data-theme", theme);
+          document.documentElement.style.colorScheme = theme;
+          var meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute("content", theme === "dark" ? "#14120f" : "#f5f1e8");
+        } catch (e) {}
+      })();
+    </script>
     <title>怪话怪</title>
   </head>
   <body>
