@@ -55,35 +55,35 @@ import{j as s,r as i,c as j}from"./react-vendor-D1xwAsmG.js";(function(){const a
 <hr>
 <pre class="shiki guai-ink" style="background-color:#171b12;color:#f4f5ec" tabindex="0"><code><span class="line"><span style="color:#B8EF58;font-weight:bold">long</span><span style="color:#B8EF58;font-weight:bold"> long</span><span style="color:#E8E9DF"> node_w</span><span style="color:#BAC1AD">[</span><span style="color:#F4F5EC">MAXN</span><span style="color:#BAC1AD">];</span></span>
 <span class="line"></span></code></pre>
-<p>👉 点权数组</p>
+<p>点权数组</p>
 <ul>
 <li>node_w[i] 表示：选择第 i 个考察队获得的贡献</li>
 </ul>
 <hr>
 <pre class="shiki guai-ink" style="background-color:#171b12;color:#f4f5ec" tabindex="0"><code><span class="line"><span style="color:#F4F5EC">vector</span><span style="color:#B8EF58;font-weight:bold">&#x3C;</span><span style="color:#F4F5EC">pair</span><span style="color:#B8EF58;font-weight:bold">&#x3C;int</span><span style="color:#BAC1AD">,</span><span style="color:#B8EF58;font-weight:bold">int>></span><span style="color:#E8E9DF"> adj</span><span style="color:#BAC1AD">[</span><span style="color:#F4F5EC">MAXN</span><span style="color:#BAC1AD">];</span></span>
 <span class="line"></span></code></pre>
-<p>👉 邻接表（存边）</p>
+<p>邻接表（存边）</p>
 <ul>
 <li>adj[u] = {v, weight}</li>
 </ul>
 <hr>
 <pre class="shiki guai-ink" style="background-color:#171b12;color:#f4f5ec" tabindex="0"><code><span class="line"><span style="color:#B8EF58;font-weight:bold">long</span><span style="color:#B8EF58;font-weight:bold"> long</span><span style="color:#F4F5EC"> base_ans</span><span style="color:#BAC1AD">;</span></span>
 <span class="line"></span></code></pre>
-<p>👉 必然贡献（情况4）</p>
+<p>必然贡献（情况4）</p>
 <hr>
 <h2>三、建模部分（最关键）</h2>
 <h3>1️⃣ 离散化</h3>
 <pre class="shiki guai-ink" style="background-color:#171b12;color:#f4f5ec" tabindex="0"><code><span class="line"><span style="color:#F4F5EC">sort</span><span style="color:#BAC1AD">(</span><span style="color:#E8E9DF">xs</span><span style="color:#BAC1AD">.</span><span style="color:#F4F5EC">begin</span><span style="color:#BAC1AD">(),</span><span style="color:#E8E9DF"> xs</span><span style="color:#BAC1AD">.</span><span style="color:#F4F5EC">end</span><span style="color:#BAC1AD">());</span></span>
 <span class="line"><span style="color:#E8E9DF">xs</span><span style="color:#BAC1AD">.</span><span style="color:#F4F5EC">erase</span><span style="color:#BAC1AD">(</span><span style="color:#F4F5EC">unique</span><span style="color:#BAC1AD">(</span><span style="color:#E8E9DF">xs</span><span style="color:#BAC1AD">.</span><span style="color:#F4F5EC">begin</span><span style="color:#BAC1AD">(),</span><span style="color:#E8E9DF"> xs</span><span style="color:#BAC1AD">.</span><span style="color:#F4F5EC">end</span><span style="color:#BAC1AD">()),</span><span style="color:#E8E9DF"> xs</span><span style="color:#BAC1AD">.</span><span style="color:#F4F5EC">end</span><span style="color:#BAC1AD">());</span></span>
 <span class="line"></span></code></pre>
-<p>👉 把所有端点压缩到连续整数</p>
+<p>把所有端点压缩到连续整数</p>
 <hr>
 <h3>2️⃣ 扫描每一小段区间</h3>
 <pre class="shiki guai-ink" style="background-color:#171b12;color:#f4f5ec" tabindex="0"><code><span class="line"><span style="color:#B8EF58;font-weight:bold">for</span><span style="color:#BAC1AD"> (</span><span style="color:#B8EF58;font-weight:bold">int</span><span style="color:#F4F5EC"> i </span><span style="color:#B8EF58;font-weight:bold">=</span><span style="color:#F0BF6A"> 1</span><span style="color:#BAC1AD">;</span><span style="color:#F4F5EC"> i </span><span style="color:#B8EF58;font-weight:bold">&#x3C;</span><span style="color:#E8E9DF"> xs</span><span style="color:#BAC1AD">.</span><span style="color:#F4F5EC">size</span><span style="color:#BAC1AD">();</span><span style="color:#F4F5EC"> i</span><span style="color:#B8EF58;font-weight:bold">++</span><span style="color:#BAC1AD">)</span><span style="color:#BAC1AD"> {</span></span>
 <span class="line"><span style="color:#B8EF58;font-weight:bold">    int</span><span style="color:#F4F5EC"> len </span><span style="color:#B8EF58;font-weight:bold">=</span><span style="color:#E8E9DF"> xs</span><span style="color:#BAC1AD">[</span><span style="color:#F4F5EC">i</span><span style="color:#BAC1AD">]</span><span style="color:#B8EF58;font-weight:bold"> -</span><span style="color:#E8E9DF"> xs</span><span style="color:#BAC1AD">[</span><span style="color:#F4F5EC">i</span><span style="color:#B8EF58;font-weight:bold">-</span><span style="color:#F0BF6A">1</span><span style="color:#BAC1AD">];</span></span>
 <span class="line"><span style="color:#BAC1AD">}</span></span>
 <span class="line"></span></code></pre>
-<p>👉 每个小段长度 = 相邻离散点差值</p>
+<p>每个小段长度 = 相邻离散点差值</p>
 <hr>
 <h3>3️⃣ 判断左右端点归属（核心）</h3>
 <p>假设：</p>
@@ -112,8 +112,8 @@ import{j as s,r as i,c as j}from"./react-vendor-D1xwAsmG.js";(function(){const a
 <span class="line"></span></code></pre>
 <hr>
 <h2>四、为什么是“链”</h2>
-<p>👉 每个点最多连接左右两个邻居
-👉 不可能形成复杂图</p>
+<p>每个点最多连接左右两个邻居\r
+不可能形成复杂图</p>
 <p>所以：</p>
 <pre class="shiki guai-ink" style="background-color:#171b12;color:#f4f5ec" tabindex="0"><code><span class="line"><span>整个图 = 多条链</span></span>
 <span class="line"><span></span></span></code></pre>
@@ -168,7 +168,7 @@ import{j as s,r as i,c as j}from"./react-vendor-D1xwAsmG.js";(function(){const a
 <span class="line"></span></code></pre>
 <hr>
 <h3>edge_w[i] 含义</h3>
-<p>👉 i 和 i-1 之间的边权</p>
+<p>i 和 i-1 之间的边权</p>
 <hr>
 <h2>六、链结果提取</h2>
 <p>每条链算出：</p>
@@ -189,18 +189,18 @@ import{j as s,r as i,c as j}from"./react-vendor-D1xwAsmG.js";(function(){const a
 <pre class="shiki guai-ink" style="background-color:#171b12;color:#f4f5ec" tabindex="0"><code><span class="line"><span style="color:#F4F5EC">answer </span><span style="color:#B8EF58;font-weight:bold">=</span><span style="color:#F4F5EC"> base_ans </span><span style="color:#B8EF58;font-weight:bold">+</span><span style="color:#E8E9DF"> dp</span><span style="color:#BAC1AD">[</span><span style="color:#F4F5EC">k</span><span style="color:#BAC1AD">];</span></span>
 <span class="line"></span></code></pre>
 <hr>
-<h2>九、容易出错的点（你之前卡的）</h2>
-<h3>❌ 1. dp没初始化为 -INF</h3>
-<p>👉 会导致非法状态参与计算</p>
+<h2>九、容易出错的点</h2>
+<h3>1. dp没初始化为 -INF</h3>
+<p>会导致非法状态参与计算</p>
 <hr>
-<h3>❌ 2. 边权只在“两个点都选”时加</h3>
-<p>👉 很多人写错成只要有边就加</p>
+<h3>2. 边权只在“两个点都选”时加</h3>
+<p>很多人写错成只要有边就加</p>
 <hr>
-<h3>❌ 3. 没拆链直接DP</h3>
-<p>👉 会超复杂 + 错</p>
+<h3>3. 没拆链直接DP</h3>
+<p>会超复杂 + 错</p>
 <hr>
-<h3>❌ 4. 忘了 base_ans</h3>
-<p>👉 会少一大块答案</p>
+<h3>4. 忘了 base_ans</h3>
+<p>会少一大块答案</p>
 <hr>
 <h2>十、复杂度</h2>
 <ul>
@@ -208,22 +208,13 @@ import{j as s,r as i,c as j}from"./react-vendor-D1xwAsmG.js";(function(){const a
 <li>链DP：O(n * k)</li>
 <li>背包合并：O(n * k)</li>
 </ul>
-<p>👉 总体：<strong>O(n²)</strong>（可过）</p>
+<p>总体：<strong>O(n²)</strong>（可过）</p>
 <hr>
 <h2>十一、一句话理解</h2>
-<p>👉 本题就是：</p>
+<p>本题就是：</p>
 <blockquote>
 <p><strong>把区间问题转成“链上选点 + 邻接奖励”的DP问题</strong></p>
-</blockquote>
-<hr>
-<h2>十二、如果你还想更深入</h2>
-<p>可以继续问我：</p>
-<ul>
-<li>👉 为什么不是网络流（你一开始的思路）</li>
-<li>👉 如何从“区间”一步步推到“链”</li>
-<li>👉 我帮你手画一个完整样例（强烈推荐）</li>
-</ul>
-<hr>`,plainText:"P4890 解题代码详解（链式DP + 建模全过程） P4890 Never·island - 洛谷 一、整体思路（先建立全局认知） 本题流程分三步： 离散化 + 扫描线建模 把区间拆成若干小段 转换成「点权 + 边权 + 固定贡献」 构建链式图 每个考察队是一个点 区间贡献变成： 点权（选一个点获得） 边权（两个点都选才获得） 链上DP + 背包合并 每条链独立DP 最后用背包合并选 k 个点 二、变量说明（代码核心变量） int n , k ; n：区间数量 k：最多选的考察队数量 vector &#x3C;int> xs ; 存所有端点（用于离散化） struct Seg { int l , r , id_l , id_r ; }; l, r：原始端点 id_l, id_r：离散化后的下标 long long node_w [ MAXN ]; 👉 点权数组 node_w[i] 表示：选择第 i 个考察队获得的贡献 vector &#x3C; pair &#x3C;int , int>> adj [ MAXN ]; 👉 邻接表（存边） adj[u] = {v, weight} long long base_ans ; 👉 必然贡献（情况4） 三、建模部分（最关键） 1️⃣ 离散化 sort ( xs . begin (), xs . end ()); xs . erase ( unique ( xs . begin (), xs . end ()), xs . end ()); 👉 把所有端点压缩到连续整数 2️⃣ 扫描每一小段区间 for ( int i = 1 ; i &#x3C; xs . size (); i ++ ) { int len = xs [ i ] - xs [ i - 1 ]; } 👉 每个小段长度 = 相邻离散点差值 3️⃣ 判断左右端点归属（核心） 假设： int L = belong_left [ i ]; int R = belong_right [ i ]; 情况1：同一个队 if ( L == R ) { node_w [ L ] += len ; } 情况2：不同队 else { adj [ L ]. push_back ( {R , len} ); adj [ R ]. push_back ( {L , len} ); } 情况3：都是起点 （代码里通常已经合并到情况1） 情况4：左终点右起点 base_ans += len ; 四、为什么是“链” 👉 每个点最多连接左右两个邻居 👉 不可能形成复杂图 所以： 整个图 = 多条链 五、链上DP 状态定义 dp [ i ][ j ][ 0 / 1 ] 含义： 变量 含义 i 当前处理第 i 个点 j 已选 j 个点 0 不选当前点 1 选当前点 初始化 dp [ 0 ][ 0 ][ 0 ] = 0 ; dp [ 0 ][ 0 ][ 1 ] = - INF ; 转移 不选当前点 dp [ i ][ j ][ 0 ] = max ( dp [ i - 1 ][ j ][ 0 ], dp [ i - 1 ][ j ][ 1 ]); 选当前点 dp [ i ][ j ][ 1 ] = max ( dp [ i - 1 ][ j - 1 ][ 0 ] + node_w [ i ], dp [ i - 1 ][ j - 1 ][ 1 ] + node_w [ i ] + edge_w [ i ] ); edge_w[i] 含义 👉 i 和 i-1 之间的边权 六、链结果提取 每条链算出： f [ x ] = 选 x 个点的最大收益 七、多链合并（背包） for ( 每条链 ) { for ( j = k → 0 ) { for ( x = 0 → 链长度 ) { dp [ j ] = max ( dp [ j ], dp [ j - x ] + f [ x ]); } } } 八、最终答案 answer = base_ans + dp [ k ]; 九、容易出错的点（你之前卡的） ❌ 1. dp没初始化为 -INF 👉 会导致非法状态参与计算 ❌ 2. 边权只在“两个点都选”时加 👉 很多人写错成只要有边就加 ❌ 3. 没拆链直接DP 👉 会超复杂 + 错 ❌ 4. 忘了 base_ans 👉 会少一大块答案 十、复杂度 建图：O(n log n) 链DP：O(n * k) 背包合并：O(n * k) 👉 总体： O(n²) （可过） 十一、一句话理解 👉 本题就是： 把区间问题转成“链上选点 + 邻接奖励”的DP问题 十二、如果你还想更深入 可以继续问我： 👉 为什么不是网络流（你一开始的思路） 👉 如何从“区间”一步步推到“链” 👉 我帮你手画一个完整样例（强烈推荐）"},{meta:{title:"大创",date:"2026-04-14T15:09:00.000Z",updated:"2026-04-14T15:09:00.000Z",draft:!1,tags:[],categories:[],clues:[],slug:"%E5%A4%A7%E5%88%9B",sourcePath:"src/content/evidence/大创.md",readingTime:1},html:`<h2>5/28</h2>
+</blockquote>`,plainText:"P4890 解题代码详解（链式DP + 建模全过程） P4890 Never·island - 洛谷 一、整体思路（先建立全局认知） 本题流程分三步： 离散化 + 扫描线建模 把区间拆成若干小段 转换成「点权 + 边权 + 固定贡献」 构建链式图 每个考察队是一个点 区间贡献变成： 点权（选一个点获得） 边权（两个点都选才获得） 链上DP + 背包合并 每条链独立DP 最后用背包合并选 k 个点 二、变量说明（代码核心变量） int n , k ; n：区间数量 k：最多选的考察队数量 vector &#x3C;int> xs ; 存所有端点（用于离散化） struct Seg { int l , r , id_l , id_r ; }; l, r：原始端点 id_l, id_r：离散化后的下标 long long node_w [ MAXN ]; 点权数组 node_w[i] 表示：选择第 i 个考察队获得的贡献 vector &#x3C; pair &#x3C;int , int>> adj [ MAXN ]; 邻接表（存边） adj[u] = {v, weight} long long base_ans ; 必然贡献（情况4） 三、建模部分（最关键） 1️⃣ 离散化 sort ( xs . begin (), xs . end ()); xs . erase ( unique ( xs . begin (), xs . end ()), xs . end ()); 把所有端点压缩到连续整数 2️⃣ 扫描每一小段区间 for ( int i = 1 ; i &#x3C; xs . size (); i ++ ) { int len = xs [ i ] - xs [ i - 1 ]; } 每个小段长度 = 相邻离散点差值 3️⃣ 判断左右端点归属（核心） 假设： int L = belong_left [ i ]; int R = belong_right [ i ]; 情况1：同一个队 if ( L == R ) { node_w [ L ] += len ; } 情况2：不同队 else { adj [ L ]. push_back ( {R , len} ); adj [ R ]. push_back ( {L , len} ); } 情况3：都是起点 （代码里通常已经合并到情况1） 情况4：左终点右起点 base_ans += len ; 四、为什么是“链” 每个点最多连接左右两个邻居 不可能形成复杂图 所以： 整个图 = 多条链 五、链上DP 状态定义 dp [ i ][ j ][ 0 / 1 ] 含义： 变量 含义 i 当前处理第 i 个点 j 已选 j 个点 0 不选当前点 1 选当前点 初始化 dp [ 0 ][ 0 ][ 0 ] = 0 ; dp [ 0 ][ 0 ][ 1 ] = - INF ; 转移 不选当前点 dp [ i ][ j ][ 0 ] = max ( dp [ i - 1 ][ j ][ 0 ], dp [ i - 1 ][ j ][ 1 ]); 选当前点 dp [ i ][ j ][ 1 ] = max ( dp [ i - 1 ][ j - 1 ][ 0 ] + node_w [ i ], dp [ i - 1 ][ j - 1 ][ 1 ] + node_w [ i ] + edge_w [ i ] ); edge_w[i] 含义 i 和 i-1 之间的边权 六、链结果提取 每条链算出： f [ x ] = 选 x 个点的最大收益 七、多链合并（背包） for ( 每条链 ) { for ( j = k → 0 ) { for ( x = 0 → 链长度 ) { dp [ j ] = max ( dp [ j ], dp [ j - x ] + f [ x ]); } } } 八、最终答案 answer = base_ans + dp [ k ]; 九、容易出错的点 1. dp没初始化为 -INF 会导致非法状态参与计算 2. 边权只在“两个点都选”时加 很多人写错成只要有边就加 3. 没拆链直接DP 会超复杂 + 错 4. 忘了 base_ans 会少一大块答案 十、复杂度 建图：O(n log n) 链DP：O(n * k) 背包合并：O(n * k) 总体： O(n²) （可过） 十一、一句话理解 本题就是： 把区间问题转成“链上选点 + 邻接奖励”的DP问题"},{meta:{title:"大创",date:"2026-04-14T15:09:00.000Z",updated:"2026-04-14T15:09:00.000Z",draft:!1,tags:[],categories:[],clues:[],slug:"%E5%A4%A7%E5%88%9B",sourcePath:"src/content/evidence/大创.md",readingTime:1},html:`<h2>5/28</h2>
 <p>提交升级报告</p>`,plainText:"5/28 提交升级报告"},{meta:{title:"刷题",date:"2026-03-05T15:38:17.000Z",updated:"2026-03-05T15:38:17.000Z",draft:!1,tags:[],categories:[],clues:[],slug:"%E5%88%B7%E9%A2%98",sourcePath:"src/content/evidence/刷题.md",readingTime:1},html:`<h2>常见类型 INF 设定（竞赛常用）</h2>
 
 

@@ -8,7 +8,7 @@
     <link rel="alternate" type="application/rss+xml" title="怪话怪 RSS" href="/rss.xml" />
     <link rel="preload" href="/assets/fonts/LXGWWenKai-Regular-subset.woff2" as="font" type="font/woff2" crossorigin />
     <title>钥匙问题 · 怪话怪</title>
-    <script type="module" crossorigin src="/assets/index-6p0CFOKE.js"></script>
+    <script type="module" crossorigin src="/assets/index-D2HsJWFg.js"></script>
     <link rel="modulepreload" crossorigin href="/assets/react-vendor-D1xwAsmG.js">
     <link rel="stylesheet" crossorigin href="/assets/index-iHMTZGHm.css">
   <meta name="description" content="P4890 解题代码详解（链式DP + 建模全过程） P4890 Never·island - 洛谷 一、整体思路（先建立全局认知） 本题流程分三步： 离散化 + 扫描线建模 把区间拆成若干小段 转换成「点权 + 边权 + 固定贡献」 构建链式图 每个考察队是一个点 区间贡献变成" />
@@ -86,35 +86,35 @@
 <hr>
 <pre class="shiki guai-ink" style="background-color:#171b12;color:#f4f5ec" tabindex="0"><code><span class="line"><span style="color:#B8EF58;font-weight:bold">long</span><span style="color:#B8EF58;font-weight:bold"> long</span><span style="color:#E8E9DF"> node_w</span><span style="color:#BAC1AD">[</span><span style="color:#F4F5EC">MAXN</span><span style="color:#BAC1AD">];</span></span>
 <span class="line"></span></code></pre>
-<p>👉 点权数组</p>
+<p>点权数组</p>
 <ul>
 <li>node_w[i] 表示：选择第 i 个考察队获得的贡献</li>
 </ul>
 <hr>
 <pre class="shiki guai-ink" style="background-color:#171b12;color:#f4f5ec" tabindex="0"><code><span class="line"><span style="color:#F4F5EC">vector</span><span style="color:#B8EF58;font-weight:bold">&#x3C;</span><span style="color:#F4F5EC">pair</span><span style="color:#B8EF58;font-weight:bold">&#x3C;int</span><span style="color:#BAC1AD">,</span><span style="color:#B8EF58;font-weight:bold">int>></span><span style="color:#E8E9DF"> adj</span><span style="color:#BAC1AD">[</span><span style="color:#F4F5EC">MAXN</span><span style="color:#BAC1AD">];</span></span>
 <span class="line"></span></code></pre>
-<p>👉 邻接表（存边）</p>
+<p>邻接表（存边）</p>
 <ul>
 <li>adj[u] = {v, weight}</li>
 </ul>
 <hr>
 <pre class="shiki guai-ink" style="background-color:#171b12;color:#f4f5ec" tabindex="0"><code><span class="line"><span style="color:#B8EF58;font-weight:bold">long</span><span style="color:#B8EF58;font-weight:bold"> long</span><span style="color:#F4F5EC"> base_ans</span><span style="color:#BAC1AD">;</span></span>
 <span class="line"></span></code></pre>
-<p>👉 必然贡献（情况4）</p>
+<p>必然贡献（情况4）</p>
 <hr>
 <h2 id="三-建模部分-最关键">三、建模部分（最关键）</h2>
 <h3 id="1-离散化">1️⃣ 离散化</h3>
 <pre class="shiki guai-ink" style="background-color:#171b12;color:#f4f5ec" tabindex="0"><code><span class="line"><span style="color:#F4F5EC">sort</span><span style="color:#BAC1AD">(</span><span style="color:#E8E9DF">xs</span><span style="color:#BAC1AD">.</span><span style="color:#F4F5EC">begin</span><span style="color:#BAC1AD">(),</span><span style="color:#E8E9DF"> xs</span><span style="color:#BAC1AD">.</span><span style="color:#F4F5EC">end</span><span style="color:#BAC1AD">());</span></span>
 <span class="line"><span style="color:#E8E9DF">xs</span><span style="color:#BAC1AD">.</span><span style="color:#F4F5EC">erase</span><span style="color:#BAC1AD">(</span><span style="color:#F4F5EC">unique</span><span style="color:#BAC1AD">(</span><span style="color:#E8E9DF">xs</span><span style="color:#BAC1AD">.</span><span style="color:#F4F5EC">begin</span><span style="color:#BAC1AD">(),</span><span style="color:#E8E9DF"> xs</span><span style="color:#BAC1AD">.</span><span style="color:#F4F5EC">end</span><span style="color:#BAC1AD">()),</span><span style="color:#E8E9DF"> xs</span><span style="color:#BAC1AD">.</span><span style="color:#F4F5EC">end</span><span style="color:#BAC1AD">());</span></span>
 <span class="line"></span></code></pre>
-<p>👉 把所有端点压缩到连续整数</p>
+<p>把所有端点压缩到连续整数</p>
 <hr>
 <h3 id="2-扫描每一小段区间">2️⃣ 扫描每一小段区间</h3>
 <pre class="shiki guai-ink" style="background-color:#171b12;color:#f4f5ec" tabindex="0"><code><span class="line"><span style="color:#B8EF58;font-weight:bold">for</span><span style="color:#BAC1AD"> (</span><span style="color:#B8EF58;font-weight:bold">int</span><span style="color:#F4F5EC"> i </span><span style="color:#B8EF58;font-weight:bold">=</span><span style="color:#F0BF6A"> 1</span><span style="color:#BAC1AD">;</span><span style="color:#F4F5EC"> i </span><span style="color:#B8EF58;font-weight:bold">&#x3C;</span><span style="color:#E8E9DF"> xs</span><span style="color:#BAC1AD">.</span><span style="color:#F4F5EC">size</span><span style="color:#BAC1AD">();</span><span style="color:#F4F5EC"> i</span><span style="color:#B8EF58;font-weight:bold">++</span><span style="color:#BAC1AD">)</span><span style="color:#BAC1AD"> {</span></span>
 <span class="line"><span style="color:#B8EF58;font-weight:bold">    int</span><span style="color:#F4F5EC"> len </span><span style="color:#B8EF58;font-weight:bold">=</span><span style="color:#E8E9DF"> xs</span><span style="color:#BAC1AD">[</span><span style="color:#F4F5EC">i</span><span style="color:#BAC1AD">]</span><span style="color:#B8EF58;font-weight:bold"> -</span><span style="color:#E8E9DF"> xs</span><span style="color:#BAC1AD">[</span><span style="color:#F4F5EC">i</span><span style="color:#B8EF58;font-weight:bold">-</span><span style="color:#F0BF6A">1</span><span style="color:#BAC1AD">];</span></span>
 <span class="line"><span style="color:#BAC1AD">}</span></span>
 <span class="line"></span></code></pre>
-<p>👉 每个小段长度 = 相邻离散点差值</p>
+<p>每个小段长度 = 相邻离散点差值</p>
 <hr>
 <h3 id="3-判断左右端点归属-核心">3️⃣ 判断左右端点归属（核心）</h3>
 <p>假设：</p>
@@ -143,8 +143,8 @@
 <span class="line"></span></code></pre>
 <hr>
 <h2 id="四-为什么是链">四、为什么是“链”</h2>
-<p>👉 每个点最多连接左右两个邻居
-👉 不可能形成复杂图</p>
+<p>每个点最多连接左右两个邻居
+不可能形成复杂图</p>
 <p>所以：</p>
 <pre class="shiki guai-ink" style="background-color:#171b12;color:#f4f5ec" tabindex="0"><code><span class="line"><span>整个图 = 多条链</span></span>
 <span class="line"><span></span></span></code></pre>
@@ -199,7 +199,7 @@
 <span class="line"></span></code></pre>
 <hr>
 <h3 id="edge-w-i-含义">edge_w[i] 含义</h3>
-<p>👉 i 和 i-1 之间的边权</p>
+<p>i 和 i-1 之间的边权</p>
 <hr>
 <h2 id="六-链结果提取">六、链结果提取</h2>
 <p>每条链算出：</p>
@@ -220,18 +220,18 @@
 <pre class="shiki guai-ink" style="background-color:#171b12;color:#f4f5ec" tabindex="0"><code><span class="line"><span style="color:#F4F5EC">answer </span><span style="color:#B8EF58;font-weight:bold">=</span><span style="color:#F4F5EC"> base_ans </span><span style="color:#B8EF58;font-weight:bold">+</span><span style="color:#E8E9DF"> dp</span><span style="color:#BAC1AD">[</span><span style="color:#F4F5EC">k</span><span style="color:#BAC1AD">];</span></span>
 <span class="line"></span></code></pre>
 <hr>
-<h2 id="九-容易出错的点-你之前卡的">九、容易出错的点（你之前卡的）</h2>
-<h3 id="1-dp没初始化为-inf">❌ 1. dp没初始化为 -INF</h3>
-<p>👉 会导致非法状态参与计算</p>
+<h2 id="九-容易出错的点">九、容易出错的点</h2>
+<h3 id="1-dp没初始化为-inf">1. dp没初始化为 -INF</h3>
+<p>会导致非法状态参与计算</p>
 <hr>
-<h3 id="2-边权只在两个点都选时加">❌ 2. 边权只在“两个点都选”时加</h3>
-<p>👉 很多人写错成只要有边就加</p>
+<h3 id="2-边权只在两个点都选时加">2. 边权只在“两个点都选”时加</h3>
+<p>很多人写错成只要有边就加</p>
 <hr>
-<h3 id="3-没拆链直接dp">❌ 3. 没拆链直接DP</h3>
-<p>👉 会超复杂 + 错</p>
+<h3 id="3-没拆链直接dp">3. 没拆链直接DP</h3>
+<p>会超复杂 + 错</p>
 <hr>
-<h3 id="4-忘了-base-ans">❌ 4. 忘了 base_ans</h3>
-<p>👉 会少一大块答案</p>
+<h3 id="4-忘了-base-ans">4. 忘了 base_ans</h3>
+<p>会少一大块答案</p>
 <hr>
 <h2 id="十-复杂度">十、复杂度</h2>
 <ul>
@@ -239,21 +239,12 @@
 <li>链DP：O(n * k)</li>
 <li>背包合并：O(n * k)</li>
 </ul>
-<p>👉 总体：<strong>O(n²)</strong>（可过）</p>
+<p>总体：<strong>O(n²)</strong>（可过）</p>
 <hr>
 <h2 id="十一-一句话理解">十一、一句话理解</h2>
-<p>👉 本题就是：</p>
+<p>本题就是：</p>
 <blockquote>
 <p><strong>把区间问题转成“链上选点 + 邻接奖励”的DP问题</strong></p>
-</blockquote>
-<hr>
-<h2 id="十二-如果你还想更深入">十二、如果你还想更深入</h2>
-<p>可以继续问我：</p>
-<ul>
-<li>👉 为什么不是网络流（你一开始的思路）</li>
-<li>👉 如何从“区间”一步步推到“链”</li>
-<li>👉 我帮你手画一个完整样例（强烈推荐）</li>
-</ul>
-<hr></div></div><aside class="entry-toc"><button class="entry-toc__tab" type="button" aria-expanded="false">目录</button><nav class="entry-toc__panel" aria-label="文章目录"><strong>本页目录</strong><ol><li class="toc-level-2"><a href="#p4890-解题代码详解-链式dp-建模全过程">P4890 解题代码详解（链式DP + 建模全过程）</a></li><li class="toc-level-2"><a href="#一-整体思路-先建立全局认知">一、整体思路（先建立全局认知）</a></li><li class="toc-level-2"><a href="#二-变量说明-代码核心变量">二、变量说明（代码核心变量）</a></li><li class="toc-level-2"><a href="#三-建模部分-最关键">三、建模部分（最关键）</a></li><li class="toc-level-3"><a href="#1-离散化">1️⃣ 离散化</a></li><li class="toc-level-3"><a href="#2-扫描每一小段区间">2️⃣ 扫描每一小段区间</a></li><li class="toc-level-3"><a href="#3-判断左右端点归属-核心">3️⃣ 判断左右端点归属（核心）</a></li><li class="toc-level-4"><a href="#情况1-同一个队">情况1：同一个队</a></li><li class="toc-level-4"><a href="#情况2-不同队">情况2：不同队</a></li><li class="toc-level-4"><a href="#情况3-都是起点">情况3：都是起点</a></li><li class="toc-level-4"><a href="#情况4-左终点右起点">情况4：左终点右起点</a></li><li class="toc-level-2"><a href="#四-为什么是链">四、为什么是“链”</a></li><li class="toc-level-2"><a href="#五-链上dp">五、链上DP</a></li><li class="toc-level-3"><a href="#状态定义">状态定义</a></li><li class="toc-level-3"><a href="#初始化">初始化</a></li><li class="toc-level-3"><a href="#转移">转移</a></li><li class="toc-level-4"><a href="#不选当前点">不选当前点</a></li><li class="toc-level-4"><a href="#选当前点">选当前点</a></li><li class="toc-level-3"><a href="#edge-w-i-含义">edge_w[i] 含义</a></li><li class="toc-level-2"><a href="#六-链结果提取">六、链结果提取</a></li><li class="toc-level-2"><a href="#七-多链合并-背包">七、多链合并（背包）</a></li><li class="toc-level-2"><a href="#八-最终答案">八、最终答案</a></li><li class="toc-level-2"><a href="#九-容易出错的点-你之前卡的">九、容易出错的点（你之前卡的）</a></li><li class="toc-level-3"><a href="#1-dp没初始化为-inf">❌ 1. dp没初始化为 -INF</a></li><li class="toc-level-3"><a href="#2-边权只在两个点都选时加">❌ 2. 边权只在“两个点都选”时加</a></li><li class="toc-level-3"><a href="#3-没拆链直接dp">❌ 3. 没拆链直接DP</a></li><li class="toc-level-3"><a href="#4-忘了-base-ans">❌ 4. 忘了 base_ans</a></li><li class="toc-level-2"><a href="#十-复杂度">十、复杂度</a></li><li class="toc-level-2"><a href="#十一-一句话理解">十一、一句话理解</a></li><li class="toc-level-2"><a href="#十二-如果你还想更深入">十二、如果你还想更深入</a></li></ol></nav></aside></article></main><footer class="site-footer"><div class="shell site-footer__row"><div class="site-footer__brand"><strong>怪话怪<span class="brand__cursor" aria-hidden="true"></span></strong></div><nav aria-label="页脚导航"><a href="/rss.xml">RSS</a><a href="/dossier/">归档</a><a href="/clues/">标签</a></nav><p class="site-footer__colophon">© 2026 mineguai · <!-- -->22<!-- --> 篇 · <!-- -->9<!-- --> 标签</p></div></footer></div>
+</blockquote></div></div><aside class="entry-toc"><button class="entry-toc__tab" type="button" aria-expanded="false">目录</button><nav class="entry-toc__panel" aria-label="文章目录"><strong>本页目录</strong><ol><li class="toc-level-2"><a href="#p4890-解题代码详解-链式dp-建模全过程">P4890 解题代码详解（链式DP + 建模全过程）</a></li><li class="toc-level-2"><a href="#一-整体思路-先建立全局认知">一、整体思路（先建立全局认知）</a></li><li class="toc-level-2"><a href="#二-变量说明-代码核心变量">二、变量说明（代码核心变量）</a></li><li class="toc-level-2"><a href="#三-建模部分-最关键">三、建模部分（最关键）</a></li><li class="toc-level-3"><a href="#1-离散化">1️⃣ 离散化</a></li><li class="toc-level-3"><a href="#2-扫描每一小段区间">2️⃣ 扫描每一小段区间</a></li><li class="toc-level-3"><a href="#3-判断左右端点归属-核心">3️⃣ 判断左右端点归属（核心）</a></li><li class="toc-level-4"><a href="#情况1-同一个队">情况1：同一个队</a></li><li class="toc-level-4"><a href="#情况2-不同队">情况2：不同队</a></li><li class="toc-level-4"><a href="#情况3-都是起点">情况3：都是起点</a></li><li class="toc-level-4"><a href="#情况4-左终点右起点">情况4：左终点右起点</a></li><li class="toc-level-2"><a href="#四-为什么是链">四、为什么是“链”</a></li><li class="toc-level-2"><a href="#五-链上dp">五、链上DP</a></li><li class="toc-level-3"><a href="#状态定义">状态定义</a></li><li class="toc-level-3"><a href="#初始化">初始化</a></li><li class="toc-level-3"><a href="#转移">转移</a></li><li class="toc-level-4"><a href="#不选当前点">不选当前点</a></li><li class="toc-level-4"><a href="#选当前点">选当前点</a></li><li class="toc-level-3"><a href="#edge-w-i-含义">edge_w[i] 含义</a></li><li class="toc-level-2"><a href="#六-链结果提取">六、链结果提取</a></li><li class="toc-level-2"><a href="#七-多链合并-背包">七、多链合并（背包）</a></li><li class="toc-level-2"><a href="#八-最终答案">八、最终答案</a></li><li class="toc-level-2"><a href="#九-容易出错的点">九、容易出错的点</a></li><li class="toc-level-3"><a href="#1-dp没初始化为-inf">1. dp没初始化为 -INF</a></li><li class="toc-level-3"><a href="#2-边权只在两个点都选时加">2. 边权只在“两个点都选”时加</a></li><li class="toc-level-3"><a href="#3-没拆链直接dp">3. 没拆链直接DP</a></li><li class="toc-level-3"><a href="#4-忘了-base-ans">4. 忘了 base_ans</a></li><li class="toc-level-2"><a href="#十-复杂度">十、复杂度</a></li><li class="toc-level-2"><a href="#十一-一句话理解">十一、一句话理解</a></li></ol></nav></aside></article></main><footer class="site-footer"><div class="shell site-footer__row"><div class="site-footer__brand"><strong>怪话怪<span class="brand__cursor" aria-hidden="true"></span></strong></div><nav aria-label="页脚导航"><a href="/rss.xml">RSS</a><a href="/dossier/">归档</a><a href="/clues/">标签</a></nav><p class="site-footer__colophon">© 2026 mineguai · <!-- -->22<!-- --> 篇 · <!-- -->9<!-- --> 标签</p></div></footer></div>
   </body>
 </html>
