@@ -284,8 +284,10 @@ const renderMarkdown = async (markdown: string): Promise<string> => {
     .process(markdown);
 
   const normalizedHeadings = String(tree)
-    .replace(/<h1([^>]*)>/g, "<h2$1>")
-    .replace(/<\/h1>/g, "</h2>")
+    // Demote every heading one level so the page <h1> stays unique,
+    // while preserving relative hierarchy (## must stay under #).
+    .replace(/<h([1-5])(\b[^>]*)>/g, (_full, level: string, attrs: string) => `<h${Number(level) + 1}${attrs}>`)
+    .replace(/<\/h([1-5])>/g, (_full, level: string) => `</h${Number(level) + 1}>`)
     .replace(/<h([2-6])([^>]*)>\s*<\/h\1>/g, "");
   return fixImagePaths(normalizedHeadings);
 };

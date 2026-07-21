@@ -1061,7 +1061,9 @@ svg {
 
 .entry-hero {
   max-width: var(--reading-width);
-  margin-bottom: 1.8rem;
+  margin-bottom: 0;
+  padding-bottom: 1.4rem;
+  border-bottom: 1px solid var(--line);
 }
 
 .entry-hero__topline {
@@ -1081,7 +1083,7 @@ svg {
 
 .entry-hero h1 {
   margin: 0;
-  max-width: 18ch;
+  max-width: 20ch;
   font-family: var(--font-serif);
   font-size: clamp(2.15rem, 4.8vw, 3.25rem);
   font-weight: 700;
@@ -1111,13 +1113,14 @@ svg {
 
 .entry-body {
   max-width: var(--reading-width);
+  padding-top: 1.6rem;
 }
 
 .manuscript {
   font-family: var(--font-serif);
-  font-size: 1.08rem;
-  line-height: 1.9;
-  letter-spacing: 0.02em;
+  font-size: 1.06rem;
+  line-height: 1.85;
+  letter-spacing: 0.015em;
   color: var(--ink-soft);
 }
 
@@ -1125,28 +1128,73 @@ svg {
   margin-top: 0;
 }
 
-.manuscript h2,
-.manuscript h3 {
+/* Lead block: first subtitle + source link before the first section */
+.manuscript > h2:first-child {
+  margin: 0 0 0.55rem;
+  padding: 0;
+  border: 0;
   color: var(--ink);
-  font-family: var(--font-serif);
+  font-size: clamp(1.2rem, 2.4vw, 1.4rem);
   font-weight: 700;
-  letter-spacing: 0.015em;
-  line-height: 1.28;
-  scroll-margin-top: 6rem;
+  letter-spacing: 0.01em;
+  line-height: 1.4;
+}
+
+.manuscript > h2:first-child + p {
+  margin-top: 0;
+  margin-bottom: 1.4rem;
+  color: var(--ink-muted);
+  font-size: 0.98rem;
+}
+
+.manuscript > h2:first-child + p a {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
 }
 
 .manuscript h2 {
-  margin: 2.4rem 0 0.9rem;
-  font-size: 1.55rem;
+  position: relative;
+  margin: 2.6rem 0 1rem;
+  padding: 0.15rem 0 0.15rem 0.95rem;
+  border-left: 3px solid var(--accent);
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: clamp(1.35rem, 2.4vw, 1.6rem);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1.3;
+  scroll-margin-top: 6rem;
+}
+
+.manuscript h2:not(:first-child) {
+  margin-top: 2.8rem;
+  padding-top: 0.2rem;
 }
 
 .manuscript h3 {
-  margin: 1.8rem 0 0.7rem;
-  font-size: 1.22rem;
+  margin: 1.85rem 0 0.7rem;
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: 1.16rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1.35;
+  scroll-margin-top: 6rem;
+}
+
+.manuscript h4 {
+  margin: 1.45rem 0 0.55rem;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 0.98rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1.4;
+  scroll-margin-top: 6rem;
 }
 
 .manuscript p {
-  margin: 0 0 1.2rem;
+  margin: 0 0 1.05rem;
   max-width: 65ch;
   text-wrap: pretty;
 }
@@ -1165,61 +1213,158 @@ svg {
 .manuscript strong {
   color: var(--ink);
   font-weight: 700;
+  background: linear-gradient(180deg, transparent 62%, color-mix(in srgb, var(--accent) 18%, transparent) 0);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.manuscript em {
+  color: var(--ink);
+  font-style: italic;
 }
 
 .manuscript ul,
 .manuscript ol {
-  margin: 0 0 1.15rem;
-  padding-left: 1.3rem;
+  margin: 0.35rem 0 1.25rem;
+  padding-left: 1.35rem;
+  max-width: 62ch;
 }
 
-.manuscript li + li {
-  margin-top: 0.35rem;
+.manuscript li {
+  margin: 0.28rem 0;
+  padding-left: 0.2rem;
+  line-height: 1.75;
+}
+
+.manuscript li > p {
+  margin: 0.2rem 0;
+}
+
+.manuscript li > ul,
+.manuscript li > ol {
+  margin: 0.35rem 0 0.45rem;
+}
+
+.manuscript ol {
+  list-style: none;
+  counter-reset: ms-step;
+  padding-left: 0;
+}
+
+.manuscript ol > li {
+  position: relative;
+  padding-left: 2rem;
+  counter-increment: ms-step;
+}
+
+.manuscript ol > li::before {
+  content: counter(ms-step);
+  position: absolute;
+  left: 0;
+  top: 0.12rem;
+  display: inline-grid;
+  place-items: center;
+  width: 1.45rem;
+  height: 1.45rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 12%, var(--paper));
+  color: var(--accent-ink);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.manuscript ul {
+  list-style: none;
+  padding-left: 0.15rem;
+}
+
+.manuscript ul > li {
+  position: relative;
+  padding-left: 1.15rem;
+}
+
+.manuscript ul > li::before {
+  content: "";
+  position: absolute;
+  left: 0.15rem;
+  top: 0.72em;
+  width: 0.38rem;
+  height: 0.38rem;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--accent) 70%, var(--ink));
+}
+
+.manuscript ul ul > li::before {
+  background: transparent;
+  border: 1.5px solid color-mix(in srgb, var(--accent) 70%, var(--ink));
 }
 
 .manuscript blockquote {
   margin: 1.5rem 0;
-  padding: 0.2rem 0 0.2rem 1rem;
+  padding: 0.85rem 1rem 0.85rem 1.1rem;
   border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  background: color-mix(in srgb, var(--accent) 6%, var(--paper));
   color: var(--ink);
   font-family: var(--font-serif);
-  font-size: 1.1rem;
-  line-height: 1.85;
-  letter-spacing: 0.02em;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  letter-spacing: 0.015em;
+}
+
+.manuscript blockquote p:last-child {
+  margin-bottom: 0;
 }
 
 .manuscript hr {
-  margin: 2rem 0;
+  margin: 2.1rem 0;
   border: 0;
-  border-top: 1px solid var(--line-strong);
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--ink) 18%, transparent) 12%,
+    color-mix(in srgb, var(--ink) 18%, transparent) 88%,
+    transparent
+  );
 }
 
 .manuscript code {
-  padding: 0.12rem 0.35rem;
+  padding: 0.1rem 0.38rem;
   border-radius: 4px;
-  background: color-mix(in srgb, var(--bg-deep) 80%, #fff);
+  background: color-mix(in srgb, var(--bg-deep) 78%, #fff);
   color: var(--ink);
   font-family: var(--font-mono);
-  font-size: 0.9em;
+  font-size: 0.88em;
+  letter-spacing: 0;
 }
 
 .manuscript pre {
   overflow-x: auto;
-  margin: 1.3rem 0;
+  margin: 1.15rem 0 1.45rem;
   padding: 1rem 1.05rem;
-  border: 1px solid var(--line);
+  border: 1px solid color-mix(in srgb, var(--ink) 88%, #000);
   border-radius: var(--radius-md);
   background: #17150f;
   color: #f0eadc;
   box-shadow: var(--shadow-soft);
 }
 
+.manuscript pre + p,
+.manuscript pre + ul,
+.manuscript pre + ol {
+  margin-top: 0.15rem;
+}
+
 .manuscript pre code {
   padding: 0;
   background: transparent;
   color: inherit;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   line-height: 1.65;
+  letter-spacing: 0;
 }
 
 .manuscript table {
@@ -1227,6 +1372,8 @@ svg {
   margin: 1.3rem 0;
   border-collapse: collapse;
   font-size: 0.95rem;
+  font-family: var(--font-sans);
+  letter-spacing: 0;
 }
 
 .manuscript th,

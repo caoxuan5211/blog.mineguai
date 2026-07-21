@@ -554,7 +554,7 @@ function commandMeta(evidence: EvidenceDocument) {
 function buildHeadingView(html: string): { html: string; headings: TocHeading[] } {
   const used = new Map<string, number>();
   const headings: TocHeading[] = [];
-  const withIds = html.replace(/<h([2-3])([^>]*)>([\s\S]*?)<\/h\1>/g, (full, levelText: string, attrs: string, inner: string) => {
+  const withIds = html.replace(/<h([2-4])([^>]*)>([\s\S]*?)<\/h\1>/g, (full, levelText: string, attrs: string, inner: string) => {
     const text = decodeHtml(stripTags(inner)).trim();
     if (!text) return full;
     const existingId = attrs.match(/\sid=("|')([^"']+)\1/)?.[2];
