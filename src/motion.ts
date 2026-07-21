@@ -2,26 +2,57 @@ export function initPageMotion() {
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const root = document.documentElement;
 
-  const updateScroll = () => {
+  // 滚动进度：用 rAF 合并，避免 scroll 事件高频写样式触发重排
+  let scrollScheduled = false;
+  const writeScroll = () => {
+    scrollScheduled = false;
     const max = document.documentElement.scrollHeight - window.innerHeight;
     const ratio = max > 0 ? window.scrollY / max : 0;
     root.style.setProperty("--scroll-ratio", ratio.toFixed(4));
-    root.style.setProperty("--wash-y", `${(ratio * 32).toFixed(2)}px`);
+  };
+  const onScroll = () => {
+    if (scrollScheduled) return;
+    scrollScheduled = true;
+    window.requestAnimationFrame(writeScroll);
   };
 
-  window.addEventListener("scroll", updateScroll, { passive: true });
-  window.addEventListener("resize", updateScroll);
-  updateScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
+  writeScroll();
 
   if (reduced) return;
+  initScrollReveal();
+}
 
-  let frame = 0;
-  const tick = () => {
-    const time = Date.now() / 1000;
-    root.style.setProperty("--wash-x", `${(Math.sin(time * 0.22) * 18).toFixed(2)}px`);
-    frame = window.requestAnimationFrame(tick);
-  };
+function initScrollReveal() {
+  const targets = document.querySelectorAll<HTMLElement>("[data-reveal]");
+  if (!targets.length) return;
 
-  tick();
-  window.addEventListener("beforeunload", () => window.cancelAnimationFrame(frame), { once: true });
+  if (!("IntersectionObserver" in window)) {
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const node = entry.target as HTMLElement;
+        node.animate(
+          [
+            { opacity: 1, transform: "translateY(10px)" },
+            { opacity: 1, transform: "translateY(0)" }
+          ],
+          {
+            duration: 520,
+            easing: "cubic-bezier(.16, 1, .3, 1)",
+            fill: "none"
+          }
+        );
+        observer.unobserve(entry.target);
+      });
+    },
+    { rootMargin: "0px 0px -10% 0px", threshold: 0.08 }
+  );
+
+  targets.forEach((node) => observer.observe(node));
 }

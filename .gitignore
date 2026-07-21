@@ -4,6 +4,7 @@ dist/
 .vite/
 .playwright-cli/
 output/
+.cleanup-trash/
 npm-debug.log*
 *.tsbuildinfo
 .preview*.log

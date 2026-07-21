@@ -13,13 +13,20 @@ export const formatDate = (value: string): string => {
 export const shortTitle = (title: string, max = 18): string => {
   const trimmed = title.trim();
   if (trimmed.length <= max) return trimmed;
-  return `${trimmed.slice(0, max)}...`;
+  return `${trimmed.slice(0, max)}…`;
 };
 
 export const byNewest = (items: EvidenceDocument[]): EvidenceDocument[] =>
   [...items].sort((left, right) => {
     const leftTime = new Date(left.meta.date).getTime();
     const rightTime = new Date(right.meta.date).getTime();
+    return rightTime - leftTime;
+  });
+
+export const byUpdated = (items: EvidenceDocument[]): EvidenceDocument[] =>
+  [...items].sort((left, right) => {
+    const leftTime = new Date(left.meta.updated || left.meta.date).getTime();
+    const rightTime = new Date(right.meta.updated || right.meta.date).getTime();
     return rightTime - leftTime;
   });
 

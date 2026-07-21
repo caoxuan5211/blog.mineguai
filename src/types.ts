@@ -3,6 +3,7 @@ export type Theme = "dark" | "light";
 export type EvidenceMeta = {
   title: string;
   date: string;
+  updated: string;
   draft: boolean;
   tags: string[];
   categories: string[];

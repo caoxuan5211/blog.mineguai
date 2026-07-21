@@ -8,6 +8,7 @@ import remarkParse from "remark-parse";
 import remarkGfm from "remark-gfm";
 import remarkRehype from "remark-rehype";
 import rehypeRaw from "rehype-raw";
+import rehypeSanitize from "rehype-sanitize";
 import rehypeStringify from "rehype-stringify";
 import { createHighlighter } from "shiki";
 import { build as viteBuild } from "vite";
@@ -58,6 +59,13 @@ const toArray = (value: unknown): string[] => {
   return [String(value).trim()].filter(Boolean);
 };
 
+const toBoolean = (value: unknown): boolean => {
+  if (typeof value === "boolean") return value;
+  if (typeof value === "string") return value.trim().toLowerCase() === "true";
+  if (typeof value === "number") return value === 1;
+  return false;
+};
+
 const readTime = (plainText: string): number => {
   const cjk = (plainText.match(/[\u4e00-\u9fff]/g) || []).length;
   const words = (plainText.replace(/[\u4e00-\u9fff]/g, " ").match(/\b[\w-]+\b/g) || []).length;
@@ -94,7 +102,10 @@ const parseFrontMatter = (raw: string): ParsedMarkdown => {
 
 const parseDate = (value: unknown): string => {
   if (value instanceof Date) return value.toISOString();
-  if (typeof value === "string" && value.trim()) return new Date(value).toISOString();
+  if (typeof value === "string" && value.trim()) {
+    const parsed = new Date(value);
+    if (!Number.isNaN(parsed.getTime())) return parsed.toISOString();
+  }
   return new Date(0).toISOString();
 };
 
@@ -163,6 +174,14 @@ const assetExists = async (urlPath: string): Promise<boolean> => {
 const missingImage = (src: string): string =>
   `<figure class="missing-evidence"><span>图片缺失</span><code>${escapeHtml(src)}</code></figure>`;
 
+const decorateImage = (tag: string): string => {
+  let next = tag;
+  if (!/\sloading=/.test(next)) next = next.replace("<img", '<img loading="lazy"');
+  if (!/\sdecoding=/.test(next)) next = next.replace("<img", '<img decoding="async"');
+  if (!/\salt=/.test(next)) next = next.replace("<img", '<img alt="文章配图"');
+  return next;
+};
+
 const fixImagePaths = async (html: string): Promise<string> => {
   const pattern = /<img([^>]*?)src="([^"]+)"([^>]*)>/g;
   let output = "";
@@ -174,7 +193,7 @@ const fixImagePaths = async (html: string): Promise<string> => {
     cursor = (match.index || 0) + full.length;
 
     if (/^https?:\/\//.test(src)) {
-      output += full;
+      output += decorateImage(full);
       continue;
     }
 
@@ -185,17 +204,17 @@ const fixImagePaths = async (html: string): Promise<string> => {
 
     if (src.startsWith("/images/")) {
       const next = `/assets${src}`;
-      output += (await assetExists(next)) ? `<img${before}src="${next}"${after}>` : missingImage(src);
+      output += (await assetExists(next)) ? decorateImage(`<img${before}src="${next}"${after}>`) : missingImage(src);
       continue;
     }
 
     if (src.startsWith("images/")) {
       const next = `/assets/content/first-blog/${src.replace(/^images\//, "")}`;
-      output += (await assetExists(next)) ? `<img${before}src="${next}"${after}>` : missingImage(src);
+      output += (await assetExists(next)) ? decorateImage(`<img${before}src="${next}"${after}>`) : missingImage(src);
       continue;
     }
 
-    output += full;
+    output += decorateImage(full);
   }
 
   return output + html.slice(cursor);
@@ -210,19 +229,19 @@ const getHighlighter = () => {
         name: "guai-ink",
         type: "light",
         colors: {
-          "editor.background": "#efebe1",
-          "editor.foreground": "#171717"
+          "editor.background": "#171b12",
+          "editor.foreground": "#f4f5ec"
         },
         tokenColors: [
-          { scope: ["comment", "punctuation.definition.comment"], settings: { foreground: "#76716a", fontStyle: "italic" } },
-          { scope: ["keyword", "storage", "storage.type", "storage.modifier"], settings: { foreground: "#171717", fontStyle: "bold" } },
-          { scope: ["constant.numeric", "constant.language", "constant.character"], settings: { foreground: "#3d3a35" } },
-          { scope: ["string", "string.quoted", "string punctuation"], settings: { foreground: "#5a554e" } },
-          { scope: ["entity.name.function", "support.function"], settings: { foreground: "#171717" } },
-          { scope: ["entity.name.type", "support.type", "support.class"], settings: { foreground: "#44413c" } },
-          { scope: ["variable", "variable.other", "parameter"], settings: { foreground: "#2f2d29" } },
-          { scope: ["meta.preprocessor", "keyword.control.directive", "punctuation.definition.directive"], settings: { foreground: "#5f5a52" } },
-          { scope: ["punctuation", "operator"], settings: { foreground: "#6e6961" } }
+          { scope: ["comment", "punctuation.definition.comment"], settings: { foreground: "#9aa28d", fontStyle: "italic" } },
+          { scope: ["keyword", "storage", "storage.type", "storage.modifier"], settings: { foreground: "#b8ef58", fontStyle: "bold" } },
+          { scope: ["constant.numeric", "constant.language", "constant.character"], settings: { foreground: "#f0bf6a" } },
+          { scope: ["string", "string.quoted", "string punctuation"], settings: { foreground: "#d3e69a" } },
+          { scope: ["entity.name.function", "support.function"], settings: { foreground: "#f4f5ec" } },
+          { scope: ["entity.name.type", "support.type", "support.class"], settings: { foreground: "#88d4c4" } },
+          { scope: ["variable", "variable.other", "parameter"], settings: { foreground: "#e8e9df" } },
+          { scope: ["meta.preprocessor", "keyword.control.directive", "punctuation.definition.directive"], settings: { foreground: "#e4a7b6" } },
+          { scope: ["punctuation", "operator"], settings: { foreground: "#bac1ad" } }
         ]
       }
     ],
@@ -239,6 +258,7 @@ const renderMarkdown = async (markdown: string): Promise<string> => {
     .use(remarkGfm)
     .use(remarkRehype, { allowDangerousHtml: true })
     .use(rehypeRaw)
+    .use(rehypeSanitize)
     .use(() => (node: any) => {
       const visit = (target: any) => {
         if (!target || typeof target !== "object") return;
@@ -263,7 +283,11 @@ const renderMarkdown = async (markdown: string): Promise<string> => {
     .use(rehypeStringify, { allowDangerousHtml: true })
     .process(markdown);
 
-  return fixImagePaths(String(tree));
+  const normalizedHeadings = String(tree)
+    .replace(/<h1([^>]*)>/g, "<h2$1>")
+    .replace(/<\/h1>/g, "</h2>")
+    .replace(/<h([2-6])([^>]*)>\s*<\/h\1>/g, "");
+  return fixImagePaths(normalizedHeadings);
 };
 
 const loadSite = async (): Promise<SiteData> => {
@@ -284,10 +308,13 @@ const loadSite = async (): Promise<SiteData> => {
       const tags = toArray(parsed.data.tags);
       const categories = toArray(parsed.data.categories || parsed.data.category);
       const clues = Array.from(new Set([...tags, ...categories])).sort((a, b) => a.localeCompare(b, "zh-CN"));
+      const date = parseDate(parsed.data.date);
+      const updated = parsed.data.updated ? parseDate(parsed.data.updated) : date;
       const meta: EvidenceMeta = {
         title: String(parsed.data.title || path.basename(file, ".md")),
-        date: parseDate(parsed.data.date),
-        draft: Boolean(parsed.data.draft),
+        date,
+        updated,
+        draft: toBoolean(parsed.data.draft),
         tags,
         categories,
         clues,
@@ -300,10 +327,13 @@ const loadSite = async (): Promise<SiteData> => {
     })
   );
 
-  evidences.sort((left, right) => new Date(right.meta.date).getTime() - new Date(left.meta.date).getTime());
+  const visibleEvidences = process.env.INCLUDE_DRAFTS === "true"
+    ? evidences
+    : evidences.filter((evidence) => !evidence.meta.draft);
+  visibleEvidences.sort((left, right) => new Date(right.meta.date).getTime() - new Date(left.meta.date).getTime());
 
   const clueMap = new Map<string, { slug: string; name: string; count: number }>();
-  evidences.forEach((evidence) => {
+  visibleEvidences.forEach((evidence) => {
     evidence.meta.clues.forEach((name) => {
       const slug = encodeURIComponent(name.trim().toLowerCase().replace(/\s+/g, "-"));
       const current = clueMap.get(slug) || { slug, name, count: 0 };
@@ -313,7 +343,7 @@ const loadSite = async (): Promise<SiteData> => {
   });
 
   const clues = Array.from(clueMap.values()).sort((left, right) => right.count - left.count || left.name.localeCompare(right.name, "zh-CN"));
-  return { evidences, clues };
+  return { evidences: visibleEvidences, clues };
 };
 
 const writeGeneratedData = async (site: SiteData) => {
@@ -352,10 +382,54 @@ const renderPage = async (route: RouteData, template: string, render: (route: Ro
   const title = pageTitle(route);
   const description = route.kind === "evidence" ? route.evidence.plainText.slice(0, 140) : siteDescription;
   const canonical = new URL(routePath(route), siteUrl).href;
+  const image = new URL("/assets/images/wanzi1.jpg", siteUrl).href;
+  const isArticle = route.kind === "evidence";
+  const isNotFound = route.kind === "not-found";
+  const structuredData = isNotFound ? null : isArticle
+    ? {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        headline: route.evidence.meta.title,
+        description,
+        datePublished: route.evidence.meta.date,
+        dateModified: route.evidence.meta.updated || route.evidence.meta.date,
+        mainEntityOfPage: canonical,
+        image,
+        author: { "@type": "Person", name: "mineguai", url: siteUrl },
+        publisher: { "@type": "Person", name: "mineguai", url: siteUrl },
+        keywords: route.evidence.meta.clues.join(", ")
+      }
+    : {
+        "@context": "https://schema.org",
+        "@type": "Blog",
+        name: siteTitle,
+        description: siteDescription,
+        url: canonical,
+        image,
+        author: { "@type": "Person", name: "mineguai", url: siteUrl }
+      };
+  const socialMeta = [
+    `<meta name="robots" content="${isNotFound ? "noindex,follow" : "index,follow,max-image-preview:large"}" />`,
+    `<meta property="og:type" content="${isArticle ? "article" : "website"}" />`,
+    `<meta property="og:site_name" content="${escapeHtml(siteTitle)}" />`,
+    `<meta property="og:title" content="${escapeHtml(title)}" />`,
+    `<meta property="og:description" content="${escapeHtml(description)}" />`,
+    `<meta property="og:url" content="${canonical}" />`,
+    `<meta property="og:image" content="${image}" />`,
+    `<meta property="og:image:alt" content="mineguai 的头像" />`,
+    `<meta name="twitter:card" content="summary" />`,
+    `<meta name="twitter:title" content="${escapeHtml(title)}" />`,
+    `<meta name="twitter:description" content="${escapeHtml(description)}" />`,
+    `<meta name="twitter:image" content="${image}" />`,
+    isArticle ? `<meta property="article:published_time" content="${route.evidence.meta.date}" />` : "",
+    isArticle ? `<meta property="article:modified_time" content="${route.evidence.meta.updated || route.evidence.meta.date}" />` : "",
+    isNotFound ? "" : `<link rel="canonical" href="${canonical}" />`,
+    structuredData ? `<script type="application/ld+json">${JSON.stringify(structuredData).replace(/</g, "\\u003c")}</script>` : ""
+  ].filter(Boolean).join("\n");
   const html = template
     .replace("<!--app-html-->", appHtml)
     .replace(/<title>.*?<\/title>/, `<title>${escapeHtml(title)}</title>`)
-    .replace("</head>", `<meta name="description" content="${escapeHtml(description)}" />\n<meta property="og:title" content="${escapeHtml(title)}" />\n<meta property="og:description" content="${escapeHtml(description)}" />\n<meta property="og:url" content="${canonical}" />\n<link rel="canonical" href="${canonical}" />\n</head>`);
+    .replace("</head>", `<meta name="description" content="${escapeHtml(description)}" />\n${socialMeta}\n</head>`);
   const target = htmlPathForRoute(route);
   await ensureDir(path.dirname(target));
   await fs.writeFile(target, html, "utf8");
@@ -364,7 +438,10 @@ const renderPage = async (route: RouteData, template: string, render: (route: Ro
 const writeFeeds = async (site: SiteData) => {
   const urls = allRoutes(site)
     .filter((route) => route.kind !== "not-found")
-    .map((route) => `<url><loc>${new URL(routePath(route), siteUrl).href}</loc></url>`)
+    .map((route) => {
+      const lastModified = route.kind === "evidence" ? route.evidence.meta.updated || route.evidence.meta.date : undefined;
+      return `<url><loc>${new URL(routePath(route), siteUrl).href}</loc>${lastModified ? `<lastmod>${lastModified}</lastmod>` : ""}</url>`;
+    })
     .join("");
   await fs.writeFile(path.join(distDir, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls}</urlset>`, "utf8");
 
@@ -385,15 +462,17 @@ const writeFeeds = async (site: SiteData) => {
     body: evidence.plainText
   }));
   await fs.writeFile(path.join(distDir, "search-index.json"), JSON.stringify(search), "utf8");
+  await fs.writeFile(path.join(distDir, "robots.txt"), `User-agent: *\nAllow: /\n\nSitemap: ${new URL("/sitemap.xml", siteUrl).href}\n`, "utf8");
 };
 
 const build = async () => {
   const site = await loadSite();
+  console.log(`Publishing ${site.evidences.length} posts${process.env.INCLUDE_DRAFTS === "true" ? " including drafts" : " (drafts excluded)"}.`);
   await writeGeneratedData(site);
   await fs.rm(distDir, { recursive: true, force: true });
   await fs.rm(ssrOutDir, { recursive: true, force: true });
 
-  await viteBuild({ build: { outDir: distDir, emptyOutDir: true, manifest: true } });
+  await viteBuild({ build: { outDir: distDir, emptyOutDir: true } });
 
   const template = await fs.readFile(path.join(distDir, "index.html"), "utf8");
   const serverEntry = pathToFileURL(path.join(ssrOutDir, "server.js")).href;
@@ -412,6 +491,7 @@ const build = async () => {
   await Promise.all(allRoutes(site).map((route) => renderPage(route, template, render)));
   await writeFeeds(site);
   await writePublishAttributes();
+  await fs.writeFile(path.join(distDir, ".nojekyll"), "", "utf8");
   await fs.rm(ssrOutDir, { recursive: true, force: true });
 };
 
