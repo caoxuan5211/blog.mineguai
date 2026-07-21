@@ -565,12 +565,10 @@ function CommandPanel({ site, open, onClose }: { site: SiteData; open: boolean; 
     <div className="command-layer" role="dialog" aria-modal="true" aria-label="搜索文章">
       <button className="command-layer__backdrop" type="button" onClick={onClose} aria-label="关闭搜索" />
       <section className="command-panel" onKeyDown={handleKeys}>
-        <div className="command-panel__head">
-          <strong>搜索</strong>
-          <span>{results.length} 条结果</span>
-          <button type="button" onClick={onClose}>关闭</button>
-        </div>
-        <div className="command-panel__input">
+        <div className="command-panel__input-row">
+          <span className="command-panel__search-icon" aria-hidden="true">
+            <Icon name="search" />
+          </span>
           <input
             autoFocus
             aria-label="搜索文章"
@@ -580,8 +578,25 @@ function CommandPanel({ site, open, onClose }: { site: SiteData; open: boolean; 
             role="combobox"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="标题、标签或正文"
+            placeholder="搜索标题、标签或正文…"
           />
+          {query ? (
+            <button
+              className="command-panel__clear"
+              type="button"
+              onClick={() => setQuery("")}
+              aria-label="清空搜索"
+            >
+              <Icon name="close" />
+            </button>
+          ) : null}
+          <button className="command-panel__close" type="button" onClick={onClose} aria-label="关闭">
+            <kbd>esc</kbd>
+          </button>
+        </div>
+        <div className="command-panel__meta">
+          <span>{query ? `${results.length} 条结果` : `最近 ${Math.min(results.length, 12)} 篇`}</span>
+          <span className="command-panel__hint">↑↓ 选择 · Enter 打开</span>
         </div>
         <div id="search-results" className="command-panel__results" role="listbox" aria-label="搜索结果">
           {results.map((evidence, index) => (
@@ -595,12 +610,18 @@ function CommandPanel({ site, open, onClose }: { site: SiteData; open: boolean; 
               onMouseEnter={() => setActiveIndex(index)}
               onClick={onClose}
             >
-              <span>{formatDate(evidence.meta.updated || evidence.meta.date)}</span>
-              <strong>{shortTitle(evidence.meta.title, 34)}</strong>
-              <em>{commandMeta(evidence)}</em>
+              <span className="command-panel__date">{formatDate(evidence.meta.updated || evidence.meta.date)}</span>
+              <strong className="command-panel__title">{shortTitle(evidence.meta.title, 40)}</strong>
+              <em className="command-panel__sub">{commandMeta(evidence)}</em>
+              <i className="command-panel__arrow" aria-hidden="true">→</i>
             </a>
           ))}
-          {!results.length ? <p className="command-panel__empty">没有找到匹配内容，试试更短的关键词或标签名。</p> : null}
+          {!results.length ? (
+            <p className="command-panel__empty">
+              没有找到匹配内容
+              <small>试试更短的关键词或标签名</small>
+            </p>
+          ) : null}
         </div>
       </section>
     </div>
