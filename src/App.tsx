@@ -618,7 +618,9 @@ function CommandPanel({ site, open, onClose }: { site: SiteData; open: boolean; 
               className={index === activeIndex ? "is-active" : ""}
               role="option"
               aria-selected={index === activeIndex}
-              onMouseEnter={() => setActiveIndex(index)}
+              onMouseMove={() => {
+                if (activeIndex !== index) setActiveIndex(index);
+              }}
               onClick={onClose}
             >
               <span className="command-panel__date">{formatDate(evidence.meta.updated || evidence.meta.date)}</span>
