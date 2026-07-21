@@ -9,6 +9,7 @@ export function initPageMotion() {
     const max = document.documentElement.scrollHeight - window.innerHeight;
     const ratio = max > 0 ? window.scrollY / max : 0;
     root.style.setProperty("--scroll-ratio", ratio.toFixed(4));
+    document.querySelector(".site-header")?.classList.toggle("is-scrolled", window.scrollY > 8);
   };
   const onScroll = () => {
     if (scrollScheduled) return;

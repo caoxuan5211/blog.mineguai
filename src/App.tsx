@@ -7,12 +7,10 @@ type AppProps = {
   route: RouteData;
 };
 
-const writerProtocol = "guai-blog://edit";
-
 const navItems = [
-  { label: "首页", hint: "~/", href: "/" },
-  { label: "归档", hint: "dossier/", href: "/dossier/" },
-  { label: "标签", hint: "tags/", href: "/clues/" }
+  { label: "首页", href: "/" },
+  { label: "归档", href: "/dossier/" },
+  { label: "标签", href: "/clues/" }
 ];
 
 export function App({ route }: AppProps) {
@@ -64,9 +62,6 @@ function SiteHeader({ route, onSearch }: { route: RouteData; onSearch: () => voi
   const [menuOpen, setMenuOpen] = useState(false);
   const currentPath = routePath(route);
   const isActive = (href: string) => href === "/" ? route.kind === "home" : currentPath.startsWith(href);
-  const writerHref = route.kind === "evidence"
-    ? `${writerProtocol}?path=${encodeURIComponent(route.evidence.meta.sourcePath)}`
-    : writerProtocol;
   const latest = byUpdated(route.site.evidences)[0];
 
   useEffect(() => {
@@ -98,15 +93,11 @@ function SiteHeader({ route, onSearch }: { route: RouteData; onSearch: () => voi
           <NavLinks isActive={isActive} />
         </nav>
         <div className="site-header__tools">
-          <button className="tool-button tool-button--search" type="button" onClick={onSearch}>
+          <button className="tool-button tool-button--search" type="button" onClick={onSearch} aria-label="搜索">
             <Icon name="search" />
             <span>搜索</span>
             <kbd>/</kbd>
           </button>
-          <a className="tool-button tool-button--write" href={writerHref}>
-            <Icon name="pen" />
-            <span>写作</span>
-          </a>
           <button
             className="tool-button tool-button--icon"
             type="button"
@@ -114,12 +105,12 @@ function SiteHeader({ route, onSearch }: { route: RouteData; onSearch: () => voi
             aria-controls="mobile-nav"
             onClick={() => setMenuOpen((value) => !value)}
           >
-            <Icon name="menu" />
+            <Icon name={menuOpen ? "close" : "menu"} />
             <span className="sr-only">切换导航</span>
           </button>
         </div>
       </div>
-      <div id="mobile-nav" className="mobile-nav-panel" hidden={!menuOpen}>
+      <div id="mobile-nav" className={`mobile-nav-panel${menuOpen ? " is-open" : ""}`} hidden={!menuOpen}>
         <NavLinks isActive={isActive} onNavigate={() => setMenuOpen(false)} />
       </div>
     </header>
@@ -127,18 +118,24 @@ function SiteHeader({ route, onSearch }: { route: RouteData; onSearch: () => voi
 }
 
 function NavLinks({ isActive, onNavigate }: { isActive: (href: string) => boolean; onNavigate?: () => void }) {
-  return navItems.map((item) => (
-    <a
-      key={item.href}
-      href={item.href}
-      className={isActive(item.href) ? "is-active" : ""}
-      aria-current={isActive(item.href) ? "page" : undefined}
-      onClick={onNavigate}
-    >
-      <strong>{item.label}</strong>
-      <span>{item.hint}</span>
-    </a>
-  ));
+  return (
+    <>
+      {navItems.map((item) => {
+        const active = isActive(item.href);
+        return (
+          <a
+            key={item.href}
+            href={item.href}
+            className={active ? "is-active" : undefined}
+            aria-current={active ? "page" : undefined}
+            onClick={onNavigate}
+          >
+            <strong>{item.label}</strong>
+          </a>
+        );
+      })}
+    </>
+  );
 }
 
 function RouteSwitch({ route, onSearch }: { route: RouteData; onSearch: () => void }) {
@@ -166,13 +163,8 @@ function HomePage({ site, onSearch }: { site: SiteData; onSearch: () => void }) 
             <span className="hero__dollar">$</span> whoami --verbose
           </p>
           <h1 id="home-title">
-            写代码，<br />
-            也写<em className="hero__kai">怪话</em><span className="hero__cursor" aria-hidden="true" />
+            <em className="hero__kai">怪话</em><span className="hero__cursor" aria-hidden="true" />
           </h1>
-          <p className="hero__lead">
-            我是 <strong>mineguai</strong>。这里是我的技术手稿 —— 算法笔记、工程记录、踩坑现场，
-            以及偶尔不合时宜的怪话。不追热点，只留判断。
-          </p>
           <div className="hero__actions">
             <a className="btn btn--solid" href={firstPostHref}>
               <span>读最新一篇</span><i aria-hidden="true">→</i>
@@ -570,7 +562,6 @@ function SiteFooter({ site }: { site: SiteData }) {
           <a href="/rss.xml">RSS</a>
           <a href="/dossier/">归档</a>
           <a href="/clues/">标签</a>
-          <a href={writerProtocol}>写作</a>
         </nav>
         <p className="site-footer__colophon">
           © 2026 mineguai · {site.evidences.length} posts · {site.clues.length} tags · React + Vite SSG
@@ -637,13 +628,13 @@ function slugHeading(value: string) {
 
 function Icon({ name }: { name: string }) {
   if (name === "search") {
-    return <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.6-3.6" /></svg>;
-  }
-  if (name === "pen") {
-    return <svg viewBox="0 0 24 24"><path d="M12 20h9" /><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" /></svg>;
+    return <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.6-3.6" /></svg>;
   }
   if (name === "menu") {
-    return <svg viewBox="0 0 24 24"><path d="M5 7h14M5 12h14M5 17h14" /></svg>;
+    return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M5 12h14M5 17h14" /></svg>;
   }
-  return <svg viewBox="0 0 24 24"><path d="M6 12h12" /></svg>;
+  if (name === "close") {
+    return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" /></svg>;
+  }
+  return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12" /></svg>;
 }
