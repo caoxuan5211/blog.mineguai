@@ -1484,6 +1484,12 @@ svg {
   font-size: 0.8rem;
 }
 
+.toc-level-4 a {
+  padding-left: 1.35rem;
+  color: var(--ink-muted);
+  font-size: 0.78rem;
+}
+
 /* --------------------------------- search --------------------------------- */
 
 .command-layer {
