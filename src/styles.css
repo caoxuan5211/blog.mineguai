@@ -2057,8 +2057,9 @@ svg {
   transition: opacity 0.14s, transform 0.14s var(--ease-out);
 }
 
-.command-panel__results a.is-active,
-.command-panel__results a:hover {
+/* Only .is-active paints the selection — bare :hover would double-highlight
+   when the pointer rests on one row while keyboard moves another. */
+.command-panel__results a.is-active {
   background:
     linear-gradient(
       180deg,
@@ -2069,13 +2070,11 @@ svg {
   box-shadow: 0 8px 18px color-mix(in srgb, var(--accent) 10%, transparent);
 }
 
-.command-panel__results a.is-active .command-panel__title,
-.command-panel__results a:hover .command-panel__title {
+.command-panel__results a.is-active .command-panel__title {
   color: var(--accent-ink);
 }
 
-.command-panel__results a.is-active .command-panel__arrow,
-.command-panel__results a:hover .command-panel__arrow {
+.command-panel__results a.is-active .command-panel__arrow {
   opacity: 1;
   transform: translateX(0);
 }

@@ -560,11 +560,11 @@ function CommandPanel({ site, open, onClose }: { site: SiteData; open: boolean; 
     if (!results.length) return;
     if (event.key === "ArrowDown") {
       event.preventDefault();
-      setActiveIndex((current) => (current + 1) % results.length);
+      setActiveIndex((current) => Math.min(current + 1, results.length - 1));
     }
     if (event.key === "ArrowUp") {
       event.preventDefault();
-      setActiveIndex((current) => (current - 1 + results.length) % results.length);
+      setActiveIndex((current) => Math.max(current - 1, 0));
     }
     if (event.key === "Enter") {
       event.preventDefault();
