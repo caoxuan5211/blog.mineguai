@@ -212,11 +212,22 @@ svg {
   padding: 0.7rem 0.95rem;
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-md);
-  transition: transform 0.2s var(--ease-out);
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: var(--shadow-soft);
+  transform: translateY(-180%);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform 0.2s var(--ease-out),
+    opacity 0.2s var(--ease-out);
 }
 
-.skip-link:focus {
+.skip-link:focus,
+.skip-link:focus-visible {
   transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .shell {
@@ -1001,12 +1012,22 @@ svg {
   background: color-mix(in srgb, var(--ink) 96%, #000);
   color: #f4efe4;
   box-shadow: var(--shadow-soft);
-  transition: transform 0.18s var(--ease-out), border-color 0.18s;
+  transition:
+    transform 0.2s var(--ease-out),
+    border-color 0.2s var(--ease-out),
+    box-shadow 0.2s var(--ease-out);
 }
 
 .latest-card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
   border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  box-shadow:
+    0 14px 28px color-mix(in srgb, var(--accent) 16%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.latest-card:active {
+  transform: translateY(-1px) scale(0.99);
 }
 
 .latest-card__label {
@@ -1579,13 +1600,24 @@ svg {
   border-radius: var(--radius-md);
   background: color-mix(in srgb, var(--paper) 88%, transparent);
   box-shadow: 0 1px 0 rgba(27, 26, 21, 0.03);
-  transition: transform 0.16s var(--ease-out), border-color 0.16s, box-shadow 0.16s;
+  transition:
+    transform 0.18s var(--ease-out),
+    border-color 0.18s var(--ease-out),
+    box-shadow 0.18s var(--ease-out),
+    background 0.18s var(--ease-out);
 }
 
 .tag-cloud a:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
   border-color: color-mix(in srgb, var(--accent) 40%, var(--line));
-  box-shadow: var(--shadow-soft);
+  background: color-mix(in srgb, var(--paper) 96%, #fff);
+  box-shadow:
+    0 12px 24px color-mix(in srgb, var(--accent) 10%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+.tag-cloud a:active {
+  transform: translateY(-1px) scale(0.99);
 }
 
 .tag-cloud strong {
