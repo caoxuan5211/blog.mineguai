@@ -39,6 +39,7 @@ html[data-theme="light"] {
   --font-serif: "LXGW WenKai", "STKaiti", "Kaiti SC", "KaiTi", "Songti SC", "Noto Serif SC", serif;
   --font-mono: "Consolas Local", "Cascadia Code", "Sarasa Mono SC", Consolas, "Courier New", monospace;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --signal-beat: 1.05s;
   color-scheme: light;
   --scroll-ratio: 0;
 }
@@ -210,11 +211,7 @@ svg {
   z-index: 120;
   padding: 0.7rem 0.95rem;
   border: 1px solid var(--line-strong);
-  border-radius: 999px;
-  background: var(--paper);
-  color: var(--ink);
-  box-shadow: var(--shadow-soft);
-  transform: translateY(-180%);
+  border-radius: var(--radius-md);
   transition: transform 0.2s var(--ease-out);
 }
 
@@ -324,7 +321,7 @@ svg {
   border-radius: 1px;
   background: var(--accent);
   box-shadow: 0 0 0 0 var(--accent-glow);
-  animation: cursor-blink 1.1s steps(1) infinite;
+  animation: cursor-blink var(--signal-beat) steps(1) infinite;
 }
 
 .site-nav {
@@ -336,25 +333,7 @@ svg {
   gap: 0.18rem;
   padding: 0.3rem;
   border: 1px solid color-mix(in srgb, var(--line-strong) 70%, transparent);
-  border-radius: 999px;
-  background:
-    linear-gradient(180deg, color-mix(in srgb, var(--paper) 88%, #fff), color-mix(in srgb, var(--paper-soft) 70%, transparent));
-  box-shadow:
-    inset 0 1px 0 color-mix(in srgb, #fff 55%, transparent),
-    var(--shadow-nav);
-}
-
-.site-nav a,
-.mobile-nav-panel a {
-  position: relative;
-  z-index: 1;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 2.55rem;
-  min-width: 4.75rem;
-  padding: 0.45rem 1.1rem;
-  border-radius: 999px;
+  border-radius: var(--radius-md);
   color: var(--ink-soft);
   text-align: center;
   transition:
@@ -419,20 +398,7 @@ svg {
   min-height: 2.55rem;
   padding: 0.45rem 1.05rem;
   border: 1px solid color-mix(in srgb, var(--line-strong) 70%, transparent);
-  border-radius: 999px;
-  background:
-    linear-gradient(180deg, color-mix(in srgb, var(--paper) 88%, #fff), color-mix(in srgb, var(--paper-soft) 70%, transparent));
-  color: var(--ink-soft);
-  box-shadow:
-    inset 0 1px 0 color-mix(in srgb, #fff 55%, transparent),
-    var(--shadow-nav);
-  transition:
-    border-color 0.2s var(--ease-out),
-    transform 0.16s var(--ease-out),
-    background 0.2s var(--ease-out),
-    color 0.2s var(--ease-out),
-    box-shadow 0.2s var(--ease-out);
-}
+  border-radius: var(--radius-md);
 
 .tool-button:hover {
   color: var(--ink);
@@ -706,11 +672,7 @@ svg {
   min-height: 48px;
   padding: 0.7rem 1.15rem;
   border: 1px solid transparent;
-  border-radius: 999px;
-  font-weight: 650;
-  letter-spacing: -0.01em;
-  transition: transform 0.15s var(--ease-out), box-shadow 0.2s, background 0.2s, border-color 0.2s;
-}
+  border-radius: var(--radius-md);
 
 .btn:hover {
   transform: translateY(-1px);
@@ -799,7 +761,7 @@ svg {
   margin-left: 0.08em;
   vertical-align: -0.04em;
   background: var(--accent);
-  animation: cursor-blink 1.05s steps(1) infinite;
+  animation: cursor-blink var(--signal-beat) steps(1) infinite;
 }
 
 .hero__lead {
@@ -990,16 +952,7 @@ svg {
   min-height: 2.15rem;
   padding: 0.38rem 0.9rem 0.38rem 0.75rem;
   border: 1px solid color-mix(in srgb, var(--line-strong) 55%, transparent);
-  border-radius: 999px;
-  background:
-    linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--paper) 96%, #fff),
-      color-mix(in srgb, var(--paper-soft) 88%, transparent)
-    );
-  color: var(--ink-soft);
-  font-family: var(--font-sans);
-  font-size: 0.82rem;
+  border-radius: var(--radius-md);
   font-weight: 550;
   letter-spacing: 0.01em;
   white-space: nowrap;
@@ -1230,12 +1183,80 @@ svg {
 /* -------------------------------- manifest -------------------------------- */
 
 .manifest {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  contain: paint;
   margin-top: 1rem;
   padding-block: clamp(1.6rem, 3.5vw, 2.4rem);
   background:
-    radial-gradient(circle at 85% 20%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 28%),
-    linear-gradient(180deg, color-mix(in srgb, var(--ink) 96%, #000), color-mix(in srgb, var(--ink) 92%, #000));
+    radial-gradient(ellipse at 50% 50%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 30%),
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--ink) 97%, #000),
+      color-mix(in srgb, var(--ink) 92%, #000) 50%,
+      color-mix(in srgb, var(--ink) 97%, #000)
+    );
   color: color-mix(in srgb, var(--paper) 96%, #fff);
+}
+
+.manifest::before,
+.manifest::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: 50%;
+  left: 50%;
+  pointer-events: none;
+  border-radius: 50%;
+  transform-origin: 50% 50%;
+  filter: blur(10px) saturate(1.12);
+  will-change: transform, opacity;
+  animation: manifest-outward-tide var(--signal-beat) cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+.manifest::before {
+  --wave-rest: 0.12;
+  --wave-peak: 0.62;
+  --wave-rest-x: 0.07;
+  --wave-rest-y: 0.9;
+  --wave-peak-x: 1.12;
+  --wave-peak-y: 1.02;
+  width: 124%;
+  height: 210%;
+  background:
+    radial-gradient(ellipse at 50% 50%, color-mix(in srgb, var(--paper) 48%, var(--accent)) 0 14%, transparent 52%),
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--accent) 88%, #b93400) 0%,
+      color-mix(in srgb, var(--accent) 68%, var(--paper)) 34%,
+      color-mix(in srgb, var(--accent) 46%, var(--paper)) 50%,
+      color-mix(in srgb, var(--accent) 68%, var(--paper)) 66%,
+      color-mix(in srgb, var(--accent) 88%, #b93400) 100%
+    );
+}
+
+.manifest::after {
+  --wave-rest: 0.04;
+  --wave-peak: 0.32;
+  --wave-rest-x: 0.1;
+  --wave-rest-y: 0.82;
+  --wave-peak-x: 1.24;
+  --wave-peak-y: 0.94;
+  width: 96%;
+  height: 152%;
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    color-mix(in srgb, var(--paper) 56%, var(--accent)) 0 16%,
+    color-mix(in srgb, var(--accent) 74%, #ff9a58) 46%,
+    transparent 76%
+  );
+  filter: blur(18px) saturate(1.08);
+}
+
+.manifest > .shell {
+  position: relative;
+  z-index: 1;
 }
 
 .manifest__head {
@@ -1283,7 +1304,7 @@ svg {
   min-height: 2.35rem;
   padding: 0.4rem 0.85rem;
   border: 1px solid color-mix(in srgb, var(--paper) 16%, transparent);
-  border-radius: 999px;
+  border-radius: var(--radius-sm);
   background: color-mix(in srgb, #fff 4%, transparent);
   transition: transform 0.16s var(--ease-out), border-color 0.16s, background 0.16s, color 0.16s;
 }
@@ -1928,7 +1949,7 @@ svg {
   align-items: center;
   justify-content: center;
   min-height: 2rem;
-  border-radius: 999px;
+  border-radius: var(--radius-sm);
   color: var(--ink-muted);
   transition: color 0.15s, background 0.15s, border-color 0.15s;
 }
@@ -2174,6 +2195,19 @@ svg {
   }
 }
 
+@keyframes manifest-outward-tide {
+  0%,
+  100% {
+    opacity: var(--wave-rest);
+    transform: translate3d(-50%, -50%, 0) scale(var(--wave-rest-x), var(--wave-rest-y));
+  }
+  46%,
+  52% {
+    opacity: var(--wave-peak);
+    transform: translate3d(-50%, -50%, 0) scale(var(--wave-peak-x), var(--wave-peak-y));
+  }
+}
+
 @keyframes ticker-scroll {
   from {
     transform: translate3d(0, 0, 0);
@@ -2292,6 +2326,18 @@ svg {
     align-items: stretch;
   }
 
+  .manifest::before {
+    width: 148%;
+    height: 230%;
+    filter: blur(7px) saturate(1.1);
+  }
+
+  .manifest::after {
+    width: 118%;
+    height: 168%;
+    filter: blur(11px);
+  }
+
   .btn {
     width: 100%;
   }
@@ -2359,6 +2405,18 @@ svg {
   .ticker__glow,
   .ticker__dot {
     animation: none;
+  }
+
+  .manifest::before {
+    animation: none;
+    opacity: 0.42;
+    transform: translate3d(-50%, -50%, 0) scale(0.72, 0.98);
+  }
+
+  .manifest::after {
+    animation: none;
+    opacity: 0.22;
+    transform: translate3d(-50%, -50%, 0) scale(0.48, 0.88);
   }
 
   .ticker__viewport {
