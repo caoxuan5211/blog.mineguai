@@ -242,10 +242,23 @@ function HomePage({ site, onSearch }: { site: SiteData; onSearch: () => void }) 
           </figure>
           {featured ? (
             <a className="latest-card" href={evidencePath(featured)}>
-              <span className="latest-card__label">最新</span>
-              <strong>{shortTitle(featured.meta.title, 30)}</strong>
-              <span className="latest-card__meta">
-                {formatDate(featured.meta.updated || featured.meta.date)} · {estimateReadLabel(featured.meta.readingTime)}
+              <span className="latest-card__chrome" aria-hidden="true">
+                <i className="latest-card__dot latest-card__dot--red" />
+                <i className="latest-card__dot latest-card__dot--yellow" />
+                <i className="latest-card__dot latest-card__dot--green" />
+                <em className="latest-card__path">~/latest.log</em>
+              </span>
+              <span className="latest-card__body">
+                <span className="latest-card__prompt" aria-hidden="true">
+                  <span className="latest-card__user">mineguai</span>
+                  <span className="latest-card__sep">:</span>
+                  <span className="latest-card__dir">~</span>
+                  <span className="latest-card__sep">$</span>
+                </span>
+                <strong className="latest-card__cmd">{shortTitle(featured.meta.title, 30)}</strong>
+                <span className="latest-card__meta">
+                  # {formatDate(featured.meta.updated || featured.meta.date)} · {estimateReadLabel(featured.meta.readingTime)}
+                </span>
               </span>
             </a>
           ) : null}
