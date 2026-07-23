@@ -354,11 +354,26 @@ svg {
   border-radius: var(--radius-sm);
   color: var(--ink-soft);
   text-align: center;
+  isolation: isolate;
   transition:
-    color 0.2s var(--ease-out),
-    background 0.2s var(--ease-out),
+    color 0.22s var(--ease-out),
+    background 0.22s var(--ease-out),
     transform 0.18s var(--ease-out),
-    box-shadow 0.2s var(--ease-out);
+    box-shadow 0.22s var(--ease-out),
+    filter 0.22s var(--ease-out);
+}
+
+.site-nav a::before,
+.mobile-nav-panel a::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: color-mix(in srgb, var(--ink) 6%, transparent);
+  opacity: 0;
+  transform: scale(0.92);
+  transition: opacity 0.22s var(--ease-out), transform 0.22s var(--ease-out);
 }
 
 .site-nav a strong,
@@ -371,34 +386,60 @@ svg {
 
 .site-nav a:hover {
   color: var(--ink);
-  background: color-mix(in srgb, var(--ink) 5%, transparent);
+  transform: translateY(-1px);
+}
+
+.site-nav a:hover::before {
+  opacity: 1;
+  transform: scale(1);
 }
 
 .site-nav a:active {
-  transform: scale(0.97);
+  transform: translateY(0) scale(0.97);
+  transition-duration: 0.08s;
 }
 
 .site-nav a.is-active {
-  color: #fff;
-  background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 92%, #fff), var(--accent));
+  color: var(--on-accent);
+  background: linear-gradient(
+    165deg,
+    color-mix(in srgb, var(--accent) 88%, #fff) 0%,
+    var(--accent) 48%,
+    color-mix(in srgb, var(--accent) 86%, #8a2500) 100%
+  );
   box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.22) inset,
-    0 6px 16px rgba(255, 77, 0, 0.28),
-    0 1px 2px rgba(27, 26, 21, 0.08);
+    0 1px 0 color-mix(in srgb, #fff 28%, transparent) inset,
+    0 10px 22px color-mix(in srgb, var(--accent) 34%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--accent) 28%, transparent);
+  transform: translateY(-1px);
+}
+
+.site-nav a.is-active::before {
+  opacity: 0;
 }
 
 .site-nav a.is-active:hover {
-  color: #fff;
-  background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 80%, #fff), color-mix(in srgb, var(--accent) 92%, #b63700));
+  color: var(--on-accent);
+  filter: brightness(1.04);
+  box-shadow:
+    0 1px 0 color-mix(in srgb, #fff 32%, transparent) inset,
+    0 14px 28px color-mix(in srgb, var(--accent) 40%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--accent) 36%, transparent);
 }
 
-.mobile-nav-panel a:hover,
+.site-nav a.is-active:active {
+  transform: translateY(0) scale(0.98);
+  filter: brightness(0.98);
+}
+
+.mobile-nav-panel a:hover {
+  color: var(--ink);
+  background: color-mix(in srgb, var(--ink) 5%, transparent);
+}
+
 .mobile-nav-panel a.is-active {
   color: var(--accent-ink);
   background: var(--accent-soft);
-}
-
-.mobile-nav-panel a.is-active {
   box-shadow: inset 3px 0 0 var(--accent);
 }
 
@@ -410,6 +451,7 @@ svg {
 }
 
 .tool-button {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
@@ -423,24 +465,52 @@ svg {
   box-shadow:
     inset 0 1px 0 color-mix(in srgb, #fff 55%, transparent),
     var(--shadow-nav);
+  overflow: hidden;
   transition:
-    border-color 0.2s var(--ease-out),
-    transform 0.16s var(--ease-out),
-    background 0.2s var(--ease-out),
-    color 0.2s var(--ease-out),
-    box-shadow 0.2s var(--ease-out);
+    border-color 0.22s var(--ease-out),
+    transform 0.18s var(--ease-out),
+    background 0.22s var(--ease-out),
+    color 0.22s var(--ease-out),
+    box-shadow 0.22s var(--ease-out);
+}
+
+.tool-button::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 35%,
+    color-mix(in srgb, #fff 55%, transparent) 50%,
+    transparent 65%
+  );
+  opacity: 0;
+  transform: translateX(-45%);
+  transition: opacity 0.2s, transform 0.55s var(--ease-out);
+  pointer-events: none;
 }
 
 .tool-button:hover {
   color: var(--ink);
-  border-color: color-mix(in srgb, var(--accent) 40%, var(--line-strong));
+  border-color: color-mix(in srgb, var(--accent) 42%, var(--line-strong));
   background: var(--paper);
-  box-shadow: var(--shadow-lift);
-  transform: translateY(-1px);
+  box-shadow:
+    0 1px 0 color-mix(in srgb, #fff 70%, transparent) inset,
+    0 10px 22px color-mix(in srgb, var(--accent) 12%, transparent);
+  transform: translateY(-2px);
+}
+
+.tool-button:hover::after {
+  opacity: 1;
+  transform: translateX(45%);
 }
 
 .tool-button:active {
-  transform: translateY(0) scale(0.98);
+  transform: translateY(0) scale(0.97);
+  box-shadow:
+    0 1px 0 color-mix(in srgb, #fff 50%, transparent) inset,
+    0 2px 8px color-mix(in srgb, var(--ink) 8%, transparent);
+  transition-duration: 0.08s;
 }
 
 .tool-button > svg {
@@ -696,6 +766,7 @@ svg {
 /* --------------------------------- buttons -------------------------------- */
 
 .btn {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -706,44 +777,91 @@ svg {
   border-radius: var(--radius-md);
   font-weight: 650;
   letter-spacing: -0.01em;
-  transition: transform 0.15s var(--ease-out), box-shadow 0.2s, background 0.2s, border-color 0.2s;
+  overflow: hidden;
+  transition:
+    transform 0.18s var(--ease-out),
+    box-shadow 0.22s var(--ease-out),
+    background 0.22s var(--ease-out),
+    border-color 0.22s var(--ease-out),
+    filter 0.18s var(--ease-out);
 }
 
 .btn:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 
 .btn:active {
-  transform: translateY(0);
+  transform: translateY(0) scale(0.98);
+  transition-duration: 0.08s;
 }
 
 .btn i {
   font-style: normal;
-  transition: transform 0.2s var(--ease-out);
+  transition: transform 0.22s var(--ease-out);
 }
 
 .btn:hover i {
-  transform: translateX(2px);
+  transform: translateX(3px);
 }
 
 .btn--solid {
-  background: var(--accent);
+  background: linear-gradient(
+    165deg,
+    color-mix(in srgb, var(--accent) 88%, #fff) 0%,
+    var(--accent) 48%,
+    color-mix(in srgb, var(--accent) 86%, #8a2500) 100%
+  );
   color: var(--on-accent);
-  box-shadow: 0 10px 24px var(--accent-glow);
+  box-shadow:
+    0 1px 0 color-mix(in srgb, #fff 28%, transparent) inset,
+    0 12px 26px var(--accent-glow);
+}
+
+.btn--solid::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    color-mix(in srgb, #fff 42%, transparent) 50%,
+    transparent 70%
+  );
+  opacity: 0;
+  transform: translateX(-50%);
+  transition: opacity 0.2s, transform 0.55s var(--ease-out);
+  pointer-events: none;
 }
 
 .btn--solid:hover {
-  background: color-mix(in srgb, var(--accent) 88%, #000);
+  filter: brightness(1.04);
+  box-shadow:
+    0 1px 0 color-mix(in srgb, #fff 34%, transparent) inset,
+    0 16px 32px color-mix(in srgb, var(--accent) 42%, transparent);
+}
+
+.btn--solid:hover::after {
+  opacity: 1;
+  transform: translateX(50%);
+}
+
+.btn--solid:active {
+  filter: brightness(0.97);
 }
 
 .btn--ghost {
   border-color: var(--line-strong);
   background: color-mix(in srgb, var(--paper) 80%, transparent);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, #fff 50%, transparent);
 }
 
 .btn--ghost:hover {
-  border-color: color-mix(in srgb, var(--accent) 40%, var(--line-strong));
+  border-color: color-mix(in srgb, var(--accent) 42%, var(--line-strong));
   background: var(--paper);
+  color: var(--accent-ink);
+  box-shadow:
+    0 1px 0 color-mix(in srgb, #fff 60%, transparent) inset,
+    0 10px 22px color-mix(in srgb, var(--accent) 10%, transparent);
 }
 
 .btn kbd {
@@ -1021,18 +1139,18 @@ svg {
 
 .ticker__item:hover {
   color: var(--accent-ink);
-  border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+  border-color: color-mix(in srgb, var(--accent) 48%, var(--line));
   background:
     linear-gradient(
       180deg,
-      color-mix(in srgb, var(--accent) 10%, #fff),
-      color-mix(in srgb, var(--accent) 6%, var(--paper))
+      color-mix(in srgb, var(--accent) 12%, #fff),
+      color-mix(in srgb, var(--accent) 7%, var(--paper))
     );
-  transform: translateY(-2px) scale(1.03);
+  transform: translateY(-3px) scale(1.04);
   box-shadow:
     0 1px 0 rgba(255, 255, 255, 0.7) inset,
-    0 10px 22px rgba(255, 77, 0, 0.12),
-    0 0 0 1px color-mix(in srgb, var(--accent) 12%, transparent);
+    0 12px 24px rgba(255, 77, 0, 0.14),
+    0 0 0 1px color-mix(in srgb, var(--accent) 14%, transparent);
 }
 
 .ticker__item:hover::after {
@@ -1041,7 +1159,8 @@ svg {
 }
 
 .ticker__item:active {
-  transform: translateY(0) scale(0.99);
+  transform: translateY(-1px) scale(0.99);
+  transition-duration: 0.08s;
 }
 
 .ticker__dot {
@@ -1111,15 +1230,21 @@ svg {
   font-size: 0.82rem;
   font-weight: 650;
   white-space: nowrap;
+  transition: color 0.18s var(--ease-out), transform 0.18s var(--ease-out);
+}
+
+.section-head__more:hover {
+  color: var(--accent);
+  transform: translateX(2px);
 }
 
 .section-head__more:hover i {
-  transform: translateX(2px);
+  transform: translateX(4px);
 }
 
 .section-head__more i {
   font-style: normal;
-  transition: transform 0.18s var(--ease-out);
+  transition: transform 0.22s var(--ease-out);
 }
 
 /* -------------------------------- post rows ------------------------------- */
@@ -1142,12 +1267,23 @@ svg {
   gap: 0.85rem 1rem;
   min-height: 4.4rem;
   padding: 0.95rem 0.15rem;
-  transition: background 0.18s, padding 0.18s var(--ease-out);
+  border-radius: var(--radius-sm);
+  transition:
+    background 0.22s var(--ease-out),
+    padding 0.22s var(--ease-out),
+    transform 0.18s var(--ease-out),
+    box-shadow 0.22s var(--ease-out);
 }
 
 .post-row:hover {
-  background: color-mix(in srgb, var(--accent) 5%, transparent);
-  padding-inline: 0.55rem;
+  background: color-mix(in srgb, var(--accent) 7%, transparent);
+  padding-inline: 0.7rem;
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+.post-row:active {
+  transform: scale(0.995);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
 }
 
 .post-row__no {
@@ -1341,14 +1477,24 @@ svg {
   border: 1px solid color-mix(in srgb, var(--paper) 16%, transparent);
   border-radius: var(--radius-sm);
   background: color-mix(in srgb, #fff 4%, transparent);
-  transition: transform 0.16s var(--ease-out), border-color 0.16s, background 0.16s, color 0.16s;
+  transition:
+    transform 0.18s var(--ease-out),
+    border-color 0.18s,
+    background 0.18s,
+    color 0.18s,
+    box-shadow 0.18s var(--ease-out);
 }
 
 .manifest__tags a:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
   border-color: color-mix(in srgb, var(--accent) 55%, transparent);
-  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
   color: var(--accent);
+  box-shadow: 0 8px 18px color-mix(in srgb, var(--accent) 16%, transparent);
+}
+
+.manifest__tags a:active {
+  transform: translateY(0) scale(0.98);
 }
 
 .manifest__tags strong {
