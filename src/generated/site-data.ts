@@ -19,8 +19,8 @@ export const siteData: SiteData = {
         "sourcePath": "src/content/evidence/我爱你.md",
         "readingTime": 1
       },
-      "html": "<h2>测试</h2>\n<p>这是保留下来的测试博客。</p>",
-      "plainText": "测试 这是保留下来的测试博客。"
+      "html": "<h2>测试</h2>\n<p>测试.</p>",
+      "plainText": "测试 测试."
     }
   ],
   "clues": [
